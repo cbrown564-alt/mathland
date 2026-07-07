@@ -18,10 +18,12 @@ interface ConceptCheckProps {
     avatar: string;
   };
   onComplete: () => void;
+  onNext: () => void;
   isCompleted: boolean;
+  isLastSection: boolean;
 }
 
-export const ConceptCheck = ({ conceptCheck, character, onComplete, isCompleted }: ConceptCheckProps) => {
+export const ConceptCheck = ({ conceptCheck, character, onComplete, onNext, isCompleted, isLastSection }: ConceptCheckProps) => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
 
@@ -139,9 +141,9 @@ export const ConceptCheck = ({ conceptCheck, character, onComplete, isCompleted 
       {!showResult || isCorrect ? (
         <SectionCompletion
           onComplete={onComplete}
-          onNext={() => {}}
+          onNext={onNext}
           isCompleted={isCompleted}
-          isLastSection={false}
+          isLastSection={isLastSection}
         />
       ) : null}
     </div>

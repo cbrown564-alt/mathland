@@ -6,8 +6,6 @@ import { characters } from "@/utils/characterData";
 import { getLessonOrderForModule } from "@/utils/lessonData";
 import { isLessonCompleted } from "@/core/hooks/useLessonProgress";
 import { CharacterAnimation } from "@/core/components/CharacterAnimation";
-import { Header } from "@/core/components/Header";
-import { Footer } from "@/core/components/Footer";
 
 interface Zone {
   id: number;
@@ -50,9 +48,7 @@ const WorldMapPage = () => {
   const currentZone = zones.find((z) => z.completedLessons < z.totalLessons) ?? zones[0];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <Header />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-3">The Mathland Map</h1>
           <p className="text-slate-600 max-w-2xl mx-auto">
@@ -128,8 +124,6 @@ const WorldMapPage = () => {
           })}
         </div>
       </main>
-      <Footer />
-    </div>
   );
 };
 

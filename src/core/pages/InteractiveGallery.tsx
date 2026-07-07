@@ -5,7 +5,7 @@ import { Badge } from '@/core/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/core/components/ui/tabs';
 
 // Import all interactive components
-import { 
+import {
   VeraVectorPlayground,
   VeraVectorArithmetic,
   VeraLinearCombination,
@@ -31,6 +31,10 @@ import {
   OllieFunctionGrapher,
   SageDataSynthesizer
 } from '@/interactive';
+// The registry is the single source of truth for the interactive component
+// count (Path A7). The gallery keeps richer display metadata, but the count
+// shown here derives from the registry so the two cannot drift.
+import { interactiveDemos } from '@/interactive/demos/demo_registry';
 
 const InteractiveGallery: React.FC = () => {
   const [selectedComponent, setSelectedComponent] = useState<string>('vera-vector-playground');
@@ -504,7 +508,7 @@ const InteractiveGallery: React.FC = () => {
             Interactive Components Gallery
           </h1>
           <p className="text-lg text-gray-600">
-            Explore all 23 character-specific interactive mathematics components across 10 modules
+            Explore all {interactiveDemos.length} character-specific interactive mathematics components across 10 modules
           </p>
         </div>
 

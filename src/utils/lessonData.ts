@@ -1,16 +1,15 @@
 import { LessonData } from "@/core/types/lesson";
-import { 
-  loadModuleLessons, 
+import {
+  loadModuleLessons,
   getLessonOrderForModule as getLessonOrderAsync,
   getLessonDataForModule as getLessonDataAsync,
-  loadLesson
 } from "./lessonLoader";
 
 // This module provides backward compatibility for existing code
 // It maintains the same interface but uses the new JSON-based system
 
 // Cache for loaded modules
-let moduleCache: { [moduleId: string]: { [lessonId: string]: LessonData } } = {};
+const moduleCache: { [moduleId: string]: { [lessonId: string]: LessonData } } = {};
 let isInitialized = false;
 
 // Initialize all modules on first access
@@ -42,7 +41,7 @@ async function initializeAllModules() {
 // Note: These require calling ensureInitialized() first
 
 export const allModuleLessons: { [moduleId: string]: { [lessonId: string]: LessonData } } = new Proxy({}, {
-  get(target, moduleId: string) {
+  get(_target, moduleId: string) {
     if (!isInitialized) {
       console.warn('Lesson data accessed before initialization. Call ensureInitialized() first.');
       return {};
@@ -81,7 +80,7 @@ export async function getLessonDataForModuleAsync(moduleId: string, lessonId: st
 export { ensureInitialized };
 
 // Auto-initialize in development
-if (process.env.NODE_ENV === 'development') {
+if (typeof process !== 'undefined' && process.env?.NODE_ENV === 'development') {
   ensureInitialized().catch(console.error);
 }
 

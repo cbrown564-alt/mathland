@@ -14,10 +14,12 @@ interface NarrativeHookProps {
     avatar: string;
   };
   onComplete: () => void;
+  onNext: () => void;
   isCompleted: boolean;
+  isLastSection: boolean;
 }
 
-export const NarrativeHook = ({ lesson, character, onComplete, isCompleted }: NarrativeHookProps) => {
+export const NarrativeHook = ({ lesson, character, onComplete, onNext, isCompleted, isLastSection }: NarrativeHookProps) => {
   return (
     <div className="space-y-6">
       {/* Main story content follows here */}
@@ -41,9 +43,9 @@ export const NarrativeHook = ({ lesson, character, onComplete, isCompleted }: Na
 
       <SectionCompletion
         onComplete={onComplete}
-        onNext={() => {}} // Navigation is handled by LessonTemplate
+        onNext={onNext}
         isCompleted={isCompleted}
-        isLastSection={false}
+        isLastSection={isLastSection}
       />
     </div>
   );

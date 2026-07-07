@@ -61,8 +61,8 @@
     --ch-delta: #16a34a;      --ch-delta-2: #059669;
     --ch-greta: #d97706;      --ch-greta-2: #c2410c;
     --ch-pippa: #db2777;      --ch-pippa-2: #e11d48;
-    --ch-sigmund: #4f46e5;    --ch-sigmund-2: #9333ea;
-    --ch-bayes: #0d9488;      --ch-bayes-2: #0891b2;
+    --ch-sigmund: #0d9488;    --ch-sigmund-2: #0891b2;
+    --ch-bayes: #4f46e5;      --ch-bayes-2: #9333ea;
     --ch-sage: #2563eb;       --ch-sage-2: #0891b2;
 
     /* Default per-character accent (Ollie). Overridden per-subtree by the

@@ -11,6 +11,7 @@ interface MultiStepTemplateProps {
   onComplete: () => void;
   isCompleted: boolean;
   onNext?: () => void; // <-- add optional onNext
+  isLastSection?: boolean;
 }
 
 export const MultiStepTemplate: React.FC<MultiStepTemplateProps> = ({
@@ -21,6 +22,7 @@ export const MultiStepTemplate: React.FC<MultiStepTemplateProps> = ({
   onComplete,
   isCompleted,
   onNext,
+  isLastSection,
 }) => {
   // Support passing characterId as string
   const char: CharacterConfig = typeof character === 'string' ? characterConfigMap[character] : character;
@@ -148,7 +150,7 @@ export const MultiStepTemplate: React.FC<MultiStepTemplateProps> = ({
             onComplete={onComplete}
             onNext={onNext}
             isCompleted={isCompleted}
-            isLastSection={false}
+            isLastSection={isLastSection ?? false}
           />
         </>
       )}

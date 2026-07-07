@@ -28,25 +28,6 @@ import OllieEquationSolver from '../components/ollie_equation_solver';
 import OllieFunctionGrapher from '../components/ollie_function_grapher';
 import SageDataSynthesizer from '../components/sage_data_synthesizer';
 
-// Placeholder component for demos in development. Uses the per-character accent
-// utilities (Path B3) so even unbuilt demos carry the active character's look.
-const PlaceholderDemo: React.ComponentType<{
-  onComplete?: () => void;
-  onProgress?: (progress: number) => void;
-  isPreview?: boolean;
-}> = () => {
-  return React.createElement('div', {
-    className: 'flex items-center justify-center h-64 character-accent-soft character-accent-border border-2 rounded-lg',
-    children: React.createElement('div', {
-      className: 'text-center character-accent-text',
-      children: [
-        React.createElement('div', { key: 'title', className: 'text-lg font-semibold mb-2' }, 'Coming Soon!'),
-        React.createElement('div', { key: 'desc', className: 'text-sm opacity-80' }, 'This interactive demo is currently in development.')
-      ]
-    })
-  });
-};
-
 export interface InteractiveDemo {
   id: string;
   characterId: string;

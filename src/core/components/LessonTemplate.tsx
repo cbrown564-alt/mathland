@@ -49,13 +49,13 @@ export const LessonTemplate = ({ lesson, previousLessonId, nextLessonId }: Lesso
     { id: "realworld", title: "Real World" }
   ];
 
+  // Marking a section complete is a pure state change — it does NOT advance.
+  // Advancement is an explicit user action via handleNextSection (the
+  // SectionCompletion "Complete & continue" button or the sidebar). Keeping
+  // these concerns separate guarantees onNext fires exactly once per advance
+  // and removes the double-advance / dead-click masking (Path A2).
   const handleSectionComplete = (sectionId: string) => {
     completeSection(sectionId);
-    // Auto-advance to next section
-    const currentIndex = sections.findIndex(s => s.id === sectionId);
-    if (currentIndex < sections.length - 1) {
-      setCurrentSection(sections[currentIndex + 1].id);
-    }
   };
 
   const handleNextSection = () => {
@@ -87,7 +87,7 @@ export const LessonTemplate = ({ lesson, previousLessonId, nextLessonId }: Lesso
   return (
     <div
       data-character={character.id}
-      className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 pt-1"
+      className="pt-1"
     >
       <LessonHeader progressPercentage={progressPercentage} />
 

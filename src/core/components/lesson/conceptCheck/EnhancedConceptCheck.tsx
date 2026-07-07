@@ -24,9 +24,10 @@ interface EnhancedConceptCheckProps {
   onComplete: () => void;
   isCompleted: boolean;
   onNext?: () => void;
+  isLastSection?: boolean;
 }
 
-export const EnhancedConceptCheck: React.FC<EnhancedConceptCheckProps> = ({ conceptCheck, onComplete, isCompleted, onNext }) => {
+export const EnhancedConceptCheck: React.FC<EnhancedConceptCheckProps> = ({ conceptCheck, onComplete, isCompleted, onNext, isLastSection }) => {
   const character = characterConfigMap[conceptCheck.characterId];
 
   if (conceptCheck.type === 'multi-step' && conceptCheck.scenario && conceptCheck.steps && conceptCheck.visual) {
@@ -39,6 +40,7 @@ export const EnhancedConceptCheck: React.FC<EnhancedConceptCheckProps> = ({ conc
         onComplete={onComplete}
         isCompleted={isCompleted}
         onNext={onNext}
+        isLastSection={isLastSection}
       />
     );
   }
@@ -50,7 +52,9 @@ export const EnhancedConceptCheck: React.FC<EnhancedConceptCheckProps> = ({ conc
         challenge={conceptCheck.challenge}
         approaches={conceptCheck.approaches}
         onComplete={onComplete}
+        onNext={onNext}
         isCompleted={isCompleted}
+        isLastSection={isLastSection}
       />
     );
   }

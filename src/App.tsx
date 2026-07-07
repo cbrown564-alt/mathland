@@ -2,6 +2,7 @@ import { Toaster as Sonner } from "@/core/components/ui/sonner";
 import { TooltipProvider } from "@/core/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AppShell } from "./core/components/AppShell";
 import Index from "./core/pages/Index";
 import ModulePage from "./core/pages/ModulePage";
 import LessonPage from "./core/pages/LessonPage";
@@ -20,19 +21,21 @@ const App = () => (
     <TooltipProvider>
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/experience" element={<Experience />} />
-          <Route path="/module/:moduleId" element={<ModulePage />} />
-          <Route path="/lesson/:lessonId" element={<LessonPage />} />
-          <Route path="/course" element={<Course />} />
-          <Route path="/module-detail/:id" element={<ModuleDetail />} />
-          <Route path="/tier2-gallery" element={<Tier2Gallery />} />
-          <Route path="/interactive-gallery" element={<InteractiveGallery />} />
-          <Route path="/world" element={<WorldMapPage />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AppShell>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/experience" element={<Experience />} />
+            <Route path="/module/:moduleId" element={<ModulePage />} />
+            <Route path="/lesson/:lessonId" element={<LessonPage />} />
+            <Route path="/course" element={<Course />} />
+            <Route path="/module-detail/:id" element={<ModuleDetail />} />
+            <Route path="/tier2-gallery" element={<Tier2Gallery />} />
+            <Route path="/interactive-gallery" element={<InteractiveGallery />} />
+            <Route path="/world" element={<WorldMapPage />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AppShell>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

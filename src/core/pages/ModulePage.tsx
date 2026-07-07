@@ -4,7 +4,6 @@ import { LessonRoadmap } from "@/core/components/LessonRoadmap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { characters } from "@/utils/characterData";
-import { Header } from "@/core/components/Header";
 import { modulesData } from "@/utils/modulesData";
 import { getLessonOrderForModuleAsync, getLessonDataForModuleAsync } from "@/utils/lessonData";
 import { getLessonProgress } from "@/core/hooks/useLessonProgress";
@@ -78,9 +77,8 @@ const ModulePage = () => {
   if (!moduleMeta) return <div className="p-8 text-center">Module not found.</div>;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col">
-      <Header />
-      <main className="flex-1">
+    <div>
+      <main>
         <div className="max-w-3xl mx-auto py-12">
           {/* HERO SECTION */}
           <section className="pt-12 pb-8 bg-white relative rounded-2xl shadow">

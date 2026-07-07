@@ -8,7 +8,9 @@ interface ScenarioTemplateProps {
   challenge: ChallengeConfig;
   approaches: ApproachConfig[];
   onComplete: () => void;
+  onNext: () => void;
   isCompleted: boolean;
+  isLastSection: boolean;
 }
 
 export const ScenarioTemplate: React.FC<ScenarioTemplateProps> = ({
@@ -16,7 +18,9 @@ export const ScenarioTemplate: React.FC<ScenarioTemplateProps> = ({
   challenge,
   approaches,
   onComplete,
+  onNext,
   isCompleted,
+  isLastSection,
 }) => {
   const char: CharacterConfig = typeof character === 'string' ? characterConfigMap[character] : character;
   const [selected, setSelected] = useState<string | null>(null);
@@ -95,9 +99,9 @@ export const ScenarioTemplate: React.FC<ScenarioTemplateProps> = ({
           </div>
           <SectionCompletion
             onComplete={onComplete}
-            onNext={undefined}
+            onNext={onNext}
             isCompleted={isCompleted}
-            isLastSection={false}
+            isLastSection={isLastSection}
           />
         </>
       ) : null}

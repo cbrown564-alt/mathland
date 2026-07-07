@@ -16,10 +16,12 @@ interface MemoryAidsProps {
     avatar: string;
   };
   onComplete: () => void;
+  onNext: () => void;
   isCompleted: boolean;
+  isLastSection: boolean;
 }
 
-export const MemoryAids = ({ memoryAids, character, onComplete, isCompleted }: MemoryAidsProps) => {
+export const MemoryAids = ({ memoryAids, character, onComplete, onNext, isCompleted, isLastSection }: MemoryAidsProps) => {
   return (
     <div className="space-y-6">
       <div className="bg-slate-50 rounded-lg p-6 border-l-4 border-slate-200">
@@ -54,9 +56,9 @@ export const MemoryAids = ({ memoryAids, character, onComplete, isCompleted }: M
 
       <SectionCompletion
         onComplete={onComplete}
-        onNext={() => {}} // Navigation is handled by LessonTemplate
+        onNext={onNext}
         isCompleted={isCompleted}
-        isLastSection={false}
+        isLastSection={isLastSection}
       />
     </div>
   );

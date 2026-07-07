@@ -41,21 +41,25 @@ export const LessonSectionRenderer: React.FC<LessonSectionRendererProps> = ({
   switch (currentSection) {
     case "narrative":
       return (
-        <NarrativeHook 
-          lesson={lesson} 
+        <NarrativeHook
+          lesson={lesson}
           character={character}
           onComplete={handleSectionComplete}
+          onNext={onNextSection}
           isCompleted={isCompleted}
+          isLastSection={isLastSection}
         />
       );
       
     case "memory":
       return (
-        <MemoryAids 
+        <MemoryAids
           memoryAids={lesson.memoryAids}
           character={character}
           onComplete={handleSectionComplete}
+          onNext={onNextSection}
           isCompleted={isCompleted}
+          isLastSection={isLastSection}
         />
       );
       
@@ -68,6 +72,7 @@ export const LessonSectionRenderer: React.FC<LessonSectionRendererProps> = ({
             onComplete={handleSectionComplete}
             isCompleted={isCompleted}
             onNext={onNextSection}
+            isLastSection={isLastSection}
           />
         );
       } else if (lesson.id === '1.2') {
@@ -77,25 +82,30 @@ export const LessonSectionRenderer: React.FC<LessonSectionRendererProps> = ({
             onComplete={handleSectionComplete}
             isCompleted={isCompleted}
             onNext={onNextSection}
+            isLastSection={isLastSection}
           />
         );
       } else {
         return (
-          <ConceptCheck 
+          <ConceptCheck
             conceptCheck={lesson.conceptCheck}
             character={character}
             onComplete={handleSectionComplete}
+            onNext={onNextSection}
             isCompleted={isCompleted}
+            isLastSection={isLastSection}
           />
         );
       }
       
     case "realworld":
       return (
-        <RealWorldConnection 
+        <RealWorldConnection
           connection={lesson.realWorldConnection}
           onComplete={handleSectionComplete}
+          onNext={onNextSection}
           isCompleted={isCompleted}
+          isLastSection={isLastSection}
         />
       );
       

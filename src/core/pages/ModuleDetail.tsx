@@ -1,8 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { modulesData } from "@/utils/modulesData";
 import { characters } from "@/utils/characterData";
-import { Header } from "@/core/components/Header";
-import { Footer } from "@/core/components/Footer";
 import { Card, CardContent } from "@/core/components/ui/card";
 import { Button } from "@/core/components/ui/button";
 import { ArrowLeft, BookOpen, Clock, Users, Map, Star, Briefcase } from "lucide-react";
@@ -43,9 +41,8 @@ export default function ModuleDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col">
-      <Header />
-      <main className="flex-1 py-0 px-4 sm:px-6 lg:px-8">
+    <div>
+      <main className="py-0 px-4 sm:px-6 lg:px-8">
         {/* Back to Roadmap Button - top right */}
         <div className="max-w-4xl mx-auto flex justify-end mt-4 mb-2">
           <Button variant="outline" className="w-full sm:w-auto" onClick={() => navigate("/course")}> <ArrowLeft className="w-4 h-4 mr-2" /> Back to Roadmap</Button>
@@ -211,7 +208,6 @@ export default function ModuleDetail() {
           </Card>
         </div>
       </main>
-      <Footer />
     </div>
   );
 } 

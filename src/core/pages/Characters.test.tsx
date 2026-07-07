@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import Index from './Index';
+import { AppShell } from '@/core/components/AppShell';
 
 // Mock the audio component to avoid issues in tests
 jest.mock('react-h5-audio-player', () => {
@@ -9,9 +10,13 @@ jest.mock('react-h5-audio-player', () => {
   };
 });
 
+// Index is now rendered inside AppShell (which provides the shared header /
+// footer / main chrome — Path A5), so mirror that composition here.
 const IndexWithRouter = () => (
   <BrowserRouter>
-    <Index />
+    <AppShell>
+      <Index />
+    </AppShell>
   </BrowserRouter>
 );
 
@@ -45,4 +50,4 @@ describe('Index Page', () => {
     const main = container.querySelector('main');
     expect(main).toBeInTheDocument();
   });
-}); 
+});
