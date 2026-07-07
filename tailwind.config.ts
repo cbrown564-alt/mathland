@@ -8,6 +8,16 @@ export default {
 		"./app/**/*.{ts,tsx}",
 		"./src/**/*.{ts,tsx}",
 	],
+	// Character/module colors are stored as class strings and injected via template
+	// literals (e.g. `bg-gradient-to-br ${character.color}`). The JIT scanner never sees
+	// those literal class names, so they get purged in production builds and characters
+	// render colorless. Safelist the gradient utilities used dynamically (Path A1).
+	safelist: [
+		{
+			pattern:
+				/^(from|to|via)-(amber|red|blue|indigo|purple|pink|green|emerald|orange|rose|teal|cyan|gray|slate)-(400|500|600|700)$/,
+		},
+	],
 	prefix: "",
 	theme: {
 		container: {

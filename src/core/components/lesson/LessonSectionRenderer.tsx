@@ -21,6 +21,7 @@ interface LessonSectionRendererProps {
   onSectionComplete: (sectionId: string) => void;
   onNextSection: () => void;
   isLastSection: boolean;
+  onSpeakingChange?: (speaking: boolean) => void;
 }
 
 export const LessonSectionRenderer: React.FC<LessonSectionRendererProps> = ({
@@ -30,7 +31,8 @@ export const LessonSectionRenderer: React.FC<LessonSectionRendererProps> = ({
   completedSections,
   onSectionComplete,
   onNextSection,
-  isLastSection
+  isLastSection,
+  onSpeakingChange
 }) => {
   const isCompleted = completedSections.has(currentSection);
 
@@ -138,6 +140,7 @@ export const LessonSectionRenderer: React.FC<LessonSectionRendererProps> = ({
                 audioUrl={lesson.hearAudioUrl}
                 character={character}
                 transcript={lesson.hearTranscript}
+                onPlayingChange={onSpeakingChange}
               />
             )}
             <SectionCompletion

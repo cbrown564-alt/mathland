@@ -29,15 +29,15 @@ export const LessonNavigation = ({ previousLessonId, nextLessonId }: LessonNavig
       {nextLessonId ? (
         <Button
           onClick={() => navigate(`/lesson/${nextLessonId}`)}
-          className="bg-blue-600 hover:bg-blue-700 text-white"
+          className="character-accent text-white hover:opacity-90"
         >
           Next Lesson
           <ArrowRight className="w-4 h-4 ml-2" />
         </Button>
       ) : (
         <Button
-          onClick={() => navigate("/module-0")}
-          className="bg-blue-600 hover:bg-blue-700 text-white"
+          onClick={() => navigate("/module-detail/1")}
+          className="character-accent text-white hover:opacity-90"
         >
           Back to Module
           <ArrowRight className="w-4 h-4 ml-2" />

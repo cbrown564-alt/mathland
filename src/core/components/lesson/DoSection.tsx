@@ -1,5 +1,7 @@
 import { LessonData } from "@/core/types/lesson";
 import { customDoComponents } from "@/interactive";
+import { InteractiveFrame } from "@/core/theme/InteractiveFrame";
+import { characters } from "@/utils/characterData";
 
 interface DoSectionProps {
   lesson: LessonData;
@@ -7,6 +9,9 @@ interface DoSectionProps {
 
 export const DoSection = ({ lesson }: DoSectionProps) => {
   const { doType, doEmbedUrl, doComponent, doInstructions } = lesson;
+  const characterId = lesson.characterId ?? "ollie";
+  const character = characters.find((c) => c.id === characterId);
+  const fallbackSrc = character?.avatar ?? "/lovable-uploads/ollie.png";
 
   let content = null;
 
@@ -25,7 +30,9 @@ export const DoSection = ({ lesson }: DoSectionProps) => {
     const CustomComponent = customDoComponents[doComponent];
     content = (
       <div className="my-6">
-        <CustomComponent lesson={lesson} />
+        <InteractiveFrame characterId={characterId} fallbackSrc={fallbackSrc} title={character?.name}>
+          <CustomComponent lesson={lesson} />
+        </InteractiveFrame>
       </div>
     );
   } else {

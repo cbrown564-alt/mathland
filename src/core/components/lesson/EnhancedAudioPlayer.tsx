@@ -12,6 +12,7 @@ interface EnhancedAudioPlayerProps {
   transcript?: string[];
   onAudioLoaded?: () => void;
   showTranscript?: boolean;
+  onPlayingChange?: (playing: boolean) => void;
 }
 
 export const EnhancedAudioPlayer: React.FC<EnhancedAudioPlayerProps> = ({
@@ -19,7 +20,8 @@ export const EnhancedAudioPlayer: React.FC<EnhancedAudioPlayerProps> = ({
   character,
   transcript,
   onAudioLoaded,
-  showTranscript = true
+  showTranscript = true,
+  onPlayingChange
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -56,6 +58,7 @@ export const EnhancedAudioPlayer: React.FC<EnhancedAudioPlayerProps> = ({
     const handleEnded = () => {
       setIsPlaying(false);
       setCurrentTime(0);
+      onPlayingChange?.(false);
     };
 
     const handleError = () => {
@@ -74,7 +77,7 @@ export const EnhancedAudioPlayer: React.FC<EnhancedAudioPlayerProps> = ({
       audio.removeEventListener('ended', handleEnded);
       audio.removeEventListener('error', handleError);
     };
-  }, [onAudioLoaded, handleAudioTimeUpdate]);
+  }, [onAudioLoaded, handleAudioTimeUpdate, onPlayingChange]);
 
   const togglePlay = () => {
     const audio = audioRef.current;
@@ -88,6 +91,7 @@ export const EnhancedAudioPlayer: React.FC<EnhancedAudioPlayerProps> = ({
       });
     }
     setIsPlaying(!isPlaying);
+    onPlayingChange?.(!isPlaying);
   };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {

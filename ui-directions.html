@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mathland — UI Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #f6f4ef;
+    --paper-2: #efece4;
+    --ink: #1f1d1a;
+    --ink-2: #4a463f;
+    --ink-3: #837d72;
+    --line: #ddd7cb;
+    --line-soft: #e8e3d8;
+
+    /* path colors */
+    --a: #4b6cb7;        /* stabilize — reliable blue */
+    --a-soft: #e7ecf7;
+    --b: #c8531b;        /* character — warm amber/rust */
+    --b-soft: #f8e7da;
+    --b2: #8b5cf6;       /* character accent */
+    --c: #0f766e;        /* re-architect — teal */
+    --c-soft: #d9efec;
+
+    /* character palette for mockups */
+    --ollie: #f59e0b;
+    --ollie-2: #ea580c;
+    --vera: #8b5cf6;
+    --vera-2: #ec4899;
+    --max: #0ea5e9;
+    --eileen: #14b8a6;
+    --delta: #f43f5e;
+    --greta: #84cc16;
+    --pippa: #6366f1;
+    --sigmund: #06b6d4;
+    --bayes: #d97706;
+    --sage: #059669;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- DOC HEADER ---------- */
+  header.doc {
+    padding: 72px 0 40px;
+    border-bottom: 1px solid var(--line);
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 18px;
+  }
+  h1.display {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    margin-bottom: 22px;
+    max-width: 16ch;
+  }
+  h1.display em {
+    font-style: italic;
+    background: linear-gradient(100deg, var(--b), var(--b2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .lede {
+    font-size: 19px;
+    color: var(--ink-2);
+    max-width: 62ch;
+    line-height: 1.55;
+  }
+  .doc-meta {
+    display: flex;
+    gap: 28px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+  .doc-meta div {
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+  .doc-meta strong {
+    color: var(--ink);
+    font-weight: 600;
+    display: block;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+
+  /* ---------- SECTION FRAMING ---------- */
+  section.block {
+    padding: 64px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+  h2 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(28px, 3.5vw, 40px);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  .section-sub {
+    color: var(--ink-2);
+    font-size: 16px;
+    max-width: 68ch;
+    margin-bottom: 36px;
+  }
+
+  /* ---------- THE 2D MAP ---------- */
+  .map-shell {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px 32px 32px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.02), 0 24px 60px -40px rgba(0,0,0,0.18);
+  }
+  .map-legend {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+  .leg-item { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-2); }
+  .leg-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+  }
+  .leg-dot.a { background: var(--a); }
+  .leg-dot.b { background: var(--b); }
+  .leg-dot.c { background: var(--c); }
+
+  .map-frame {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background:
+      linear-gradient(to right, var(--line-soft) 1px, transparent 1px) 0 0 / 12.5% 100%,
+      linear-gradient(to bottom, var(--line-soft) 1px, transparent 1px) 0 0 / 100% 12.5%,
+      repeating-linear-gradient(to right, transparent 0, transparent calc(12.5% - 1px), var(--line-soft) calc(12.5% - 1px), var(--line-soft) 12.5%),
+      #fbfaf7;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  /* quadrant wash */
+  .map-frame::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to top right, transparent 49.7%, rgba(15,118,110,0.05) 50%);
+  }
+
+  .axis-label {
+    position: absolute;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-3);
+    font-weight: 500;
+  }
+  .axis-x { bottom: 8px; left: 50%; transform: translateX(-50%); }
+  .axis-x-l, .axis-x-r { bottom: 8px; font-size: 10px; color: var(--ink-3); }
+  .axis-x-l { left: 12px; }
+  .axis-x-r { right: 12px; }
+  .axis-y { top: 50%; left: 10px; transform: rotate(-90deg) translateX(50%); transform-origin: left center; white-space: nowrap; }
+  .axis-y-b, .axis-y-t { left: 10px; font-size: 10px; color: var(--ink-3); }
+  .axis-y-b { bottom: 12px; }
+  .axis-y-t { top: 12px; }
+
+  .quad {
+    position: absolute;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink-3);
+    opacity: 0.7;
+    max-width: 26ch;
+    line-height: 1.25;
+    pointer-events: none;
+  }
+  .quad.tl { top: 5%; left: 6%; }
+  .quad.tr { top: 5%; right: 6%; text-align: right; }
+  .quad.bl { bottom: 9%; left: 6%; }
+  .quad.br { bottom: 9%; right: 6%; text-align: right; }
+
+  /* points */
+  .pt {
+    position: absolute;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 1.5px rgba(0,0,0,0.1), 0 4px 10px -2px rgba(0,0,0,0.25);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    z-index: 2;
+  }
+  .pt:hover { transform: translate(-50%, -50%) scale(1.25); z-index: 5; }
+  .pt.a { background: var(--a); }
+  .pt.b { background: var(--b); }
+  .pt.c { background: var(--c); }
+  .pt.big { width: 26px; height: 26px; }
+
+  .pt .tip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.35;
+    width: 200px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.12s ease;
+    box-shadow: 0 8px 24px -6px rgba(0,0,0,0.4);
+  }
+  .pt .tip::after {
+    content: "";
+    position: absolute;
+    top: 100%; left: 50%; transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--ink);
+  }
+  .pt .tip strong { display: block; font-weight: 600; margin-bottom: 2px; }
+  .pt .tip span { color: rgba(255,255,255,0.7); font-size: 11px; }
+  .pt:hover .tip { opacity: 1; }
+
+  /* path regions (subtle labels) */
+  .region-label {
+    position: absolute;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border-radius: 20px;
+    background: #fff;
+    border: 1px solid var(--line);
+    color: var(--ink-2);
+    pointer-events: none;
+  }
+
+  .map-note {
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--ink-3);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .map-note::before { content: "↳"; color: var(--ink-3); }
+
+  /* ---------- MOCKUP GALLERY ---------- */
+  .mockup-row {
+    display: grid;
+    gap: 28px;
+    margin-bottom: 28px;
+  }
+  .mockup-row.two { grid-template-columns: 1fr 1fr; }
+  .mockup-row.one { grid-template-columns: 1fr; }
+  @media (max-width: 860px) {
+    .mockup-row.two { grid-template-columns: 1fr; }
+  }
+
+  .mockup-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.02), 0 20px 50px -36px rgba(0,0,0,0.2);
+  }
+  .mockup-card .caption {
+    padding: 18px 22px 20px;
+    border-top: 1px solid var(--line-soft);
+  }
+  .mockup-card .caption .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+  .tag.now { background: #f1efe9; color: var(--ink-3); }
+  .tag.a { background: var(--a-soft); color: var(--a); }
+  .tag.b { background: var(--b-soft); color: var(--b); }
+  .tag.c { background: var(--c-soft); color: var(--c); }
+  .mockup-card h3 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 24px;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .mockup-card .caption p {
+    font-size: 13.5px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+
+  /* browser frame */
+  .browser {
+    background: #fff;
+  }
+  .browser-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #f3f1ec;
+    border-bottom: 1px solid var(--line);
+  }
+  .browser-bar .dots { display: flex; gap: 6px; }
+  .browser-bar .dots span { width: 11px; height: 11px; border-radius: 50%; }
+  .browser-bar .dots span:nth-child(1) { background: #ff5f57; }
+  .browser-bar .dots span:nth-child(2) { background: #febc2e; }
+  .browser-bar .dots span:nth-child(3) { background: #28c840; }
+  .browser-bar .url {
+    flex: 1;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: var(--ink-3);
+    font-family: 'JetBrains Mono', monospace;
+    margin-left: 8px;
+  }
+  .screen {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ============ BASELINE SCREEN (current) ============ */
+  .scr-baseline {
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    font-size: 9px;
+    color: #334155;
+    padding: 0;
+  }
+  .scr-baseline .bh {
+    background: rgba(255,255,255,0.9);
+    border-bottom: 1px solid #e2e8f0;
+    padding: 8px 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .scr-baseline .bh .logo {
+    width: 16px; height: 16px; background: #2563eb; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 700; font-size: 9px;
+  }
+  .scr-baseline .bh .brand { font-weight: 700; font-size: 11px; color: #1e293b; }
+  .scr-baseline .bh nav { display: flex; gap: 10px; margin-left: auto; font-size: 8px; color: #475569; }
+  .scr-baseline .bh .btn { background: #2563eb; color: #fff; padding: 3px 7px; border-radius: 4px; font-size: 8px; }
+  .scr-baseline .body { padding: 12px 14px; display: grid; grid-template-columns: 70px 1fr; gap: 10px; }
+  .scr-baseline .side {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px;
+  }
+  .scr-baseline .av {
+    width: 22px; height: 22px; border-radius: 50%; background: #cbd5e1;
+    border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 6px;
+  }
+  .scr-baseline .side-item { font-size: 7px; color: #64748b; padding: 3px 4px; border-radius: 3px; margin-bottom: 2px; }
+  .scr-baseline .side-item.on { background: #dbeafe; color: #1d4ed8; font-weight: 600; }
+  .scr-baseline .main {}
+  .scr-baseline .badge { display: inline-block; background: #dbeafe; color: #1e40af; font-size: 7px; padding: 1px 6px; border-radius: 8px; margin-bottom: 6px; }
+  .scr-baseline h4 { font-size: 12px; color: #1e293b; font-weight: 700; margin-bottom: 8px; }
+  .scr-baseline .card {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px;
+  }
+  .scr-baseline .lorem { font-size: 7px; color: #64748b; line-height: 1.5; margin-bottom: 5px; }
+  .scr-baseline .accent-box {
+    background: #fff7ed; border-left: 3px solid #fed7aa; padding: 6px 8px; border-radius: 4px; font-size: 7px; color: #475569; font-style: italic; margin-bottom: 5px;
+  }
+  .scr-baseline .accent-box.blue { background: #eff6ff; border-left-color: #93c5fd; font-style: normal; }
+  .scr-baseline .accent-box.yellow { background: #fefce8; border-left-color: #fde047; }
+  .scr-baseline .warn {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    background: #fffbeb; border: 1px dashed #f59e0b; color: #92400e;
+    font-size: 8px; padding: 4px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace;
+    z-index: 3; white-space: nowrap;
+  }
+
+  /* ============ PATH A — POLISHED ============ */
+  .scr-a {
+    background: var(--paper);
+    font-size: 9px;
+    color: var(--ink-2);
+    --accent: #4b6cb7;
+  }
+  .scr-a .bh {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+    padding: 9px 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .scr-a .bh .logo {
+    width: 18px; height: 18px; border-radius: 6px;
+    background: linear-gradient(135deg, var(--b), var(--b2));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 800; font-size: 10px;
+  }
+  .scr-a .bh .brand { font-weight: 700; font-size: 12px; color: var(--ink); letter-spacing: -0.01em; }
+  .scr-a .bh nav { display: flex; gap: 12px; margin-left: auto; font-size: 9px; color: var(--ink-2); }
+  .scr-a .bh nav span.on { color: var(--ink); font-weight: 600; }
+  .scr-a .bh .btn {
+    background: var(--ink); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 9px; font-weight: 500;
+  }
+  .scr-a .body { padding: 14px 16px; display: grid; grid-template-columns: 64px 1fr; gap: 12px; }
+  .scr-a .side {
+    background: #fff; border: 1px solid var(--line-soft); border-radius: 10px; padding: 9px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+  .scr-a .av {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--ollie), var(--ollie-2));
+    border: 2px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.12); margin-bottom: 5px;
+  }
+  .scr-a .side-name { font-size: 8px; font-weight: 600; color: var(--ink); }
+  .scr-a .side-sub { font-size: 6.5px; color: var(--ink-3); margin-bottom: 7px; }
+  .scr-a .prog-track { height: 3px; background: var(--paper-2); border-radius: 3px; margin-bottom: 8px; overflow: hidden; }
+  .scr-a .prog-fill { height: 100%; width: 38%; background: linear-gradient(90deg, var(--ollie), var(--ollie-2)); border-radius: 3px; }
+  .scr-a .side-item { font-size: 7px; color: var(--ink-2); padding: 4px 5px; border-radius: 5px; margin-bottom: 1px; display: flex; align-items: center; gap: 4px; }
+  .scr-a .side-item.on { background: var(--ollie-soft, #fef3c7); color: var(--ollie-2); font-weight: 600; }
+  .scr-a .side-item.done { color: var(--ink-3); }
+  .scr-a .side-item .chk { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid currentColor; flex-shrink: 0; }
+  .scr-a .side-item.done .chk { background: #16a34a; border-color: #16a34a; }
+  .scr-a .main {}
+  .scr-a .crumb { font-size: 7px; color: var(--ink-3); margin-bottom: 6px; }
+  .scr-a h4 { font-size: 13px; color: var(--ink); font-weight: 700; margin-bottom: 10px; letter-spacing: -0.01em; }
+  .scr-a .card {
+    background: #fff; border: 1px solid var(--line-soft); border-radius: 10px; padding: 12px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+  .scr-a .lorem { font-size: 7.5px; color: var(--ink-2); line-height: 1.55; margin-bottom: 7px; }
+  .scr-a .callout {
+    padding: 7px 9px; border-radius: 6px; font-size: 7px; margin-bottom: 6px;
+    background: #fff7ed; border-left: 3px solid var(--ollie);
+  }
+  .scr-a .callout b { color: var(--ollie-2); display: block; font-size: 7px; margin-bottom: 2px; }
+  .scr-a .nav-row { display: flex; justify-content: space-between; margin-top: 8px; }
+  .scr-a .nav-btn { font-size: 7px; padding: 4px 8px; border-radius: 5px; border: 1px solid var(--line); color: var(--ink-2); }
+  .scr-a .nav-btn.next { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+  /* ============ PATH B — WORLD MAP HOME ============ */
+  .scr-world {
+    background:
+      radial-gradient(circle at 20% 30%, rgba(245,158,11,0.18), transparent 35%),
+      radial-gradient(circle at 75% 25%, rgba(139,92,246,0.18), transparent 35%),
+      radial-gradient(circle at 80% 75%, rgba(15,118,110,0.16), transparent 35%),
+      radial-gradient(circle at 25% 80%, rgba(244,63,94,0.14), transparent 35%),
+      linear-gradient(160deg, #fffaf2, #f6f0ff 60%, #ecfbf6);
+    font-size: 9px;
+    color: var(--ink);
+    position: relative;
+  }
+  .scr-world .wh {
+    padding: 12px 18px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .scr-world .logo {
+    width: 22px; height: 22px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--b), var(--b2));
+    color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px;
+  }
+  .scr-world .brand {
+    font-family: 'Instrument Serif', serif; font-size: 17px; color: var(--ink); letter-spacing: -0.01em;
+  }
+  .scr-world .wh nav { margin-left: auto; display: flex; gap: 14px; font-size: 9px; color: var(--ink-2); }
+  .scr-world .wh .cont { background: var(--ink); color: #fff; padding: 4px 11px; border-radius: 20px; font-size: 9px; font-weight: 500; }
+  .scr-world .hero {
+    text-align: center; padding: 14px 20px 6px;
+  }
+  .scr-world .hero h2 {
+    font-family: 'Instrument Serif', serif; font-weight: 400;
+    font-size: 20px; line-height: 1.1; color: var(--ink); letter-spacing: -0.01em;
+  }
+  .scr-world .hero h2 em { font-style: italic; color: var(--b); }
+  .scr-world .hero p { font-size: 8.5px; color: var(--ink-2); margin-top: 4px; }
+  .scr-world .map {
+    position: relative;
+    height: 62%;
+    margin: 8px 24px 0;
+  }
+  .zone {
+    position: absolute;
+    border-radius: 14px;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+    padding: 6px;
+    text-align: center;
+    box-shadow: 0 6px 16px -6px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.4);
+  }
+  .zone .cface {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+  .zone .zname { font-size: 7px; font-weight: 700; color: #fff; line-height: 1.1; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+  .zone .zsub { font-size: 5.5px; color: rgba(255,255,255,0.85); }
+  .zone.done { opacity: 0.55; filter: saturate(0.6); }
+  .zone.done::after { content: "✓"; position: absolute; top: 4px; right: 6px; color: #fff; font-size: 9px; font-weight: 800; }
+  .zone.current { animation: pulseZone 2s ease-in-out infinite; }
+  @keyframes pulseZone {
+    0%, 100% { box-shadow: 0 6px 16px -6px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.4), 0 0 0 0 rgba(200,83,27,0.4); }
+    50% { box-shadow: 0 6px 16px -6px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.4), 0 0 0 8px rgba(200,83,27,0); }
+  }
+  .z1 { left: 2%; top: 8%; width: 26%; height: 40%; background: linear-gradient(160deg, #fbbf24, #ea580c); } /* Ollie */
+  .z2 { left: 30%; top: 4%; width: 24%; height: 34%; background: linear-gradient(160deg, #a78bfa, #ec4899); } /* Vera */
+  .z3 { left: 56%; top: 10%; width: 22%; height: 32%; background: linear-gradient(160deg, #38bdf8, #2563eb); } /* Max */
+  .z4 { left: 80%; top: 4%; width: 18%; height: 30%; background: linear-gradient(160deg, #5eead4, #0d9488); } /* Eileen */
+  .z5 { left: 6%; top: 52%; width: 22%; height: 42%; background: linear-gradient(160deg, #fb7185, #be123c); } /* Delta */
+  .z6 { left: 30%; top: 42%; width: 24%; height: 34%; background: linear-gradient(160deg, #a3e635, #4d7c0f); } /* Greta */
+  .z7 { left: 56%; top: 46%; width: 20%; height: 30%; background: linear-gradient(160deg, #818cf8, #4338ca); } /* Pippa */
+  .z8 { left: 78%; top: 38%; width: 20%; height: 30%; background: linear-gradient(160deg, #67e8f9, #0891b2); } /* Sigmund */
+  /* dotted path */
+  .trail {
+    position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  }
+
+  .scr-world .hud {
+    position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(6px);
+    border: 1px solid var(--line-soft); border-radius: 30px;
+    padding: 5px 14px; display: flex; gap: 14px; align-items: center;
+    font-size: 8px; box-shadow: 0 8px 20px -8px rgba(0,0,0,0.2);
+  }
+  .scr-world .hud .stat strong { color: var(--ink); font-weight: 700; }
+  .scr-world .hud .stat { color: var(--ink-3); }
+  .scr-world .hud .sep { width: 1px; height: 12px; background: var(--line); }
+
+  /* ============ PATH B — RE-THEMED LESSON ============ */
+  .scr-themed {
+    background:
+      linear-gradient(160deg, rgba(139,92,246,0.08), rgba(236,72,153,0.06));
+    --ch: var(--vera);
+    --ch2: var(--vera-2);
+    font-size: 9px; color: var(--ink-2);
+  }
+  .scr-themed .topbar {
+    height: 3px; background: linear-gradient(90deg, var(--ch), var(--ch2));
+  }
+  .scr-themed .bh {
+    padding: 9px 16px; display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid rgba(139,92,246,0.15);
+  }
+  .scr-themed .logo {
+    width: 18px; height: 18px; border-radius: 6px;
+    background: linear-gradient(135deg, var(--ch), var(--ch2));
+    color: #fff; font-weight: 800; font-size: 10px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .scr-themed .brand { font-weight: 700; font-size: 12px; color: var(--ink); }
+  .scr-themed .ch-pill {
+    margin-left: auto; display: flex; align-items: center; gap: 6px;
+    background: rgba(139,92,246,0.1); padding: 3px 9px 3px 3px; border-radius: 20px;
+    font-size: 8px; color: var(--ch); font-weight: 600;
+  }
+  .scr-themed .ch-pill .dot {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--ch), var(--ch2));
+    display: flex; align-items: center; justify-content: center; font-size: 9px;
+  }
+  .scr-themed .layout {
+    display: grid; grid-template-columns: 1fr 78px; gap: 0; height: calc(100% - 28px);
+  }
+  .scr-themed .content { padding: 14px 16px; overflow: hidden; }
+  .scr-themed .crumb { font-size: 7px; color: var(--ink-3); margin-bottom: 6px; }
+  .scr-themed .crumb b { color: var(--ch); }
+  .scr-themed h4 { font-size: 13px; color: var(--ink); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 3px; }
+  .scr-themed .obj { font-size: 7px; color: var(--ch); margin-bottom: 9px; font-weight: 500; }
+
+  /* character speech bubble */
+  .scr-themed .speech {
+    background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(236,72,153,0.06));
+    border: 1px solid rgba(139,92,246,0.2);
+    border-radius: 12px 12px 12px 3px;
+    padding: 9px 11px;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .scr-themed .speech .who { font-size: 7px; font-weight: 700; color: var(--ch); margin-bottom: 2px; }
+  .scr-themed .speech p { font-size: 7.5px; color: var(--ink); line-height: 1.5; font-style: italic; }
+  .scr-themed .speech p mark {
+    background: rgba(236,72,153,0.2); color: var(--ch2); padding: 0 2px; border-radius: 2px; font-style: normal; font-weight: 600;
+  }
+
+  .scr-themed .read { font-size: 7.5px; color: var(--ink-2); line-height: 1.55; margin-bottom: 9px; }
+
+  .scr-themed .do-card {
+    border: 1.5px solid rgba(139,92,246,0.3);
+    border-radius: 10px; padding: 10px;
+    background: #fff;
+    box-shadow: 0 4px 12px -4px rgba(139,92,246,0.25);
+  }
+  .scr-themed .do-head { display: flex; align-items: center; gap: 5px; margin-bottom: 6px; }
+  .scr-themed .do-head .ic { font-size: 10px; }
+  .scr-themed .do-head b { font-size: 8px; color: var(--ch); }
+  .scr-themed .vector-box {
+    height: 56px; background:
+      linear-gradient(rgba(139,92,246,0.08) 1px, transparent 1px) 0 0 / 100% 20%,
+      linear-gradient(90deg, rgba(139,92,246,0.08) 1px, transparent 1px) 0 0 / 12.5% 100%,
+      #faf8ff;
+    border-radius: 6px; position: relative; margin-bottom: 6px;
+  }
+  .scr-themed .vec-arrow {
+    position: absolute; left: 30%; top: 30%;
+    width: 40%; height: 1px; background: var(--ch); transform-origin: left;
+    transform: rotate(20deg);
+  }
+  .scr-themed .vec-arrow::after {
+    content: ""; position: absolute; right: -1px; top: -3px;
+    border: 3px solid transparent; border-left-color: var(--ch);
+  }
+  .scr-themed .vec-handle {
+    position: absolute; width: 8px; height: 8px; border-radius: 50%;
+    background: #fff; border: 2px solid var(--ch2);
+  }
+  .scr-themed .do-cta {
+    background: linear-gradient(135deg, var(--ch), var(--ch2));
+    color: #fff; font-size: 7px; font-weight: 600;
+    padding: 4px 8px; border-radius: 6px; display: inline-block;
+  }
+
+  /* character companion rail */
+  .scr-themed .rail {
+    background: linear-gradient(180deg, rgba(139,92,246,0.12), rgba(236,72,153,0.08));
+    border-left: 1px solid rgba(139,92,246,0.15);
+    padding: 10px 6px;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .scr-themed .big-face {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--ch), var(--ch2));
+    border: 3px solid #fff;
+    box-shadow: 0 6px 14px -4px rgba(139,92,246,0.5);
+    display: flex; align-items: center; justify-content: center; font-size: 22px;
+    position: relative;
+  }
+  .scr-themed .big-face .speak {
+    position: absolute; bottom: -2px; right: -2px;
+    width: 12px; height: 12px; border-radius: 50%; background: #10b981;
+    border: 2px solid #fff;
+    animation: blink 1.4s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .scr-themed .rail .cname { font-size: 7px; font-weight: 700; color: var(--ch); text-align: center; line-height: 1.1; }
+  .scr-themed .rail .quote { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 7px; color: var(--ink-2); text-align: center; line-height: 1.2; padding: 0 2px; }
+  .scr-themed .rail .step {
+    width: 8px; height: 8px; border-radius: 50%; background: rgba(139,92,246,0.25);
+  }
+  .scr-themed .rail .step.on { background: var(--ch); box-shadow: 0 0 0 3px rgba(139,92,246,0.2); }
+  .scr-themed .rail .step.done { background: #10b981; }
+
+  /* ============ PATH C — GUIDED NARRATIVE ============ */
+  .scr-narrative {
+    background: linear-gradient(180deg, #0f0a1a 0%, #1a1030 100%);
+    font-size: 9px; color: #e9e4f5;
+    position: relative;
+    overflow: hidden;
+  }
+  .scr-narrative .glow1 {
+    position: absolute; top: -20%; left: -10%; width: 60%; height: 60%;
+    background: radial-gradient(circle, rgba(139,92,246,0.3), transparent 60%);
+    filter: blur(10px);
+  }
+  .scr-narrative .glow2 {
+    position: absolute; bottom: -20%; right: -10%; width: 60%; height: 60%;
+    background: radial-gradient(circle, rgba(236,72,153,0.25), transparent 60%);
+    filter: blur(10px);
+  }
+  .scr-narrative .top {
+    position: relative; z-index: 2;
+    padding: 10px 16px; display: flex; align-items: center; gap: 10px;
+  }
+  .scr-narrative .x { color: rgba(233,228,245,0.6); font-size: 12px; }
+  .scr-narrative .pg { font-size: 8px; color: rgba(233,228,245,0.5); font-family: 'JetBrains Mono', monospace; }
+  .scr-narrative .pg-bar {
+    flex: 1; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; margin: 0 8px; overflow: hidden;
+  }
+  .scr-narrative .pg-fill { height: 100%; width: 42%; background: linear-gradient(90deg, #a78bfa, #ec4899); }
+
+  .scr-narrative .stage {
+    position: relative; z-index: 2;
+    padding: 8px 20px;
+    height: calc(100% - 70px);
+    overflow: hidden;
+  }
+  .scr-narrative .chap {
+    font-family: 'JetBrains Mono', monospace; font-size: 7px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(236,72,153,0.8); margin-bottom: 6px;
+  }
+  .scr-narrative .ch-face {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--vera), var(--vera-2));
+    border: 2px solid rgba(255,255,255,0.2);
+    box-shadow: 0 0 20px rgba(139,92,246,0.5);
+    display: flex; align-items: center; justify-content: center; font-size: 20px;
+    margin-bottom: 8px;
+  }
+  .scr-narrative .speak {
+    font-family: 'Instrument Serif', serif; font-size: 13px; line-height: 1.3;
+    color: #fff; margin-bottom: 10px; letter-spacing: -0.005em;
+  }
+  .scr-narrative .speak em { color: #f9a8d4; font-style: italic; }
+  .scr-narrative .speak .cur {
+    background: linear-gradient(90deg, #a78bfa, #ec4899);
+    -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 500;
+  }
+
+  /* embedded interactive */
+  .scr-narrative .embed {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px; padding: 9px;
+    backdrop-filter: blur(4px);
+  }
+  .scr-narrative .embed-head {
+    display: flex; align-items: center; gap: 5px; margin-bottom: 6px;
+    font-size: 7px; color: rgba(233,228,245,0.7);
+  }
+  .scr-narrative .embed-head b { color: #c4b5fd; }
+  .scr-narrative .canvas-mini {
+    height: 44px; border-radius: 6px; position: relative;
+    background:
+      linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px) 0 0 / 100% 20%,
+      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px) 0 0 / 14% 100%;
+  }
+  .scr-narrative .canvas-mini .v1 {
+    position: absolute; left: 18%; top: 60%; width: 45%; height: 1px;
+    background: #a78bfa; transform: rotate(-28deg); transform-origin: left;
+  }
+  .scr-narrative .canvas-mini .v1::after {
+    content: ""; position: absolute; right: -1px; top: -3px;
+    border: 3px solid transparent; border-left-color: #a78bfa;
+  }
+  .scr-narrative .canvas-mini .v2 {
+    position: absolute; left: 30%; top: 35%; width: 38%; height: 1px;
+    background: #f472b6; transform: rotate(15deg); transform-origin: left;
+  }
+  .scr-narrative .canvas-mini .v2::after {
+    content: ""; position: absolute; right: -1px; top: -3px;
+    border: 3px solid transparent; border-left-color: #f472b6;
+  }
+  .scr-narrative .canvas-mini .hd {
+    position: absolute; width: 7px; height: 7px; border-radius: 50%;
+    background: #fff; border: 2px solid #c4b5fd;
+  }
+  .scr-narrative .hint {
+    font-size: 6.5px; color: rgba(233,228,245,0.5); text-align: center; margin-top: 5px;
+    font-style: italic;
+  }
+
+  /* persistent audio bar */
+  .scr-narrative .audio {
+    position: absolute; bottom: 10px; left: 14px; right: 14px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    border-radius: 30px; padding: 6px 12px;
+    display: flex; align-items: center; gap: 8px;
+    z-index: 3;
+  }
+  .scr-narrative .play {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: linear-gradient(135deg, #a78bfa, #ec4899);
+    display: flex; align-items: center; justify-content: center; color: #fff; font-size: 8px;
+  }
+  .scr-narrative .wave { flex: 1; display: flex; align-items: center; gap: 2px; height: 14px; }
+  .scr-narrative .wave span {
+    flex: 1; background: rgba(255,255,255,0.2); border-radius: 2px;
+  }
+  .scr-narrative .wave span.on { background: #c4b5fd; }
+  .scr-narrative .time { font-size: 7px; color: rgba(233,228,245,0.6); font-family: 'JetBrains Mono', monospace; }
+
+  /* ---------- COMPARISON STRIP ---------- */
+  .compare {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 12px; overflow: hidden;
+    margin-top: 8px;
+  }
+  @media (max-width: 760px) { .compare { grid-template-columns: 1fr; } }
+  .compare .col { background: #fff; padding: 22px 20px; }
+  .compare .col h4 {
+    font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 22px;
+    margin-bottom: 4px; letter-spacing: -0.01em;
+  }
+  .compare .col .sub { font-size: 12px; color: var(--ink-3); margin-bottom: 14px; }
+  .compare .col ul { list-style: none; }
+  .compare .col li {
+    font-size: 13px; color: var(--ink-2); padding: 7px 0;
+    border-top: 1px solid var(--line-soft);
+    display: flex; gap: 8px; align-items: flex-start;
+  }
+  .compare .col li::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%;
+    margin-top: 7px; flex-shrink: 0;
+  }
+  .compare .a li::before { background: var(--a); }
+  .compare .b li::before { background: var(--b); }
+  .compare .c li::before { background: var(--c); }
+  .compare .verdict {
+    margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line-soft);
+    font-size: 12px; color: var(--ink-3); font-style: italic;
+  }
+
+  /* ---------- RECOMMENDATION ---------- */
+  .reco {
+    background: linear-gradient(135deg, var(--ink) 0%, #2a2620 100%);
+    color: #f6f4ef;
+    border-radius: 16px;
+    padding: 36px 36px;
+    margin-top: 8px;
+  }
+  .reco .eyebrow { color: rgba(255,255,255,0.5); margin-bottom: 12px; }
+  .reco h3 {
+    font-family: 'Instrument Serif', serif; font-weight: 400;
+    font-size: 28px; line-height: 1.15; margin-bottom: 16px; max-width: 30ch;
+    letter-spacing: -0.01em;
+  }
+  .reco h3 em { font-style: italic; color: #f9a86b; }
+  .reco p { color: rgba(246,244,239,0.75); font-size: 15px; max-width: 62ch; margin-bottom: 14px; }
+  .reco .seq { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 22px; }
+  .reco .seq .step-r {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px; padding: 14px 16px; flex: 1; min-width: 180px;
+  }
+  .reco .seq .step-r .n {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 6px;
+  }
+  .reco .seq .step-r b { font-size: 14px; font-weight: 600; }
+  .reco .seq .step-r.a b { color: #93b4f1; }
+  .reco .seq .step-r.b b { color: #f9a86b; }
+  .reco .seq .step-r.c b { color: #5eead4; }
+
+  footer.doc {
+    padding: 48px 0 64px;
+    color: var(--ink-3);
+    font-size: 13px;
+  }
+  footer.doc .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<header class="doc">
+  <div class="wrap">
+    <div class="eyebrow">UI Review · Mathland Critter Learn · July 2026</div>
+    <h1 class="display">Three ways to make a <em>genuinely good idea</em> stop looking like a dashboard.</h1>
+    <p class="lede">Mathland has real depth — 97 lessons, 10 voiced characters, ~230&nbsp;MB of portraits &amp; animation, 28 interactives — wrapped in unconfigured shadcn defaults. Below: a strategic map of every move, then tangible mockups of three directions, from safe polish to structural reinvention.</p>
+    <div class="doc-meta">
+      <div><strong>3 directions</strong>A · B · C</div>
+      <div><strong>13 plotted moves</strong>by effort × impact</div>
+      <div><strong>5 mockups</strong>baseline + 4 futures</div>
+      <div><strong>1 recommendation</strong>staged at the end</div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ THE 2D MAP ============ -->
+<section class="block">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2>The strategic landscape</h2>
+    </div>
+    <p class="section-sub">Every candidate move plotted on two dimensions that actually matter for prioritization: <strong>how much it costs</strong> (effort, risk, time) on the X axis, and <strong>how much it differentiates</strong> the product (table-stakes hygiene vs. a moat nobody else has) on the Y axis. Hover any point for detail. Color encodes which direction it belongs to.</p>
+
+    <div class="map-shell">
+      <div class="map-legend">
+        <span class="leg-item"><span class="leg-dot a"></span> Path A — Stabilize &amp; polish</span>
+        <span class="leg-item"><span class="leg-dot b"></span> Path B — Let the characters lead</span>
+        <span class="leg-item"><span class="leg-dot c"></span> Path C — Re-architect the lesson</span>
+      </div>
+
+      <div class="map-frame" id="map">
+        <span class="axis-label axis-y-t">Unique moat</span>
+        <span class="axis-label axis-y-b">Table stakes</span>
+        <span class="axis-label axis-x-l">Quick win</span>
+        <span class="axis-label axis-x-r">Long bet</span>
+        <span class="axis-label axis-x">Effort &amp; risk →</span>
+        <span class="axis-label axis-y">↑ Differentiation &amp; impact</span>
+
+        <div class="quad tl">Do first — high value, low cost</div>
+        <div class="quad tr">Strategic bets</div>
+        <div class="quad bl">Hygiene — necessary, invisible</div>
+        <div class="quad br">Avoid — diminishing returns</div>
+
+        <!-- region labels -->
+        <span class="region-label" style="left:8%;top:88%">A · hygiene</span>
+        <span class="region-label" style="left:38%;top:30%">B · character</span>
+        <span class="region-label" style="left:74%;top:22%">C · structural</span>
+
+        <!-- POINTS: left = effort%, top = (100 - diff)% -->
+        <!-- Path A -->
+        <div class="pt a" style="left:10%;top:84%"><span class="tip"><strong>Fix JIT gradient purge</strong><span>No safelist → character colors vanish in prod. Add safelist or static theme map.</span></span></div>
+        <div class="pt a" style="left:12%;top:78%"><span class="tip"><strong>Wire up no-op "Next" buttons</strong><span>3 of 8 lesson sections silently do nothing on click.</span></span></div>
+        <div class="pt a" style="left:8%;top:88%"><span class="tip"><strong>Delete dead code</strong><span>Unused LessonAudioPlayer, dead Canvas, 4 stray Next.js apps in src/.</span></span></div>
+        <div class="pt a" style="left:14%;top:82%"><span class="tip"><strong>Remove placeholder content</strong><span>ReadSection ships a data-science filler tutorial if data is missing.</span></span></div>
+        <div class="pt a" style="left:22%;top:72%"><span class="tip"><strong>Consistent page chrome</strong><span>Header on 3 pages, absent on 3. Same for Footer. Unify.</span></span></div>
+        <div class="pt a" style="left:24%;top:66%"><span class="tip"><strong>Unified design tokens</strong><span>One semantic color layer instead of hardcoded blue-600 / orange-200 everywhere.</span></span></div>
+        <div class="pt a" style="left:20%;top:76%"><span class="tip"><strong>One component catalog</strong><span>Collapse 3 contradictory lists (says "23", has 24, really 28).</span></span></div>
+
+        <!-- Path B -->
+        <div class="pt b big" style="left:34%;top:34%"><span class="tip"><strong>Wire in 60MB orphaned GIFs</strong><span>11 animated characters exist, referenced by ZERO files. Highest-leverage unused asset.</span></span></div>
+        <div class="pt b" style="left:44%;top:28%"><span class="tip"><strong>Character re-theming</strong><span>Whole interface re-tints per character color, verbs flavor microcopy.</span></span></div>
+        <div class="pt b" style="left:54%;top:30%"><span class="tip"><strong>Themed interactives</strong><span>28 slate boxes → each feels like its character's workshop.</span></span></div>
+        <div class="pt b big" style="left:62%;top:12%"><span class="tip"><strong>Mathland world map home</strong><span>Replace generic timeline with a character-guarded territory map.</span></span></div>
+        <div class="pt b" style="left:58%;top:20%"><span class="tip"><strong>Character as companion</strong><span>Persistent presence in lesson chrome, reacts on completion.</span></span></div>
+
+        <!-- Path C -->
+        <div class="pt c big" style="left:80%;top:22%"><span class="tip"><strong>Guided narrative lesson</strong><span>8 discrete sections → one continuous character-led scroll story.</span></span></div>
+        <div class="pt c" style="left:76%;top:30%"><span class="tip"><strong>Adaptive pacing</strong><span>Use existing progress data to skip mastered, linger on weak.</span></span></div>
+        <div class="pt c" style="left:70%;top:26%"><span class="tip"><strong>Interactive as climax</strong><span>The "Do" tool becomes where every section converges.</span></span></div>
+      </div>
+
+      <div class="map-note">The lower-left cluster is non-negotiable hygiene. The amber arc (B) is where existing-but-wasted assets become visible differentiation at moderate cost. The teal cluster (C) is the biggest structural bet — highest payoff, highest risk.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BASELINE ============ -->
+<section class="block">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2>Where we are now</h2>
+    </div>
+    <p class="section-sub">The baseline, for honest comparison. This is the actual lesson screen today: unconfigured shadcn theme, generic slate cards, a 4px progress bar, a tiny isolated avatar, three different left-accent colors in one view, and a hardcoded heading from the wrong product domain.</p>
+
+    <div class="mockup-row one">
+      <div class="mockup-card">
+        <div class="browser">
+          <div class="browser-bar">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="url">mathland.app/lesson/1.1</div>
+          </div>
+          <div class="screen scr-baseline">
+            <div class="bh">
+              <div class="logo">M</div>
+              <div class="brand">Mathland</div>
+              <nav><span>Home</span><span>Experience</span><span>Roadmap</span></nav>
+              <div class="btn">Start Learning</div>
+            </div>
+            <div class="body">
+              <div class="side">
+                <div class="av"></div>
+                <div style="font-size:6.5px;font-weight:600;color:#1e293b;">Ollie</div>
+                <div style="font-size:5.5px;color:#94a3b8;margin-bottom:5px;">Methodical</div>
+                <div class="side-item on">▸ Narrative</div>
+                <div class="side-item">Read</div>
+                <div class="side-item">See</div>
+                <div class="side-item">Hear</div>
+                <div class="side-item">Do</div>
+              </div>
+              <div class="main">
+                <span class="badge">Lesson 1.1</span>
+                <h4>Variables &amp; Expressions</h4>
+                <div class="card">
+                  <div class="lorem">Imagine data as ingredients in a recipe. Key Point 1: Data must be relevant...</div>
+                  <div class="accent-box blue"><b style="color:#1d4ed8;">Analogy</b>Think of a variable like a labeled jar...</div>
+                  <div class="accent-box">"Ollie says:" Let's take this step by step!</div>
+                  <div class="accent-box yellow"><b style="color:#a16207;">Why This Matters</b>...in Data Science.</div>
+                </div>
+              </div>
+            </div>
+            <div class="warn">⚠ "Next" button does nothing here</div>
+          </div>
+        </div>
+        <div class="caption">
+          <span class="tag now">Current · actual</span>
+          <h3>The baseline</h3>
+          <p>Flat gray admin aesthetic. No brand identity. Three callout colors, no system. The character — the whole differentiator — is a 22px gray circle. Reads as a content-management dashboard, not a learning world.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PATH A ============ -->
+<section class="block">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2>Path A — Stabilize &amp; polish</h2>
+    </div>
+    <p class="section-sub">Same structure, same screens — but consistent, correct, and considered. A real token layer, one accent system, working buttons, loading skeletons, unified chrome. This is the "stop the bleeding" path: low risk, makes everything that exists feel intentional. It will not make the product beautiful or distinctive — but it makes every subsequent path possible.</p>
+
+    <div class="mockup-row two">
+      <div class="mockup-card">
+        <div class="browser">
+          <div class="browser-bar">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="url">mathland.app/lesson/1.1</div>
+          </div>
+          <div class="screen scr-a">
+            <div class="bh">
+              <div class="logo">M</div>
+              <div class="brand">Mathland</div>
+              <nav><span class="on">Learn</span><span>World</span><span>Interactives</span></nav>
+              <div class="btn">Continue</div>
+            </div>
+            <div class="body">
+              <div class="side">
+                <div class="av"></div>
+                <div class="side-name">Ollie</div>
+                <div class="side-sub">Foundations</div>
+                <div class="prog-track"><div class="prog-fill"></div></div>
+                <div class="side-item done"><span class="chk"></span>Narrative</div>
+                <div class="side-item on"><span class="chk"></span>Read</div>
+                <div class="side-item"><span class="chk"></span>See</div>
+                <div class="side-item"><span class="chk"></span>Hear</div>
+                <div class="side-item"><span class="chk"></span>Do</div>
+              </div>
+              <div class="main">
+                <div class="crumb">Module 1 · Lesson 1.1</div>
+                <h4>Variables &amp; Expressions</h4>
+                <div class="card">
+                  <div class="lorem">A variable is a named container for a value that can change. In algebra, we use letters to stand in for unknown or changing quantities...</div>
+                  <div class="callout"><b>Analogy</b>Think of a variable like a labeled jar — the label stays, the contents can change.</div>
+                  <div class="callout"><b>Key idea</b>The same symbol can hold different values in different contexts.</div>
+                  <div class="nav-row">
+                    <div class="nav-btn">← Back</div>
+                    <div class="nav-btn next">Next: See →</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="caption">
+          <span class="tag a">Path A</span>
+          <h3>Polished lesson</h3>
+          <p>Consistent warm palette, proper progress bar, working Next button, character color threading through as the accent, accessible sidebar items, real content (no placeholder filler).</p>
+        </div>
+      </div>
+
+      <div class="mockup-card">
+        <div class="browser">
+          <div class="browser-bar">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="url">mathland.app/lesson/2.3</div>
+          </div>
+          <div class="screen scr-a">
+            <div class="bh">
+              <div class="logo">M</div>
+              <div class="brand">Mathland</div>
+              <nav><span class="on">Learn</span><span>World</span><span>Interactives</span></nav>
+              <div class="btn">Continue</div>
+            </div>
+            <div class="body">
+              <div class="side" style="background:#fff;">
+                <div class="av" style="background:linear-gradient(135deg,var(--vera),var(--vera-2));"></div>
+                <div class="side-name">Vera</div>
+                <div class="side-sub">Vectors</div>
+                <div class="prog-track"><div class="prog-fill" style="width:62%;background:linear-gradient(90deg,var(--vera),var(--vera-2));"></div></div>
+                <div class="side-item done"><span class="chk"></span>Narrative</div>
+                <div class="side-item done"><span class="chk"></span>Read</div>
+                <div class="side-item done"><span class="chk"></span>See</div>
+                <div class="side-item on" style="background:#f3e8ff;color:var(--vera);"><span class="chk"></span>Hear</div>
+                <div class="side-item"><span class="chk"></span>Do</div>
+              </div>
+              <div class="main">
+                <div class="crumb">Module 2 · Lesson 2.3</div>
+                <h4>Vector Addition</h4>
+                <div class="card">
+                  <div class="lorem" style="display:flex;gap:8px;align-items:center;">
+                    <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--vera),var(--vera-2));flex-shrink:0;"></div>
+                    <div style="flex:1;"><div style="font-size:7px;color:var(--vera);font-weight:600;margin-bottom:2px;">Vera explains</div><div style="font-size:6.5px;color:var(--ink-2);font-style:italic;">"Add vectors tip-to-tail — you're just chaining directions..."</div></div>
+                  </div>
+                  <div style="height:3px;background:var(--paper-2);border-radius:3px;margin:8px 0;overflow:hidden;"><div style="height:100%;width:45%;background:var(--vera);"></div></div>
+                  <div class="callout" style="background:#f5f3ff;border-left-color:var(--vera);"><b style="color:var(--vera);">Transcript</b><span style="display:block;color:var(--ink);font-weight:600;">tip-to-tail</span> means placing the start of one vector...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="caption">
+          <span class="tag a">Path A</span>
+          <h3>Re-tinted per character</h3>
+          <p>Notice how moving from Ollie's module to Vera's quietly re-themes the chrome — same components, semantic tokens doing the work. This is the foundation Paths B and C build on.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PATH B ============ -->
+<section class="block">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2>Path B — Let the characters lead</h2>
+    </div>
+    <p class="section-sub">The differentiating move. The assets already exist — 11 animated GIFs (60MB, currently orphaned), voiced audio, per-character color systems, distinct personalities with their own verbs. Path B's job is to <strong>surface</strong> them: make characters persistent companions, re-theme the whole interface per character, and turn the home screen into a world where each character guards a territory of math.</p>
+
+    <div class="mockup-row one">
+      <div class="mockup-card">
+        <div class="browser">
+          <div class="browser-bar">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="url">mathland.app · the world</div>
+          </div>
+          <div class="screen scr-world">
+            <div class="wh">
+              <div class="logo">M</div>
+              <div class="brand">Mathland</div>
+              <nav><span>World</span><span>Characters</span><span>Progress</span></nav>
+              <div class="cont">Resume with Vera →</div>
+            </div>
+            <div class="hero">
+              <h2>Your journey through <em>Mathland</em></h2>
+              <p>10 guides. 10 territories. One path from foundations to mastery.</p>
+            </div>
+            <div class="map">
+              <svg class="trail" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path d="M 14,30 Q 30,18 42,22 T 67,28 Q 78,32 87,24" stroke="rgba(200,83,27,0.4)" stroke-width="0.8" stroke-dasharray="2,2" fill="none"/>
+                <path d="M 14,30 Q 30,18 42,22 T 67,28" stroke="#c8531b" stroke-width="0.8" stroke-dasharray="2,2" fill="none"/>
+              </svg>
+              <div class="zone z1 done"><div class="cface">🦦</div><div class="zname">Ollie's Yard</div><div class="zsub">Foundations</div></div>
+              <div class="zone z2 current"><div class="cface">🧭</div><div class="zname">Vera's Lab</div><div class="zsub">Vectors</div></div>
+              <div class="zone z3"><div class="cface">⊞</div><div class="zname">Max's Factory</div><div class="zsub">Matrices</div></div>
+              <div class="zone z4"><div class="cface">🔍</div><div class="zname">Eileen's Files</div><div class="zsub">Eigenvalues</div></div>
+              <div class="zone z5"><div class="cface">∂</div><div class="zname">Delta's Peaks</div><div class="zsub">Calculus</div></div>
+              <div class="zone z6"><div class="cface">⛰️</div><div class="zname">Greta's Climb</div><div class="zsub">Optimization</div></div>
+              <div class="zone z7"><div class="cface">🎲</div><div class="zname">Pippa's Odds</div><div class="zsub">Probability</div></div>
+              <div class="zone z8"><div class="cface">🦢</div><div class="zname">Sigmund's Bay</div><div class="zsub">Inference</div></div>
+            </div>
+            <div class="hud">
+              <div class="stat"><strong>2</strong> territories</div>
+              <div class="sep"></div>
+              <div class="stat"><strong>18</strong> lessons</div>
+              <div class="sep"></div>
+              <div class="stat"><strong>3h 42m</strong> studied</div>
+            </div>
+          </div>
+        </div>
+        <div class="caption">
+          <span class="tag b">Path B · signature screen</span>
+          <h3>The Mathland world map</h3>
+          <p>Replaces the generic timeline with a place. Each character guards a region tinted in their color. Progress = territories explored, marked with a check. The current territory pulses. This is where "Mathland" becomes a world you move through, not a wordmark in a header.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mockup-row one">
+      <div class="mockup-card">
+        <div class="browser">
+          <div class="browser-bar">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="url">mathland.app/lesson/2.3 · with Vera</div>
+          </div>
+          <div class="screen scr-themed">
+            <div class="topbar"></div>
+            <div class="bh">
+              <div class="logo">M</div>
+              <div class="brand">Mathland</div>
+              <div class="ch-pill"><span class="dot">🧭</span> Vera · Vectors</div>
+            </div>
+            <div class="layout">
+              <div class="content">
+                <div class="crumb">Module 2 · Lesson 2.3 · <b>Narrative</b></div>
+                <h4>Adding Directions Together</h4>
+                <div class="obj">You'll combine vectors tip-to-tail and read the result.</div>
+
+                <div class="speech">
+                  <div class="who">Vera says</div>
+                  <p>"So you've got two directions — say, walk 3 blocks east, then 2 north. <mark>Where do you end up?</mark> That's vector addition. Watch..."</p>
+                </div>
+
+                <div class="read">Vectors add <em>tip-to-tail</em>: place the tail of the second at the tip of the first. The sum is the arrow from the very start to the very end.</div>
+
+                <div class="do-card">
+                  <div class="do-head"><span class="ic">🧭</span><b>Try it — drag Vera's vectors</b></div>
+                  <div class="vector-box">
+                    <div class="vec-arrow"></div>
+                    <div class="vec-handle" style="left:28%;top:28%;"></div>
+                    <div class="vec-handle" style="left:68%;top:46%;"></div>
+                  </div>
+                  <div class="do-cta">Explore Vera's playground →</div>
+                </div>
+              </div>
+              <div class="rail">
+                <div class="big-face">🧭<span class="speak"></span></div>
+                <div class="cname">Vera</div>
+                <div class="quote">"every direction has a story"</div>
+                <div class="step done"></div>
+                <div class="step done"></div>
+                <div class="step on"></div>
+                <div class="step"></div>
+                <div class="step"></div>
+                <div class="step"></div>
+                <div class="step"></div>
+                <div class="step"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="caption">
+          <span class="tag b">Path B</span>
+          <h3>Character as companion</h3>
+          <p>Vera is <em>present</em> — her purple/pink tints the whole screen, she speaks in her own voice (her verbs, her catchphrase), her animated portrait sits in the companion rail with a live "speaking" indicator while audio plays, and her interactive is embedded inline rather than exiled to a tab. The 60MB of orphaned GIFs finally have a home here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PATH C ============ -->
+<section class="block">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <h2>Path C — Re-architect the lesson</h2>
+    </div>
+    <p class="section-sub">The structural bet. Today a lesson is a sidebar of 8 discrete sections that each render one isolated card — it reads like a form. Path C rethinks the lesson as a <strong>continuous, guided narrative</strong>: the character walks you through Hook → Read → See → Hear → Do as one flowing story, audio persistently underneath, the interactive arriving as the climax where everything converges. Think Brilliant meets Headspace — linear, paced, never overwhelming.</p>
+
+    <div class="mockup-row one">
+      <div class="mockup-card">
+        <div class="browser">
+          <div class="browser-bar">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="url">mathland.app/lesson/2.3 · guided</div>
+          </div>
+          <div class="screen scr-narrative">
+            <div class="glow1"></div>
+            <div class="glow2"></div>
+            <div class="top">
+              <span class="x">✕</span>
+              <div class="pg">2 / 5</div>
+              <div class="pg-bar"><div class="pg-fill"></div></div>
+              <div class="pg">Vectors</div>
+            </div>
+            <div class="stage">
+              <div class="chap">Chapter · Tip to tail</div>
+              <div class="ch-face">🧭</div>
+              <div class="speak">So you've got two directions. Walk 3 east, then 2 north — <span class="cur">where do you land?</span> That's the whole idea. <em>Drag the arrows below and feel it.</em></div>
+
+              <div class="embed">
+                <div class="embed-head">🧭 <b>Vera's playground</b> · live</div>
+                <div class="canvas-mini">
+                  <div class="v1"></div>
+                  <div class="v2"></div>
+                  <div class="hd" style="left:16%;top:58%;"></div>
+                  <div class="hd" style="left:60%;top:32%;"></div>
+                  <div class="hd" style="left:66%;top:74%;border-color:#f472b6;"></div>
+                </div>
+                <div class="hint">drag a handle — the sum updates as you move</div>
+              </div>
+            </div>
+            <div class="audio">
+              <div class="play">▶</div>
+              <div class="wave">
+                <span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="time">0:42 / 1:48</div>
+            </div>
+          </div>
+        </div>
+        <div class="caption">
+          <span class="tag c">Path C · structural</span>
+          <h3>One continuous story</h3>
+          <p>No more 8-section sidebar. Vera narrates, the audio persists at the bottom with a live waveform and synced transcript highlighting, and the interactive arrives <em>inline</em> as the natural next beat of the sentence — not a separate tab. The "Do" is the climax the whole lesson builds toward. Dark, focused, immersive: this is an experience, not a checklist.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARISON ============ -->
+<section class="block">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <h2>The three, side by side</h2>
+    </div>
+    <p class="section-sub">What each path delivers, what it costs, and who it's for.</p>
+
+    <div class="compare">
+      <div class="col a">
+        <h4>Stabilize &amp; polish</h4>
+        <div class="sub">2–4 weeks · low risk</div>
+        <ul>
+          <li>Fixes the JIT purge, dead buttons, placeholder content</li>
+          <li>One token layer, one component catalog, unified chrome</li>
+          <li>Makes what exists feel intentional and correct</li>
+          <li>Doesn't change the fundamental look or feel</li>
+        </ul>
+        <div class="verdict">Table stakes. Do this regardless.</div>
+      </div>
+      <div class="col b">
+        <h4>Characters lead</h4>
+        <div class="sub">1–2 months · medium risk</div>
+        <ul>
+          <li>Surfaces 60MB of orphaned animation + voices</li>
+          <li>World-map home, per-character re-theming</li>
+          <li>Converts wasted assets into visible differentiation</li>
+          <li>The one thing competitors can't easily copy</li>
+        </ul>
+        <div class="verdict">The visible overhaul. Highest leverage.</div>
+      </div>
+      <div class="col c">
+        <h4>Re-architect</h4>
+        <div class="sub">2–3 months · high risk</div>
+        <ul>
+          <li>Lesson as guided narrative, not section form</li>
+          <li>Interactive as climax, adaptive pacing</li>
+          <li>Transforms "course website" into "experience"</li>
+          <li>Biggest bet on rethinking pedagogy itself</li>
+        </ul>
+        <div class="verdict">The long game. Prototype one lesson first.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RECOMMENDATION ============ -->
+<section class="block">
+  <div class="wrap">
+    <div class="reco">
+      <div class="eyebrow">Recommendation</div>
+      <h3>Do <em>A</em> now, commit to <em>B</em> as the overhaul, stage <em>C</em> as a prototype.</h3>
+      <p>Path A is correctness, not style — the JIT bug and dead buttons undermine trust every time a user hits them, so it happens regardless of direction. Path B is where ambition pays off: it converts your biggest <em>wasted</em> asset (characters, voices, animation) into your biggest <em>visible</em> asset, and nobody else can match it. Path C is worth it only if the product finds traction — de-risk it by redesigning one lesson end-to-end first.</p>
+      <div class="seq">
+        <div class="step-r a"><div class="n">Now · weeks 1–4</div><b>Path A — stabilize</b></div>
+        <div class="step-r b"><div class="n">Next · months 1–2</div><b>Path B — characters lead</b></div>
+        <div class="step-r c"><div class="n">Then · prototype</div><b>Path C — one lesson</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="doc">
+  <div class="wrap">
+    <div>Mathland UI Directions · generated as an exploration artifact</div>
+    <div>Open this file directly in a browser — fully self-contained.</div>
+  </div>
+</footer>
+
+</body>
+</html>

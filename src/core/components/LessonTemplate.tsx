@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent } from "@/core/components/ui/card";
 import { LessonData } from "@/core/types/lesson";
 import { LessonHeader } from "./lesson/LessonHeader";
@@ -17,6 +17,7 @@ import { EnhancedConceptCheck } from './lesson/conceptCheck/EnhancedConceptCheck
 import { EXAMPLE_CONCEPT_CHECKS } from '@/content/data/exampleConceptChecks';
 import { useLessonProgress } from '@/core/hooks/useLessonProgress';
 import { LessonSectionRenderer } from './lesson/LessonSectionRenderer';
+import { CharacterCompanion } from './lesson/CharacterCompanion';
 
 interface LessonTemplateProps {
   lesson: LessonData;
@@ -34,9 +35,9 @@ export const LessonTemplate = ({ lesson, previousLessonId, nextLessonId }: Lesso
     getCompletionPercentage
   } = useLessonProgress(lesson.id);
 
-  const audioRef = useRef<any>(null);
   const [audioDuration, setAudioDuration] = useState(0);
   const [currentTranscriptIdx, setCurrentTranscriptIdx] = useState(0);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const sections = [
     { id: "narrative", title: "Introduction" },
     { id: "read", title: "Read" },
@@ -84,14 +85,17 @@ export const LessonTemplate = ({ lesson, previousLessonId, nextLessonId }: Lesso
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 pt-1">
+    <div
+      data-character={character.id}
+      className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 pt-1"
+    >
       <LessonHeader progressPercentage={progressPercentage} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Learning Objectives Banner - Always Visible */}
         <LearningObjectivesBanner objectives={lesson.learningObjectives} />
 
-        <div className="grid lg:grid-cols-4 gap-8">
+        <div className="grid lg:grid-cols-5 gap-8">
           {/* Sidebar */}
           <div className="lg:col-span-1">
             <LessonSidebar 
@@ -112,7 +116,7 @@ export const LessonTemplate = ({ lesson, previousLessonId, nextLessonId }: Lesso
             />
             
             <div className="mb-8">
-              <div className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium mb-4">
+              <div className="inline-flex items-center px-3 py-1 character-accent-soft character-accent-text rounded-full text-sm font-medium mb-4">
                 Lesson {lesson.id}
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
@@ -130,6 +134,7 @@ export const LessonTemplate = ({ lesson, previousLessonId, nextLessonId }: Lesso
                   onSectionComplete={handleSectionComplete}
                   onNextSection={handleNextSection}
                   isLastSection={isLastSection}
+                  onSpeakingChange={setIsSpeaking}
                 />
               </CardContent>
             </Card>
@@ -137,6 +142,16 @@ export const LessonTemplate = ({ lesson, previousLessonId, nextLessonId }: Lesso
             <LessonNavigation 
               previousLessonId={previousLessonId}
               nextLessonId={nextLessonId}
+            />
+          </div>
+
+          {/* Character Companion Rail (Path B5) */}
+          <div className="hidden lg:block lg:col-span-1">
+            <CharacterCompanion
+              character={character}
+              sections={sections}
+              currentSection={currentSection}
+              isSpeaking={isSpeaking}
             />
           </div>
         </div>

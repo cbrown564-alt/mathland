@@ -1,11 +1,12 @@
 import { CheckCircle, Circle, PlayCircle } from "lucide-react";
 import { Card, CardContent } from "@/core/components/ui/card";
-import { CharacterAvatar } from "@/core/components/CharacterAvatar";
+import { CharacterAnimation } from "@/core/components/CharacterAnimation";
 import { cn } from "@/core/lib/utils";
 import { motion } from "framer-motion";
 
 interface LessonSidebarProps {
   character: {
+    id: string;
     name: string;
     fullName: string;
     personality: string;
@@ -30,12 +31,13 @@ export const LessonSidebar = ({
   onToggleSection 
 }: LessonSidebarProps) => {
   return (
-    <Card className="sticky top-32">
+    <Card className="sticky top-32 character-accent-border border-2">
       <CardContent className="p-6">
         {/* Character */}
         <div className="flex items-center gap-3 mb-6">
-          <CharacterAvatar 
-            src={character.avatar} 
+          <CharacterAnimation
+            characterId={character.id}
+            fallbackSrc={character.avatar}
             alt={character.fullName}
             size="xl"
           />
@@ -58,14 +60,14 @@ export const LessonSidebar = ({
                 className={cn(
                   "flex items-center p-3 rounded-lg text-sm transition-colors cursor-pointer",
                   isActive
-                    ? "bg-blue-100 text-blue-700 font-semibold"
+                    ? "character-accent-soft character-accent-text font-semibold"
                     : "hover:bg-slate-100 text-slate-700 font-medium",
                   isCompleted && !isActive && "text-slate-500"
                 )}
                 onClick={() => onSectionChange(section.id)}
               >
                 {isActive ? (
-                  <PlayCircle className="w-5 h-5 mr-3 text-blue-600 flex-shrink-0" />
+                  <PlayCircle className="w-5 h-5 mr-3 character-accent-text flex-shrink-0" />
                 ) : isCompleted ? (
                   <motion.span
                     initial={{ scale: 0 }}
