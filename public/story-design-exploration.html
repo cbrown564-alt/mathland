@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Story Mode · Design Exploration · Vera</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ================================================================
+       STORY MODE DESIGN EXPLORATION
+       Ambitious mockups for scaling /story/:lessonId beyond Module 2
+       ================================================================ */
+    :root {
+      /* Vera character tokens */
+      --vera-primary: #dc2626;
+      --vera-secondary: #ea580c;
+      --vera-glow: rgba(220, 38, 38, 0.35);
+      --vera-glow-2: rgba(234, 88, 12, 0.22);
+
+      /* Stage palette — warm near-black workbench */
+      --stage-bg: #0b0910;
+      --stage-surface: rgba(255, 255, 255, 0.045);
+      --stage-border: rgba(255, 255, 255, 0.08);
+      --stage-text: #f5f2ec;
+      --stage-muted: rgba(245, 242, 236, 0.55);
+      --stage-dim: rgba(245, 242, 236, 0.32);
+
+      /* Typography */
+      --font-serif: "Instrument Serif", Georgia, serif;
+      --font-sans: "DM Sans", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+      /* Motion — research-backed easing */
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out-soft: cubic-bezier(0.45, 0, 0.55, 1);
+      --duration-fast: 180ms;
+      --duration-med: 420ms;
+      --duration-slow: 680ms;
+
+      /* Spacing rhythm (8px base) */
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --space-24: 6rem;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--stage-bg);
+      color: var(--stage-text);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* ── Global stage atmosphere ── */
+    .stage-atmosphere {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .stage-atmosphere::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(72% 55% at 12% -8%, var(--vera-glow), transparent 60%),
+        radial-gradient(64% 52% at 104% 108%, var(--vera-glow-2), transparent 60%),
+        radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%);
+    }
+    .stage-atmosphere::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: radial-gradient(135% 95% at 50% 0%, #000 32%, transparent 84%);
+      animation: grid-breathe 12s ease-in-out infinite;
+    }
+    @keyframes grid-breathe {
+      0%, 100% { opacity: 0.7; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.008); }
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--vera-primary);
+      border-radius: 50%;
+      opacity: 0;
+      animation: float-up linear infinite;
+    }
+    @keyframes float-up {
+      0% { transform: translateY(100vh) scale(0); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.3; }
+      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+    }
+
+    /* ── Layout shell ── */
+    .shell {
+      position: relative;
+      z-index: 1;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+    }
+
+    /* ── Doc nav (sticky sidebar on desktop) ── */
+    .doc-layout {
+      display: grid;
+      gap: var(--space-8);
+      padding: var(--space-8) 0 var(--space-24);
+    }
+    @media (min-width: 1024px) {
+      .doc-layout {
+        grid-template-columns: 240px 1fr;
+        gap: var(--space-12);
+      }
+    }
+
+    .doc-nav {
+      position: sticky;
+      top: var(--space-6);
+      align-self: start;
+      display: none;
+    }
+    @media (min-width: 1024px) { .doc-nav { display: block; } }
+
+    .doc-nav ul { list-style: none; }
+    .doc-nav a {
+      display: block;
+      padding: var(--space-2) var(--space-3);
+      font-size: 0.8125rem;
+      color: var(--stage-muted);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: all var(--duration-fast) var(--ease-out-expo);
+    }
+    .doc-nav a:hover, .doc-nav a.active {
+      color: var(--stage-text);
+      border-left-color: var(--vera-primary);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: var(--space-16) 0 var(--space-12);
+      text-align: center;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--vera-secondary);
+      margin-bottom: var(--space-4);
+    }
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-6);
+    }
+    .hero h1 em {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--vera-primary), var(--vera-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-lede {
+      max-width: 42rem;
+      margin: 0 auto;
+      font-size: 1.125rem;
+      color: var(--stage-muted);
+      line-height: 1.65;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-3);
+      margin-top: var(--space-8);
+    }
+    .pill {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.08em;
+      padding: var(--space-2) var(--space-4);
+      border-radius: 999px;
+      border: 1px solid var(--stage-border);
+      background: var(--stage-surface);
+      color: var(--stage-muted);
+    }
+    .pill.accent {
+      border-color: color-mix(in srgb, var(--vera-primary) 40%, transparent);
+      background: color-mix(in srgb, var(--vera-primary) 10%, transparent);
+      color: var(--stage-text);
+    }
+
+    /* ── Section blocks ── */
+    .section {
+      margin-bottom: var(--space-16);
+      scroll-margin-top: var(--space-8);
+    }
+    .section-header {
+      margin-bottom: var(--space-8);
+    }
+    .section-num {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.2em;
+      color: var(--vera-secondary);
+      margin-bottom: var(--space-2);
+    }
+    .section-header h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: var(--space-3);
+    }
+    .section-header p {
+      max-width: 38rem;
+      color: var(--stage-muted);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    /* Insight cards (research) */
+    .insight-grid {
+      display: grid;
+      gap: var(--space-4);
+      margin-bottom: var(--space-8);
+    }
+    @media (min-width: 640px) {
+      .insight-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 960px) {
+      .insight-grid.three { grid-template-columns: repeat(3, 1fr); }
+    }
+    .insight {
+      padding: var(--space-6);
+      border-radius: 1rem;
+      border: 1px solid var(--stage-border);
+      background: var(--stage-surface);
+      transition: border-color var(--duration-med), transform var(--duration-med) var(--ease-out-expo);
+    }
+    .insight:hover {
+      border-color: color-mix(in srgb, var(--vera-primary) 25%, transparent);
+      transform: translateY(-2px);
+    }
+    .insight-icon {
+      font-size: 1.5rem;
+      margin-bottom: var(--space-3);
+    }
+    .insight h3 {
+      font-family: var(--font-serif);
+      font-size: 1.125rem;
+      font-weight: 400;
+      margin-bottom: var(--space-2);
+    }
+    .insight p {
+      font-size: 0.875rem;
+      color: var(--stage-muted);
+      line-height: 1.6;
+    }
+    .insight cite {
+      display: block;
+      margin-top: var(--space-3);
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      letter-spacing: 0.06em;
+      color: var(--stage-dim);
+      font-style: normal;
+    }
+
+    /* ── Demo frames ── */
+    .demo-frame {
+      border-radius: 1.25rem;
+      border: 1px solid var(--stage-border);
+      background: rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.03) inset,
+        0 32px 80px -40px rgba(0,0,0,0.8);
+    }
+    .demo-chrome {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--stage-border);
+      background: rgba(255,255,255,0.02);
+    }
+    .demo-dots { display: flex; gap: 6px; }
+    .demo-dots span {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+    }
+    .demo-dots span:first-child { background: #ff5f57; }
+    .demo-dots span:nth-child(2) { background: #febc2e; }
+    .demo-dots span:nth-child(3) { background: #28c840; }
+    .demo-label {
+      flex: 1;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.1em;
+      color: var(--stage-dim);
+    }
+    .demo-body { position: relative; min-height: 320px; }
+
+    /* ── MOCKUP A: Cinematic cold open ── */
+    .cold-open {
+      position: relative;
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: var(--space-8);
+      overflow: hidden;
+    }
+    .cold-open-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 30%, color-mix(in srgb, var(--vera-primary) 18%, transparent), transparent),
+        linear-gradient(to top, var(--stage-bg) 0%, transparent 50%);
+    }
+    .cold-open-character {
+      position: absolute;
+      right: 5%;
+      top: 10%;
+      width: clamp(120px, 25vw, 200px);
+      height: clamp(120px, 25vw, 200px);
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--vera-primary), var(--vera-secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      box-shadow: 0 0 80px var(--vera-glow);
+      animation: character-pulse 4s ease-in-out infinite;
+    }
+    @keyframes character-pulse {
+      0%, 100% { transform: scale(1) translateY(0); box-shadow: 0 0 60px var(--vera-glow); }
+      50% { transform: scale(1.03) translateY(-6px); box-shadow: 0 0 100px var(--vera-glow); }
+    }
+    .cold-open-content {
+      position: relative;
+      z-index: 1;
+      max-width: 32rem;
+    }
+    .cold-open-content .module-tag {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--vera-secondary);
+      margin-bottom: var(--space-3);
+      opacity: 0;
+      animation: fade-up 0.8s var(--ease-out-expo) 0.2s forwards;
+    }
+    .cold-open-content h3 {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      line-height: 1.1;
+      margin-bottom: var(--space-4);
+      opacity: 0;
+      animation: fade-up 0.8s var(--ease-out-expo) 0.4s forwards;
+    }
+    .cold-open-content p {
+      font-size: 1.0625rem;
+      color: var(--stage-muted);
+      line-height: 1.65;
+      margin-bottom: var(--space-6);
+      opacity: 0;
+      animation: fade-up 0.8s var(--ease-out-expo) 0.6s forwards;
+    }
+    .cold-open-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-6);
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, var(--vera-primary), var(--vera-secondary));
+      color: white;
+      font-family: var(--font-sans);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 12px 40px -12px var(--vera-glow);
+      opacity: 0;
+      animation: fade-up 0.8s var(--ease-out-expo) 0.8s forwards;
+      transition: transform var(--duration-fast), box-shadow var(--duration-fast);
+    }
+    .cold-open-cta:hover {
+      transform: scale(1.03);
+      box-shadow: 0 16px 50px -10px var(--vera-glow);
+    }
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── MOCKUP B: Orbital progress wayfinding ── */
+    .wayfinding {
+      padding: var(--space-6);
+    }
+    .wayfinding-bar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-3) var(--space-4);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--stage-border);
+      backdrop-filter: blur(12px);
+    }
+    .wayfinding-exit {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--stage-border);
+      background: transparent;
+      color: var(--stage-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all var(--duration-fast);
+    }
+    .wayfinding-exit:hover { color: var(--stage-text); border-color: rgba(255,255,255,0.2); }
+
+    .orbit-track {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      position: relative;
+      height: 40px;
+    }
+    .orbit-node {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .orbit-node::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      right: -50%;
+      top: 50%;
+      height: 2px;
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-50%);
+      z-index: 0;
+    }
+    .orbit-node:last-child::before { display: none; }
+    .orbit-node.done::before { background: linear-gradient(90deg, var(--vera-secondary), var(--vera-secondary)); }
+    .orbit-node.active::before {
+      background: linear-gradient(90deg, var(--vera-secondary), rgba(255,255,255,0.1));
+    }
+
+    .orbit-dot {
+      position: relative;
+      z-index: 1;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.15);
+      background: var(--stage-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: var(--stage-dim);
+      transition: all var(--duration-med) var(--ease-out-expo);
+      cursor: pointer;
+    }
+    .orbit-node.done .orbit-dot {
+      border-color: var(--vera-secondary);
+      background: color-mix(in srgb, var(--vera-secondary) 20%, var(--stage-bg));
+      color: var(--vera-secondary);
+    }
+    .orbit-node.active .orbit-dot {
+      width: 36px;
+      height: 36px;
+      border-color: var(--vera-primary);
+      background: linear-gradient(135deg, var(--vera-primary), var(--vera-secondary));
+      color: white;
+      box-shadow: 0 0 0 6px color-mix(in srgb, var(--vera-primary) 20%, transparent),
+                  0 0 30px var(--vera-glow);
+    }
+    .orbit-label {
+      position: absolute;
+      top: calc(100% + 6px);
+      font-family: var(--font-mono);
+      font-size: 0.5625rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--stage-dim);
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity var(--duration-fast);
+    }
+    .orbit-node.active .orbit-label,
+    .orbit-node:hover .orbit-label { opacity: 1; color: var(--stage-muted); }
+
+    .wayfinding-meta {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--stage-dim);
+      white-space: nowrap;
+    }
+
+    /* ── MOCKUP C: Enhanced coupled reading ── */
+    .coupled-demo {
+      display: grid;
+      gap: var(--space-6);
+      padding: var(--space-6);
+      min-height: 520px;
+    }
+    @media (min-width: 768px) {
+      .coupled-demo {
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: var(--space-8);
+      }
+    }
+
+    .passage-stack {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .passage {
+      position: relative;
+      padding: var(--space-6) var(--space-6) var(--space-6) var(--space-8);
+      border-radius: 0 1rem 1rem 0;
+      border-left: 3px solid transparent;
+      transition: all var(--duration-med) var(--ease-out-expo);
+      cursor: pointer;
+    }
+    .passage::before {
+      content: "";
+      position: absolute;
+      left: -3px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: transparent;
+      border-radius: 3px;
+      transition: all var(--duration-med);
+    }
+    .passage.inactive {
+      opacity: 0.35;
+      transform: scale(0.98);
+      transform-origin: left center;
+    }
+    .passage.active {
+      opacity: 1;
+      background: color-mix(in srgb, var(--vera-primary) 5%, transparent);
+    }
+    .passage.active::before {
+      background: linear-gradient(to bottom, var(--vera-primary), var(--vera-secondary));
+      box-shadow: 0 0 20px var(--vera-glow);
+    }
+    .passage-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--vera-secondary);
+      margin-bottom: var(--space-3);
+    }
+    .passage-text {
+      font-family: var(--font-serif);
+      font-size: 1.1875rem;
+      line-height: 1.72;
+      color: rgba(245, 242, 236, 0.92);
+    }
+    .passage-text strong { color: var(--stage-text); font-weight: 400; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--vera-primary) 50%, transparent); text-underline-offset: 3px; }
+    .passage-progress {
+      display: flex;
+      gap: 4px;
+      margin-top: var(--space-4);
+    }
+    .passage-progress span {
+      height: 2px;
+      flex: 1;
+      border-radius: 1px;
+      background: rgba(255,255,255,0.08);
+    }
+    .passage-progress span.filled { background: var(--vera-primary); }
+
+    .diagram-panel {
+      position: sticky;
+      top: var(--space-6);
+      align-self: start;
+    }
+    .diagram-frame {
+      border-radius: 1.25rem;
+      border: 1px solid var(--stage-border);
+      background: linear-gradient(165deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%);
+      padding: var(--space-4);
+      box-shadow: 0 24px 70px -34px rgba(0,0,0,0.85);
+      ring: 1px solid rgba(255,255,255,0.05);
+    }
+    .diagram-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-3);
+      padding: 0 var(--space-1);
+    }
+    .diagram-badge {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--stage-dim);
+    }
+    .diagram-badge .pulse {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--vera-primary);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+    .diagram-sync {
+      font-family: var(--font-mono);
+      font-size: 0.5625rem;
+      color: var(--stage-dim);
+    }
+
+    .diagram-canvas {
+      aspect-ratio: 1;
+      border-radius: 0.75rem;
+      background: rgba(0,0,0,0.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .diagram-canvas svg {
+      width: 100%;
+      height: 100%;
+    }
+    .diagram-caption {
+      margin-top: var(--space-3);
+      padding: var(--space-3);
+      border-radius: 0.5rem;
+      background: rgba(255,255,255,0.03);
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--stage-muted);
+      text-align: center;
+    }
+
+    /* ── MOCKUP D: Beat transition ── */
+    .transition-demo {
+      padding: var(--space-8);
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-6);
+    }
+    .transition-stage {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      height: 160px;
+      perspective: 800px;
+    }
+    .transition-card {
+      position: absolute;
+      inset: 0;
+      border-radius: 1rem;
+      border: 1px solid var(--stage-border);
+      background: var(--stage-surface);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-6);
+      transition: all var(--duration-slow) var(--ease-out-expo);
+    }
+    .transition-card.outgoing {
+      transform: translateX(-60px) rotateY(8deg) scale(0.92);
+      opacity: 0;
+      filter: blur(4px);
+    }
+    .transition-card.incoming {
+      transform: translateX(0) rotateY(0) scale(1);
+      opacity: 1;
+    }
+    .transition-card.waiting {
+      transform: translateX(60px) rotateY(-8deg) scale(0.92);
+      opacity: 0;
+      filter: blur(4px);
+    }
+    .transition-card h4 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      margin-bottom: var(--space-2);
+    }
+    .transition-card p {
+      font-size: 0.875rem;
+      color: var(--stage-muted);
+      text-align: center;
+    }
+    .transition-controls {
+      display: flex;
+      gap: var(--space-3);
+    }
+    .btn {
+      padding: var(--space-2) var(--space-5);
+      border-radius: 999px;
+      border: 1px solid var(--stage-border);
+      background: transparent;
+      color: var(--stage-text);
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all var(--duration-fast);
+    }
+    .btn:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.15); }
+    .btn.primary {
+      border: none;
+      background: linear-gradient(135deg, var(--vera-primary), var(--vera-secondary));
+      font-weight: 600;
+    }
+
+    /* ── MOCKUP E: Character voice layer ── */
+    .voice-demo {
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .voice-bubble {
+      display: flex;
+      gap: var(--space-4);
+      align-items: flex-start;
+      padding: var(--space-4);
+      border-radius: 1rem;
+      border: 1px solid var(--stage-border);
+      background: var(--stage-surface);
+      max-width: 28rem;
+      animation: bubble-in 0.5s var(--ease-out-expo);
+    }
+    @keyframes bubble-in {
+      from { opacity: 0; transform: translateY(10px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .voice-avatar {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--vera-primary), var(--vera-secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+    .voice-content { flex: 1; min-width: 0; }
+    .voice-name {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--vera-secondary);
+      margin-bottom: var(--space-1);
+    }
+    .voice-text {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      line-height: 1.55;
+      color: var(--stage-text);
+    }
+    .voice-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-top: var(--space-3);
+      padding: var(--space-2) var(--space-4);
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--vera-primary) 30%, transparent);
+      background: color-mix(in srgb, var(--vera-primary) 8%, transparent);
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--stage-muted);
+      cursor: pointer;
+      transition: all var(--duration-fast);
+    }
+    .voice-chip:hover {
+      background: color-mix(in srgb, var(--vera-primary) 15%, transparent);
+      color: var(--stage-text);
+    }
+    .voice-chip.playing {
+      border-color: var(--vera-primary);
+      color: var(--vera-primary);
+    }
+    .voice-wave {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      height: 14px;
+    }
+    .voice-wave span {
+      width: 2px;
+      background: var(--vera-primary);
+      border-radius: 1px;
+      animation: wave 0.8s ease-in-out infinite;
+    }
+    .voice-wave span:nth-child(1) { height: 4px; animation-delay: 0s; }
+    .voice-wave span:nth-child(2) { height: 10px; animation-delay: 0.1s; }
+    .voice-wave span:nth-child(3) { height: 6px; animation-delay: 0.2s; }
+    .voice-wave span:nth-child(4) { height: 12px; animation-delay: 0.15s; }
+    .voice-wave span:nth-child(5) { height: 5px; animation-delay: 0.25s; }
+    @keyframes wave {
+      0%, 100% { transform: scaleY(0.5); }
+      50% { transform: scaleY(1); }
+    }
+
+    /* ── MOCKUP F: Predict / Check redesign ── */
+    .interaction-demo {
+      padding: var(--space-6);
+      display: grid;
+      gap: var(--space-6);
+    }
+    @media (min-width: 768px) {
+      .interaction-demo { grid-template-columns: 1fr 1fr; }
+    }
+
+    .predict-card {
+      padding: var(--space-6);
+      border-radius: 1.25rem;
+      border: 1px dashed color-mix(in srgb, var(--vera-primary) 35%, transparent);
+      background: linear-gradient(135deg, color-mix(in srgb, var(--vera-primary) 6%, transparent), transparent);
+    }
+    .predict-card .label {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--stage-dim);
+      margin-bottom: var(--space-4);
+    }
+    .predict-card .label::before {
+      content: "?";
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--vera-primary) 20%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--vera-primary);
+    }
+    .predict-card h4 {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      line-height: 1.4;
+      margin-bottom: var(--space-5);
+    }
+    .option-grid {
+      display: grid;
+      gap: var(--space-2);
+    }
+    .option-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border-radius: 0.75rem;
+      border: 1px solid var(--stage-border);
+      background: rgba(255,255,255,0.02);
+      color: var(--stage-text);
+      font-family: var(--font-sans);
+      font-size: 0.9375rem;
+      text-align: left;
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out-expo);
+    }
+    .option-btn:hover {
+      border-color: color-mix(in srgb, var(--vera-primary) 30%, transparent);
+      background: color-mix(in srgb, var(--vera-primary) 5%, transparent);
+    }
+    .option-btn.selected {
+      border-color: var(--vera-primary);
+      background: color-mix(in srgb, var(--vera-primary) 12%, transparent);
+    }
+    .option-btn .radio {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.2);
+      flex-shrink: 0;
+      transition: all var(--duration-fast);
+    }
+    .option-btn.selected .radio {
+      border-color: var(--vera-primary);
+      background: var(--vera-primary);
+      box-shadow: inset 0 0 0 3px var(--stage-bg);
+    }
+
+    .check-card {
+      padding: var(--space-6);
+      border-radius: 1.25rem;
+      border: 1px solid var(--stage-border);
+      background: var(--stage-surface);
+    }
+    .check-card.correct {
+      border-color: color-mix(in srgb, #22c55e 40%, transparent);
+      background: color-mix(in srgb, #22c55e 6%, transparent);
+    }
+    .check-result {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #22c55e;
+      margin-bottom: var(--space-3);
+    }
+
+    /* ── MOCKUP G: Climax handoff ── */
+    .climax-demo {
+      padding: var(--space-6);
+      position: relative;
+      overflow: hidden;
+    }
+    .climax-bridge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-8) 0;
+    }
+    .climax-bridge-line {
+      width: 2px;
+      height: 60px;
+      background: linear-gradient(to bottom, var(--vera-primary), transparent);
+    }
+    .climax-bridge-label {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--vera-secondary);
+    }
+    .climax-panel {
+      border-radius: 1.25rem;
+      border: 2px solid color-mix(in srgb, var(--vera-primary) 25%, transparent);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--vera-primary) 8%, transparent) 0%, rgba(0,0,0,0.3) 100%);
+      padding: var(--space-6);
+      position: relative;
+    }
+    .climax-panel::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 2px;
+      background: linear-gradient(135deg, var(--vera-primary), var(--vera-secondary), transparent);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+    .climax-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-5);
+    }
+    .climax-header h4 {
+      font-family: var(--font-serif);
+      font-size: 1.375rem;
+    }
+    .goal-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-bottom: var(--space-5);
+    }
+    .goal-chip {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      border-radius: 999px;
+      border: 1px solid var(--stage-border);
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--stage-muted);
+    }
+    .goal-chip.done {
+      border-color: color-mix(in srgb, #22c55e 40%, transparent);
+      color: #22c55e;
+    }
+    .goal-chip .icon { font-size: 0.75rem; }
+    .climax-workspace {
+      height: 180px;
+      border-radius: 0.75rem;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid var(--stage-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--stage-dim);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+
+    /* ── MOCKUP H: Completion ritual ── */
+    .completion-demo {
+      padding: var(--space-8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+      position: relative;
+    }
+    .completion-card {
+      text-align: center;
+      max-width: 28rem;
+      padding: var(--space-8);
+      border-radius: 1.5rem;
+      border: 1px solid var(--stage-border);
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(20px);
+      position: relative;
+      overflow: hidden;
+    }
+    .completion-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, var(--vera-glow), transparent 60%);
+      pointer-events: none;
+    }
+    .completion-badge {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto var(--space-5);
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--vera-primary), var(--vera-secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      box-shadow: 0 0 40px var(--vera-glow);
+      animation: badge-pop 0.6s var(--ease-out-expo);
+    }
+    @keyframes badge-pop {
+      0% { transform: scale(0); }
+      60% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+    .completion-card .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--stage-dim);
+      margin-bottom: var(--space-3);
+    }
+    .completion-card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.75rem;
+      line-height: 1.25;
+      margin-bottom: var(--space-4);
+    }
+    .completion-mantra {
+      font-family: var(--font-serif);
+      font-size: 1.125rem;
+      font-style: italic;
+      color: var(--stage-muted);
+      line-height: 1.55;
+      margin-bottom: var(--space-6);
+    }
+    .completion-actions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    /* ── Typography & motion reference ── */
+    .type-scale {
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-4);
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid var(--stage-border);
+    }
+    .type-meta {
+      flex-shrink: 0;
+      width: 100px;
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: var(--stage-dim);
+    }
+    .type-display { font-family: var(--font-serif); font-size: 3rem; line-height: 1.1; }
+    .type-heading { font-family: var(--font-serif); font-size: 2rem; line-height: 1.2; }
+    .type-body { font-family: var(--font-serif); font-size: 1.25rem; line-height: 1.72; color: var(--stage-muted); }
+    .type-caption { font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--vera-secondary); }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      margin-top: var(--space-6);
+    }
+    .compare-table th, .compare-table td {
+      padding: var(--space-3) var(--space-4);
+      text-align: left;
+      border-bottom: 1px solid var(--stage-border);
+    }
+    .compare-table th {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stage-dim);
+    }
+    .compare-table td:first-child { color: var(--stage-muted); }
+    .compare-table .new { color: var(--vera-secondary); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: var(--space-12) var(--space-6);
+      border-top: 1px solid var(--stage-border);
+      color: var(--stage-dim);
+      font-size: 0.8125rem;
+    }
+    footer a { color: var(--vera-secondary); }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage-atmosphere"></div>
+  <div class="particles" id="particles"></div>
+
+  <div class="shell">
+    <header class="hero">
+      <p class="hero-eyebrow">Design exploration · Module 2 pilot · Before scale-up</p>
+      <h1>Story mode needs a <em>visual soul</em></h1>
+      <p class="hero-lede">
+        The beat architecture is solid — coupled prose, goal-gated climax, data-driven engine.
+        Before scaling to 106 lessons, we need a cohesive visual identity, cinematic pacing,
+        and motion design that makes each lesson feel like a guided expedition, not a slideshow.
+      </p>
+      <div class="hero-meta">
+        <span class="pill accent">Vera · Module 2</span>
+        <span class="pill">9 lessons authored</span>
+        <span class="pill">4 beat archetypes</span>
+        <span class="pill">Exploratory mockups</span>
+      </div>
+    </header>
+
+    <div class="doc-layout">
+      <nav class="doc-nav" aria-label="Sections">
+        <ul>
+          <li><a href="#research">Research</a></li>
+          <li><a href="#improvements">Improvements</a></li>
+          <li><a href="#cold-open">Cold open</a></li>
+          <li><a href="#wayfinding">Wayfinding</a></li>
+          <li><a href="#coupled">Coupled reading</a></li>
+          <li><a href="#transitions">Transitions</a></li>
+          <li><a href="#voice">Character voice</a></li>
+          <li><a href="#interactions">Predict & check</a></li>
+          <li><a href="#climax">Climax handoff</a></li>
+          <li><a href="#completion">Completion</a></li>
+          <li><a href="#system">Design system</a></li>
+        </ul>
+      </nav>
+
+      <main>
+        <!-- RESEARCH -->
+        <section class="section" id="research">
+          <div class="section-header">
+            <p class="section-num">01 · Research</p>
+            <h2>What the best narrative experiences teach us</h2>
+            <p>Synthesized from scrollytelling UX research, educational media design, and premium interactive journalism patterns.</p>
+          </div>
+          <div class="insight-grid three">
+            <article class="insight">
+              <div class="insight-icon">📍</div>
+              <h3>Progressive disclosure, not pagination</h3>
+              <p>Learners should feel they're uncovering a story, not clicking through slides. Scroll-coupled visuals create "revelation moments" where the diagram transforms as understanding deepens.</p>
+              <cite>Scrollytelling · NYT, Pudding</cite>
+            </article>
+            <article class="insight">
+              <div class="insight-icon">🧭</div>
+              <h3>Wayfinding reduces cognitive load</h3>
+              <p>Named beats ("GPS for any space" → "Dimension") beat anonymous dots. Learners always know where they are in the journey and what's coming next.</p>
+              <cite>NN/g · Progress indicators</cite>
+            </article>
+            <article class="insight">
+              <div class="insight-icon">🎭</div>
+              <h3>Character as guide, not decoration</h3>
+              <p>Vera should feel present — voice bubbles, reactions to predictions, celebration on completion. Characters create emotional anchors that improve retention.</p>
+              <cite>Educational narrative design</cite>
+            </article>
+            <article class="insight">
+              <div class="insight-icon">⚡</div>
+              <h3>Motion with purpose</h3>
+              <p>Every animation should communicate state change: beat advance, passage activation, diagram interpolation. Avoid decorative motion; use 400–680ms expo easing for "premium" feel.</p>
+              <cite>Material · Apple HIG</cite>
+            </article>
+            <article class="insight">
+              <div class="insight-icon">📐</div>
+              <h3>Typographic hierarchy is the UI</h3>
+              <p>In reading-heavy experiences, type scale does more work than chrome. Distinct serif for prose, mono for wayfinding, generous line-height (1.65–1.75) for comprehension.</p>
+              <cite>Butterick's Practical Typography</cite>
+            </article>
+            <article class="insight">
+              <div class="insight-icon">🎯</div>
+              <h3>Commitment before content</h3>
+              <p>Predict-before-read creates active engagement. The UI should make this feel like a meaningful wager, not a quiz — with character nudges that reference the learner's choice.</p>
+              <cite>Desirable difficulties · Bjork</cite>
+            </article>
+          </div>
+        </section>
+
+        <!-- IMPROVEMENTS OUTLINE -->
+        <section class="section" id="improvements">
+          <div class="section-header">
+            <p class="section-num">02 · Roadmap</p>
+            <h2>Major improvements before scale-up</h2>
+            <p>Prioritized changes that compound — each builds on the beat architecture without breaking the data model.</p>
+          </div>
+
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Area</th>
+                <th>Current</th>
+                <th>Proposed</th>
+                <th>Impact</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Lesson entry</td>
+                <td>Jump straight to beat 1</td>
+                <td class="new">Cinematic cold open with character, module context, one-line hook</td>
+                <td>High</td>
+              </tr>
+              <tr>
+                <td>Progress nav</td>
+                <td>Anonymous dots + "2 of 4"</td>
+                <td class="new">Named orbital track with beat titles on hover/active</td>
+                <td>High</td>
+              </tr>
+              <tr>
+                <td>Stage atmosphere</td>
+                <td>Static grid + glows</td>
+                <td class="new">Breathing grid, ambient particles, beat-reactive tint shifts</td>
+                <td>Medium</td>
+              </tr>
+              <tr>
+                <td>Coupled reading</td>
+                <td>Opacity fade on inactive passages</td>
+                <td class="new">Magnetic scroll-snap, gradient accent bar, passage progress pips</td>
+                <td>High</td>
+              </tr>
+              <tr>
+                <td>Beat transitions</td>
+                <td>Simple fade + y-translate</td>
+                <td class="new">Directional 3D card flip with beat title reveal</td>
+                <td>Medium</td>
+              </tr>
+              <tr>
+                <td>Character presence</td>
+                <td>Accent color only</td>
+                <td class="new">Avatar, voice bubbles, prediction nudges, catchphrase on completion</td>
+                <td>High</td>
+              </tr>
+              <tr>
+                <td>Audio integration</td>
+                <td>Small "hear Vera" chip</td>
+                <td class="new">Character voice bubble with waveform, synced highlight</td>
+                <td>Medium</td>
+              </tr>
+              <tr>
+                <td>Predict / Check</td>
+                <td>Functional but generic</td>
+                <td class="new">Card-based with radio UX, success states, character feedback</td>
+                <td>Medium</td>
+              </tr>
+              <tr>
+                <td>Climax handoff</td>
+                <td>Abrupt switch to interactive</td>
+                <td class="new">Visual bridge + goal chips + gradient-bordered workspace</td>
+                <td>High</td>
+              </tr>
+              <tr>
+                <td>Completion</td>
+                <td>Modal with mantra</td>
+                <td class="new">Celebration ritual: badge pop, confetti, mantra, next-lesson teaser</td>
+                <td>Medium</td>
+              </tr>
+              <tr>
+                <td>Typography</td>
+                <td>System serif + mono</td>
+                <td class="new">Instrument Serif + DM Sans + JetBrains Mono scale</td>
+                <td>High</td>
+              </tr>
+              <tr>
+                <td>Mobile</td>
+                <td>Diagram above prose</td>
+                <td class="new">Floating mini-diagram pill + full-screen diagram on tap</td>
+                <td>High</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- MOCKUP A: Cold Open -->
+        <section class="section" id="cold-open">
+          <div class="section-header">
+            <p class="section-num">03 · Mockup</p>
+            <h2>Cinematic cold open</h2>
+            <p>Every lesson begins with a 3-second character moment — module context, title, hook, and a single CTA. Sets tone before the first beat.</p>
+          </div>
+          <div class="demo-frame">
+            <div class="demo-chrome">
+              <div class="demo-dots"><span></span><span></span><span></span></div>
+              <span class="demo-label">/story/2.7 · cold open</span>
+            </div>
+            <div class="demo-body">
+              <div class="cold-open">
+                <div class="cold-open-bg"></div>
+                <div class="cold-open-character" aria-hidden="true">🧭</div>
+                <div class="cold-open-content">
+                  <p class="module-tag">Module 2 · Vectors · Lesson 7</p>
+                  <h3>Basis &amp; Dimension</h3>
+                  <p>The minimum toolkit that reaches everywhere — with a unique address for each vector.</p>
+                  <button class="cold-open-cta">Begin the expedition →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MOCKUP B: Wayfinding -->
+        <section class="section" id="wayfinding">
+          <div class="section-header">
+            <p class="section-num">04 · Mockup</p>
+            <h2>Orbital progress wayfinding</h2>
+            <p>Named beats replace anonymous dots. Active beat glows; completed beats show checkmarks. Hover reveals beat titles.</p>
+          </div>
+          <div class="demo-frame">
+            <div class="demo-chrome">
+              <div class="demo-dots"><span></span><span></span><span></span></div>
+              <span class="demo-label">BeatFlow header · wayfinding v2</span>
+            </div>
+            <div class="demo-body wayfinding">
+              <div class="wayfinding-bar">
+                <button class="wayfinding-exit" aria-label="Exit">✕</button>
+                <div class="orbit-track" id="orbitTrack">
+                  <div class="orbit-node done" data-beat="0">
+                    <div class="orbit-dot">✓</div>
+                    <span class="orbit-label">GPS for any space</span>
+                  </div>
+                  <div class="orbit-node active" data-beat="1">
+                    <div class="orbit-dot">2</div>
+                    <span class="orbit-label">Dimension</span>
+                  </div>
+                  <div class="orbit-node" data-beat="2">
+                    <div class="orbit-dot">3</div>
+                    <span class="orbit-label">Remember</span>
+                  </div>
+                  <div class="orbit-node" data-beat="3">
+                    <div class="orbit-dot">4</div>
+                    <span class="orbit-label">Explore</span>
+                  </div>
+                </div>
+                <span class="wayfinding-meta">Beat 2 · Dimension</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MOCKUP C: Coupled Reading -->
+        <section class="section" id="coupled">
+          <div class="section-header">
+            <p class="section-num">05 · Mockup</p>
+            <h2>Enhanced coupled reading</h2>
+            <p>Passage activation with gradient accent bar, scale transform, and progress pips. Diagram shows sync indicator and live caption.</p>
+          </div>
+          <div class="demo-frame">
+            <div class="demo-chrome">
+              <div class="demo-dots"><span></span><span></span><span></span></div>
+              <span class="demo-label">CoupledVisual · passage sync</span>
+            </div>
+            <div class="demo-body">
+              <div class="coupled-demo">
+                <div class="passage-stack" id="passageStack">
+                  <article class="passage inactive" data-passage="0">
+                    <p class="passage-eyebrow">Basis · 1</p>
+                    <p class="passage-text">A <strong>basis</strong> is like having the perfect GPS coordinate system — the <em>minimum</em> set of independent vectors that can reach everywhere in the space.</p>
+                    <div class="passage-progress"><span class="filled"></span><span></span><span></span></div>
+                  </article>
+                  <article class="passage active" data-passage="1">
+                    <p class="passage-eyebrow">Basis · 2</p>
+                    <p class="passage-text">A basis must satisfy two conditions: the vectors are <strong>linearly independent</strong> (no redundancy) and they <strong>span</strong> the entire space (reach everywhere).</p>
+                    <div class="passage-progress"><span class="filled"></span><span class="filled"></span><span></span></div>
+                  </article>
+                  <article class="passage inactive" data-passage="2">
+                    <p class="passage-eyebrow">Basis · 3</p>
+                    <p class="passage-text">The standard basis in 2D is {[1,0], [0,1]} — perfectly aligned east-west and north-south. Simple, perpendicular, length 1.</p>
+                    <div class="passage-progress"><span class="filled"></span><span class="filled"></span><span class="filled"></span></div>
+                  </article>
+                </div>
+                <div class="diagram-panel">
+                  <div class="diagram-frame">
+                    <div class="diagram-header">
+                      <div class="diagram-badge"><span class="pulse"></span> Live diagram</div>
+                      <span class="diagram-sync">Synced · Passage 2</span>
+                    </div>
+                    <div class="diagram-canvas" id="diagramCanvas">
+                      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                          <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                            <path d="M0,0 L6,3 L0,6 Z" fill="#dc2626"/>
+                          </marker>
+                        </defs>
+                        <!-- Grid -->
+                        <g opacity="0.15" stroke="#fff" stroke-width="0.5">
+                          <line x1="0" y1="100" x2="200" y2="100"/>
+                          <line x1="100" y1="0" x2="100" y2="200"/>
+                          <line x1="0" y1="50" x2="200" y2="50" stroke-dasharray="4"/>
+                          <line x1="0" y1="150" x2="200" y2="150" stroke-dasharray="4"/>
+                          <line x1="50" y1="0" x2="50" y2="200" stroke-dasharray="4"/>
+                          <line x1="150" y1="0" x2="150" y2="200" stroke-dasharray="4"/>
+                        </g>
+                        <!-- Basis vectors -->
+                        <line x1="100" y1="100" x2="165" y2="85" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrow)" id="vecU"/>
+                        <line x1="100" y1="100" x2="115" y2="45" stroke="#ea580c" stroke-width="2.5" marker-end="url(#arrow)" id="vecV"/>
+                        <!-- Labels -->
+                        <text x="170" y="82" fill="#dc2626" font-size="10" font-family="monospace">e₁</text>
+                        <text x="118" y="40" fill="#ea580c" font-size="10" font-family="monospace">e₂</text>
+                        <!-- Point -->
+                        <circle cx="130" cy="70" r="4" fill="#fff"/>
+                      </svg>
+                    </div>
+                    <p class="diagram-caption">Highlighting: linear independence</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MOCKUP D: Transitions -->
+        <section class="section" id="transitions">
+          <div class="section-header">
+            <p class="section-num">06 · Mockup</p>
+            <h2>Beat transition choreography</h2>
+            <p>Directional 3D card transitions communicate forward momentum. Outgoing beat slides left and blurs; incoming beat arrives from right.</p>
+          </div>
+          <div class="demo-frame">
+            <div class="demo-chrome">
+              <div class="demo-dots"><span></span><span></span><span></span></div>
+              <span class="demo-label">BeatFlow · transition</span>
+            </div>
+            <div class="demo-body">
+              <div class="transition-demo">
+                <div class="transition-stage">
+                  <div class="transition-card outgoing" id="cardOut">
+                    <p class="passage-eyebrow" style="margin-bottom:0.5rem">Beat 1</p>
+                    <h4>A GPS for any space</h4>
+                    <p>Basis fundamentals</p>
+                  </div>
+                  <div class="transition-card incoming" id="cardIn">
+                    <p class="passage-eyebrow" style="margin-bottom:0.5rem">Beat 2</p>
+                    <h4>Dimension — how many coordinates?</h4>
+                    <p>Counting degrees of freedom</p>
+                  </div>
+                </div>
+                <div class="transition-controls">
+                  <button class="btn" id="btnPrev">← Previous</button>
+                  <button class="btn primary" id="btnNext">Next beat →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MOCKUP E: Character Voice -->
+        <section class="section" id="voice">
+          <div class="section-header">
+            <p class="section-num">07 · Mockup</p>
+            <h2>Character voice layer</h2>
+            <p>Vera speaks through voice bubbles — prediction nudges, passage asides, and audio playback with waveform visualization.</p>
+          </div>
+          <div class="demo-frame">
+            <div class="demo-chrome">
+              <div class="demo-dots"><span></span><span></span><span></span></div>
+              <span class="demo-label">CharacterVoice · Vera</span>
+            </div>
+            <div class="demo-body voice-demo">
+              <div class="voice-bubble">
+                <div class="voice-avatar">🧭</div>
+                <div class="voice-content">
+                  <p class="voice-name">Vera · Prediction nudge</p>
+                  <p class="voice-text">You said yes — redundancy is exactly what keeps a spanning set from being minimal. Let's see if the picture agrees!</p>
+                </div>
+              </div>
+              <div class="voice-bubble">
+                <div class="voice-avatar">🧭</div>
+                <div class="voice-content">
+                  <p class="voice-name">Vera · Audio</p>
+                  <p class="voice-text">A basis is like having the perfect GPS coordinate system…</p>
+                  <button class="voice-chip playing" id="voiceChip">
+                    <span class="voice-wave"><span></span><span></span><span></span><span></span><span></span></span>
+                    Playing · 0:24
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MOCKUP F: Predict / Check -->
+        <section class="section" id="interactions">
+          <div class="section-header">
+            <p class="section-num">08 · Mockup</p>
+            <h2>Predict &amp; check redesign</h2>
+            <p>Commitment UI feels like a meaningful choice. Check feedback celebrates correct answers with character affirmation.</p>
+          </div>
+          <div class="demo-frame">
+            <div class="demo-chrome">
+              <div class="demo-dots"><span></span><span></span><span></span></div>
+              <span class="demo-label">LessonBeat · interactions</span>
+            </div>
+            <div class="demo-body">
+              <div class="interaction-demo">
+                <div class="predict-card">
+                  <p class="label">Predict first</p>
+                  <h4>Can you have a spanning set that isn't a basis?</h4>
+                  <div class="option-grid" id="predictOptions">
+                    <button class="option-btn selected" data-value="yes">
+                      <span class="radio"></span>
+                      Yes — if it has redundant vectors
+                    </button>
+                    <button class="option-btn" data-value="no">
+                      <span class="radio"></span>
+                      No — spanning always means basis
+                    </button>
+                  </div>
+                </div>
+                <div class="check-card correct">
+                  <p class="check-result">✓ Correct · Vera celebrates</p>
+                  <h4 style="font-family:var(--font-serif);font-size:1.125rem;margin-bottom:0.75rem">A basis for a vector space must…</h4>
+                  <p style="font-size:0.875rem;color:var(--stage-muted);line-height:1.6">Be linearly independent and span the entire space. That's the minimal set of directions that reaches everywhere with no redundancy.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MOCKUP G: Climax -->
+        <section class="section" id="climax">
+          <div class="section-header">
+            <p class="section-num">09 · Mockup</p>
+            <h2>Climax handoff</h2>
+            <p>Visual bridge signals the shift from reading to doing. Goal chips track progress; gradient border elevates the interactive workspace.</p>
+          </div>
+          <div class="demo-frame">
+            <div class="demo-chrome">
+              <div class="demo-dots"><span></span><span></span><span></span></div>
+              <span class="demo-label">DoBeat · climax</span>
+            </div>
+            <div class="demo-body climax-demo">
+              <div class="climax-bridge">
+                <div class="climax-bridge-line"></div>
+                <span class="climax-bridge-label">Now you try</span>
+                <div class="climax-bridge-line"></div>
+              </div>
+              <div class="climax-panel">
+                <div class="climax-header">
+                  <h4>Basis Explorer</h4>
+                  <span class="pill accent">2 / 3 goals</span>
+                </div>
+                <div class="goal-chips">
+                  <span class="goal-chip done"><span class="icon">✓</span> Standard basis</span>
+                  <span class="goal-chip done"><span class="icon">✓</span> Custom basis</span>
+                  <span class="goal-chip"><span class="icon">○</span> Coordinate expression</span>
+                </div>
+                <div class="climax-workspace">Interactive canvas · drag basis vectors</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MOCKUP H: Completion -->
+        <section class="section" id="completion">
+          <div class="section-header">
+            <p class="section-num">10 · Mockup</p>
+            <h2>Completion ritual</h2>
+            <p>Celebration moment with badge pop, mantra reveal, and clear next steps. Makes finishing feel earned.</p>
+          </div>
+          <div class="demo-frame">
+            <div class="demo-chrome">
+              <div class="demo-dots"><span></span><span></span><span></span></div>
+              <span class="demo-label">BeatFlow · completion</span>
+            </div>
+            <div class="demo-body">
+              <div class="completion-demo">
+                <div class="completion-card">
+                  <div class="completion-badge">🧭</div>
+                  <p class="eyebrow">Lesson complete</p>
+                  <h3>Basis &amp; Dimension</h3>
+                  <p class="completion-mantra">"A basis is the minimum independent set that spans everything — dimension counts how many coordinates you need."</p>
+                  <div class="completion-actions">
+                    <button class="btn primary" style="width:100%">Next: Vector Spaces →</button>
+                    <button class="btn" style="width:100%">Open the playground</button>
+                    <button class="btn" style="width:100%;border:none;color:var(--stage-dim)">Replay lesson</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Design System -->
+        <section class="section" id="system">
+          <div class="section-header">
+            <p class="section-num">11 · System</p>
+            <h2>Typography &amp; motion tokens</h2>
+            <p>Proposed type scale and easing curves for consistent implementation across all 10 characters.</p>
+          </div>
+          <div class="demo-frame">
+            <div class="demo-chrome">
+              <div class="demo-dots"><span></span><span></span><span></span></div>
+              <span class="demo-label">Design tokens</span>
+            </div>
+            <div class="demo-body type-scale">
+              <div class="type-row">
+                <span class="type-meta">Display<br>48–72px</span>
+                <span class="type-display">Basis &amp; Dimension</span>
+              </div>
+              <div class="type-row">
+                <span class="type-meta">Heading<br>32–40px</span>
+                <span class="type-heading">A GPS for any space</span>
+              </div>
+              <div class="type-row">
+                <span class="type-meta">Body<br>19–22px</span>
+                <span class="type-body">A basis is like having the perfect GPS coordinate system — the minimum set of independent vectors that can reach everywhere.</span>
+              </div>
+              <div class="type-row">
+                <span class="type-meta">Caption<br>11px mono</span>
+                <span class="type-caption">Vera · Vectors · Beat 1</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="insight-grid" style="margin-top:var(--space-8)">
+            <article class="insight">
+              <h3>Motion timing</h3>
+              <p><strong>Fast:</strong> 180ms — hovers, toggles<br>
+                 <strong>Medium:</strong> 420ms — beat transitions, passage activation<br>
+                 <strong>Slow:</strong> 680ms — cold open, completion<br>
+                 <strong>Easing:</strong> cubic-bezier(0.16, 1, 0.3, 1)</p>
+            </article>
+            <article class="insight">
+              <h3>Character theming</h3>
+              <p>Each character gets accent pair + glow intensity. Stage background stays constant; only accent radiants shift. Vera = red/orange; Max = blue/cyan; etc.</p>
+            </article>
+            <article class="insight">
+              <h3>Implementation path</h3>
+              <p>1. Typography + tokens in CSS<br>
+                 2. Cold open + wayfinding components<br>
+                 3. CoupledVisual polish<br>
+                 4. Character voice layer<br>
+                 5. Mobile diagram UX<br>
+                 6. Per-character QA pass</p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <footer>
+    <p>Story Mode Design Exploration · <a href="/story/2.7">Current implementation</a> · Generated for pre-scale review</p>
+  </footer>
+
+  <script>
+    // ── Particles ──
+    (function initParticles() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 20; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDuration = (8 + Math.random() * 12) + 's';
+        p.style.animationDelay = Math.random() * 10 + 's';
+        container.appendChild(p);
+      }
+    })();
+
+    // ── Nav highlight on scroll ──
+    (function initNav() {
+      const links = document.querySelectorAll('.doc-nav a');
+      const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href')));
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            links.forEach(l => l.classList.remove('active'));
+            const active = document.querySelector(`.doc-nav a[href="#${e.target.id}"]`);
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-20% 0px -60% 0px' });
+      sections.forEach(s => s && observer.observe(s));
+    })();
+
+    // ── Passage click demo ──
+    (function initPassages() {
+      const stack = document.getElementById('passageStack');
+      if (!stack) return;
+      stack.querySelectorAll('.passage').forEach(p => {
+        p.addEventListener('click', () => {
+          const idx = +p.dataset.passage;
+          stack.querySelectorAll('.passage').forEach((el, i) => {
+            el.classList.toggle('active', i === idx);
+            el.classList.toggle('inactive', i !== idx);
+          });
+          document.querySelector('.diagram-sync').textContent = 'Synced · Passage ' + (idx + 1);
+          const captions = ['Standard basis vectors', 'Highlighting: linear independence', 'Perpendicular unit vectors'];
+          document.querySelector('.diagram-caption').textContent = captions[idx];
+        });
+      });
+    })();
+
+    // ── Beat transition demo ──
+    (function initTransition() {
+      const beats = [
+        { num: 1, title: 'A GPS for any space', sub: 'Basis fundamentals' },
+        { num: 2, title: 'Dimension — how many coordinates?', sub: 'Counting degrees of freedom' },
+        { num: 3, title: 'Remember', sub: 'The mantra' },
+        { num: 4, title: 'Basis Explorer', sub: 'Hands-on climax' },
+      ];
+      let current = 1;
+      const cardOut = document.getElementById('cardOut');
+      const cardIn = document.getElementById('cardIn');
+      const btnNext = document.getElementById('btnNext');
+      const btnPrev = document.getElementById('btnPrev');
+
+      function render() {
+        const b = beats[current];
+        cardIn.innerHTML = `<p class="passage-eyebrow" style="margin-bottom:0.5rem">Beat ${b.num}</p><h4>${b.title}</h4><p>${b.sub}</p>`;
+      }
+
+      btnNext?.addEventListener('click', () => {
+        if (current >= beats.length - 1) return;
+        cardIn.classList.remove('incoming');
+        cardIn.classList.add('outgoing');
+        setTimeout(() => {
+          current++;
+          render();
+          cardIn.classList.remove('outgoing');
+          cardIn.classList.add('waiting');
+          requestAnimationFrame(() => {
+            cardIn.classList.remove('waiting');
+            cardIn.classList.add('incoming');
+          });
+        }, 300);
+      });
+
+      btnPrev?.addEventListener('click', () => {
+        if (current <= 0) return;
+        cardIn.classList.remove('incoming');
+        cardIn.classList.add('waiting');
+        setTimeout(() => {
+          current--;
+          render();
+          cardIn.classList.remove('waiting');
+          cardIn.classList.add('incoming');
+        }, 300);
+      });
+
+      render();
+    })();
+
+    // ── Predict options ──
+    (function initPredict() {
+      document.querySelectorAll('#predictOptions .option-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#predictOptions .option-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+        });
+      });
+    })();
+
+    // ── Orbit track click ──
+    (function initOrbit() {
+      document.querySelectorAll('.orbit-node').forEach(node => {
+        node.addEventListener('click', () => {
+          const idx = +node.dataset.beat;
+          document.querySelectorAll('.orbit-node').forEach((n, i) => {
+            n.classList.remove('active', 'done');
+            if (i < idx) n.classList.add('done');
+            if (i === idx) n.classList.add('active');
+          });
+          const label = node.querySelector('.orbit-label')?.textContent || '';
+          document.querySelector('.wayfinding-meta').textContent = 'Beat ' + (idx + 1) + ' · ' + label;
+        });
+      });
+    })();
+
+    // ── Voice chip toggle ──
+    document.getElementById('voiceChip')?.addEventListener('click', function() {
+      this.classList.toggle('playing');
+      this.innerHTML = this.classList.contains('playing')
+        ? '<span class="voice-wave"><span></span><span></span><span></span><span></span><span></span></span> Playing · 0:24'
+        : '▶ Hear Vera · 0:24';
+    });
+  </script>
+</body>
+</html>
