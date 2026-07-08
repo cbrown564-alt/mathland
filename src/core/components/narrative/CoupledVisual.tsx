@@ -1,5 +1,6 @@
 import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AudioChip } from "./AudioChip";
+import { DiagramPanelHeader, MobileDiagramPill } from "./MobileDiagramPill";
 import { parseInline } from "./Prose";
 import type { Passage } from "@/content/beats/schema";
 
@@ -95,6 +96,15 @@ export function CoupledVisual<S>({
     setActiveIdx(t < 0.5 ? i : Math.min(i + 1, resolved.length - 1));
   }, [resolved, interpolate]);
 
+  const scrollToPassage = useCallback((idx: number) => {
+    const el = refs.current[idx];
+    if (!el) return;
+    const anchor = window.innerHeight * 0.42;
+    const r = el.getBoundingClientRect();
+    const target = r.top + window.scrollY + r.height / 2 - anchor;
+    window.scrollTo({ top: target, behavior: "smooth" });
+  }, []);
+
   useEffect(() => {
     const onScroll = () => {
       if (frame.current == null) frame.current = requestAnimationFrame(recompute);
@@ -109,50 +119,98 @@ export function CoupledVisual<S>({
     };
   }, [recompute]);
 
+  const activeCaption = resolved[activeIdx]?.eyebrow;
+  const visual = renderVisual(state);
+
   return (
     <div className={"grid min-w-0 gap-8 md:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] md:gap-10 lg:gap-12 " + (className ?? "")}>
       <div className="order-2 min-w-0 md:order-1">
-        {resolved.map((p, idx) => (
-          <div
-            key={p.id}
-            ref={(el) => { refs.current[idx] = el; }}
-            className={
-              "border-l-2 px-5 py-8 transition-all duration-500 first:pt-2 sm:px-6 md:py-11 " +
-              (idx === activeIdx ? "opacity-100" : "opacity-40")
-            }
-            style={{
-              borderColor: idx === activeIdx ? "var(--ch-accent)" : "rgba(255,255,255,0.08)",
-              boxShadow: idx === activeIdx ? "-2px 0 26px -10px var(--ch-accent)" : "none",
-            }}
-          >
-            {p.eyebrow && (
-              <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.18em]" style={{ color: "var(--ch-accent-2)" }}>
-                {p.eyebrow}
-              </p>
-            )}
-            <div className="font-serif text-[18px] leading-[1.72] tracking-[0.01em] text-pretty text-white/[0.88] sm:text-[19px] md:text-[20px] md:leading-[1.68]">
-              {"body" in p && p.body !== undefined ? p.body : parseInline(p.md)}
-            </div>
-            {p.audioSrc && (
-              <div className="mt-6">
-                <AudioChip src={p.audioSrc} />
+        {resolved.map((p, idx) => {
+          const isActive = idx === activeIdx;
+          return (
+            <article
+              key={p.id}
+              ref={(el) => { refs.current[idx] = el; }}
+              role="button"
+              tabIndex={0}
+              onClick={() => scrollToPassage(idx)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  scrollToPassage(idx);
+                }
+              }}
+              className={
+                "relative cursor-pointer rounded-r-2xl border-l-[3px] border-l-transparent px-5 py-8 transition-all duration-500 first:pt-2 sm:px-6 md:py-11 motion-reduce:transform-none " +
+                (isActive
+                  ? "scale-100 opacity-100"
+                  : "origin-left scale-[0.98] opacity-[0.35] motion-reduce:scale-100")
+              }
+              style={{
+                background: isActive
+                  ? "color-mix(in srgb, var(--ch-accent) 5%, transparent)"
+                  : undefined,
+              }}
+            >
+              {isActive && (
+                <span
+                  className="absolute bottom-0 left-0 top-0 w-[3px] -translate-x-[3px] rounded-sm"
+                  style={{
+                    background: "linear-gradient(to bottom, var(--ch-accent), var(--ch-accent-2))",
+                    boxShadow: "0 0 20px color-mix(in srgb, var(--ch-accent) 45%, transparent)",
+                  }}
+                  aria-hidden
+                />
+              )}
+              {p.eyebrow && (
+                <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.18em]" style={{ color: "var(--ch-accent-2)" }}>
+                  {p.eyebrow}
+                </p>
+              )}
+              <div className="font-serif text-[18px] leading-[1.72] tracking-[0.01em] text-pretty text-white/[0.88] sm:text-[19px] md:text-[20px] md:leading-[1.68]">
+                {"body" in p && p.body !== undefined ? p.body : parseInline(p.md)}
               </div>
-            )}
-          </div>
-        ))}
+              {p.audioSrc && (
+                <div className="mt-6" onClick={(e) => e.stopPropagation()}>
+                  <AudioChip src={p.audioSrc} />
+                </div>
+              )}
+              <div className="mt-4 flex gap-1" aria-hidden>
+                {resolved.map((_, pipIdx) => (
+                  <span
+                    key={pipIdx}
+                    className="h-0.5 flex-1 rounded-full"
+                    style={{
+                      background:
+                        pipIdx <= activeIdx
+                          ? "var(--ch-accent)"
+                          : "rgba(255,255,255,0.08)",
+                    }}
+                  />
+                ))}
+              </div>
+            </article>
+          );
+        })}
       </div>
 
-      <div className="order-1 min-w-0 md:order-2">
+      <div className="order-1 hidden min-w-0 md:order-2 md:block">
         <div className="sticky top-20 rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.015] p-4 shadow-[0_24px_70px_-34px_rgba(0,0,0,0.85)] ring-1 ring-inset ring-white/5 backdrop-blur-sm md:top-24">
-          <div className="mb-2 flex items-center gap-1.5 px-1">
-            <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--ch-accent)" }} />
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/40">Live diagram</span>
-          </div>
+          <DiagramPanelHeader activeIdx={activeIdx} className="mb-3" />
           <div aria-live="polite" aria-atomic="true">
-            {renderVisual(state)}
+            {visual}
           </div>
+          {activeCaption && (
+            <p className="mt-3 rounded-lg bg-white/[0.03] px-3 py-2.5 text-center font-mono text-[11px] text-white/45">
+              {activeCaption}
+            </p>
+          )}
         </div>
       </div>
+
+      <MobileDiagramPill activeIdx={activeIdx} caption={activeCaption}>
+        {visual}
+      </MobileDiagramPill>
     </div>
   );
 }
