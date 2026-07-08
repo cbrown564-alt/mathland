@@ -25,6 +25,17 @@ export interface BeatCheck {
   explanation: string;
 }
 
+/** The authorable content of one beat (no render/callback wiring) — used by BeatFlow. */
+export interface BeatData<S> {
+  id: string;
+  eyebrow?: string;
+  title?: ReactNode;
+  predict?: PredictPrompt;
+  passages: CoupledPassage<S>[];
+  interpolate?: (a: S, b: S, t: number) => S;
+  check?: BeatCheck;
+}
+
 interface LessonBeatProps<S> {
   eyebrow?: string;
   title?: ReactNode;
