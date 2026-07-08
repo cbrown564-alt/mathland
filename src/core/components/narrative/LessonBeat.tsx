@@ -36,6 +36,25 @@ export interface ClimaxSpec {
   goals?: { tone: string; label: string }[];
 }
 
+/**
+ * A whole lesson authored as data — the schema BeatLessonView / BeatFlow consume.
+ * `S` is the visual's state type (e.g. VectorState); every beat's coupled `state`
+ * and `renderVisual` share it. See src/content/beats/README.md for authoring.
+ */
+export interface BeatLesson<S> {
+  /** Matches the /story/:lessonId route and the section-form lesson id. */
+  lessonId: string;
+  characterId: string;
+  /** Header label, e.g. "Vera · The Dot Product". */
+  label: string;
+  /** Exit / section-form comparison target. Defaults to /lesson/:lessonId. */
+  exitTo?: string;
+  /** Draws the coupled + climax visual for this lesson's state type. */
+  renderVisual: (state: S) => ReactNode;
+  /** Ordered teaching beats (predict → couple → check), ending on a climax. */
+  beats: BeatData<S>[];
+}
+
 /** The authorable content of one beat (no render/callback wiring) — used by BeatFlow. */
 export interface BeatData<S> {
   id: string;
