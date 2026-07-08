@@ -30,10 +30,11 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				// Newsreader (editorial reading serif) drives the narrative surface's
-				// `font-serif`/`font-display`; JetBrains Mono drives labels/data.
+				// Newsreader (v1 lessons); Instrument Serif + DM Sans (story/v2 stage).
 				serif: ['Newsreader', 'Georgia', 'serif'],
 				display: ['Newsreader', 'Georgia', 'serif'],
+				'instrument-serif': ['"Instrument Serif"', 'Georgia', 'serif'],
+				'dm-sans': ['"DM Sans"', 'system-ui', 'sans-serif'],
 				mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
 			},
 			colors: {
