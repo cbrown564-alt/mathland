@@ -8,6 +8,7 @@ import ModulePage from "./core/pages/ModulePage";
 import LessonPage from "./core/pages/LessonPage";
 import StoryPage from "./core/pages/StoryPage";
 import CoupledLabPage from "./core/pages/CoupledLabPage";
+import BeatLabPage from "./core/pages/BeatLabPage";
 import NotFound from "./core/pages/NotFound";
 import Course from "./core/pages/Course";
 import ModuleDetail from "./core/pages/ModuleDetail";
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/lesson/:lessonId" element={<LessonPage />} />
             <Route path="/story/:lessonId" element={<StoryPage />} />
             <Route path="/lab/coupled" element={<CoupledLabPage />} />
+            <Route path="/lab/beat" element={<BeatLabPage />} />
             <Route path="/course" element={<Course />} />
             <Route path="/module-detail/:id" element={<ModuleDetail />} />
             <Route path="/tier2-gallery" element={<Tier2Gallery />} />

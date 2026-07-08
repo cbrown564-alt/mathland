@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { CoupledVisual, CoupledPassage } from "@/core/components/narrative/CoupledVisual";
+import { CoupledVisual } from "@/core/components/narrative/CoupledVisual";
 import { VectorVisual, VectorState } from "@/core/components/narrative/VectorVisual";
+import { dotProductIntroPassages } from "@/content/beats/dotProductIntro";
 
 /**
  * Reference implementation of the coupled-visual scaffold (v2 first build).
@@ -9,43 +10,6 @@ import { VectorVisual, VectorState } from "@/core/components/narrative/VectorVis
  * the diagram should morph to as you read it. Audio is a per-passage chip
  * (original Vera voice), not a spine. Route: /lab/coupled.
  */
-const PASSAGES: CoupledPassage<VectorState>[] = [
-  {
-    id: "p1",
-    eyebrow: "The dot product · 1",
-    body: (
-      <>Two vectors don't just have a length — they have a <em>relationship</em>. Point them the same way and something starts to add up.</>
-    ),
-    state: { u: [3, 4], v: [3.4, 2.6], emphasis: "none" },
-    audioSrc: "/audio/story/2.3/ch1.mp3",
-  },
-  {
-    id: "p2",
-    eyebrow: "2",
-    body: (
-      <>The closer their directions, the bigger that number gets. That's the <b>dot product</b> — a single value for how much two directions agree.</>
-    ),
-    state: { u: [3.2, 3.2], v: [3.7, 2.3], emphasis: "u" },
-  },
-  {
-    id: "p3",
-    eyebrow: "3",
-    body: (
-      <>Swing them to a right angle and the number falls to <em>exactly zero</em>. Perpendicular vectors are mathematical strangers.</>
-    ),
-    state: { u: [3.2, 0.2], v: [-0.3, 3.2], emphasis: "angle" },
-    audioSrc: "/audio/story/2.3/ch2.mp3",
-  },
-  {
-    id: "p4",
-    eyebrow: "4",
-    body: (
-      <>Push them past ninety degrees, into opposite corners, and it turns <em>negative</em> — now the two directions actively disagree.</>
-    ),
-    state: { u: [3, 1], v: [-3, 0.6], emphasis: "angle" },
-  },
-];
-
 const CoupledLabPage = () => {
   return (
     <div
@@ -73,7 +37,7 @@ const CoupledLabPage = () => {
 
         <div className="mt-14">
           <CoupledVisual
-            passages={PASSAGES}
+            passages={dotProductIntroPassages}
             renderVisual={(s: VectorState) => <VectorVisual state={s} />}
           />
         </div>
