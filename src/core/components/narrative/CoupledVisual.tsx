@@ -1,0 +1,143 @@
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { AudioChip } from "./AudioChip";
+
+/**
+ * CoupledVisual — the core v2 primitive.
+ *
+ * Binds a column of prose passages to a single sticky diagram. As the reader
+ * scrolls, the passage nearest the viewport centre becomes "active" and the
+ * diagram state *interpolates* toward it, so the picture animates to match the
+ * words (Flow A's coupling — reused inside Flow C's beats). The visual is a
+ * render prop, so the same scaffold drives vectors, matrices, distributions…
+ * anything with a lerp-able state.
+ *
+ * It is deliberately generic and content-agnostic: lessons become data
+ * (passages + states), not bespoke code.
+ */
+
+export interface CoupledPassage<S> {
+  id: string;
+  /** Small mono eyebrow above the passage. */
+  eyebrow?: string;
+  /** The prose. */
+  body: ReactNode;
+  /** Diagram state this passage corresponds to. */
+  state: S;
+  /** Optional per-passage voice clip (the demoted-audio chip). */
+  audioSrc?: string;
+}
+
+interface CoupledVisualProps<S> {
+  passages: CoupledPassage<S>[];
+  /** Draw the diagram for a given (interpolated) state. */
+  renderVisual: (state: S) => ReactNode;
+  /** Blend two states; defaults to a deep numeric lerp. */
+  interpolate?: (a: S, b: S, t: number) => S;
+  className?: string;
+}
+
+/** Deep numeric interpolation: numbers ease, arrays ease elementwise, discrete values snap at the midpoint. */
+export function deepLerp<S>(a: S, b: S, t: number): S {
+  if (typeof a === "number" && typeof b === "number") {
+    return (a + (b - a) * t) as unknown as S;
+  }
+  if (Array.isArray(a) && Array.isArray(b)) {
+    return a.map((av, i) => deepLerp(av, b[i], t)) as unknown as S;
+  }
+  if (a && b && typeof a === "object" && typeof b === "object") {
+    const out: Record<string, unknown> = { ...(a as object) };
+    for (const k of Object.keys(a as object)) {
+      out[k] = deepLerp((a as Record<string, unknown>)[k], (b as Record<string, unknown>)[k], t);
+    }
+    return out as S;
+  }
+  return (t < 0.5 ? a : b) as S;
+}
+
+export function CoupledVisual<S>({ passages, renderVisual, interpolate = deepLerp, className }: CoupledVisualProps<S>) {
+  const refs = useRef<(HTMLDivElement | null)[]>([]);
+  const frame = useRef<number | null>(null);
+  const [state, setState] = useState<S>(passages[0]?.state);
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  const recompute = useCallback(() => {
+    frame.current = null;
+    const anchor = window.innerHeight * 0.42; // slightly above centre reads better
+    const centers = refs.current.map((el) => {
+      if (!el) return Infinity;
+      const r = el.getBoundingClientRect();
+      return r.top + r.height / 2;
+    });
+    if (!centers.length) return;
+
+    // Find the segment [i, i+1] the anchor sits within.
+    let i = 0;
+    while (i < centers.length - 1 && centers[i + 1] < anchor) i++;
+
+    const cur = centers[i];
+    const nxt = centers[i + 1];
+    let t = 0;
+    if (i < passages.length - 1 && Number.isFinite(nxt)) {
+      t = Math.max(0, Math.min(1, (anchor - cur) / (nxt - cur)));
+    }
+    const next = passages[Math.min(i + 1, passages.length - 1)];
+    setState(interpolate(passages[i].state, next.state, t));
+    setActiveIdx(t < 0.5 ? i : Math.min(i + 1, passages.length - 1));
+  }, [passages, interpolate]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (frame.current == null) frame.current = requestAnimationFrame(recompute);
+    };
+    recompute();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame.current != null) cancelAnimationFrame(frame.current);
+    };
+  }, [recompute]);
+
+  return (
+    <div className={"grid gap-8 md:grid-cols-2 md:gap-12 " + (className ?? "")}>
+      {/* prose column */}
+      <div className="order-2 md:order-1">
+        {passages.map((p, idx) => (
+          <div
+            key={p.id}
+            ref={(el) => { refs.current[idx] = el; }}
+            className={
+              "border-l-2 py-10 pl-5 transition-all duration-300 first:pt-2 " +
+              (idx === activeIdx ? "opacity-100" : "opacity-35")
+            }
+            style={{ borderColor: idx === activeIdx ? "var(--ch-accent)" : "rgba(255,255,255,0.1)" }}
+          >
+            {p.eyebrow && (
+              <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em]" style={{ color: "var(--ch-accent-2)" }}>
+                {p.eyebrow}
+              </p>
+            )}
+            <div className="font-serif text-xl leading-relaxed text-white/90 sm:text-2xl sm:leading-[1.5]">
+              {p.body}
+            </div>
+            {p.audioSrc && (
+              <div className="mt-4">
+                <AudioChip src={p.audioSrc} />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* sticky visual */}
+      <div className="order-1 md:order-2">
+        <div className="sticky top-16 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-sm md:top-24">
+          {renderVisual(state)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default CoupledVisual;

@@ -10,7 +10,7 @@ interface AppShellProps {
 }
 
 /** Routes that render full-bleed with no header/footer (immersive experiences). */
-const BARE_ROUTES = [/^\/story\//];
+const BARE_ROUTES = [/^\/story\//, /^\/lab\//];
 
 /**
  * Shared page chrome (Path A5). Every top-level route renders through this so
