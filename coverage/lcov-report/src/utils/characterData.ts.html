@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -270,8 +270,11 @@
 <a name='L205'></a><a href='#L205'>205</a>
 <a name='L206'></a><a href='#L206'>206</a>
 <a name='L207'></a><a href='#L207'>207</a>
-<a name='L208'></a><a href='#L208'>208</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -465,9 +468,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -477,7 +480,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const <span class="cstat-no" title="statement not covered" >characters = [</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { getCharacterColor } from "./theme";
+&nbsp;
+export const characters = [
   {
     id: "ollie",
     name: "Ollie the Otter",
@@ -488,7 +494,7 @@
     fullName: "Ollie the Otter",
     catchphrase: "Let's take this step by step!",
     avatar: "/lovable-uploads/ollie.png",
-    color: "from-amber-500 to-orange-500",
+    color: getCharacterColor("ollie"),
     expertise: "Mathematical Foundations",
     description: "Patient and methodical engineer otter, equipped with construction tools and wearing a hard hat. Ollie guides you through algebraic foundations with clear explanations and encouraging support, building mathematical confidence one step at a time.",
     modules: ["Module 1: Prerequisites &amp; Refresher"],
@@ -508,7 +514,7 @@
     fullName: "Vera the Vector",
     catchphrase: "Direction and strength—that's my whole personality!",
     avatar: "/lovable-uploads/vera.png",
-    color: "from-red-600 to-orange-600",
+    color: getCharacterColor("vera"),
     expertise: "Vectors &amp; Vector Spaces",
     description: "Cheerful and adventurous explorer, equipped with a compass and a small backpack. Vera thinks in multiple dimensions and helps you navigate the world of vectors, matrices, and linear transformations with confidence and enthusiasm.",
     modules: ["Module 2: Vectors &amp; Vector Spaces"],
@@ -527,7 +533,7 @@
     fullName: "Matrix Max",
     catchphrase: "I organize worlds—row by row, column by column!",
     avatar: "/lovable-uploads/max.png",
-    color: "from-blue-600 to-indigo-600",
+    color: getCharacterColor("max"),
     expertise: "Matrices &amp; Linear Mappings",
     description: "Energetic mathematician with hints of architectural elements; wears grid-patterned clothing, sports a calculator watch. Max helps you understand how matrices organize and transform mathematical worlds.",
     modules: ["Module 3: Matrices &amp; Linear Mappings"],
@@ -546,7 +552,7 @@
     fullName: "Eileen Eigen",
     catchphrase: "Discovering hidden directions—that's the Eileen Eigen way!",
     avatar: "/lovable-uploads/eileen.png",
-    color: "from-purple-600 to-pink-600",
+    color: getCharacterColor("eileen"),
     expertise: "Eigenvalues &amp; Eigenvectors",
     description: "Quirky detective-explorer hybrid, characterized by a detective hat and exploration gear in purple and deep blue hues. Eileen uncovers hidden directions in data and transformations.",
     modules: ["Module 4: Eigenvalues &amp; Eigenvectors"],
@@ -565,7 +571,7 @@
     fullName: "Dr. Delta",
     catchphrase: "Calculus is just watching how fast things change—and nobody does it better than Dr. Delta!",
     avatar: "/lovable-uploads/delta.png",
-    color: "from-green-600 to-emerald-600",
+    color: getCharacterColor("delta"),
     expertise: "Multivariate Calculus",
     description: "Thoughtful, precise scientist with subtle engineering elements; dressed in a lab coat, wears glasses, carries a clipboard. Dr. Delta clarifies concepts of derivatives, partial derivatives, and gradients.",
     modules: ["Module 5: Multivariate Calculus Foundations"],
@@ -584,7 +590,7 @@
     fullName: "Gradient Greta",
     catchphrase: "Climb with me step by step—we'll find the lowest point together!",
     avatar: "/lovable-uploads/greta.png",
-    color: "from-amber-600 to-orange-700",
+    color: getCharacterColor("greta"),
     expertise: "Optimization &amp; Gradient Descent",
     description: "Determined climber and hiker, equipped with hiking gear, ropes, and earthy, natural-colored clothing. Greta teaches optimization through relatable analogies of climbing towards optimal solutions.",
     modules: ["Module 6: Optimization &amp; Gradient Descent"],
@@ -603,7 +609,7 @@
     fullName: "Probability Pippa",
     catchphrase: "Magic or math? Probability Pippa knows it's both!",
     avatar: "/lovable-uploads/pippa.png",
-    color: "from-pink-600 to-rose-600",
+    color: getCharacterColor("pippa"),
     expertise: "Probability &amp; Distributions",
     description: "Quirky magician in playful, whimsical attire, featuring a magician's hat, wand, and costumes in rich purples and golds. Pippa explains probability using playful magic metaphors.",
     modules: ["Module 7: Probability &amp; Distributions"],
@@ -622,7 +628,7 @@
     fullName: "Bayes the Fox",
     catchphrase: "When you're uncertain, follow Bayes the Fox to sniff out the truth!",
     avatar: "/lovable-uploads/bayes.png",
-    color: "from-indigo-600 to-purple-600",
+    color: getCharacterColor("bayes"),
     expertise: "Bayesian Inference",
     description: "Clever detective fox character, characterized by a detective's hat and magnifying glass, using warm orange and earthy tones. Bayes introduces Bayesian inference through detective narratives.",
     modules: ["Module 9: Bayesian Inference"],
@@ -641,7 +647,7 @@
     fullName: "Sigmund the Swan",
     catchphrase: "One black swan can change everything—Sigmund helps you understand why!",
     avatar: "/lovable-uploads/sigmund.png",
-    color: "from-teal-600 to-cyan-600",
+    color: getCharacterColor("sigmund"),
     expertise: "Hypothesis Testing &amp; Inference",
     description: "Elegant black swan with simple, iconic imagery, presented in clean black-and-white contrast. Sigmund teaches hypothesis testing using the powerful black swan metaphor.",
     modules: ["Module 8: Hypothesis Testing &amp; Inference"],
@@ -660,7 +666,7 @@
     fullName: "Sage the Visionary Eagle",
     catchphrase: "Turning insight into impact—that's the Sage way!",
     avatar: "/lovable-uploads/sage.png",
-    color: "from-blue-600 to-cyan-600",
+    color: getCharacterColor("sage"),
     expertise: "Capstone Project",
     description: "Visionary eagle character who soars above details to see how all mathematical concepts connect. Sage helps you synthesize everything you've learned into real-world solutions with the confidence and perspective that comes from seeing the complete picture.",
     modules: ["Module 10: Capstone Project"],
@@ -672,8 +678,8 @@
 ];
 &nbsp;
 // CharacterConfig map for concept checks
-export const <span class="cstat-no" title="statement not covered" >characterConfigMap = Object.fromEntries(</span>
-  characters.map(<span class="fstat-no" title="function not covered" >c </span>=&gt; <span class="cstat-no" title="statement not covered" >[</span>
+export const characterConfigMap = Object.fromEntries(
+  characters.map(c =&gt; [
     c.id, {
       id: c.id,
       name: c.name,
@@ -691,7 +697,7 @@ export const <span class="cstat-no" title="statement not covered" >characterConf
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-08T18:40:36.441Z
+                at 2026-07-08T14:45:11.601Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

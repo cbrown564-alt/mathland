@@ -2,77 +2,138 @@
 
 A v2 lesson is **data**: one `BeatLesson` object. The immersive stage, the paced
 beat sequencer, the prose↔diagram coupling, the per-passage audio chips, and the
-hands-on climax are all generic and driven by that object. The `/story/:lessonId`
+hands-on do beat are all generic and driven by that object. The `/story/:lessonId`
 route renders whatever is registered here — no per-lesson page or bespoke code.
+
+See `docs/LESSON_V2_DESIGN.md` for the full contract; this is the quick-start.
 
 ## The shape
 
-Import everything from `./schema`:
+Import types from `./schema`:
 
 ```ts
-import { BeatLesson } from "./schema";
+import type { BeatLesson } from "./schema";
 ```
 
 ```ts
 BeatLesson<S> {
-  lessonId, characterId, label      // metadata (label shows in the route header)
-  exitTo?                            // defaults to /lesson/<id>
-  renderVisual: (state: S) => JSX    // draws the coupled + climax picture
-  beats: BeatData<S>[]               // the ordered teaching units
+  meta: {
+    id: string;              // "2.3" — matches route and v1 lesson id
+    characterId: string;     // "vera" — drives --ch-accent
+    title: string;
+    oneLine: string;         // one-sentence subtitle
+    objectives?: string[];   // hidden roadmap metadata
+  };
+  visual: VisualBinding<S>;  // { key: "vectorPlot" } or { render: (s) => JSX }
+  beats: Beat<S>[];          // ordered, discriminated on kind
+  landing: {
+    mantra: string;          // shown on the completion card
+    recap?: string;
+    playgroundTo?: string;
+  };
+  exitTo?: string;           // defaults to /lesson/<id>
 }
 ```
 
-`S` is the **visual's state type** (e.g. `VectorState`). Every beat's coupled
-`state` and `renderVisual` share it, so authoring is fully type-checked.
+`S` is the **visual's state type** (e.g. `VectorState`). Passage `state` values
+and the bound visual share it, so authoring is fully type-checked.
 
-### A beat (`BeatData<S>`)
+## Beat archetypes (`kind`)
+
+Only four kinds — resist adding more.
+
+### `couple` — predict → coupled reading → check
 
 ```ts
 {
-  id, eyebrow?, title?
-  predict?  // { prompt, options:[{label,value}], nudge? } — commit before reading
-  passages? // coupled reading: [{ id, eyebrow?, body(JSX), state:S, audioSrc? }]
-  check?    // { question, options[], correctAnswer, explanation }
-  climax?   // a "do" beat instead of reading (see below)
+  kind: "couple",
+  id, eyebrow?, title?,
+  predict?: { prompt, options: [{ label, value }], nudge? },
+  passages: [{ id, eyebrow?, md, state?, audioSrc? }],
+  check?: { question, options[], correctAnswer, explanation },
+  visual?: VisualBinding<S>,  // override lesson default for this beat
 }
 ```
 
-A normal beat runs **predict → coupled reading → check**. As the reader scrolls a
-passage to the centre, `renderVisual(passage.state)` is what the sticky diagram
-interpolates toward, so the picture animates to the words.
+Passage bodies are **markdown strings** (`md`), not JSX. Supported inline:
+`**bold**`, `*italic*`, `` `code` ``, `$u \\cdot v$` (KaTeX). Omit `state` on a
+passage to hold the previous diagram state (text-only aside).
 
-### A climax beat (`climax`)
+### `do` — draggable interactive finale
 
 ```ts
-climax: {
-  interactive: "dot_product_explorer",   // key into interactives.ts
-  intro?: JSX,
-  goals?: [{ tone, label }]              // Continue unlocks once all tones are hit
+{
+  kind: "do",
+  id, eyebrow?, title?,
+  predict?: Predict,
+  intro?: string,            // markdown above the tool
+  interactive: "dot_product_explorer",  // key into interactives.ts
+  goals?: [{ tone, label }], // Continue unlocks once all tones are hit
 }
 ```
 
-Swaps the read-only picture for a draggable interactive; `goals[].tone` matches
-the tone the interactive reports via `onStateChange`. Put the climax **last** so
-the lesson lands on doing.
+Put the `do` beat **last** so the lesson lands on doing.
+
+### `tell` — full-width prose (no coupled picture)
+
+```ts
+{
+  kind: "tell",
+  id, eyebrow?, title?,
+  md: string,                // markdown + optional $$display math$$
+  figure?: ReactNode,
+  check?: Check,
+}
+```
+
+### `recap` — in-flow mantra card
+
+```ts
+{
+  kind: "recap",
+  id, eyebrow?, title?,
+  mantra: string,
+  points?: string[],
+}
+```
+
+The **landing card** on lesson completion uses `landing.mantra` (and optional
+`landing.recap`). A `recap` beat is optional mid-flow reinforcement.
+
+## Visual binding
+
+**Preferred:** library primitive by key.
+
+```ts
+visual: { key: "vectorPlot" }
+```
+
+Registered in `src/core/components/narrative/visualRegistry.tsx`. Module 2
+lessons 2.1–2.7 use `vectorPlot` with different passage states / flags.
+
+**Escape hatch:** bespoke render prop when no primitive fits (e.g. 2.9 capstone).
+
+```ts
+visual: { render: (state) => <MyVisual state={state} /> }
+```
 
 ## Add a lesson in 3 steps
 
-1. **Author** `lesson-<id>.tsx` exporting a `BeatLesson`
-   (copy `lesson-2.3.tsx` as the reference).
-2. **Register** it in `index.ts`:
+1. **Author** `lesson-<id>.ts` exporting a `BeatLesson` (copy `lesson-2.3.ts`).
+2. **Register** in `index.ts`:
    ```ts
-   const LESSONS = { "2.3": dotProductLesson, "3.3": matrixLesson };
+   const LESSONS = { "2.3": dotProductLesson, "2.1": vectorBasicsLesson };
    ```
 3. Visit `/story/<id>`. Done.
 
-## Adding a new visual or interactive
+## Progress
 
-- **Coupled visual** (read-only, follows the prose): write a component that takes
-  `{ state: S }` and pass it as `renderVisual`. Make `S` lerp-friendly (numbers /
-  arrays of numbers) so `CoupledVisual`'s default interpolation animates it.
-- **Climax interactive** (draggable): add it to `interactives.ts` under a key and
-  have it call `onStateChange({ dot, cos, tone })` (or whatever tones your goals
-  use). Reference the key from a beat's `climax.interactive`.
+Beat completion flows through `useLessonProgress` — finishing the last beat sets
+`lessonCompleted`, which WorldMap and ModulePage read alongside v1 section progress.
+Furthest beat index is stored as `beatIndex` in the same localStorage key.
 
-Audio clips live in `public/audio/story/<id>/` and are generated with
-`npm run narration <id>` (see `scripts/generate-narration.mjs`).
+## Audio
+
+Clips live in `public/audio/story/<id>/` and are generated with
+`npm run narration <id>` (see `scripts/generate-narration.mjs`). Reference per-passage
+chips on `audioSrc` in passage data.
