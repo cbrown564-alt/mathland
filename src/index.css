@@ -191,10 +191,25 @@
      grid (Vera's vector world), and a soft vignette. Decorative layers are
      fixed + behind; content sits in a z-1 wrapper. */
   .lesson-stage {
+    --font-serif: "Instrument Serif", Georgia, serif;
+    --font-sans: "DM Sans", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --duration-fast: 180ms;
+    --duration-med: 420ms;
+    --duration-slow: 680ms;
+
     position: relative;
     isolation: isolate;
     background-color: #0b0910;
     color: #f5f2ec;
+    font-family: var(--font-sans);
+  }
+  .lesson-stage .font-serif {
+    font-family: var(--font-serif);
+  }
+  .lesson-stage .font-mono {
+    font-family: var(--font-mono);
   }
   .lesson-stage::before {
     content: "";
@@ -206,6 +221,7 @@
       radial-gradient(72% 55% at 12% -8%, color-mix(in srgb, var(--ch-accent) 24%, transparent), transparent 60%),
       radial-gradient(64% 52% at 104% 108%, color-mix(in srgb, var(--ch-accent-2) 18%, transparent), transparent 60%),
       radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+    animation: lesson-stage-glow-pulse 8s ease-in-out infinite;
   }
   .lesson-stage::after {
     content: "";
@@ -219,16 +235,101 @@
     background-size: 36px 36px;
     -webkit-mask-image: radial-gradient(135% 95% at 50% 0%, #000 32%, transparent 84%);
     mask-image: radial-gradient(135% 95% at 50% 0%, #000 32%, transparent 84%);
+    animation: lesson-stage-grid-breathe 12s ease-in-out infinite;
   }
   .lesson-stage > .lesson-stage-content {
     position: relative;
     z-index: 1;
   }
 
+  .lesson-stage-particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .lesson-stage-particles::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 12% 80%, color-mix(in srgb, var(--ch-accent) 50%, transparent), transparent),
+      radial-gradient(1px 1px at 28% 65%, color-mix(in srgb, var(--ch-accent) 40%, transparent), transparent),
+      radial-gradient(1px 1px at 45% 90%, color-mix(in srgb, var(--ch-accent-2) 45%, transparent), transparent),
+      radial-gradient(1px 1px at 62% 75%, color-mix(in srgb, var(--ch-accent) 35%, transparent), transparent),
+      radial-gradient(1px 1px at 78% 85%, color-mix(in srgb, var(--ch-accent-2) 40%, transparent), transparent),
+      radial-gradient(1px 1px at 88% 70%, color-mix(in srgb, var(--ch-accent) 30%, transparent), transparent);
+    animation: lesson-stage-particles-drift 16s linear infinite;
+  }
+
+  @keyframes lesson-stage-grid-breathe {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.008); }
+  }
+  @keyframes lesson-stage-glow-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.88; }
+  }
+  @keyframes lesson-stage-particles-drift {
+    0% { transform: translateY(0); opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-8vh); opacity: 0.6; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lesson-stage::before,
+    .lesson-stage::after,
+    .lesson-stage-particles::before {
+      animation: none;
+    }
+  }
+
+  /* v2 typography scale (Instrument Serif prose + DM Sans UI + mono captions) */
+  .v2-display {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .v2-heading {
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 3.5vw, 2rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .v2-body {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.72;
+    color: rgba(245, 242, 236, 0.72);
+  }
+  .v2-caption {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ch-accent-2);
+  }
+
   /* Shared v2 controls so buttons/pills read as one system */
   .v2-cta {
     background-image: linear-gradient(135deg, var(--ch-accent), var(--ch-accent-2));
     box-shadow: 0 10px 30px -12px color-mix(in srgb, var(--ch-accent) 70%, transparent);
+    transition:
+      transform var(--duration-fast) var(--ease-out-expo),
+      box-shadow var(--duration-fast) var(--ease-out-expo);
+  }
+  .v2-cta:hover:not(:disabled) {
+    transform: scale(1.03);
+    box-shadow: 0 16px 50px -10px color-mix(in srgb, var(--ch-accent) 70%, transparent);
+  }
+  .v2-cta:active:not(:disabled) {
+    transform: scale(0.98);
   }
   .v2-cta:disabled {
     background-image: none;
