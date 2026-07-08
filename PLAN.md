@@ -145,23 +145,43 @@ The differentiating move. Surfaces assets that already exist.
 
 ---
 
-## Phase 3 — Path C: Re-architect the lesson (prototype, high risk)
+## Phase 3 — Path C: Re-architect the lesson (prototype, high risk) ✅ prototyped
 
 Biggest bet. De-risk by redesigning **one** lesson end-to-end first.
 
-### C1 · Guided narrative lesson (one lesson)
-- Prototype lesson 2.3 (Vera · Vector Addition) as one continuous scroll story: Hook → Read →
+> **Status (July 2026):** prototyped end-to-end for lesson 2.3 at the dedicated
+> route `/story/:lessonId` (entry point: the "Read as a guided story" card on
+> `/lesson/2.3`). The section-form `/lesson/2.3` is untouched, so the two can be
+> compared for engagement. Note: the actual lesson 2.3 content is **"The Dot
+> Product — Measuring Similarity"** (Vera), not "Vector Addition" as written
+> above — the prototype is built against the real content.
+
+### C1 · Guided narrative lesson (one lesson) ✅
+- Prototype lesson 2.3 (Vera · **The Dot Product**) as one continuous scroll story: Hook → Read →
   See → Hear → Do as a single paced narrative, dark immersive theme (mockup `scr-narrative`),
   persistent audio w/ synced transcript, interactive arriving as the climax.
+- **Implementation:** `src/core/components/narrative/NarrativeLessonView.tsx` renders all 8
+  beats as frosted-glass cards on the `#0f0a1a → #1a1030` gradient with the two radial glows
+  from the mockup. `src/core/pages/StoryPage.tsx` loads the same lesson data as `LessonPage`.
 - **Acceptance:** One full lesson redesigned; measurable engagement vs. the section-form version.
 
-### C2 · Adaptive pacing
+### C2 · Adaptive pacing ✅
 - Use existing progress data (`useLessonProgress`) to skip mastered sections, linger on weak
   ones.
+- **Implementation:** reads/writes the same `lesson-progress-<id>` localStorage key as the
+  section-form lesson. Beats already in `completedSections` get a "✓ mastered" tag and collapse
+  by default (the climax never auto-collapses). An `IntersectionObserver` marks a beat complete
+  when it scrolls ~55% into view, so pacing lingers on un-viewed beats and remembers mastered
+  ones across visits.
 - **Acceptance:** Lesson adapts order/depth from stored progress.
 
-### C3 · Interactive as climax
+### C3 · Interactive as climax ✅
 - The "Do" tool becomes where every section converges; embed inline rather than a tab.
+- **Implementation:** `src/core/components/narrative/DotProductExplorer.tsx` — a focused
+  two-vector dot-product tool (drag handles reused from `vera_vector_playground`) with a live
+  similarity meter (−1…+1) realizing the lesson's "agreement scale" metaphor. Defaults to
+  [3,4]·[1,2]=11 to match the lesson's own concept check. Embedded inline as the highlighted
+  "Do" beat, not a tab.
 - **Acceptance:** Interactive is the natural final beat of the narrative, not a separate view.
 
 ---

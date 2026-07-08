@@ -6,6 +6,7 @@ import { AppShell } from "./core/components/AppShell";
 import Index from "./core/pages/Index";
 import ModulePage from "./core/pages/ModulePage";
 import LessonPage from "./core/pages/LessonPage";
+import StoryPage from "./core/pages/StoryPage";
 import NotFound from "./core/pages/NotFound";
 import Course from "./core/pages/Course";
 import ModuleDetail from "./core/pages/ModuleDetail";
@@ -27,6 +28,7 @@ const App = () => (
             <Route path="/experience" element={<Experience />} />
             <Route path="/module/:moduleId" element={<ModulePage />} />
             <Route path="/lesson/:lessonId" element={<LessonPage />} />
+            <Route path="/story/:lessonId" element={<StoryPage />} />
             <Route path="/course" element={<Course />} />
             <Route path="/module-detail/:id" element={<ModuleDetail />} />
             <Route path="/tier2-gallery" element={<Tier2Gallery />} />

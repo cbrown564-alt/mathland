@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Sparkles } from 'lucide-react';
 import { Card, CardContent } from "@/core/components/ui/card";
 import { LessonData } from "@/core/types/lesson";
 import { LessonHeader } from "./lesson/LessonHeader";
@@ -123,6 +125,24 @@ export const LessonTemplate = ({ lesson, previousLessonId, nextLessonId }: Lesso
                 {lesson.title}
               </h1>
             </div>
+
+            {/* Phase C prototype opt-in (Path C1). Gated to the one redesigned lesson. */}
+            {lesson.id === '2.3' && (
+              <Link
+                to={`/story/${lesson.id}`}
+                className="mb-8 flex items-center gap-3 rounded-xl border border-pink-200 bg-gradient-to-br from-purple-50 to-pink-50 px-4 py-3 transition hover:from-purple-100 hover:to-pink-100"
+              >
+                <Sparkles className="h-5 w-5 flex-shrink-0 text-pink-500" />
+                <div>
+                  <p className="text-sm font-semibold text-slate-800">
+                    Read as a guided story
+                  </p>
+                  <p className="text-xs text-slate-500">
+                    One immersive, character-led scroll — a new way to experience this lesson.
+                  </p>
+                </div>
+              </Link>
+            )}
 
             <Card>
               <CardContent className="p-8">
