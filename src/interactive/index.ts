@@ -27,6 +27,7 @@ import OllieFoundationBuilder from './components/ollie_foundation_builder';
 import OllieEquationSolver from './components/ollie_equation_solver';
 import OllieFunctionGrapher from './components/ollie_function_grapher';
 import SageDataSynthesizer from './components/sage_data_synthesizer';
+import VeraForestMapping from './components/vera_forest_mapping';
 import { LessonData } from '@/core/types/lesson';
 
 interface CustomComponentProps {
@@ -153,6 +154,11 @@ const SageDataSynthesizerWrapper: React.ComponentType<CustomComponentProps> = ()
   return React.createElement(SageDataSynthesizer, { isPreview: false });
 };
 
+// Wrapper for VeraForestMapping to match interface
+const VeraForestMappingWrapper: React.ComponentType<CustomComponentProps> = () => {
+  return React.createElement(VeraForestMapping, { isPreview: false });
+};
+
 // Wrapper for VeraVectorArithmetic to match interface
 const VeraVectorArithmeticWrapper: React.ComponentType<CustomComponentProps> = () => {
   return React.createElement(VeraVectorArithmetic, { isPreview: false });
@@ -197,6 +203,7 @@ export const customDoComponents: Record<string, React.ComponentType<CustomCompon
   ollie_equation_solver: OllieEquationSolverWrapper,
   ollie_function_grapher: OllieFunctionGrapherWrapper,
   sage_data_synthesizer: SageDataSynthesizerWrapper,
+  vera_forest_mapping: VeraForestMappingWrapper,
 };
 
 // Export individual components for the gallery
@@ -228,5 +235,6 @@ export {
   OllieFoundationBuilder,
   OllieEquationSolver,
   OllieFunctionGrapher,
-  SageDataSynthesizer
+  SageDataSynthesizer,
+  VeraForestMapping
 }; 

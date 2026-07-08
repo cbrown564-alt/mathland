@@ -126,6 +126,7 @@ The beautiful thing is how many objects form vector spaces. **Polynomials** form
           eyebrow: "Examples · 1",
           md: "Picture vector spaces as different worlds that all follow the same fundamental physics. Whether it's 2D flatland, 3D reality, polynomial functions, or matrices — once you know the universal laws, you can explore any space confidently.",
           state: { _void: true },
+          audioSrc: "/audio/story/2.8/ch3.mp3",
         },
         {
           id: "c2",

@@ -27,6 +27,7 @@ import OllieFoundationBuilder from '../components/ollie_foundation_builder';
 import OllieEquationSolver from '../components/ollie_equation_solver';
 import OllieFunctionGrapher from '../components/ollie_function_grapher';
 import SageDataSynthesizer from '../components/sage_data_synthesizer';
+import VeraForestMapping from '../components/vera_forest_mapping';
 
 export interface InteractiveDemo {
   id: string;
@@ -96,6 +97,23 @@ export const interactiveDemos: InteractiveDemo[] = [
     component: VeraLinearCombination,
     status: 'ready',
     tags: ['vectors', 'linear-combination', 'span', 'independence']
+  },
+  {
+    id: 'vera-forest-mapping',
+    characterId: 'vera',
+    title: 'Forest Mapping Capstone',
+    description: 'Design park trails, place wildlife cameras, and read coordinates in custom bases — Vera\'s ultimate vector project!',
+    difficulty: 'advanced',
+    estimatedTime: '15-25 minutes',
+    learningObjectives: [
+      'Design trail systems using vector addition and L₂ distance',
+      'Test camera coverage with linear independence',
+      'Decompose movement vectors in standard and custom bases',
+      'Synthesize vector concepts in a real-world mapping project'
+    ],
+    component: VeraForestMapping,
+    status: 'ready',
+    tags: ['vectors', 'capstone', 'trails', 'basis', 'independence', 'mapping']
   },
   {
     id: 'max-matrix-transformer',

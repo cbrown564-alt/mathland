@@ -1,0 +1,17 @@
+{
+  "lessonId": "2.6",
+  "characterId": "vera",
+  "title": "Vera · Linear Independence",
+  "chapters": [
+    {
+      "id": "ch1",
+      "audioSrc": "/audio/story/2.6/ch1.mp3",
+      "narration": "Some paths are redundant. If the river path and the perpendicular path already reach everywhere, a diagonal path adds nothing new. Vectors are linearly independent when none can be built from the others. Each one opens a genuinely new direction. The test: c one u plus c two v equals zero only when all coefficients are zero."
+    },
+    {
+      "id": "ch2",
+      "audioSrc": "/audio/story/2.6/ch2.mp3",
+      "narration": "In two dimensions you can have at most two independent vectors. In three dimensions, at most three. Add more and someone becomes a passenger. Geometrically, dependent vectors are collinear. Independent vectors span the full space — no wasted directions."
+    }
+  ]
+}

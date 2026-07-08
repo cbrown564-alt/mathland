@@ -131,6 +131,7 @@ export const forestCapstoneLesson: BeatLesson<ForestMapState> = {
             showCamera: false,
             showFlow: false,
           },
+          audioSrc: "/audio/story/2.9/ch1.mp3",
         },
         {
           id: "m2",
@@ -159,6 +160,7 @@ export const forestCapstoneLesson: BeatLesson<ForestMapState> = {
             showCamera: true,
             showFlow: false,
           },
+          audioSrc: "/audio/story/2.9/ch2.mp3",
         },
         {
           id: "m4",
@@ -192,8 +194,13 @@ export const forestCapstoneLesson: BeatLesson<ForestMapState> = {
       id: "climax",
       eyebrow: "Beat 2 · Your turn",
       title: "Build the complete map",
-      intro: "This is the full capstone in your hands. Use the vector playground to design trails, place coverage vectors, and explore how every Module 2 concept applies to real park mapping. Drag vectors, read magnitudes, and synthesize your mapping toolkit.",
-      interactive: "vector_playground_explorer",
+      intro: "Vera's full mapping system, in your hands. Work through all three tabs — design the canonical 10-unit trail, place independent cameras, and read visitor coordinates in a custom basis.",
+      interactive: "forest_mapping_explorer",
+      goals: [
+        { tone: "trail", label: "Design the trail · 10 units L₂" },
+        { tone: "camera", label: "Place independent cameras · det ≠ 0" },
+        { tone: "basis", label: "Read custom-basis coordinates" },
+      ],
     },
   ],
   landing: {

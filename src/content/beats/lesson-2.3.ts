@@ -66,18 +66,21 @@ export const dotProductLesson: BeatLesson<VectorPlotState> = {
           eyebrow: "2",
           md: "Line the arrows up — angle near zero — and the dot product is at its **maximum**.",
           state: { u: [3, 2], v: [3.2, 2.1], emphasis: "angle" },
+          audioSrc: "/audio/story/2.3/ch7.mp3",
         },
         {
           id: "a3",
           eyebrow: "3",
           md: "Open the angle toward ninety degrees and it *shrinks*, all the way down to zero.",
           state: { u: [3, 2], v: [-1.4, 3], emphasis: "angle" },
+          audioSrc: "/audio/story/2.3/ch8.mp3",
         },
         {
           id: "a4",
           eyebrow: "4",
           md: "That dial is the cosine. So **u · v = |u| |v| cos θ** — two lengths and the angle between them, nothing more.",
           state: { u: [3.2, 0.4], v: [1.4, 2.8], emphasis: "angle" },
+          audioSrc: "/audio/story/2.3/ch9.mp3",
         },
       ],
       check: {
@@ -110,6 +113,7 @@ export const dotProductLesson: BeatLesson<VectorPlotState> = {
           eyebrow: "2",
           md: "How much do these two things agree? Google scores pages against your query with it; Spotify lines your taste up against a song. Same dot product, billions of times a second.",
           state: { u: [3, 2.6], v: [2.9, 2.9], emphasis: "u" },
+          audioSrc: "/audio/story/2.3/ch10.mp3",
         },
       ],
       check: {

@@ -33,6 +33,7 @@ export const dotProductIntroPassages: Passage<VectorPlotState>[] = [
     eyebrow: "2",
     md: "The closer their directions, the bigger that number gets. That's the **dot product** — a single value for how much two directions agree.",
     state: { u: [3.2, 3.2], v: [3.7, 2.3], emphasis: "u" },
+    audioSrc: "/audio/story/2.3/ch4.mp3",
   },
   {
     id: "p3",
@@ -46,6 +47,7 @@ export const dotProductIntroPassages: Passage<VectorPlotState>[] = [
     eyebrow: "4",
     md: "Push them past ninety degrees, into opposite corners, and it turns *negative* — now the two directions actively disagree.",
     state: { u: [3, 1], v: [-3, 0.6], emphasis: "angle" },
+    audioSrc: "/audio/story/2.3/ch6.mp3",
   },
 ];
 

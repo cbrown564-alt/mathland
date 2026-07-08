@@ -44,6 +44,7 @@ export const basisDimensionLesson: BeatLesson<VectorPlotState> = {
           eyebrow: "Basis · 1",
           md: "A **basis** is like having the perfect GPS coordinate system — the *minimum* set of independent vectors that can reach everywhere in the space. Just like latitude and longitude give unique coordinates for any Earth location, a basis gives unique coordinates for any vector.",
           state: { u: [1, 0], v: [0, 1], basis: true, emphasis: "none" },
+          audioSrc: "/audio/story/2.7/ch1.mp3",
         },
         {
           id: "g2",
@@ -82,6 +83,7 @@ export const basisDimensionLesson: BeatLesson<VectorPlotState> = {
           eyebrow: "Dimension · 1",
           md: "Every vector space has infinitely many possible bases, but they all have the **same number of vectors**. That number is the **dimension** of the space. 2D has dimension 2, 3D has dimension 3 — no matter which basis you choose.",
           state: { u: [1, 1], v: [-1, 1], basis: true, emphasis: "none" },
+          audioSrc: "/audio/story/2.7/ch2.mp3",
         },
         {
           id: "d2",
@@ -125,8 +127,13 @@ export const basisDimensionLesson: BeatLesson<VectorPlotState> = {
       id: "climax",
       eyebrow: "Beat 4 · Your turn",
       title: "Build your coordinate system",
-      intro: "Try different basis presets — standard, rotated, and skewed. Express result vectors as linear combinations and see how the grid deforms with your choice of basis.",
-      interactive: "linear_combination_explorer",
+      intro: "Switch between standard and custom bases, then match the target coordinates. See how the same arrow gets different labels in each coordinate system.",
+      interactive: "basis_explorer",
+      goals: [
+        { tone: "standard", label: "Use the standard basis {[1,0], [0,1]}" },
+        { tone: "custom", label: "Switch to a non-standard basis" },
+        { tone: "coords", label: "Express the target vector in the current basis" },
+      ],
     },
   ],
   landing: {

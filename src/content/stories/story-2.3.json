@@ -1,0 +1,57 @@
+{
+  "lessonId": "2.3",
+  "characterId": "vera",
+  "title": "Vera · The Dot Product",
+  "chapters": [
+    {
+      "id": "ch1",
+      "audioSrc": "/audio/story/2.3/ch1.mp3",
+      "narration": "Two vectors don't just have a length — they have a relationship. Point them the same way and something starts to add up."
+    },
+    {
+      "id": "ch2",
+      "audioSrc": "/audio/story/2.3/ch2.mp3",
+      "narration": "Swing them to a right angle and the number falls to exactly zero. Perpendicular vectors are mathematical strangers."
+    },
+    {
+      "id": "ch3",
+      "audioSrc": "/audio/story/2.3/ch3.mp3",
+      "narration": "The dot product has a twin definition. One just multiplies the matching components and adds them. The other measures the angle. Same number, every time."
+    },
+    {
+      "id": "ch4",
+      "audioSrc": "/audio/story/2.3/ch4.mp3",
+      "narration": "The closer their directions, the bigger that number gets. That's the dot product — a single value for how much two directions agree."
+    },
+    {
+      "id": "ch5",
+      "audioSrc": "/audio/story/2.3/ch5.mp3",
+      "narration": "This tiny operation quietly runs the modern world. Search, recommendations, machine learning — all of it leans on one question."
+    },
+    {
+      "id": "ch6",
+      "audioSrc": "/audio/story/2.3/ch6.mp3",
+      "narration": "Push them past ninety degrees, into opposite corners, and it turns negative — now the two directions actively disagree."
+    },
+    {
+      "id": "ch7",
+      "audioSrc": "/audio/story/2.3/ch7.mp3",
+      "narration": "Line the arrows up — angle near zero — and the dot product is at its maximum."
+    },
+    {
+      "id": "ch8",
+      "audioSrc": "/audio/story/2.3/ch8.mp3",
+      "narration": "Open the angle toward ninety degrees and it shrinks, all the way down to zero."
+    },
+    {
+      "id": "ch9",
+      "audioSrc": "/audio/story/2.3/ch9.mp3",
+      "narration": "That dial is the cosine. So u dot v equals the product of their lengths times the cosine of the angle between them — two lengths and an angle, nothing more."
+    },
+    {
+      "id": "ch10",
+      "audioSrc": "/audio/story/2.3/ch10.mp3",
+      "narration": "How much do these two things agree? Google scores pages against your query with it. Spotify lines your taste up against a song. Same dot product, billions of times a second."
+    }
+  ]
+}

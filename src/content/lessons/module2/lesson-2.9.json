@@ -34,6 +34,9 @@
   "hearContent": "Listen as I guide you through each phase of the project, showing how vector thinking transforms complex spatial problems into systematic mathematical solutions!",
   "hearAudioUrl": "/audio/1.9.mp3",
   "doContent": "Complete the three-part mapping project: design trail systems with vector addition, optimize camera placement with linear independence, and analyze visitor patterns with basis theory - creating a comprehensive portfolio of your vector mastery.",
+  "doType": "custom",
+  "doComponent": "vera_forest_mapping",
+  "doInstructions": "Work through all three capstone phases: chain trail segments to hit 10 units L₂ distance, place independent camera vectors (det ≠ 0), then switch to a custom basis and read visitor coordinates. Complete each phase to finish Vera's forest map.",
   "memoryAids": {
     "mantra": "Every vector concept becomes a practical tool in this ultimate mapping adventure!",
     "visual": "Picture yourself as a mathematical cartographer, using vectors as your tools to map, measure, and optimize everything in the national park."

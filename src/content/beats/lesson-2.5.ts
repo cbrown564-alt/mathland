@@ -43,6 +43,7 @@ export const linearCombinationsLesson: BeatLesson<VectorPlotState> = {
           eyebrow: "Linear combinations · 1",
           md: "Any destination in my forest can be reached by mixing basic directions in the right proportions. A linear combination **c₁v₁ + c₂v₂ + … + cₙvₙ** is like a recipe: mix 2 parts east-vector with 3 parts north-vector to reach your destination.",
           state: { u: [2, 0.5], v: [0.5, 2], emphasis: "u" },
+          audioSrc: "/audio/story/2.5/ch1.mp3",
         },
         {
           id: "r2",
@@ -81,6 +82,7 @@ export const linearCombinationsLesson: BeatLesson<VectorPlotState> = {
           eyebrow: "Span · 1",
           md: "The **span** of a set of vectors is every possible destination you can reach using linear combinations. Given vectors v₁ and v₂, their span is the entire collection of vectors c₁v₁ + c₂v₂.",
           state: { u: [3, 0.6], v: [0.6, 3], span: true, emphasis: "none" },
+          audioSrc: "/audio/story/2.5/ch2.mp3",
         },
         {
           id: "s2",
@@ -112,8 +114,13 @@ export const linearCombinationsLesson: BeatLesson<VectorPlotState> = {
       id: "climax",
       eyebrow: "Beat 3 · Your turn",
       title: "Mix the vectors",
-      intro: "Adjust the coefficients and watch how vectors combine. Turn on the span region and try to fill the plane — or collapse it to a line with parallel vectors.",
-      interactive: "linear_combination_explorer",
+      intro: "Mix u and v with the sliders. Land each outcome — from zero, to one direction only, to a true 2D combination that fills the plane.",
+      interactive: "span_explorer",
+      goals: [
+        { tone: "zero", label: "Zero combo · a = b = 0" },
+        { tone: "u_only", label: "u only · b ≈ 0" },
+        { tone: "span2d", label: "Fill the plane · both coefficients active" },
+      ],
     },
   ],
   landing: {

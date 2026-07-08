@@ -20,6 +20,7 @@ import { EXAMPLE_CONCEPT_CHECKS } from '@/content/data/exampleConceptChecks';
 import { useLessonProgress } from '@/core/hooks/useLessonProgress';
 import { LessonSectionRenderer } from './lesson/LessonSectionRenderer';
 import { CharacterCompanion } from './lesson/CharacterCompanion';
+import { hasBeatLesson } from '@/content/beats';
 
 interface LessonTemplateProps {
   lesson: LessonData;
@@ -127,7 +128,7 @@ export const LessonTemplate = ({ lesson, previousLessonId, nextLessonId }: Lesso
             </div>
 
             {/* Phase C prototype opt-in (Path C1). Gated to the one redesigned lesson. */}
-            {lesson.id === '2.3' && (
+            {hasBeatLesson(lesson.id) && (
               <Link
                 to={`/story/${lesson.id}`}
                 className="mb-8 flex items-center gap-3 rounded-xl border border-pink-200 bg-gradient-to-br from-purple-50 to-pink-50 px-4 py-3 transition hover:from-purple-100 hover:to-pink-100"

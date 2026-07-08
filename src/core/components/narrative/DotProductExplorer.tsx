@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import type { InteractiveProps } from "./interactives";
 
 // Dot Product Explorer — the narrative's climax beat (Path C3).
 //
@@ -93,12 +94,7 @@ const toneWord: Record<string, string> = {
   opposite: "opposing",
 };
 
-export interface DotProductExplorerProps {
-  /** Reports {dot, cos, tone} whenever the vectors change — lets a climax beat track outcomes hit. */
-  onStateChange?: (s: { dot: number; cos: number; tone: string }) => void;
-}
-
-export const DotProductExplorer = ({ onStateChange }: DotProductExplorerProps = {}) => {
+export const DotProductExplorer = ({ onStateChange }: InteractiveProps = {}) => {
   const [vectors, setVectors] = useState<Vec[]>(INITIAL);
   const [dragging, setDragging] = useState<"u" | "v" | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);

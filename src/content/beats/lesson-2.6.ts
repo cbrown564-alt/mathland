@@ -44,6 +44,7 @@ export const linearIndependenceLesson: BeatLesson<VectorPlotState> = {
           eyebrow: "Independence · 1",
           md: "Independent vectors give you genuinely new directions to explore! Some of my forest paths are *redundant* — if I can reach any point using the river path and the perpendicular path, a third diagonal path doesn't give me new capabilities.",
           state: { u: [3, 1], v: [1, 2.5], span: true, emphasis: "none" },
+          audioSrc: "/audio/story/2.6/ch1.mp3",
         },
         {
           id: "t2",
@@ -97,8 +98,12 @@ In data science, linear independence reveals intrinsic dimensionality. You might
       id: "climax",
       eyebrow: "Beat 3 · Your turn",
       title: "Spot the redundancy",
-      intro: "Use the Independence Checker built into the tool. Try the independent and dependent presets — watch when the span collapses from a plane to a line.",
-      interactive: "linear_combination_explorer",
+      intro: "Drag the base vectors and adjust coefficients. Make them span the plane, then collapse them to a line — watch when independence breaks.",
+      interactive: "span_explorer",
+      goals: [
+        { tone: "independent", label: "Span the plane · independent u, v" },
+        { tone: "dependent", label: "Collapse to a line · collinear vectors" },
+      ],
     },
   ],
   landing: {

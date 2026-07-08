@@ -1,0 +1,22 @@
+{
+  "lessonId": "2.8",
+  "characterId": "vera",
+  "title": "Vera · Vector Spaces",
+  "chapters": [
+    {
+      "id": "ch1",
+      "audioSrc": "/audio/story/2.8/ch1.mp3",
+      "narration": "The navigation principles work in forests, skies, and abstract worlds. A vector space is any collection where you can add vectors and scale them — and the rules always behave. Addition is commutative and associative. Scalar multiplication distributes. There's a zero vector and every vector has an inverse."
+    },
+    {
+      "id": "ch2",
+      "audioSrc": "/audio/story/2.8/ch2.mp3",
+      "narration": "R two and R three are vector spaces. So are polynomials, matrices, and functions — anything where addition and scaling make sense. A two-by-two matrix space has dimension four. Any matrix is a combination of four basis matrices. Same rules, different objects."
+    },
+    {
+      "id": "ch3",
+      "audioSrc": "/audio/story/2.8/ch3.mp3",
+      "narration": "A subspace is a vector space sitting inside a larger one. Add two vectors in the subspace, stay in the subspace. Scale one, still inside. The span of any vectors is a subspace. The null space and column space of a matrix are subspaces too."
+    }
+  ]
+}

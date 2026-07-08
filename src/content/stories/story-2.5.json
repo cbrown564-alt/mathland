@@ -1,0 +1,17 @@
+{
+  "lessonId": "2.5",
+  "characterId": "vera",
+  "title": "Vera · Linear Combinations",
+  "chapters": [
+    {
+      "id": "ch1",
+      "audioSrc": "/audio/story/2.5/ch1.mp3",
+      "narration": "Any destination in the forest can be reached by mixing basic directions. A linear combination a times u plus b times v is a recipe — different amounts of each base vector create a new result. Think of it like mixing paint or scaling a recipe: two parts east plus three parts north lands you somewhere neither direction alone could reach."
+    },
+    {
+      "id": "ch2",
+      "audioSrc": "/audio/story/2.5/ch2.mp3",
+      "narration": "The span of u and v is every vector you can build from them — all possible recipes. With two non-parallel base vectors in the plane, the span fills the entire two-dimensional space. Every point on the map becomes reachable."
+    }
+  ]
+}

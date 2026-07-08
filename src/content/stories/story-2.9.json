@@ -1,0 +1,17 @@
+{
+  "lessonId": "2.9",
+  "characterId": "vera",
+  "title": "Vera · Forest Mapping Capstone",
+  "chapters": [
+    {
+      "id": "ch1",
+      "audioSrc": "/audio/story/2.9/ch1.mp3",
+      "narration": "Vera's capstone has three phases: design trails with vector addition, place wildlife cameras using linear independence, and read visitor movement in different coordinate systems. From the visitor center at zero-zero to the waterfall at six-eight, with a rest stop at three-four — two segments of length five give a total trail distance of ten units under the L2 norm."
+    },
+    {
+      "id": "ch2",
+      "audioSrc": "/audio/story/2.9/ch2.mp3",
+      "narration": "Two camera direction vectors are linearly independent when neither lies along the other — their determinant is non-zero, so together they span the whole plane. The same movement vector reads differently in a custom basis. Switch coordinate systems and the numbers change, but the arrow on the map stays put."
+    }
+  ]
+}

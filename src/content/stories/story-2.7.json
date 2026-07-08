@@ -1,0 +1,17 @@
+{
+  "lessonId": "2.7",
+  "characterId": "vera",
+  "title": "Vera · Basis and Dimension",
+  "chapters": [
+    {
+      "id": "ch1",
+      "audioSrc": "/audio/story/2.7/ch1.mp3",
+      "narration": "A basis is the minimum toolkit — linearly independent vectors that span the whole space. Like latitude and longitude for the Earth. The standard basis in two dimensions is one unit vector pointing east and one pointing north. Every vector gets a unique address: its coordinates in that basis."
+    },
+    {
+      "id": "ch2",
+      "audioSrc": "/audio/story/2.7/ch2.mp3",
+      "narration": "You can choose any independent pair as a basis. The same point has different coordinates in different bases — like switching map projections. The dimension of a space is the number of vectors in any basis. R two always has dimension two, no matter which basis you pick."
+    }
+  ]
+}
