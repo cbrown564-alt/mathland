@@ -50,8 +50,15 @@ export const VectorBasicsExplorer = ({ onStateChange }: InteractiveProps = {}) =
   const onPointerMove = (e: React.PointerEvent) => {
     if (!dragging || !svgRef.current) return;
     const rect = svgRef.current.getBoundingClientRect();
-    const math = svgToMath(e.clientX - rect.left, e.clientY - rect.top);
-    setVec({ x: snap(math.x), y: snap(math.y) });
+    const scaleX = SVG_WIDTH / rect.width;
+    const scaleY = SVG_HEIGHT / rect.height;
+    const svgX = (e.clientX - rect.left) * scaleX;
+    const svgY = (e.clientY - rect.top) * scaleY;
+    const math = svgToMath(svgX, svgY);
+    setVec({
+      x: Math.max(-GRID_SIZE, Math.min(GRID_SIZE, snap(math.x))),
+      y: Math.max(-GRID_SIZE, Math.min(GRID_SIZE, snap(math.y))),
+    });
   };
 
   const onPointerUp = (e: React.PointerEvent) => {
@@ -84,8 +91,8 @@ export const VectorBasicsExplorer = ({ onStateChange }: InteractiveProps = {}) =
             const gy = mathToSvg(0, val).y;
             return (
               <React.Fragment key={val}>
-                <line x1={gx} y1={0} x2={gx} y2={SVG_HEIGHT} stroke="rgba(255,255,255,0.06)" />
-                <line x1={0} y1={gy} x2={SVG_WIDTH} y2={gy} stroke="rgba(255,255,255,0.06)" />
+                <line x1={gx} y1={0} x2={gx} y2={SVG_HEIGHT} stroke="rgba(255,255,255,0.06)" strokeWidth={val === 0 ? 0 : 1} />
+                <line x1={0} y1={gy} x2={SVG_WIDTH} y2={gy} stroke="rgba(255,255,255,0.06)" strokeWidth={val === 0 ? 0 : 1} />
               </React.Fragment>
             );
           })}

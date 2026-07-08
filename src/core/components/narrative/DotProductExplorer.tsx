@@ -62,7 +62,7 @@ const PRESETS: { label: string; u: Vec; v: Vec; hint: string }[] = [
   },
   {
     label: "Opposite",
-    hint: "dot < 0 · vectors clash",
+    hint: "dot < 0 · vectors oppose",
     u: { id: "u", x: 3, y: 1, color: COLOR_U, label: "u" },
     v: { id: "v", x: -3, y: -1, color: COLOR_V, label: "v" },
   },
@@ -274,7 +274,7 @@ export const DotProductExplorer = ({ onStateChange }: InteractiveProps = {}) => 
           {/* Similarity meter */}
           <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
             <div className="flex items-center justify-between mb-1.5">
-              <span className="text-[11px] uppercase tracking-wider text-white/50">Similarity</span>
+              <span className="text-[11px] uppercase tracking-wider text-white/50">Agreement</span>
               <span className="text-xs font-semibold" style={{ color: toneColor[tone] }}>
                 {toneWord[tone]}
               </span>
@@ -293,7 +293,7 @@ export const DotProductExplorer = ({ onStateChange }: InteractiveProps = {}) => 
             </div>
             <div className="flex justify-between text-[9px] text-white/40 font-mono mt-1">
               <span>−1 oppose</span>
-              <span>0 ⟂</span>
+              <span>0 perpendicular</span>
               <span>+1 agree</span>
             </div>
             <div className="mt-2 font-mono text-xs text-white/60">

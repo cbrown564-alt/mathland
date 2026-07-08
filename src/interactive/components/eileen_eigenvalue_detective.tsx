@@ -183,12 +183,12 @@ const EileenEigenvalueDetective: React.FC<EileenEigenvalueDetectiveProps> = ({
       ctx.moveTo(transformedEnd[0], transformedEnd[1]);
       ctx.lineTo(
         transformedEnd[0] - arrowLength * Math.cos(angle2 - arrowAngle),
-        transformedEnd[1] + arrowLength * Math.sin(angle2 - arrowAngle)
+        transformedEnd[1] - arrowLength * Math.sin(angle2 - arrowAngle)
       );
       ctx.moveTo(transformedEnd[0], transformedEnd[1]);
       ctx.lineTo(
         transformedEnd[0] - arrowLength * Math.cos(angle2 + arrowAngle),
-        transformedEnd[1] + arrowLength * Math.sin(angle2 + arrowAngle)
+        transformedEnd[1] - arrowLength * Math.sin(angle2 + arrowAngle)
       );
       ctx.stroke();
     }

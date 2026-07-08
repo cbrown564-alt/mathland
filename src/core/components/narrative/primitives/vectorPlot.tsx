@@ -120,34 +120,46 @@ export const VectorPlotReadOnly = ({ state }: { state: VectorPlotState }) => {
   const labelV = labelPos(CX, CY, pv.x, pv.y);
   const labelSum = labelPos(CX, CY, ps.x, ps.y);
   const tone = dot > 0.06 ? "#4ade80" : dot < -0.06 ? "#fb7185" : "#fbbf24";
-  const toneWord = dot > 0.06 ? "agree" : dot < -0.06 ? "oppose" : "⟂";
-  const gridLines = Array.from({ length: 15 }, (_, i) => i - 7);
+  const toneWord = dot > 0.06 ? "agree" : dot < -0.06 ? "oppose" : "perpendicular";
+
+  const gridLinesX = useMemo(() => {
+    const min = Math.ceil(-CX / UNIT);
+    const max = Math.floor((W - CX) / UNIT);
+    return Array.from({ length: max - min + 1 }, (_, k) => k + min);
+  }, []);
+
+  const gridLinesY = useMemo(() => {
+    const min = Math.ceil(-CY / UNIT);
+    const max = Math.floor((H - CY) / UNIT);
+    return Array.from({ length: max - min + 1 }, (_, k) => k + min);
+  }, []);
 
   const basisGrid = useMemo(() => {
     if (!basis) return null;
+    const extent = 6;
     const lines: { x1: number; y1: number; x2: number; y2: number }[] = [];
-    for (let i = -3; i <= 3; i++) {
-      for (let j = -3; j <= 3; j++) {
-        if (i === 0 && j === 0) continue;
-        const bx = i * u[0] + j * v[0];
-        const by = i * u[1] + j * v[1];
-        const p = toPx(bx, by);
-        if (i !== 0) {
-          const bx2 = (i + 1) * u[0] + j * v[0];
-          const by2 = (i + 1) * u[1] + j * v[1];
-          const p2 = toPx(bx2, by2);
-          lines.push({ x1: p.x, y1: p.y, x2: p2.x, y2: p2.y });
-        }
-        if (j !== 0) {
-          const bx2 = i * u[0] + (j + 1) * v[0];
-          const by2 = i * u[1] + (j + 1) * v[1];
-          const p2 = toPx(bx2, by2);
-          lines.push({ x1: p.x, y1: p.y, x2: p2.x, y2: p2.y });
-        }
-      }
+    for (let i = -extent; i <= extent; i++) {
+      const alongUStart = toPx(i * u[0] - extent * v[0], i * u[1] - extent * v[1]);
+      const alongUEnd = toPx(i * u[0] + extent * v[0], i * u[1] + extent * v[1]);
+      lines.push({ x1: alongUStart.x, y1: alongUStart.y, x2: alongUEnd.x, y2: alongUEnd.y });
+      const alongVStart = toPx(-extent * u[0] + i * v[0], -extent * u[1] + i * v[1]);
+      const alongVEnd = toPx(extent * u[0] + i * v[0], extent * u[1] + i * v[1]);
+      lines.push({ x1: alongVStart.x, y1: alongVStart.y, x2: alongVEnd.x, y2: alongVEnd.y });
     }
     return lines;
   }, [basis, u, v]);
+
+  const spanPolygon = useMemo(() => {
+    if (!span || parallel) return null;
+    const ext = 5;
+    const corners = [
+      toPx(-ext * u[0] - ext * v[0], -ext * u[1] - ext * v[1]),
+      toPx(ext * u[0] - ext * v[0], ext * u[1] - ext * v[1]),
+      toPx(ext * u[0] + ext * v[0], ext * u[1] + ext * v[1]),
+      toPx(-ext * u[0] + ext * v[0], -ext * u[1] + ext * v[1]),
+    ];
+    return corners.map((p) => `${p.x},${p.y}`).join(" ");
+  }, [span, parallel, u, v]);
 
   const spanLines = useMemo(() => {
     if (!span) return null;
@@ -179,14 +191,6 @@ export const VectorPlotReadOnly = ({ state }: { state: VectorPlotState }) => {
         aria-label={`Vectors u and v${sum ? " with sum u+v" : ""}${unitCircle ? " and unit circle" : ""}`}
       >
         <defs>
-          <radialGradient id="vp-fade" cx="50%" cy="50%" r="62%">
-            <stop offset="0%" stopColor="#fff" />
-            <stop offset="70%" stopColor="#fff" stopOpacity="0.75" />
-            <stop offset="100%" stopColor="#000" />
-          </radialGradient>
-          <mask id="vp-mask">
-            <rect x="0" y="0" width={W} height={H} fill="url(#vp-fade)" />
-          </mask>
           <filter id="vp-glow" x="-30%" y="-30%" width="160%" height="160%">
             <feGaussianBlur stdDeviation="3.5" result="b" />
             <feMerge>
@@ -213,16 +217,13 @@ export const VectorPlotReadOnly = ({ state }: { state: VectorPlotState }) => {
                 />
               ))
             ) : (
-              <polygon
-                points={`${CX - 6 * UNIT},${CY + 4 * UNIT} ${CX + 6 * UNIT},${CY + 4 * UNIT} ${CX + 6 * UNIT},${CY - 4 * UNIT} ${CX - 6 * UNIT},${CY - 4 * UNIT}`}
-                fill={SPAN_FILL}
-              />
+              spanPolygon && <polygon points={spanPolygon} fill={SPAN_FILL} />
             )}
           </g>
         )}
 
         {/* standard or basis grid */}
-        <g mask="url(#vp-mask)">
+        <g>
           {basis && basisGrid ? (
             basisGrid.map((ln, i) => (
               <line
@@ -236,12 +237,32 @@ export const VectorPlotReadOnly = ({ state }: { state: VectorPlotState }) => {
               />
             ))
           ) : (
-            gridLines.map((i) => (
-              <g key={i}>
-                <line x1={CX + i * UNIT} y1={0} x2={CX + i * UNIT} y2={H} stroke="rgba(255,255,255,0.06)" />
-                <line x1={0} y1={CY + i * UNIT} x2={W} y2={CY + i * UNIT} stroke="rgba(255,255,255,0.06)" />
-              </g>
-            ))
+            <>
+              {gridLinesX.map((i) =>
+                i === 0 ? null : (
+                  <line
+                    key={`vx-${i}`}
+                    x1={CX + i * UNIT}
+                    y1={0}
+                    x2={CX + i * UNIT}
+                    y2={H}
+                    stroke="rgba(255,255,255,0.06)"
+                  />
+                ),
+              )}
+              {gridLinesY.map((j) =>
+                j === 0 ? null : (
+                  <line
+                    key={`hy-${j}`}
+                    x1={0}
+                    y1={CY - j * UNIT}
+                    x2={W}
+                    y2={CY - j * UNIT}
+                    stroke="rgba(255,255,255,0.06)"
+                  />
+                ),
+              )}
+            </>
           )}
           <line x1={0} y1={CY} x2={W} y2={CY} stroke="rgba(255,255,255,0.2)" strokeWidth={1.25} />
           <line x1={CX} y1={0} x2={CX} y2={H} stroke="rgba(255,255,255,0.2)" strokeWidth={1.25} />
@@ -283,13 +304,15 @@ export const VectorPlotReadOnly = ({ state }: { state: VectorPlotState }) => {
           </g>
         )}
 
-        <path
-          d={arcPath}
-          fill="none"
-          stroke={emphasis === "angle" ? tone : "rgba(255,255,255,0.45)"}
-          strokeWidth={emphasis === "angle" ? 2.5 : 1.5}
-          strokeDasharray="3 3"
-        />
+        {mu > 0.01 && mv > 0.01 && (
+          <path
+            d={arcPath}
+            fill="none"
+            stroke={emphasis === "angle" ? tone : "rgba(255,255,255,0.45)"}
+            strokeWidth={emphasis === "angle" ? 2.5 : 1.5}
+            strokeDasharray="3 3"
+          />
+        )}
 
         {/* scalar multiple ghost */}
         {scale !== undefined && (

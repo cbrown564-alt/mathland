@@ -78,8 +78,10 @@ const VeraVectorPlayground = () => {
     const svg = svgRef.current;
     if (!svg) return;
     const rect = svg.getBoundingClientRect();
-    const svgX = e.clientX - rect.left;
-    const svgY = e.clientY - rect.top;
+    const scaleX = SVG_WIDTH / rect.width;
+    const scaleY = SVG_HEIGHT / rect.height;
+    const svgX = (e.clientX - rect.left) * scaleX;
+    const svgY = (e.clientY - rect.top) * scaleY;
     const math = svgToMath(svgX, svgY);
     // Snap to 0.5 units
     const snapped = { x: snapToGrid(math.x), y: snapToGrid(math.y) };

@@ -416,8 +416,10 @@ const GradientExplorer: React.FC<GradientExplorerProps> = ({
     if (!canvas) return;
     
     const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const scaleX = canvasWidth / rect.width;
+    const scaleY = canvasHeight / rect.height;
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
     
     const mathCoords = screenToMath(x, y);
     if (mathCoords.x >= 0 && mathCoords.x <= 1 && mathCoords.y >= 0 && mathCoords.y <= 1) {
@@ -434,8 +436,10 @@ const GradientExplorer: React.FC<GradientExplorerProps> = ({
     if (!canvas) return;
     
     const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const scaleX = canvasWidth / rect.width;
+    const scaleY = canvasHeight / rect.height;
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
     
     const mathCoords = screenToMath(x, y);
     if (mathCoords.x >= 0 && mathCoords.x <= 1 && mathCoords.y >= 0 && mathCoords.y <= 1) {

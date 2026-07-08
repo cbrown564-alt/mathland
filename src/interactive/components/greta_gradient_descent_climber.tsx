@@ -15,6 +15,7 @@ const landscapeFunctions = {
     gradient: (x: number, y: number) => [0.2 * x, 0.2 * y],
     description: 'f(x,y) = 0.1(x² + y²)',
     minimum: [0, 0],
+    goal: 'Reach the red flag at the valley bottom',
     insight: 'Perfect bowl - gradient always points toward center!'
   },
   rosenbrock: {
@@ -26,6 +27,7 @@ const landscapeFunctions = {
     ],
     description: 'f(x,y) = (1-x)² + 100(y-x²)²',
     minimum: [1, 1],
+    goal: 'Reach the red flag at the valley bottom (1, 1)',
     insight: 'Banana-shaped valley - tricky to navigate but leads to (1,1)!'
   },
   saddle_point: {
@@ -34,6 +36,7 @@ const landscapeFunctions = {
     gradient: (x: number, y: number) => [2 * x, -2 * y],
     description: 'f(x,y) = x² - y²',
     minimum: [0, 0],
+    goal: 'Explore how gradient descent behaves near the saddle at (0, 0)',
     insight: 'Saddle point - minimum in one direction, maximum in another!'
   },
   himmelblau: {
@@ -45,6 +48,7 @@ const landscapeFunctions = {
     ],
     description: 'f(x,y) = (x²+y-11)² + (x+y²-7)²',
     minimum: [3, 2],
+    goal: 'Reach the red flag at one of the four minima',
     insight: 'Multiple minima - various paths to success!'
   }
 };
@@ -285,7 +289,7 @@ const GretaGradientDescentClimber: React.FC<GretaGradientDescentClimberProps> = 
     
     // Bound within domain
     const boundedX = Math.max(-DOMAIN, Math.min(DOMAIN, newX));
-    const boundedY = Math.max(-DOMAIN, Math.min(DOMAIN, boundedY));
+    const boundedY = Math.max(-DOMAIN, Math.min(DOMAIN, newY));
     
     const newPoint: [number, number] = [boundedX, boundedY];
     setCurrentPoint(newPoint);
@@ -370,7 +374,7 @@ const GretaGradientDescentClimber: React.FC<GretaGradientDescentClimberProps> = 
         </Avatar>
         <div>
           <h2 className="text-xl font-bold text-slate-800">Greta's Mountain Optimization</h2>
-          <p className="text-slate-600">Find the optimal path to the valley bottom!</p>
+          <p className="text-slate-600">{currentLandscape.goal}</p>
         </div>
         <Badge variant="outline" className="ml-auto">
           Expedition #{expeditionCount}
@@ -544,7 +548,7 @@ const GretaGradientDescentClimber: React.FC<GretaGradientDescentClimberProps> = 
                   <div className="text-xs space-y-1">
                     <div><strong>Red Arrow:</strong> Shows downhill direction (negative gradient)</div>
                     <div><strong>Learning Rate:</strong> Controls step size - find the sweet spot!</div>
-                    <div><strong>Goal:</strong> Reach the red flag at the valley bottom</div>
+                    <div><strong>Goal:</strong> {currentLandscape.goal}</div>
                     <div><strong>Insight:</strong> {currentLandscape.insight}</div>
                   </div>
                 </div>

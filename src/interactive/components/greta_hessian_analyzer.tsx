@@ -330,8 +330,10 @@ const HessianAnalyzer: React.FC<HessianAnalyzerProps> = ({
     
     const canvas = event.currentTarget;
     const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    const scaleX = CANVAS_WIDTH / rect.width;
+    const scaleY = CANVAS_HEIGHT / rect.height;
+    const x = (event.clientX - rect.left) * scaleX;
+    const y = (event.clientY - rect.top) * scaleY;
     
     const scale = 0.1;
     const centerX = CANVAS_WIDTH / 2;

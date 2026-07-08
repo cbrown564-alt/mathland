@@ -17,7 +17,7 @@ const BayesMedicalDiagnosis: React.FC<BayesMedicalDiagnosisProps> = ({
   onProgress, 
   isPreview = false 
 }) => {
-  const [priorProbability, setPriorProbability] = useState([1]); // 1% default
+  const [priorProbability, setPriorProbability] = useState([0.1]); // 0.1% default (rare disease)
   const [currentStep, setCurrentStep] = useState(0);
   const [testApplied, setTestApplied] = useState(false);
   const [posterior, setPosterior] = useState(0);
