@@ -36,7 +36,7 @@ const functionPresets = {
 };
 
 // Calculate partial derivatives using finite differences
-const calculatePartialDerivatives = (func: Function, x: number, y: number, h: number = 0.1) => {
+const calculatePartialDerivatives = (func: (x: number, y: number) => number, x: number, y: number, h: number = 0.1) => {
   const fx = (func(x + h, y) - func(x - h, y)) / (2 * h);
   const fy = (func(x, y + h) - func(x, y - h)) / (2 * h);
   return { fx, fy };

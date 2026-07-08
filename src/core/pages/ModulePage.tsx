@@ -7,6 +7,7 @@ import { characters } from "@/utils/characterData";
 import { modulesData } from "@/utils/modulesData";
 import { getLessonOrderForModuleAsync, getLessonDataForModuleAsync } from "@/utils/lessonData";
 import { getLessonProgress } from "@/core/hooks/useLessonProgress";
+import { LessonData } from "@/core/types/lesson";
 
 const getModuleLessons = async (moduleId: string) => {
   const lessonOrder = await getLessonOrderForModuleAsync(moduleId);
@@ -19,7 +20,7 @@ const getModuleMeta = (moduleId: string) => {
   return modulesData.find(m => String(m.id) === moduleId);
 };
 
-const getLessonSectionCount = (lesson: any) => {
+const getLessonSectionCount = (lesson: LessonData) => {
   // Count the number of sections for this lesson (should match the sections array in LessonTemplate)
   // Fallback to 8 if not found
   if (!lesson) return 8;
@@ -39,7 +40,7 @@ const getLessonSectionCount = (lesson: any) => {
 const ModulePage = () => {
   const { moduleId } = useParams<{ moduleId: string }>();
   const navigate = useNavigate();
-  const [lessons, setLessons] = useState<any[]>([]);
+  const [lessons, setLessons] = useState<LessonData[]>([]);
   const moduleMeta = getModuleMeta(moduleId || "0");
 
   useEffect(() => {

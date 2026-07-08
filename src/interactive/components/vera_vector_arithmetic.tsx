@@ -60,7 +60,7 @@ const VectorArithmetic: React.FC<VectorArithmeticProps> = ({
           magnitude: Math.sqrt(Math.pow(scaledA.x - scaledB.x, 2) + Math.pow(scaledA.y - scaledB.y, 2)),
           isScalar: false
         };
-      case 'dot':
+      case 'dot': {
         const dotProduct = scaledA.x * scaledB.x + scaledA.y * scaledB.y;
         return {
           x: dotProduct,
@@ -68,6 +68,7 @@ const VectorArithmetic: React.FC<VectorArithmeticProps> = ({
           magnitude: Math.abs(dotProduct),
           isScalar: true
         };
+      }
       default:
         return { x: 0, y: 0, magnitude: 0, isScalar: false };
     }

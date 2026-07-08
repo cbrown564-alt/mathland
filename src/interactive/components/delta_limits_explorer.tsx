@@ -70,11 +70,12 @@ const DeltaLimitsExplorer: React.FC<LimitsExplorerProps> = ({
         // f(x,y) = (x² + y² - 1)/(x + y - 1) with removable discontinuity
         if (Math.abs(x + y - 1) < 0.001) return NaN;
         return (x * x + y * y - 1) / (x + y - 1);
-      case 'polar':
+      case 'polar': {
         // f(x,y) = x²y/(x² + y²)² 
         if (Math.abs(x) < 0.001 && Math.abs(y) < 0.001) return NaN;
         const r2 = x * x + y * y;
         return (x * x * y) / (r2 * r2);
+      }
       default:
         return 0;
     }
@@ -90,26 +91,29 @@ const DeltaLimitsExplorer: React.FC<LimitsExplorerProps> = ({
           targetX + approachDistance * Math.cos(pathParameter),
           targetY + approachDistance * Math.sin(pathParameter)
         ];
-      case 'parabolic':
+      case 'parabolic': {
         const s = approachDistance;
         return [
           targetX + s,
           targetY + pathParameter * s * s
         ];
-      case 'circular':
+      }
+      case 'circular': {
         const radius = approachDistance;
         const angle = pathParameter * t * 4 * Math.PI; // spiral in
         return [
           targetX + radius * Math.cos(angle),
           targetY + radius * Math.sin(angle)
         ];
-      case 'custom':
+      }
+      case 'custom': {
         // Oscillating approach
         const dist = approachDistance;
         return [
           targetX + dist * Math.cos(pathParameter),
           targetY + dist * Math.sin(pathParameter + 10 * dist)
         ];
+      }
       default:
         return [targetX, targetY];
     }
@@ -137,12 +141,13 @@ const DeltaLimitsExplorer: React.FC<LimitsExplorerProps> = ({
           targetX + approachDistance * Math.cos(param),
           targetY + approachDistance * Math.sin(param)
         ];
-      case 'parabolic':
+      case 'parabolic': {
         const s = approachDistance;
         return [
           targetX + s,
           targetY + param * s * s
         ];
+      }
       default:
         return [targetX, targetY];
     }
@@ -558,7 +563,7 @@ const DeltaLimitsExplorer: React.FC<LimitsExplorerProps> = ({
                     size="sm"
                     variant={funcType === func.type ? "default" : "outline"}
                     onClick={() => {
-                      setFuncType(func.type as any);
+                      setFuncType(func.type);
                       const newExplored = new Set(exploredPaths);
                       newExplored.add(func.type);
                       setExploredPaths(newExplored);
@@ -588,7 +593,7 @@ const DeltaLimitsExplorer: React.FC<LimitsExplorerProps> = ({
                     key={path.type}
                     size="sm"
                     variant={pathType === path.type ? "default" : "outline"}
-                    onClick={() => setPathType(path.type as any)}
+                      onClick={() => setPathType(path.type)}
                     className="w-full justify-start"
                   >
                     {path.name}

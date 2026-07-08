@@ -14,7 +14,9 @@ describe('cn utility function', () => {
   });
 
   it('should handle conditional classes', () => {
-    const result = cn('base-class', true && 'conditional-class', false && 'hidden-class');
+    const showConditional = true;
+    const hideClass = false;
+    const result = cn('base-class', showConditional && 'conditional-class', hideClass && 'hidden-class');
     expect(result).toEqual(expect.stringContaining('base-class'));
     expect(result).toEqual(expect.stringContaining('conditional-class'));
     expect(result).not.toEqual(expect.stringContaining('hidden-class'));

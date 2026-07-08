@@ -7,8 +7,26 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { getLessonProgress } from "@/core/hooks/useLessonProgress";
 
+type RoadmapModule = {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  color: string;
+  lessons: number;
+  status: "available" | "locked" | "completed" | "current";
+  progress: number;
+  completedLessons: number;
+  totalLessons: number;
+  prerequisites: number[];
+  character: { name: string; avatar: string } | null;
+  concepts?: string[];
+  topics?: string[];
+  roadmapConcepts?: string[];
+};
+
 export const CourseRoadmap = () => {
-  const [modules, setModules] = useState<any[]>([]);
+  const [modules, setModules] = useState<RoadmapModule[]>([]);
   const [overallProgress, setOverallProgress] = useState(0);
 
   useEffect(() => {

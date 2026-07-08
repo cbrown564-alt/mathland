@@ -51,7 +51,7 @@ const RandomVariables: React.FC<RandomVariablesProps> = ({
   const [outcomes, setOutcomes] = useState<ExperimentOutcome[]>([]);
   
   // Challenge state
-  const [currentChallenge, setCurrentChallenge] = useState<any>(null);
+  const [currentChallenge, setCurrentChallenge] = useState<{ id: string; question: string; answer: string; explanation?: string } | null>(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [showAnswer, setShowAnswer] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -173,8 +173,8 @@ const RandomVariables: React.FC<RandomVariablesProps> = ({
     const plotWidth = CANVAS_WIDTH - margin.left - margin.right;
     const plotHeight = CANVAS_HEIGHT - margin.top - margin.bottom;
     
-    let values: number[] = [];
-    let probabilities: number[] = [];
+    const values: number[] = [];
+    const probabilities: number[] = [];
     
     if (dist.name === 'Coin Flips') {
       const n = dist.parameters.n;

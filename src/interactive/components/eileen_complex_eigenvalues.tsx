@@ -58,7 +58,7 @@ const ComplexEigenvalues: React.FC<ComplexEigenvaluesProps> = ({
   const [systemAnalysis, setSystemAnalysis] = useState('');
   
   // Challenge state
-  const [currentChallenge, setCurrentChallenge] = useState<any>(null);
+  const [currentChallenge, setCurrentChallenge] = useState<{ id: string; question: string; answer: string; explanation?: string } | null>(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [showAnswer, setShowAnswer] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);

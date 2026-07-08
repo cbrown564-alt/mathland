@@ -68,7 +68,7 @@ const PCADimensionReducer: React.FC<PCADimensionReducerProps> = ({
       let x: number, y: number;
       
       switch (datasetType) {
-        case 'ellipse':
+        case 'ellipse': {
           // Elliptical distribution with correlation
           const angle = (i / numPoints) * 2 * Math.PI;
           const radius = 1 + (Math.random() - 0.5) * 0.3;
@@ -82,19 +82,21 @@ const PCADimensionReducer: React.FC<PCADimensionReducerProps> = ({
           x = rotX;
           y = rotY;
           break;
-          
+        }
+        
         case 'diagonal':
           // Diagonal correlation
           x = (Math.random() - 0.5) * dataSpread * 2;
           y = x * 0.8 + (Math.random() - 0.5) * baseNoise;
           break;
           
-        case 'cluster':
+        case 'cluster': {
           // Two clusters
           const cluster = Math.random() < 0.5 ? 1 : -1;
           x = cluster * dataSpread * 0.8 + (Math.random() - 0.5) * baseNoise;
           y = cluster * dataSpread * 0.6 + (Math.random() - 0.5) * baseNoise;
           break;
+        }
           
         case 'random':
           // Random uncorrelated data

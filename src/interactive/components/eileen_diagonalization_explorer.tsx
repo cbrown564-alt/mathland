@@ -296,7 +296,7 @@ const DiagonalizationExplorer: React.FC<DiagonalizationExplorerProps> = ({
     ctx.fillStyle = '#1F2937';
     ctx.font = '14px Inter, sans-serif';
     
-    let yPos = 30;
+    const yPos = 30;
     const stepHeight = 20;
     
     switch (currentStep) {

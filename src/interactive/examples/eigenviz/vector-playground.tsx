@@ -394,7 +394,7 @@ export default function VectorPlayground() {
 
       svg
         .select(".angle-arc")
-        .attr("d", arc as any)
+        .attr("d", arc())
         .attr("stroke", "yellow")
         .attr("stroke-width", 2)
         .attr("opacity", 0.8)

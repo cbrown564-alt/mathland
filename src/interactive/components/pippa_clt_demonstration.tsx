@@ -75,17 +75,19 @@ const CLTDemonstration: React.FC<CLTDemonstrationProps> = ({
       case 'exponential':
         return -Math.log(Math.random()) / dist.param1;
         
-      case 'binomial':
+      case 'binomial': {
         let successes = 0;
         for (let i = 0; i < dist.param1; i++) {
           if (Math.random() < dist.param2) successes++;
         }
         return successes;
-        
-      case 'skewed':
+      }
+      
+      case 'skewed': {
         // Right-skewed using exponential transformation
         const u = Math.random();
         return Math.pow(u, 1/3) * dist.param1;
+      }
         
       case 'bimodal':
         // Two peaks

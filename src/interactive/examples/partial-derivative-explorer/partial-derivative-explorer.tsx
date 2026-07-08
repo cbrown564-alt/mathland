@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect, useCallback } from "react"
-import { Canvas, useFrame, useThree, extend } from "@react-three/fiber"
+import { Canvas, useFrame, useThree, extend, type ThreeEvent } from "@react-three/fiber"
 import { OrbitControls } from "@react-three/drei"
 import { EffectComposer, Bloom } from "@react-three/postprocessing"
 import * as THREE from "three"
@@ -10,15 +10,15 @@ import * as d3 from "d3"
 extend({ OrbitControls })
 
 // ==== Math Helpers ====
-const fx = (f: Function, x: number, y: number, h = 1e-3) => {
+const fx = (f: (x: number, y: number) => number, x: number, y: number, h = 1e-3) => {
   return (f(x + h, y) - f(x - h, y)) / (2 * h)
 }
 
-const fy = (f: Function, x: number, y: number, h = 1e-3) => {
+const fy = (f: (x: number, y: number) => number, x: number, y: number, h = 1e-3) => {
   return (f(x, y + h) - f(x, y - h)) / (2 * h)
 }
 
-const gradient = (f: Function, x: number, y: number) => {
+const gradient = (f: (x: number, y: number) => number, x: number, y: number) => {
   return [fx(f, x, y), fy(f, x, y)]
 }
 
@@ -30,12 +30,16 @@ const functionPresets = {
   custom: (x: number, y: number) => Math.sin(x) * Math.cos(y),
 }
 
+type MathFunc = (x: number, y: number) => number
+type Point = number[]
+type DragHandler = (newPosition: number[]) => void
+
 // ==== Surface Component ====
-function Surface({ func, onPointDrag, pointPosition }: any) {
+function Surface({ func, onPointDrag, pointPosition }: { func: MathFunc; onPointDrag: DragHandler; pointPosition: Point }) {
   const meshRef = useRef<THREE.Mesh>(null)
   const [geometry, setGeometry] = useState<THREE.BufferGeometry | null>(null)
 
-  const createSurface = useCallback((f: Function) => {
+  const createSurface = useCallback((f: (x: number, y: number) => number) => {
     const resolution = 64
     const domain = 2 * Math.PI
     const vertices = []
@@ -89,7 +93,7 @@ function Surface({ func, onPointDrag, pointPosition }: any) {
 }
 
 // ==== Interactive Point ====
-function InteractivePoint({ position, onDrag, func }: any) {
+function InteractivePoint({ position, onDrag, func }: { position: Point; onDrag: DragHandler; func: MathFunc }) {
   const pointRef = useRef<THREE.Mesh>(null)
   const { camera, gl, scene } = useThree()
   const raycaster = new THREE.Raycaster()
@@ -97,7 +101,7 @@ function InteractivePoint({ position, onDrag, func }: any) {
   const isDragging = useRef(false)
 
   const handlePointerDown = useCallback(
-    (event: any) => {
+    (event: ThreeEvent<PointerEvent>) => {
       isDragging.current = true
       gl.domElement.style.cursor = "grabbing"
     },
@@ -105,7 +109,7 @@ function InteractivePoint({ position, onDrag, func }: any) {
   )
 
   const handlePointerMove = useCallback(
-    (event: any) => {
+    (event: ThreeEvent<PointerEvent>) => {
       if (!isDragging.current) return
 
       const rect = gl.domElement.getBoundingClientRect()
@@ -154,7 +158,7 @@ function InteractivePoint({ position, onDrag, func }: any) {
 }
 
 // ==== Tangent Plane ====
-function TangentPlane({ position, func, visible, opacity }: any) {
+function TangentPlane({ position, func, visible, opacity }: { position: Point; func: MathFunc; visible: boolean; opacity: number }) {
   const planeRef = useRef<THREE.Mesh>(null)
 
   const [fx_val, fy_val] = gradient(func, position[0], position[1])
@@ -177,7 +181,7 @@ function TangentPlane({ position, func, visible, opacity }: any) {
 }
 
 // ==== Gradient Arrow ====
-function GradientArrow({ position, func, visible }: any) {
+function GradientArrow({ position, func, visible }: { position: Point; func: MathFunc; visible: boolean }) {
   const arrowRef = useRef<THREE.ArrowHelper>(null)
   const { scene } = useThree()
 
@@ -223,7 +227,7 @@ function GradientArrow({ position, func, visible }: any) {
 }
 
 // ==== Cross Section Curves ====
-function CrossSectionCurves({ position, func, visible }: any) {
+function CrossSectionCurves({ position, func, visible }: { position: Point; func: MathFunc; visible: boolean }) {
   const xCurveRef = useRef<THREE.Line>(null)
   const yCurveRef = useRef<THREE.Line>(null)
 

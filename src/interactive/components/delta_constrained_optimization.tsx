@@ -125,7 +125,7 @@ const ConstrainedOptimization: React.FC<ConstrainedOptimizationProps> = ({
     if (constraintType === 'circle') {
       // Parametric approach: x = r*cos(θ), y = r*sin(θ)
       const numSamples = 100;
-      let bestPoints: { point: Point; value: number; type: 'maximum' | 'minimum' }[] = [];
+      const bestPoints: { point: Point; value: number; type: 'maximum' | 'minimum' }[] = [];
       
       for (let i = 0; i < numSamples; i++) {
         const theta = (2 * Math.PI * i) / numSamples;

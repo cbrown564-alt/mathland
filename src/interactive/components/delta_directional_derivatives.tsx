@@ -48,11 +48,12 @@ const DirectionalDerivativeExplorer: React.FC<DirectionalDerivativeProps> = ({
   // Function definitions based on lesson requirements
   const evaluateFunction = useCallback((x: number, y: number) => {
     switch (funcType) {
-      case 'hills':
+      case 'hills': {
         // Two hills for interesting directional derivatives
         const hill1 = 2 * Math.exp(-((x - 0.3) * (x - 0.3) + (y - 0.3) * (y - 0.3)) / 0.05);
         const hill2 = 1.5 * Math.exp(-((x - 0.7) * (x - 0.7) + (y - 0.7) * (y - 0.7)) / 0.03);
         return hill1 + hill2 + 0.5 * (x * x + y * y);
+      }
       case 'saddle':
         return 2 * (x * x - y * y) + x * y;
       case 'bowl':
@@ -571,7 +572,7 @@ const DirectionalDerivativeExplorer: React.FC<DirectionalDerivativeProps> = ({
                     key={func.type}
                     size="sm"
                     variant={funcType === func.type ? "default" : "outline"}
-                    onClick={() => setFuncType(func.type as any)}
+                    onClick={() => setFuncType(func.type)}
                     className="justify-start"
                   >
                     {func.name}

@@ -134,7 +134,7 @@ export interface DiagramElement {
   type: 'shape' | 'arrow' | 'label' | 'formula' | 'point' | 'line' | 'curve';
   position: { x: number; y: number };
   properties: {
-    [key: string]: any; // Flexible properties for different element types
+    [key: string]: unknown; // Flexible properties for different element types
   };
   styling: {
     color?: string;

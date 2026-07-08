@@ -48,11 +48,12 @@ const DeltaContinuitySurfaces: React.FC<ContinuitySurfacesProps> = ({
     switch (funcType) {
       case 'continuous':
         return Math.sin(x) * Math.cos(y) + 0.5 * Math.sin(2 * x + y);
-      case 'removable':
+      case 'removable': {
         // f(x,y) = sin(x² + y²)/(x² + y²) with removable discontinuity at origin
         const r2 = x * x + y * y;
         if (r2 < 0.001) return 1; // Define limit value at origin
         return Math.sin(r2) / r2;
+      }
       case 'jump':
         // Piecewise function with jump discontinuity
         if (x + y > 0) {
@@ -60,15 +61,17 @@ const DeltaContinuitySurfaces: React.FC<ContinuitySurfacesProps> = ({
         } else {
           return Math.exp(-x * x - y * y) - 1;
         }
-      case 'infinite':
+      case 'infinite': {
         // Function with vertical asymptote
         const denominator = (x * x + y * y - 1);
         if (Math.abs(denominator) < 0.1) return NaN; // Undefined near unit circle
         return 1 / denominator;
-      case 'composite':
+      }
+      case 'composite': {
         // Composition of continuous functions
         const inner = x * x + y * y;
         return Math.exp(-inner) * Math.sin(5 * Math.sqrt(inner));
+      }
       default:
         return 0;
     }
@@ -508,7 +511,7 @@ const DeltaContinuitySurfaces: React.FC<ContinuitySurfacesProps> = ({
                     size="sm"
                     variant={funcType === func.type ? "default" : "outline"}
                     onClick={() => {
-                      setFuncType(func.type as any);
+                      setFuncType(func.type);
                       const newExplored = new Set(exploredFunctions);
                       newExplored.add(func.type);
                       setExploredFunctions(newExplored);

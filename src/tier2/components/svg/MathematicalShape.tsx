@@ -42,7 +42,7 @@ const MathematicalShape: React.FC<MathematicalShapeProps> = ({
 
   const renderShape = () => {
     switch (type) {
-      case 'circle':
+      case 'circle': {
         const radius = 'radius' in size ? size.radius : Math.min(size.width, size.height) / 2;
         return (
           <circle
@@ -57,8 +57,9 @@ const MathematicalShape: React.FC<MathematicalShapeProps> = ({
             {...commonProps}
           />
         );
+      }
 
-      case 'ellipse':
+      case 'ellipse': {
         const rx = 'width' in size ? size.width / 2 : 50;
         const ry = 'height' in size ? size.height / 2 : 30;
         return (
@@ -76,8 +77,9 @@ const MathematicalShape: React.FC<MathematicalShapeProps> = ({
             {...commonProps}
           />
         );
+      }
 
-      case 'rectangle':
+      case 'rectangle': {
         const width = 'width' in size ? size.width : 100;
         const height = 'height' in size ? size.height : 50;
         return (
@@ -95,8 +97,9 @@ const MathematicalShape: React.FC<MathematicalShapeProps> = ({
             {...commonProps}
           />
         );
+      }
 
-      case 'triangle':
+      case 'triangle': {
         const trianglePoints = points.length >= 3 ? points : [
           { x: center.x, y: center.y - 30 },
           { x: center.x - 25, y: center.y + 20 },
@@ -114,6 +117,7 @@ const MathematicalShape: React.FC<MathematicalShapeProps> = ({
             {...commonProps}
           />
         );
+      }
 
       case 'polygon':
         if (points.length < 3) return null;
@@ -146,7 +150,7 @@ const MathematicalShape: React.FC<MathematicalShapeProps> = ({
           />
         );
 
-      case 'arc':
+      case 'arc': {
         if (points.length < 2) return null;
         const startAngle = Math.atan2(points[0].y - center.y, points[0].x - center.x);
         const endAngle = Math.atan2(points[1].y - center.y, points[1].x - center.x);
@@ -171,6 +175,7 @@ const MathematicalShape: React.FC<MathematicalShapeProps> = ({
             {...commonProps}
           />
         );
+      }
 
       default:
         return null;

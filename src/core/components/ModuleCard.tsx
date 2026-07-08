@@ -7,7 +7,7 @@ interface Module {
   title: string;
   subtitle: string;
   character: { name: string; avatar: string } | null;
-  topics: string[];
+  topics?: string[];
   status: "available" | "locked" | "completed" | "current";
   description: string;
   color: string;

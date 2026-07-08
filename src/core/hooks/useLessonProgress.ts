@@ -57,9 +57,9 @@ const storeProgress = (lessonId: string, completedSections: Set<string>, current
   }
 };
 
-function areSetsEqual(a: Set<any>, b: Set<any>) {
+function areSetsEqual(a: Set<string>, b: Set<string>) {
   if (a.size !== b.size) return false;
-  for (let item of a) if (!b.has(item)) return false;
+  for (const item of a) if (!b.has(item)) return false;
   return true;
 }
 

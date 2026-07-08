@@ -129,7 +129,7 @@ const PippaProbabilityMagic: React.FC<PippaProbabilityMagicProps> = ({
             if (Math.random() < binomialP[0]) result++;
           }
           break;
-        case 'poisson':
+        case 'poisson': {
           // Generate Poisson using inverse transform sampling
           const L = Math.exp(-poissonLambda[0]);
           let p = 1;
@@ -140,6 +140,7 @@ const PippaProbabilityMagic: React.FC<PippaProbabilityMagicProps> = ({
           } while (p > L);
           result = k - 1;
           break;
+        }
       }
       
       results.push(result);

@@ -8,6 +8,7 @@ import clsx from "clsx";
 import { Dialog, DialogContent } from "@/core/components/ui/dialog";
 import { ModuleCharacterCard } from "@/core/components/ModuleCharacterCard";
 import { getLessonOrderForModule } from "@/utils/lessonData";
+import { Character } from "@/core/types/character";
 
 // Character speaking order with precise timings (in seconds)
 const characterTimings = [
@@ -55,7 +56,7 @@ export const CharacterAudioIntro = ({
   const [isSeeking, setIsSeeking] = useState(false);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const [hoveredThumb, setHoveredThumb] = useState<string | null>(null);
-  const [modalCharacter, setModalCharacter] = useState<any | null>(null);
+  const [modalCharacter, setModalCharacter] = useState<Character | null>(null);
   const [modalLessons, setModalLessons] = useState<string[]>([]);
   const [modalModule, setModalModule] = useState<string>("");
   const [autoplay, setAutoplay] = useState(false);
@@ -188,7 +189,7 @@ export const CharacterAudioIntro = ({
   };
 
   // When a thumbnail is clicked, open modal with correct lessons/module
-  const handleThumbnailClick = (char: any) => {
+  const handleThumbnailClick = (char: Character) => {
     // Parse module number and name from modules[0]
     const moduleString = char.modules?.[0] || "";
     const match = moduleString.match(/Module (\d+): (.+)/);

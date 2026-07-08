@@ -521,7 +521,7 @@ const JacobianMatrixExplorer: React.FC<JacobianMatrixProps> = ({
                     key={func.type}
                     size="sm"
                     variant={funcType === func.type ? "default" : "outline"}
-                    onClick={() => setFuncType(func.type as any)}
+                    onClick={() => setFuncType(func.type)}
                     className="w-full justify-start text-xs"
                   >
                     <div className="text-left">

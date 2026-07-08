@@ -59,10 +59,11 @@ const GradientExplorer: React.FC<GradientExplorerProps> = ({
         return funcA * (x * x - y * y) + funcB * x * y + funcC;
       case 'bowl':
         return funcA * ((x - 0.3) * (x - 0.3) + (y - 0.2) * (y - 0.2)) + funcB * Math.sin(3 * x) * Math.cos(3 * y) + funcC;
-      case 'peaks':
+      case 'peaks': {
         const peak1 = Math.exp(-((x - 0.3) * (x - 0.3) + (y - 0.7) * (y - 0.7)) / 0.1);
         const peak2 = Math.exp(-((x - 0.7) * (x - 0.7) + (y - 0.3) * (y - 0.3)) / 0.1);
         return funcA * (peak1 + peak2) + funcB * (x * x + y * y) + funcC;
+      }
       default:
         return 0;
     }
