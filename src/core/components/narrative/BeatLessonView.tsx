@@ -1,4 +1,5 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { BeatFlow } from "./BeatFlow";
 import { ColdOpen } from "./ColdOpen";
 import { LessonStage } from "./LessonStage";
@@ -20,16 +21,28 @@ function isColdOpenDismissed(lessonId: string): boolean {
  * shipping a new lesson is purely a matter of authoring a BeatLesson.
  */
 export function BeatLessonView<S>({ lesson }: { lesson: BeatLesson<S> }) {
-  const [showColdOpen, setShowColdOpen] = useState(() => !isColdOpenDismissed(lesson.meta.id));
+  const [searchParams] = useSearchParams();
+  const forceIntro = searchParams.get("intro") === "1";
+
+  const initialShowColdOpen = useMemo(
+    () => forceIntro || !isColdOpenDismissed(lesson.meta.id),
+    // Only evaluate on mount / lesson change — not when searchParams flicker
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [lesson.meta.id, forceIntro],
+  );
+
+  const [showColdOpen, setShowColdOpen] = useState(initialShowColdOpen);
 
   const handleBegin = useCallback(() => {
-    try {
-      sessionStorage.setItem(coldOpenStorageKey(lesson.meta.id), "dismissed");
-    } catch {
-      // sessionStorage unavailable — still proceed
+    if (!forceIntro) {
+      try {
+        sessionStorage.setItem(coldOpenStorageKey(lesson.meta.id), "dismissed");
+      } catch {
+        // sessionStorage unavailable — still proceed
+      }
     }
     setShowColdOpen(false);
-  }, [lesson.meta.id]);
+  }, [lesson.meta.id, forceIntro]);
 
   return (
     <LessonStage characterId={lesson.meta.characterId}>
