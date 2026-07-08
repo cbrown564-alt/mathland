@@ -1,17 +1,63 @@
-import { useEffect, useRef, useState } from "react";
-import { Play, Pause } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { characters } from "@/utils/characterData";
 
 /**
- * A small inline "hear Vera" chip — audio demoted to a per-passage aside (the v2
- * decision: voice is seasoning, not the spine). Plays one short clip on click;
- * only one chip plays at a time (a play elsewhere pauses this one). No persistent
- * bar, no autoplay. Accent comes from --ch-accent.
+ * Inline "hear {character}" voice chip — audio demoted to a per-passage aside.
+ * Plays one short clip on click; only one chip plays at a time.
  */
 let CURRENT_AUDIO: HTMLAudioElement | null = null;
 
-export const AudioChip = ({ src, label = "hear Vera" }: { src: string; label?: string }) => {
+const WAVE_DELAYS = ["0s", "0.1s", "0.2s", "0.15s", "0.25s"] as const;
+const WAVE_HEIGHTS = [4, 10, 6, 12, 5] as const;
+
+function WaveformBars() {
+  return (
+    <span className="inline-flex h-3.5 items-center gap-0.5" aria-hidden>
+      {WAVE_HEIGHTS.map((h, i) => (
+        <span
+          key={i}
+          className="audio-chip-wave w-0.5 rounded-sm"
+          style={{
+            height: `${h}px`,
+            background: "var(--ch-accent)",
+            animationDelay: WAVE_DELAYS[i],
+          }}
+        />
+      ))}
+      <style>{`
+        @keyframes audio-chip-wave {
+          0%, 100% { transform: scaleY(0.5); }
+          50% { transform: scaleY(1); }
+        }
+        .audio-chip-wave {
+          animation: audio-chip-wave 0.8s ease-in-out infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .audio-chip-wave { animation: none; }
+        }
+      `}</style>
+    </span>
+  );
+}
+
+export const AudioChip = ({
+  src,
+  characterId,
+  label,
+}: {
+  src: string;
+  characterId?: string;
+  label?: string;
+}) => {
   const ref = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
+
+  const derivedLabel = useMemo(() => {
+    if (label) return label;
+    const char = characterId ? characters.find((c) => c.id === characterId) : undefined;
+    const firstName = char?.name.split(" ")[0] ?? "Vera";
+    return `hear ${firstName}`;
+  }, [characterId, label]);
 
   useEffect(() => {
     const a = ref.current;
@@ -42,16 +88,26 @@ export const AudioChip = ({ src, label = "hear Vera" }: { src: string; label?: s
   return (
     <button
       onClick={toggle}
-      aria-label={playing ? "Pause narration" : label}
-      className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 align-middle font-mono text-[11px] transition"
+      aria-label={playing ? "Pause narration" : derivedLabel}
+      className="inline-flex items-center gap-2 rounded-full border px-4 py-2 align-middle font-mono text-[11px] transition"
       style={{
-        color: "var(--ch-accent)",
-        borderColor: "color-mix(in srgb, var(--ch-accent) 45%, transparent)",
-        background: playing ? "color-mix(in srgb, var(--ch-accent) 12%, transparent)" : "transparent",
+        color: playing ? "var(--ch-accent)" : "rgba(255,255,255,0.55)",
+        borderColor: playing
+          ? "var(--ch-accent)"
+          : "color-mix(in srgb, var(--ch-accent) 30%, transparent)",
+        background: playing
+          ? "color-mix(in srgb, var(--ch-accent) 8%, transparent)"
+          : "color-mix(in srgb, var(--ch-accent) 8%, transparent)",
       }}
     >
-      {playing ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" />}
-      {playing ? "playing…" : label}
+      {playing ? (
+        <>
+          <WaveformBars />
+          <span>Playing</span>
+        </>
+      ) : (
+        <span>▶ {derivedLabel}</span>
+      )}
       <audio ref={ref} src={src} preload="none" />
     </button>
   );
