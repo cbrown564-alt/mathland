@@ -190,8 +190,7 @@ export function LessonBeat<S>({
           {isCorrect && onComplete && (
             <button
               onClick={onComplete}
-              className="mt-5 flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-lg transition active:scale-95"
-              style={{ background: "linear-gradient(135deg, var(--ch-accent), var(--ch-accent-2))" }}
+              className="v2-cta mt-5 flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition active:scale-95"
             >
               Continue <ArrowRight className="h-4 w-4" />
             </button>
@@ -204,8 +203,7 @@ export function LessonBeat<S>({
         <div className="mt-16 flex justify-center">
           <button
             onClick={onComplete}
-            className="flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-lg transition active:scale-95"
-            style={{ background: "linear-gradient(135deg, var(--ch-accent), var(--ch-accent-2))" }}
+            className="v2-cta flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition active:scale-95"
           >
             <CheckCircle2 className="h-4 w-4" /> Done — continue
           </button>
@@ -269,8 +267,7 @@ function ClimaxBody({ climax, onComplete }: { climax: ClimaxSpec; onComplete?: (
           <button
             onClick={onComplete}
             disabled={goals.length > 0 && !allMet}
-            className="flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-lg transition enabled:active:scale-95 disabled:opacity-40"
-            style={{ background: "linear-gradient(135deg, var(--ch-accent), var(--ch-accent-2))" }}
+            className="v2-cta flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition enabled:active:scale-95 disabled:cursor-not-allowed disabled:text-white/50"
           >
             {allMet || goals.length === 0 ? "Finish the lesson" : "Keep exploring"}
             <ArrowRight className="h-4 w-4" />

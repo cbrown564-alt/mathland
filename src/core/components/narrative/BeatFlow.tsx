@@ -75,7 +75,7 @@ export function BeatFlow<S>({ lessonId, label, beats, renderVisual, exitTo = "/"
   return (
     <>
       {/* route header */}
-      <header className="sticky top-0 z-30 border-b border-white/5 bg-[#0f0a1a]/70 backdrop-blur-md">
+      <header className="sticky top-0 z-30 border-b border-white/5 bg-black/30 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center gap-3 px-5 py-3">
           <Link to={exitTo} aria-label="Exit lesson" className="text-white/50 transition hover:text-white/90">
             <X className="h-5 w-5" />

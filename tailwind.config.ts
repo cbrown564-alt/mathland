@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
 	darkMode: ["class"],
@@ -28,6 +29,13 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				// Newsreader (editorial reading serif) drives the narrative surface's
+				// `font-serif`/`font-display`; JetBrains Mono drives labels/data.
+				serif: ['Newsreader', 'Georgia', 'serif'],
+				display: ['Newsreader', 'Georgia', 'serif'],
+				mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -107,5 +115,5 @@ export default {
 			},
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [tailwindcssAnimate],
 } satisfies Config;

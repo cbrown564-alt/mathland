@@ -108,17 +108,20 @@ export function CoupledVisual<S>({ passages, renderVisual, interpolate = deepLer
             key={p.id}
             ref={(el) => { refs.current[idx] = el; }}
             className={
-              "border-l-2 py-10 pl-5 transition-all duration-300 first:pt-2 " +
-              (idx === activeIdx ? "opacity-100" : "opacity-35")
+              "border-l-2 py-10 pl-5 transition-all duration-500 first:pt-2 sm:pl-6 " +
+              (idx === activeIdx ? "opacity-100" : "opacity-30")
             }
-            style={{ borderColor: idx === activeIdx ? "var(--ch-accent)" : "rgba(255,255,255,0.1)" }}
+            style={{
+              borderColor: idx === activeIdx ? "var(--ch-accent)" : "rgba(255,255,255,0.08)",
+              boxShadow: idx === activeIdx ? "-2px 0 26px -10px var(--ch-accent)" : "none",
+            }}
           >
             {p.eyebrow && (
               <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em]" style={{ color: "var(--ch-accent-2)" }}>
                 {p.eyebrow}
               </p>
             )}
-            <div className="font-serif text-xl leading-relaxed text-white/90 sm:text-2xl sm:leading-[1.5]">
+            <div className="font-serif text-[22px] leading-[1.6] text-white/90 sm:text-[27px] sm:leading-[1.55]">
               {p.body}
             </div>
             {p.audioSrc && (
@@ -132,7 +135,11 @@ export function CoupledVisual<S>({ passages, renderVisual, interpolate = deepLer
 
       {/* sticky visual */}
       <div className="order-1 md:order-2">
-        <div className="sticky top-16 rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-sm md:top-24">
+        <div className="sticky top-20 rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.015] p-4 shadow-[0_24px_70px_-34px_rgba(0,0,0,0.85)] ring-1 ring-inset ring-white/5 backdrop-blur-sm md:top-24">
+          <div className="mb-2 flex items-center gap-1.5 px-1">
+            <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--ch-accent)" }} />
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/40">live plot</span>
+          </div>
           {renderVisual(state)}
         </div>
       </div>

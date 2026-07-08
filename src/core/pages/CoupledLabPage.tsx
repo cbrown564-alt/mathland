@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { LessonStage } from "@/core/components/narrative/LessonStage";
 import { CoupledVisual } from "@/core/components/narrative/CoupledVisual";
 import { VectorVisual, VectorState } from "@/core/components/narrative/VectorVisual";
 import { dotProductIntroPassages } from "@/content/beats/dotProductIntro";
@@ -12,12 +13,8 @@ import { dotProductIntroPassages } from "@/content/beats/dotProductIntro";
  */
 const CoupledLabPage = () => {
   return (
-    <div
-      data-character="vera"
-      className="min-h-screen text-white"
-      style={{ background: "linear-gradient(180deg, #0f0a1a 0%, #1a1030 100%)" }}
-    >
-      <header className="sticky top-0 z-30 border-b border-white/5 bg-[#0f0a1a]/70 backdrop-blur-md">
+    <LessonStage characterId="vera">
+      <header className="sticky top-0 z-30 border-b border-white/5 bg-black/30 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center gap-3 px-5 py-3">
           <Link to="/lesson/2.3" className="flex items-center gap-1 text-xs text-white/50 transition hover:text-white/90">
             <ArrowLeft className="h-4 w-4" /> Exit
@@ -50,7 +47,7 @@ const CoupledLabPage = () => {
           </p>
         </div>
       </main>
-    </div>
+    </LessonStage>
   );
 };
 

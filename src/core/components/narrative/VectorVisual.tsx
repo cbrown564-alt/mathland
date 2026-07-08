@@ -53,42 +53,68 @@ export const VectorVisual = ({ state }: { state: VectorState }) => {
 
   const pu = toPx(u[0], u[1]);
   const pv = toPx(v[0], v[1]);
-  const tone = dot > 0.06 ? "#34d399" : dot < -0.06 ? "#f87171" : "#fbbf24";
+  const tone = dot > 0.06 ? "#4ade80" : dot < -0.06 ? "#fb7185" : "#fbbf24";
+  const toneWord = dot > 0.06 ? "agree" : dot < -0.06 ? "oppose" : "⟂";
   const gridLines = Array.from({ length: 15 }, (_, i) => i - 7);
 
   return (
     <div className="w-full">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full select-none" role="img" aria-label={`Vectors u and v with dot product ${dot.toFixed(1)}`}>
         <defs>
-          <marker id="vv-u" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill={U_COLOR} /></marker>
-          <marker id="vv-v" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill={V_COLOR} /></marker>
+          <marker id="vv-u" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill={U_COLOR} /></marker>
+          <marker id="vv-v" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill={V_COLOR} /></marker>
+          <radialGradient id="vv-fade" cx="50%" cy="50%" r="62%">
+            <stop offset="0%" stopColor="#fff" />
+            <stop offset="70%" stopColor="#fff" stopOpacity="0.75" />
+            <stop offset="100%" stopColor="#000" />
+          </radialGradient>
+          <mask id="vv-mask"><rect x="0" y="0" width={W} height={H} fill="url(#vv-fade)" /></mask>
+          <filter id="vv-glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="3.5" result="b" />
+            <feMerge>
+              <feMergeNode in="b" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
         </defs>
 
-        {gridLines.map((i) => (
-          <g key={i}>
-            <line x1={CX + i * UNIT} y1={0} x2={CX + i * UNIT} y2={H} stroke="rgba(255,255,255,0.05)" />
-            <line x1={0} y1={CY + i * UNIT} x2={W} y2={CY + i * UNIT} stroke="rgba(255,255,255,0.05)" />
-          </g>
-        ))}
-        <line x1={0} y1={CY} x2={W} y2={CY} stroke="rgba(255,255,255,0.22)" strokeWidth={1.5} />
-        <line x1={CX} y1={0} x2={CX} y2={H} stroke="rgba(255,255,255,0.22)" strokeWidth={1.5} />
+        {/* faded plotting grid */}
+        <g mask="url(#vv-mask)">
+          {gridLines.map((i) => (
+            <g key={i}>
+              <line x1={CX + i * UNIT} y1={0} x2={CX + i * UNIT} y2={H} stroke="rgba(255,255,255,0.06)" />
+              <line x1={0} y1={CY + i * UNIT} x2={W} y2={CY + i * UNIT} stroke="rgba(255,255,255,0.06)" />
+            </g>
+          ))}
+          <line x1={0} y1={CY} x2={W} y2={CY} stroke="rgba(255,255,255,0.2)" strokeWidth={1.25} />
+          <line x1={CX} y1={0} x2={CX} y2={H} stroke="rgba(255,255,255,0.2)" strokeWidth={1.25} />
+        </g>
 
-        <path d={arcPath} fill="none" stroke={emphasis === "angle" ? tone : "rgba(255,255,255,0.4)"} strokeWidth={emphasis === "angle" ? 2.5 : 1.5} strokeDasharray="3 3" />
+        <path d={arcPath} fill="none" stroke={emphasis === "angle" ? tone : "rgba(255,255,255,0.45)"} strokeWidth={emphasis === "angle" ? 2.5 : 1.5} strokeDasharray="3 3" />
 
-        <line x1={CX} y1={CY} x2={pu.x} y2={pu.y} stroke={U_COLOR} strokeWidth={emphasis === "u" ? 6 : 4} strokeLinecap="round" markerEnd="url(#vv-u)" />
-        <line x1={CX} y1={CY} x2={pv.x} y2={pv.y} stroke={V_COLOR} strokeWidth={emphasis === "v" ? 6 : 4} strokeLinecap="round" markerEnd="url(#vv-v)" />
+        <g filter="url(#vv-glow)">
+          <line x1={CX} y1={CY} x2={pu.x} y2={pu.y} stroke={U_COLOR} strokeWidth={emphasis === "u" ? 5.5 : 4} strokeLinecap="round" markerEnd="url(#vv-u)" />
+          <line x1={CX} y1={CY} x2={pv.x} y2={pv.y} stroke={V_COLOR} strokeWidth={emphasis === "v" ? 5.5 : 4} strokeLinecap="round" markerEnd="url(#vv-v)" />
+        </g>
 
-        <text x={pu.x + 9} y={pu.y - 8} fill={U_COLOR} fontFamily="Georgia, serif" fontStyle="italic" fontSize="18" fontWeight="bold">u</text>
-        <text x={pv.x + 9} y={pv.y - 8} fill={V_COLOR} fontFamily="Georgia, serif" fontStyle="italic" fontSize="18" fontWeight="bold">v</text>
-        <circle cx={CX} cy={CY} r={3} fill="rgba(255,255,255,0.5)" />
+        <text x={pu.x + 9} y={pu.y - 8} fill={U_COLOR} fontFamily="Newsreader, Georgia, serif" fontStyle="italic" fontSize="20" fontWeight="600">u</text>
+        <text x={pv.x + 9} y={pv.y - 8} fill={V_COLOR} fontFamily="Newsreader, Georgia, serif" fontStyle="italic" fontSize="20" fontWeight="600">v</text>
+        <circle cx={CX} cy={CY} r={2.5} fill="rgba(255,255,255,0.6)" />
       </svg>
 
       {/* readouts — the numbers change as the state interpolates */}
-      <div className="mt-2 flex items-center justify-between px-1 font-mono text-xs text-white/60">
-        <span>
-          u · v = <span className="font-semibold" style={{ color: tone }}>{dot.toFixed(1)}</span>
+      <div className="mt-3 flex items-center gap-2 px-1">
+        <span
+          className="inline-flex items-baseline gap-1.5 rounded-lg border px-2.5 py-1 font-mono text-xs tabular-nums"
+          style={{ borderColor: `color-mix(in srgb, ${tone} 45%, transparent)`, background: `color-mix(in srgb, ${tone} 12%, transparent)` }}
+        >
+          <span className="text-white/55">u · v</span>
+          <span className="font-semibold" style={{ color: tone }}>{dot.toFixed(1)}</span>
+          <span className="text-white/40">· {toneWord}</span>
         </span>
-        <span>θ = {Math.round(angleDeg)}°</span>
+        <span className="inline-flex items-baseline gap-1.5 rounded-lg border border-white/12 bg-white/[0.04] px-2.5 py-1 font-mono text-xs tabular-nums text-white/70">
+          <span className="text-white/45">θ</span> {Math.round(angleDeg)}°
+        </span>
       </div>
     </div>
   );

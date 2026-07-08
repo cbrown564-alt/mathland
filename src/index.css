@@ -185,4 +185,59 @@
   .character-accent-ring {
     --tw-ring-color: var(--ch-accent);
   }
+
+  /* ============ v2 lesson stage (immersive ground) ============ */
+  /* A warm near-black workbench: two character-tinted glows, a faded plotting
+     grid (Vera's vector world), and a soft vignette. Decorative layers are
+     fixed + behind; content sits in a z-1 wrapper. */
+  .lesson-stage {
+    position: relative;
+    isolation: isolate;
+    background-color: #0b0910;
+    color: #f5f2ec;
+  }
+  .lesson-stage::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(72% 55% at 12% -8%, color-mix(in srgb, var(--ch-accent) 24%, transparent), transparent 60%),
+      radial-gradient(64% 52% at 104% 108%, color-mix(in srgb, var(--ch-accent-2) 18%, transparent), transparent 60%),
+      radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+  }
+  .lesson-stage::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+    background-size: 36px 36px;
+    -webkit-mask-image: radial-gradient(135% 95% at 50% 0%, #000 32%, transparent 84%);
+    mask-image: radial-gradient(135% 95% at 50% 0%, #000 32%, transparent 84%);
+  }
+  .lesson-stage > .lesson-stage-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Shared v2 controls so buttons/pills read as one system */
+  .v2-cta {
+    background-image: linear-gradient(135deg, var(--ch-accent), var(--ch-accent-2));
+    box-shadow: 0 10px 30px -12px color-mix(in srgb, var(--ch-accent) 70%, transparent);
+  }
+  .v2-cta:disabled {
+    background-image: none;
+    background-color: rgba(255, 255, 255, 0.08);
+    box-shadow: none;
+  }
+
+  .lesson-stage :focus-visible {
+    outline: 2px solid var(--ch-accent);
+    outline-offset: 2px;
+  }
 }
