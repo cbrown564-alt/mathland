@@ -1,24 +1,20 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import type { InteractiveProps } from "./interactives";
+import { createPlotCoords, NARRATIVE_PLOT } from "./plotCoords";
 
-// Basis Explorer — change of basis, coordinates, and dimension climax interactive.
+const {
+  width: SVG_WIDTH,
+  height: SVG_HEIGHT,
+  gridSize: GRID_SIZE,
+  mathToSvg,
+  svgToMath,
+  scalePointer,
+  axisLabels,
+  snapToGrid,
+  clamp,
+} = createPlotCoords(NARRATIVE_PLOT);
 
-const GRID_SIZE = 5;
-const SVG_WIDTH = 560;
-const SVG_HEIGHT = 420;
 const COORD_TOLERANCE = 0.35;
-
-const mathToSvg = (x: number, y: number) => ({
-  x: SVG_WIDTH / 2 + (x * SVG_WIDTH) / (2 * GRID_SIZE),
-  y: SVG_HEIGHT / 2 - (y * SVG_HEIGHT) / (2 * GRID_SIZE),
-});
-
-const svgToMath = (x: number, y: number) => ({
-  x: ((x - SVG_WIDTH / 2) * (2 * GRID_SIZE)) / SVG_WIDTH,
-  y: -((y - SVG_HEIGHT / 2) * (2 * GRID_SIZE)) / SVG_HEIGHT,
-});
-
-const snapToGrid = (val: number) => Math.round(val * 2) / 2;
 const det = (ux: number, uy: number, vx: number, vy: number) => ux * vy - uy * vx;
 
 interface Vec {
@@ -123,14 +119,10 @@ export const BasisExplorer = ({ onStateChange }: InteractiveProps = {}) => {
     const svg = svgRef.current;
     if (!svg) return;
     const rect = svg.getBoundingClientRect();
-    const scaleX = SVG_WIDTH / rect.width;
-    const scaleY = SVG_HEIGHT / rect.height;
-    const svgX = (e.clientX - rect.left) * scaleX;
-    const svgY = (e.clientY - rect.top) * scaleY;
+    const { x: svgX, y: svgY } = scalePointer(e.clientX, e.clientY, rect);
     const math = svgToMath(svgX, svgY);
     const snapped = { x: snapToGrid(math.x), y: snapToGrid(math.y) };
-    const clampedX = Math.max(-GRID_SIZE, Math.min(GRID_SIZE, snapped.x));
-    const clampedY = Math.max(-GRID_SIZE, Math.min(GRID_SIZE, snapped.y));
+    const { x: clampedX, y: clampedY } = clamp(snapped.x, snapped.y);
     setVectors((prev) =>
       prev.map((vec) => (vec.id === dragging ? { ...vec, x: clampedX, y: clampedY } : vec))
     );
@@ -154,8 +146,6 @@ export const BasisExplorer = ({ onStateChange }: InteractiveProps = {}) => {
   const origin = mathToSvg(0, 0);
   const tipTarget = mathToSvg(TARGET.x, TARGET.y);
   const tipActual = mathToSvg(actual[0], actual[1]);
-  const axisLabels = Array.from({ length: 2 * GRID_SIZE + 1 }, (_, i) => i - GRID_SIZE);
-
   // Skewed grid lines along basis directions.
   const gridLines = useMemo(() => {
     const lines: { x1: number; y1: number; x2: number; y2: number }[] = [];
@@ -179,6 +169,8 @@ export const BasisExplorer = ({ onStateChange }: InteractiveProps = {}) => {
               ref={svgRef}
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
               className="w-full h-auto select-none touch-none"
+              role="img"
+              aria-label="Basis change diagram with skewed grid and target point"
               onPointerMove={onPointerMove}
               onPointerUp={onPointerUp}
               onPointerLeave={onPointerUp}
@@ -274,7 +266,7 @@ export const BasisExplorer = ({ onStateChange }: InteractiveProps = {}) => {
                   useStandard ? "border-violet-400/50 bg-violet-400/10 text-violet-100" : "border-white/10 text-white/60 hover:bg-white/[0.05]"
                 }`}
               >
-                Standard {[1,0]}, {[0,1]}
+                Standard · e₁=[1,0], e₂=[0,1]
               </button>
               <button
                 onClick={() => toggleStandard(false)}

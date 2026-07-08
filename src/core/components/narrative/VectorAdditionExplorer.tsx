@@ -1,24 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import type { InteractiveProps } from "./interactives";
+import { createPlotCoords, NARRATIVE_PLOT } from "./plotCoords";
 
-const GRID_SIZE = 5;
-const SVG_WIDTH = 560;
-const SVG_HEIGHT = 420;
+const {
+  width: SVG_WIDTH,
+  height: SVG_HEIGHT,
+  gridSize: GRID_SIZE,
+  mathToSvg,
+  svgToMath,
+  scalePointer,
+  axisLabels,
+  snapToGrid: snap,
+  clamp,
+} = createPlotCoords(NARRATIVE_PLOT);
+
 const U_COLOR = "#f4623c";
 const V_COLOR = "#5aa2e0";
 const SUM_COLOR = "#a3e635";
-
-const mathToSvg = (x: number, y: number) => ({
-  x: SVG_WIDTH / 2 + (x * SVG_WIDTH) / (2 * GRID_SIZE),
-  y: SVG_HEIGHT / 2 - (y * SVG_HEIGHT) / (2 * GRID_SIZE),
-});
-
-const svgToMath = (x: number, y: number) => ({
-  x: ((x - SVG_WIDTH / 2) * (2 * GRID_SIZE)) / SVG_WIDTH,
-  y: -((y - SVG_HEIGHT / 2) * (2 * GRID_SIZE)) / SVG_HEIGHT,
-});
-
-const snap = (v: number) => Math.round(v * 2) / 2;
 
 interface Vec {
   id: "u" | "v";
@@ -64,13 +62,9 @@ export const VectorAdditionExplorer = ({ onStateChange }: InteractiveProps = {})
   const onPointerMove = (e: React.PointerEvent) => {
     if (!dragging || !svgRef.current) return;
     const rect = svgRef.current.getBoundingClientRect();
-    const scaleX = SVG_WIDTH / rect.width;
-    const scaleY = SVG_HEIGHT / rect.height;
-    const svgX = (e.clientX - rect.left) * scaleX;
-    const svgY = (e.clientY - rect.top) * scaleY;
+    const { x: svgX, y: svgY } = scalePointer(e.clientX, e.clientY, rect);
     const math = svgToMath(svgX, svgY);
-    const clampedX = Math.max(-GRID_SIZE, Math.min(GRID_SIZE, snap(math.x)));
-    const clampedY = Math.max(-GRID_SIZE, Math.min(GRID_SIZE, snap(math.y)));
+    const { x: clampedX, y: clampedY } = clamp(snap(math.x), snap(math.y));
     setVectors((prev) =>
       prev.map((vec) => (vec.id === dragging ? { ...vec, x: clampedX, y: clampedY } : vec)),
     );
@@ -85,7 +79,6 @@ export const VectorAdditionExplorer = ({ onStateChange }: InteractiveProps = {})
   const pu = mathToSvg(u.x, u.y);
   const pv = mathToSvg(v.x, v.y);
   const ps = mathToSvg(sum.x, sum.y);
-  const labels = Array.from({ length: 2 * GRID_SIZE + 1 }, (_, i) => i - GRID_SIZE);
 
   return (
     <div className="w-full">
@@ -94,6 +87,8 @@ export const VectorAdditionExplorer = ({ onStateChange }: InteractiveProps = {})
           ref={svgRef}
           viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
           className="w-full select-none touch-none"
+          role="img"
+          aria-label="Vector addition parallelogram with u, v, and u+v"
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
           onPointerLeave={onPointerUp}
@@ -109,7 +104,7 @@ export const VectorAdditionExplorer = ({ onStateChange }: InteractiveProps = {})
               <path d="M0,0 L8,3 L0,6 Z" fill={SUM_COLOR} />
             </marker>
           </defs>
-          {labels.map((val) => {
+          {axisLabels.map((val) => {
             const gx = mathToSvg(val, 0).x;
             const gy = mathToSvg(0, val).y;
             return (
@@ -140,6 +135,7 @@ export const VectorAdditionExplorer = ({ onStateChange }: InteractiveProps = {})
                 stroke={vec.color}
                 strokeWidth={3}
                 style={{ cursor: "grab", touchAction: "none" }}
+                aria-label={`Drag vector ${vec.id} tip`}
                 onPointerDown={onPointerDown(vec.id)}
               />
             );

@@ -146,9 +146,11 @@ export function CoupledVisual<S>({
         <div className="sticky top-20 rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.015] p-4 shadow-[0_24px_70px_-34px_rgba(0,0,0,0.85)] ring-1 ring-inset ring-white/5 backdrop-blur-sm md:top-24">
           <div className="mb-2 flex items-center gap-1.5 px-1">
             <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--ch-accent)" }} />
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/40">live plot</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/40">Live diagram</span>
           </div>
-          {renderVisual(state)}
+          <div aria-live="polite" aria-atomic="true">
+            {renderVisual(state)}
+          </div>
         </div>
       </div>
     </div>

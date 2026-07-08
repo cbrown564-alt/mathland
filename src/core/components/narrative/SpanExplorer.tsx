@@ -1,24 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import type { InteractiveProps } from "./interactives";
+import { createPlotCoords, NARRATIVE_PLOT } from "./plotCoords";
 
-// Span Explorer — linear combinations & independence climax interactive.
-// Two draggable base vectors u, v; sliders for a and b; live result a·u + b·v.
-
-const GRID_SIZE = 5;
-const SVG_WIDTH = 560;
-const SVG_HEIGHT = 420;
-
-const mathToSvg = (x: number, y: number) => ({
-  x: SVG_WIDTH / 2 + (x * SVG_WIDTH) / (2 * GRID_SIZE),
-  y: SVG_HEIGHT / 2 - (y * SVG_HEIGHT) / (2 * GRID_SIZE),
-});
-
-const svgToMath = (x: number, y: number) => ({
-  x: ((x - SVG_WIDTH / 2) * (2 * GRID_SIZE)) / SVG_WIDTH,
-  y: -((y - SVG_HEIGHT / 2) * (2 * GRID_SIZE)) / SVG_HEIGHT,
-});
-
-const snapToGrid = (val: number) => Math.round(val * 2) / 2;
+const {
+  width: SVG_WIDTH,
+  height: SVG_HEIGHT,
+  gridSize: GRID_SIZE,
+  mathToSvg,
+  svgToMath,
+  scalePointer,
+  axisLabels,
+  snapToGrid,
+  clamp,
+} = createPlotCoords(NARRATIVE_PLOT);
 const det = (ux: number, uy: number, vx: number, vy: number) => ux * vy - uy * vx;
 
 interface Vec {
@@ -77,14 +71,10 @@ export const SpanExplorer = ({ onStateChange }: InteractiveProps = {}) => {
     const svg = svgRef.current;
     if (!svg) return;
     const rect = svg.getBoundingClientRect();
-    const scaleX = SVG_WIDTH / rect.width;
-    const scaleY = SVG_HEIGHT / rect.height;
-    const svgX = (e.clientX - rect.left) * scaleX;
-    const svgY = (e.clientY - rect.top) * scaleY;
+    const { x: svgX, y: svgY } = scalePointer(e.clientX, e.clientY, rect);
     const math = svgToMath(svgX, svgY);
     const snapped = { x: snapToGrid(math.x), y: snapToGrid(math.y) };
-    const clampedX = Math.max(-GRID_SIZE, Math.min(GRID_SIZE, snapped.x));
-    const clampedY = Math.max(-GRID_SIZE, Math.min(GRID_SIZE, snapped.y));
+    const { x: clampedX, y: clampedY } = clamp(snapped.x, snapped.y);
     setVectors((prev) =>
       prev.map((vec) => (vec.id === dragging ? { ...vec, x: clampedX, y: clampedY } : vec))
     );
@@ -107,7 +97,6 @@ export const SpanExplorer = ({ onStateChange }: InteractiveProps = {}) => {
     if (Math.abs(d) <= 0.1 && tone !== "zero") reportRef.current?.({ ...base, tone: "dependent" });
   }, [tone, a, b, d, rx, ry, independent]);
 
-  const axisLabels = Array.from({ length: 2 * GRID_SIZE + 1 }, (_, i) => i - GRID_SIZE);
   const origin = mathToSvg(0, 0);
   const tipU = mathToSvg(u.x, u.y);
   const tipV = mathToSvg(v.x, v.y);
@@ -133,6 +122,8 @@ export const SpanExplorer = ({ onStateChange }: InteractiveProps = {}) => {
               ref={svgRef}
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
               className="w-full h-auto select-none touch-none"
+              role="img"
+              aria-label="Span of vectors u and v with linear combination result"
               onPointerMove={onPointerMove}
               onPointerUp={onPointerUp}
               onPointerLeave={onPointerUp}

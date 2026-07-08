@@ -1,38 +1,29 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/core/components/ui/tabs";
 import { Button } from "@/core/components/ui/button";
+import { createPlotCoords, FOREST_PLOT } from "./plotCoords";
 
 // Forest Mapping Capstone — Vera's three-phase park mapping project.
 // Phase A: trail design (vector chaining + L₂ distance)
 // Phase B: camera placement (linear independence via determinant)
 // Phase C: coordinate systems (standard vs custom basis decomposition)
 
-const GRID_SIZE = 10;
-const SVG_WIDTH = 560;
-const SVG_HEIGHT = 420;
+const {
+  width: SVG_WIDTH,
+  height: SVG_HEIGHT,
+  gridSize: GRID_SIZE,
+  mathToSvg,
+  svgToMath,
+  scalePointer,
+  axisLabels,
+  snapToGrid,
+  clamp,
+} = createPlotCoords(FOREST_PLOT);
 
-const LANDMARKS = {
-  visitorCenter: { x: 0, y: 0, label: "Visitor Center", icon: "🏠" },
-  restStop: { x: 3, y: 4, label: "Rest Stop", icon: "⛺" },
-  waterfall: { x: 6, y: 8, label: "Waterfall", icon: "💧" },
-} as const;
-
+const TRAIL_COLOR = "#34d399";
 const VERA_EMERALD = "#34d399";
 const VERA_TEAL = "#2dd4bf";
-const TRAIL_COLOR = "#34d399";
 const CAMERA_COLORS = ["#a78bfa", "#38bdf8", "#fbbf24"];
-
-const mathToSvg = (x: number, y: number) => ({
-  x: SVG_WIDTH / 2 + (x * SVG_WIDTH) / (2 * GRID_SIZE),
-  y: SVG_HEIGHT / 2 - (y * SVG_HEIGHT) / (2 * GRID_SIZE),
-});
-
-const svgToMath = (x: number, y: number) => ({
-  x: ((x - SVG_WIDTH / 2) * (2 * GRID_SIZE)) / SVG_WIDTH,
-  y: -((y - SVG_HEIGHT / 2) * (2 * GRID_SIZE)) / SVG_HEIGHT,
-});
-
-const snapToGrid = (val: number) => Math.round(val * 2) / 2;
 const magnitude = (x: number, y: number) => Math.hypot(x, y);
 const det2 = (a: [number, number], b: [number, number]) => a[0] * b[1] - a[1] * b[0];
 
@@ -174,16 +165,10 @@ export const ForestMappingExplorer = ({
       const svg = svgRef.current;
       if (!svg) return;
       const rect = svg.getBoundingClientRect();
-      const scaleX = SVG_WIDTH / rect.width;
-      const scaleY = SVG_HEIGHT / rect.height;
-      const svgX = (e.clientX - rect.left) * scaleX;
-      const svgY = (e.clientY - rect.top) * scaleY;
+      const { x: svgX, y: svgY } = scalePointer(e.clientX, e.clientY, rect);
       const math = svgToMath(svgX, svgY);
       const snapped = { x: snapToGrid(math.x), y: snapToGrid(math.y) };
-      const clamped = {
-        x: Math.max(-2, Math.min(GRID_SIZE, snapped.x)),
-        y: Math.max(-2, Math.min(GRID_SIZE, snapped.y)),
-      };
+      const clamped = clamp(snapped.x, snapped.y);
 
       if (draggingTrail === "rest") {
         setRestStop(clamped);
@@ -205,13 +190,22 @@ export const ForestMappingExplorer = ({
     if (svg && e.pointerId !== undefined) svg.releasePointerCapture(e.pointerId);
   };
 
-  const axisLabels = Array.from({ length: 2 * GRID_SIZE + 1 }, (_, i) => i - GRID_SIZE);
+  const landmarks = useMemo(
+    () => [
+      { key: "visitor", x: 0, y: 0, label: "Visitor Center", icon: "🏠" },
+      { key: "rest", x: restStop.x, y: restStop.y, label: "Rest Stop", icon: "⛺" },
+      { key: "fall", x: waterfall.x, y: waterfall.y, label: "Waterfall", icon: "💧" },
+    ],
+    [restStop, waterfall],
+  );
 
   const renderMap = (overlays: React.ReactNode) => (
     <svg
       ref={svgRef}
       viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
       className="w-full h-auto select-none touch-none"
+      role="img"
+      aria-label="Forest map with draggable trail waypoints and camera vectors"
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerLeave={onPointerUp}
@@ -254,10 +248,10 @@ export const ForestMappingExplorer = ({
       {overlays}
 
       {/* landmarks */}
-      {Object.values(LANDMARKS).map((lm) => {
+      {landmarks.map((lm) => {
         const pt = mathToSvg(lm.x, lm.y);
         return (
-          <g key={lm.label}>
+          <g key={lm.key}>
             <circle cx={pt.x} cy={pt.y} r={14} fill={variant === "dark" ? "rgba(16,185,129,0.15)" : "rgba(16,185,129,0.25)"} stroke={VERA_EMERALD} strokeWidth={1.5} />
             <text x={pt.x} y={pt.y + 5} textAnchor="middle" fontSize="14">{lm.icon}</text>
             <text x={pt.x} y={pt.y + 24} textAnchor="middle" fontSize="10" className={t.landmark} fill="currentColor">{lm.label}</text>
@@ -281,6 +275,7 @@ export const ForestMappingExplorer = ({
       }
     >
       {met || achievedTones.has(tone) ? "✓" : "○"} {label}
+      <span className="sr-only">{met || achievedTones.has(tone) ? "completed" : "not completed"}</span>
     </span>
   );
 
@@ -315,8 +310,10 @@ export const ForestMappingExplorer = ({
                           <line x1={origin.x} y1={origin.y} x2={mid.x} y2={mid.y} stroke={TRAIL_COLOR} strokeWidth={3.5} markerEnd="url(#fme-trail)" />
                           <line x1={mid.x} y1={mid.y} x2={end.x} y2={end.y} stroke={TRAIL_COLOR} strokeWidth={3.5} markerEnd="url(#fme-trail)" strokeDasharray={trailMet ? undefined : "6 4"} />
                           <circle cx={mid.x} cy={mid.y} r={12} fill={variant === "dark" ? "#1a1030" : "#fff"} stroke={TRAIL_COLOR} strokeWidth={2.5} style={{ cursor: "grab", touchAction: "none" }}
+                            aria-label="Drag Rest Stop waypoint"
                             onPointerDown={(e) => { e.preventDefault(); svgRef.current?.setPointerCapture(e.pointerId); setDraggingTrail("rest"); }} />
                           <circle cx={end.x} cy={end.y} r={12} fill={variant === "dark" ? "#1a1030" : "#fff"} stroke={TRAIL_COLOR} strokeWidth={2.5} style={{ cursor: "grab", touchAction: "none" }}
+                            aria-label="Drag Waterfall waypoint"
                             onPointerDown={(e) => { e.preventDefault(); svgRef.current?.setPointerCapture(e.pointerId); setDraggingTrail("fall"); }} />
                         </>
                       );
@@ -362,6 +359,7 @@ export const ForestMappingExplorer = ({
                         <text x={tip.x + 8} y={tip.y - 8} fontSize="14" fill={color} fontWeight="bold">C{i + 1}</text>
                         <circle cx={tip.x} cy={tip.y} r={12} fill={variant === "dark" ? "#1a1030" : "#fff"} stroke={color} strokeWidth={2.5}
                           style={{ cursor: "grab", touchAction: "none" }}
+                          aria-label={`Drag camera C${i + 1} direction vector`}
                           onPointerDown={(e) => { e.preventDefault(); svgRef.current?.setPointerCapture(e.pointerId); setDraggingCamera(cam.id); }} />
                       </g>
                     );

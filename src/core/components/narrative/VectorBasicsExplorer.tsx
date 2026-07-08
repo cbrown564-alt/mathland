@@ -1,22 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import type { InteractiveProps } from "./interactives";
+import { createPlotCoords, NARRATIVE_PLOT } from "./plotCoords";
 
-const GRID_SIZE = 5;
-const SVG_WIDTH = 560;
-const SVG_HEIGHT = 420;
+const {
+  width: SVG_WIDTH,
+  height: SVG_HEIGHT,
+  gridSize: GRID_SIZE,
+  mathToSvg,
+  svgToMath,
+  scalePointer,
+  axisLabels,
+  snapToGrid: snap,
+  clamp,
+} = createPlotCoords(NARRATIVE_PLOT);
+
 const COLOR = "#f4623c";
-
-const mathToSvg = (x: number, y: number) => ({
-  x: SVG_WIDTH / 2 + (x * SVG_WIDTH) / (2 * GRID_SIZE),
-  y: SVG_HEIGHT / 2 - (y * SVG_HEIGHT) / (2 * GRID_SIZE),
-});
-
-const svgToMath = (x: number, y: number) => ({
-  x: ((x - SVG_WIDTH / 2) * (2 * GRID_SIZE)) / SVG_WIDTH,
-  y: -((y - SVG_HEIGHT / 2) * (2 * GRID_SIZE)) / SVG_HEIGHT,
-});
-
-const snap = (v: number) => Math.round(v * 2) / 2;
 const mag = (x: number, y: number) => Math.hypot(x, y);
 
 function classify(x: number, y: number): string {
@@ -50,15 +48,9 @@ export const VectorBasicsExplorer = ({ onStateChange }: InteractiveProps = {}) =
   const onPointerMove = (e: React.PointerEvent) => {
     if (!dragging || !svgRef.current) return;
     const rect = svgRef.current.getBoundingClientRect();
-    const scaleX = SVG_WIDTH / rect.width;
-    const scaleY = SVG_HEIGHT / rect.height;
-    const svgX = (e.clientX - rect.left) * scaleX;
-    const svgY = (e.clientY - rect.top) * scaleY;
+    const { x: svgX, y: svgY } = scalePointer(e.clientX, e.clientY, rect);
     const math = svgToMath(svgX, svgY);
-    setVec({
-      x: Math.max(-GRID_SIZE, Math.min(GRID_SIZE, snap(math.x))),
-      y: Math.max(-GRID_SIZE, Math.min(GRID_SIZE, snap(math.y))),
-    });
+    setVec(clamp(snap(math.x), snap(math.y)));
   };
 
   const onPointerUp = (e: React.PointerEvent) => {
@@ -68,7 +60,6 @@ export const VectorBasicsExplorer = ({ onStateChange }: InteractiveProps = {}) =
 
   const origin = mathToSvg(0, 0);
   const tip = mathToSvg(vec.x, vec.y);
-  const labels = Array.from({ length: 2 * GRID_SIZE + 1 }, (_, i) => i - GRID_SIZE);
 
   return (
     <div className="w-full">
@@ -77,6 +68,8 @@ export const VectorBasicsExplorer = ({ onStateChange }: InteractiveProps = {}) =
           ref={svgRef}
           viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
           className="w-full select-none touch-none"
+          role="img"
+          aria-label="Vector v on a coordinate grid"
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
           onPointerLeave={onPointerUp}
@@ -86,7 +79,7 @@ export const VectorBasicsExplorer = ({ onStateChange }: InteractiveProps = {}) =
               <path d="M0,0 L8,3 L0,6 Z" fill={COLOR} />
             </marker>
           </defs>
-          {labels.map((val) => {
+          {axisLabels.map((val) => {
             const gx = mathToSvg(val, 0).x;
             const gy = mathToSvg(0, val).y;
             return (
@@ -118,6 +111,7 @@ export const VectorBasicsExplorer = ({ onStateChange }: InteractiveProps = {}) =
             stroke={COLOR}
             strokeWidth={3}
             style={{ cursor: "grab", touchAction: "none" }}
+            aria-label="Drag vector v tip"
             onPointerDown={onPointerDown}
           />
           <circle cx={origin.x} cy={origin.y} r={3} fill="rgba(255,255,255,0.5)" />

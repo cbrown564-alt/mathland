@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import type { InteractiveProps } from "./interactives";
+import { createPlotCoords, NARRATIVE_PLOT } from "./plotCoords";
 
 // Dot Product Explorer — the narrative's climax beat (Path C3).
 //
@@ -9,22 +10,18 @@ import type { InteractiveProps } from "./interactives";
 // vera_vector_playground.tsx (mathToSvg / pointer capture / snap-to-grid) but
 // dark-themed to sit inside the immersive narrative shell.
 
-// --- coordinate math -------------------------------------------------------
-const GRID_SIZE = 5; // ±5 units visible from the origin
-const SVG_WIDTH = 560;
-const SVG_HEIGHT = 420;
+const {
+  width: SVG_WIDTH,
+  height: SVG_HEIGHT,
+  gridSize: GRID_SIZE,
+  mathToSvg,
+  svgToMath,
+  scalePointer,
+  axisLabels,
+  snapToGrid,
+  clamp,
+} = createPlotCoords(NARRATIVE_PLOT);
 
-const mathToSvg = (x: number, y: number) => ({
-  x: SVG_WIDTH / 2 + (x * SVG_WIDTH) / (2 * GRID_SIZE),
-  y: SVG_HEIGHT / 2 - (y * SVG_HEIGHT) / (2 * GRID_SIZE),
-});
-
-const svgToMath = (x: number, y: number) => ({
-  x: ((x - SVG_WIDTH / 2) * (2 * GRID_SIZE)) / SVG_WIDTH,
-  y: -((y - SVG_HEIGHT / 2) * (2 * GRID_SIZE)) / SVG_HEIGHT,
-});
-
-const snapToGrid = (val: number) => Math.round(val * 2) / 2; // 0.5 unit steps
 const magnitude = (x: number, y: number) => Math.sqrt(x * x + y * y);
 
 interface Vec {
@@ -117,16 +114,10 @@ export const DotProductExplorer = ({ onStateChange }: InteractiveProps = {}) => 
     const svg = svgRef.current;
     if (!svg) return;
     const rect = svg.getBoundingClientRect();
-    // Scale client coords into the viewBox coordinate space.
-    const scaleX = SVG_WIDTH / rect.width;
-    const scaleY = SVG_HEIGHT / rect.height;
-    const svgX = (e.clientX - rect.left) * scaleX;
-    const svgY = (e.clientY - rect.top) * scaleY;
+    const { x: svgX, y: svgY } = scalePointer(e.clientX, e.clientY, rect);
     const math = svgToMath(svgX, svgY);
     const snapped = { x: snapToGrid(math.x), y: snapToGrid(math.y) };
-    // Keep the tip on-canvas (never let a vector collapse to zero length).
-    const clampedX = Math.max(-GRID_SIZE, Math.min(GRID_SIZE, snapped.x));
-    const clampedY = Math.max(-GRID_SIZE, Math.min(GRID_SIZE, snapped.y));
+    const { x: clampedX, y: clampedY } = clamp(snapped.x, snapped.y);
     setVectors((prev) =>
       prev.map((vec) =>
         vec.id === dragging ? { ...vec, x: clampedX, y: clampedY } : vec
@@ -168,8 +159,6 @@ export const DotProductExplorer = ({ onStateChange }: InteractiveProps = {}) => 
   // Similarity meter geometry: cos in [-1,1] → 0..100% of the bar.
   const meterPct = ((cos + 1) / 2) * 100;
 
-  const axisLabels = Array.from({ length: 2 * GRID_SIZE + 1 }, (_, i) => i - GRID_SIZE);
-
   return (
     <div className="w-full">{/* inherits data-character (→ --ch-accent) from the story root */}
       <div className="flex flex-col lg:flex-row gap-6">
@@ -180,6 +169,8 @@ export const DotProductExplorer = ({ onStateChange }: InteractiveProps = {}) => 
               ref={svgRef}
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
               className="w-full h-auto select-none touch-none"
+              role="img"
+              aria-label="Dot product diagram with draggable vectors u and v"
               onPointerMove={onPointerMove}
               onPointerUp={onPointerUp}
               onPointerLeave={onPointerUp}
@@ -248,7 +239,11 @@ export const DotProductExplorer = ({ onStateChange }: InteractiveProps = {}) => 
                       strokeWidth={3}
                       style={{ cursor: "grab", transition: "r 0.15s", touchAction: "none" }}
                       onPointerDown={onPointerDown(vec.id)}
-                      aria-label={`Drag vector ${vec.label}`}
+                      aria-label={`Drag vector ${vec.label} tip`}
+                      aria-valuemin={-GRID_SIZE}
+                      aria-valuemax={GRID_SIZE}
+                      aria-valuenow={vec.id === "u" ? u.x : v.x}
+                      aria-valuetext={`${vec.label} = [${vec.x.toFixed(1)}, ${vec.y.toFixed(1)}]`}
                       role="slider"
                       tabIndex={0}
                     />
