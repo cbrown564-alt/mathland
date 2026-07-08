@@ -110,15 +110,15 @@ export function CoupledVisual<S>({
   }, [recompute]);
 
   return (
-    <div className={"grid gap-8 md:grid-cols-2 md:gap-12 " + (className ?? "")}>
-      <div className="order-2 md:order-1">
+    <div className={"grid min-w-0 gap-8 md:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] md:gap-10 lg:gap-12 " + (className ?? "")}>
+      <div className="order-2 min-w-0 md:order-1">
         {resolved.map((p, idx) => (
           <div
             key={p.id}
             ref={(el) => { refs.current[idx] = el; }}
             className={
-              "border-l-2 py-10 pl-5 transition-all duration-500 first:pt-2 sm:pl-6 " +
-              (idx === activeIdx ? "opacity-100" : "opacity-30")
+              "border-l-2 px-5 py-8 transition-all duration-500 first:pt-2 sm:px-6 md:py-11 " +
+              (idx === activeIdx ? "opacity-100" : "opacity-40")
             }
             style={{
               borderColor: idx === activeIdx ? "var(--ch-accent)" : "rgba(255,255,255,0.08)",
@@ -126,15 +126,15 @@ export function CoupledVisual<S>({
             }}
           >
             {p.eyebrow && (
-              <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em]" style={{ color: "var(--ch-accent-2)" }}>
+              <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.18em]" style={{ color: "var(--ch-accent-2)" }}>
                 {p.eyebrow}
               </p>
             )}
-            <div className="font-serif text-[22px] leading-[1.6] text-white/90 sm:text-[27px] sm:leading-[1.55]">
+            <div className="font-serif text-[18px] leading-[1.72] tracking-[0.01em] text-pretty text-white/[0.88] sm:text-[19px] md:text-[20px] md:leading-[1.68]">
               {"body" in p && p.body !== undefined ? p.body : parseInline(p.md)}
             </div>
             {p.audioSrc && (
-              <div className="mt-4">
+              <div className="mt-6">
                 <AudioChip src={p.audioSrc} />
               </div>
             )}
@@ -142,7 +142,7 @@ export function CoupledVisual<S>({
         ))}
       </div>
 
-      <div className="order-1 md:order-2">
+      <div className="order-1 min-w-0 md:order-2">
         <div className="sticky top-20 rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.015] p-4 shadow-[0_24px_70px_-34px_rgba(0,0,0,0.85)] ring-1 ring-inset ring-white/5 backdrop-blur-sm md:top-24">
           <div className="mb-2 flex items-center gap-1.5 px-1">
             <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--ch-accent)" }} />

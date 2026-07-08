@@ -145,7 +145,7 @@ const DiagonalizationExplorer: React.FC<DiagonalizationExplorerProps> = ({
   };
 
   const drawAxes = (ctx: CanvasRenderingContext2D) => {
-    ctx.strokeStyle = '#374151';
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
     ctx.lineWidth = 2;
     
     // X-axis
@@ -161,7 +161,7 @@ const DiagonalizationExplorer: React.FC<DiagonalizationExplorerProps> = ({
     ctx.stroke();
     
     // Origin
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
     ctx.beginPath();
     ctx.arc(centerX, centerY, 3, 0, 2 * Math.PI);
     ctx.fill();
@@ -455,9 +455,9 @@ const DiagonalizationExplorer: React.FC<DiagonalizationExplorerProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-6">
       {/* Header */}
-      <Card className="border-2 border-purple-200 bg-gradient-to-r from-purple-50 to-indigo-50">
+      <Card className="border-2 border-purple-400/30 bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10">
         <CardHeader className="pb-4">
-          <CardTitle className="text-2xl font-bold text-purple-800 flex items-center gap-2">
+          <CardTitle className="text-2xl font-bold text-purple-200 flex items-center gap-2">
             🔍 Eileen's Diagonalization Detective Lab
           </CardTitle>
           <p className="text-purple-700">
@@ -475,7 +475,7 @@ const DiagonalizationExplorer: React.FC<DiagonalizationExplorerProps> = ({
           <CardContent className="space-y-6">
             {/* Matrix Type */}
             <div className="space-y-3">
-              <h4 className="font-medium text-gray-700">Matrix Type</h4>
+              <h4 className="font-medium text-white/70">Matrix Type</h4>
               <div className="flex gap-2">
                 <Button
                   variant={isSymmetric ? 'default' : 'outline'}
@@ -498,7 +498,7 @@ const DiagonalizationExplorer: React.FC<DiagonalizationExplorerProps> = ({
 
             {/* Matrix Parameters */}
             <div className="space-y-4">
-              <h4 className="font-medium text-gray-700">Matrix Elements</h4>
+              <h4 className="font-medium text-white/70">Matrix Elements</h4>
               
               <div className="space-y-2">
                 <label className="text-sm font-medium text-purple-700">a₁₁: {matrixA.toFixed(2)}</label>
@@ -536,11 +536,11 @@ const DiagonalizationExplorer: React.FC<DiagonalizationExplorerProps> = ({
                 />
               </div>
               
-              <div className="bg-gray-50 p-3 rounded-lg">
-                <p className="text-sm text-gray-700 text-center">
+              <div className="bg-white/[0.03] p-3 rounded-lg">
+                <p className="text-sm text-white/70 text-center">
                   Matrix A = [{matrix[0][0].toFixed(2)} {matrix[0][1].toFixed(2)}]
                 </p>
-                <p className="text-sm text-gray-700 text-center">
+                <p className="text-sm text-white/70 text-center">
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[{matrix[1][0].toFixed(2)} {matrix[1][1].toFixed(2)}]
                 </p>
               </div>
@@ -548,7 +548,7 @@ const DiagonalizationExplorer: React.FC<DiagonalizationExplorerProps> = ({
 
             {/* Diagonalization Step */}
             <div className="space-y-3">
-              <h4 className="font-medium text-gray-700">Diagonalization Step</h4>
+              <h4 className="font-medium text-white/70">Diagonalization Step</h4>
               <div className="grid grid-cols-2 gap-2">
                 {(['original', 'eigenvectors', 'diagonal', 'reconstruction'] as const).map((step) => (
                   <Button
@@ -568,14 +568,14 @@ const DiagonalizationExplorer: React.FC<DiagonalizationExplorerProps> = ({
 
             {/* Display Options */}
             <div className="space-y-3">
-              <h4 className="font-medium text-gray-700">Display Options</h4>
+              <h4 className="font-medium text-white/70">Display Options</h4>
               <div className="space-y-2">
                 <label className="flex items-center space-x-2">
                   <input
                     type="checkbox"
                     checked={showOriginalBasis}
                     onChange={(e) => setShowOriginalBasis(e.target.checked)}
-                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    className="rounded border-white/10 text-purple-600 focus:ring-purple-500"
                   />
                   <span className="text-sm">Show Standard Basis</span>
                 </label>
@@ -584,7 +584,7 @@ const DiagonalizationExplorer: React.FC<DiagonalizationExplorerProps> = ({
                     type="checkbox"
                     checked={showEigenvectors}
                     onChange={(e) => setShowEigenvectors(e.target.checked)}
-                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    className="rounded border-white/10 text-purple-600 focus:ring-purple-500"
                   />
                   <span className="text-sm">Show Eigenvectors</span>
                 </label>
@@ -593,7 +593,7 @@ const DiagonalizationExplorer: React.FC<DiagonalizationExplorerProps> = ({
                     type="checkbox"
                     checked={showDiagonalization}
                     onChange={(e) => setShowDiagonalization(e.target.checked)}
-                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    className="rounded border-white/10 text-purple-600 focus:ring-purple-500"
                   />
                   <span className="text-sm">Show Diagonalization Steps</span>
                 </label>
@@ -602,7 +602,7 @@ const DiagonalizationExplorer: React.FC<DiagonalizationExplorerProps> = ({
                     type="checkbox"
                     checked={showTransformation}
                     onChange={(e) => setShowTransformation(e.target.checked)}
-                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    className="rounded border-white/10 text-purple-600 focus:ring-purple-500"
                   />
                   <span className="text-sm">Show Unit Circle Transform</span>
                 </label>
@@ -611,7 +611,7 @@ const DiagonalizationExplorer: React.FC<DiagonalizationExplorerProps> = ({
 
             {/* Animation Speed */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-medium text-white/70">
                 Animation Speed: {animationSpeed.toFixed(1)}x
               </label>
               <Slider
@@ -663,7 +663,8 @@ const DiagonalizationExplorer: React.FC<DiagonalizationExplorerProps> = ({
                 ref={canvasRef}
                 width={canvasWidth}
                 height={canvasHeight}
-                className="w-full h-auto border border-gray-200 rounded-lg"
+                aria-label="Eileen eigenvalue and eigenvector analysis visualization"
+                className="w-full h-auto border border-white/10 rounded-lg"
               />
               {isAnimating && (
                 <div className="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full text-sm">
@@ -708,7 +709,7 @@ const DiagonalizationExplorer: React.FC<DiagonalizationExplorerProps> = ({
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
-              <h4 className="font-medium text-gray-700">Eigenvalues</h4>
+              <h4 className="font-medium text-white/70">Eigenvalues</h4>
               <div className="text-sm space-y-1">
                 {eigenData.isDiagonalizable ? (
                   <>
@@ -723,7 +724,7 @@ const DiagonalizationExplorer: React.FC<DiagonalizationExplorerProps> = ({
             </div>
             
             <div className="space-y-2">
-              <h4 className="font-medium text-gray-700">Eigenvectors</h4>
+              <h4 className="font-medium text-white/70">Eigenvectors</h4>
               <div className="text-sm space-y-1">
                 {eigenData.isDiagonalizable ? (
                   <>
@@ -738,7 +739,7 @@ const DiagonalizationExplorer: React.FC<DiagonalizationExplorerProps> = ({
             </div>
             
             <div className="space-y-2">
-              <h4 className="font-medium text-gray-700">Diagonalization</h4>
+              <h4 className="font-medium text-white/70">Diagonalization</h4>
               <div className="text-sm space-y-1">
                 {eigenData.isDiagonalizable ? (
                   <>

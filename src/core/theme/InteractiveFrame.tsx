@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { CharacterAnimation } from "@/core/components/CharacterAnimation";
 import { characters } from "@/utils/characterData";
+import { IX } from "@/interactive/interactiveTheme";
 
 interface InteractiveFrameProps {
   characterId: string;
@@ -20,7 +21,8 @@ export const InteractiveFrame = ({ characterId, fallbackSrc, title, children }: 
   return (
     <div
       data-character={characterId}
-      className="rounded-2xl border-2 character-accent-border bg-white shadow-xl overflow-hidden"
+      className={`rounded-2xl border-2 character-accent-border shadow-xl overflow-hidden ${IX.root}`}
+      style={{ background: "rgba(255,255,255,0.04)" }}
     >
       <div className="flex items-center gap-3 px-4 py-3 character-accent-soft border-b character-accent-border">
         <CharacterAnimation
@@ -30,7 +32,7 @@ export const InteractiveFrame = ({ characterId, fallbackSrc, title, children }: 
           size="md"
         />
         <div>
-          <p className="text-sm font-semibold text-slate-800">{title ?? character?.name}</p>
+          <p className="text-sm font-semibold text-white/90">{title ?? character?.name}</p>
           <p className="text-xs character-accent-text font-medium">{character?.concept}</p>
         </div>
       </div>

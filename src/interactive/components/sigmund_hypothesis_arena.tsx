@@ -277,12 +277,12 @@ const SigmundHypothesisArena: React.FC<SigmundHypothesisArenaProps> = ({
   }, [simulationHistory]);
 
   return (
-    <div className="max-w-5xl mx-auto p-4 bg-gradient-to-br from-teal-50 to-cyan-50">
+    <div className="max-w-5xl mx-auto p-4 bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+        <h2 className="text-2xl font-bold text-white/90 mb-2">
           👁️ Sigmund's Hypothesis Testing Arena 👁️
         </h2>
-        <p className="text-gray-600">
+        <p className="text-white/55">
           Welcome to the elegant world of statistical hypothesis testing. Let us distinguish meaningful signals from mere noise with mathematical grace.
         </p>
       </div>
@@ -301,12 +301,12 @@ const SigmundHypothesisArena: React.FC<SigmundHypothesisArenaProps> = ({
                 <div key={scenario.id} className="flex items-center space-x-2">
                   <RadioGroupItem value={scenario.id} id={scenario.id} />
                   <Label htmlFor={scenario.id} className="flex-1">
-                    <div className="p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                    <div className="p-3 border rounded-lg cursor-pointer hover:bg-white/[0.03]">
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-xl">{scenario.icon}</span>
                         <h4 className="font-semibold">{scenario.title}</h4>
                       </div>
-                      <p className="text-sm text-gray-600">{scenario.description}</p>
+                      <p className="text-sm text-white/55">{scenario.description}</p>
                     </div>
                   </Label>
                 </div>
@@ -326,8 +326,8 @@ const SigmundHypothesisArena: React.FC<SigmundHypothesisArenaProps> = ({
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="p-4 bg-gradient-to-r from-teal-100 to-cyan-100 rounded-lg">
-              <h4 className="font-semibold text-gray-800 mb-2">Current Investigation:</h4>
-              <p className="text-sm text-gray-700 mb-3">{scenario.context}</p>
+              <h4 className="font-semibold text-white/90 mb-2">Current Investigation:</h4>
+              <p className="text-sm text-white/70 mb-3">{scenario.context}</p>
               <div className="space-y-2 text-sm">
                 <div><strong>H₀:</strong> {scenario.nullHypothesis}</div>
                 <div><strong>H₁:</strong> {scenario.alternativeHypothesis}</div>
@@ -336,7 +336,7 @@ const SigmundHypothesisArena: React.FC<SigmundHypothesisArenaProps> = ({
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-2 block">
+              <label className="text-sm font-medium text-white/70 mb-2 block">
                 Sample Size (n): {sampleSize[0]}
               </label>
               <Slider
@@ -350,7 +350,7 @@ const SigmundHypothesisArena: React.FC<SigmundHypothesisArenaProps> = ({
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-2 block">
+              <label className="text-sm font-medium text-white/70 mb-2 block">
                 Significance Level (α): {significanceLevel[0].toFixed(3)}
               </label>
               <Slider
@@ -363,8 +363,8 @@ const SigmundHypothesisArena: React.FC<SigmundHypothesisArenaProps> = ({
               />
             </div>
 
-            <div className="p-3 bg-gray-50 rounded-lg text-sm">
-              <h5 className="font-medium text-gray-800 mb-1">Test Parameters:</h5>
+            <div className="p-3 bg-white/[0.03] rounded-lg text-sm">
+              <h5 className="font-medium text-white/90 mb-1">Test Parameters:</h5>
               <div>Standard Error: {testCalculations.standardError.toFixed(4)}</div>
               <div>Critical Value: ±{Math.abs(testCalculations.criticalValue).toFixed(3)}</div>
               <div>Significance Level: {(testCalculations.alpha * 100).toFixed(1)}%</div>
@@ -391,20 +391,20 @@ const SigmundHypothesisArena: React.FC<SigmundHypothesisArenaProps> = ({
             {testResults ? (
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <div className="font-medium text-gray-700">Sample Mean</div>
+                  <div className="p-3 bg-white/[0.03] rounded-lg">
+                    <div className="font-medium text-white/70">Sample Mean</div>
                     <div className="text-lg font-mono">{testResults.sampleMean.toFixed(4)}</div>
                   </div>
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <div className="font-medium text-gray-700">Test Statistic</div>
+                  <div className="p-3 bg-white/[0.03] rounded-lg">
+                    <div className="font-medium text-white/70">Test Statistic</div>
                     <div className="text-lg font-mono">{testResults.testStatistic.toFixed(3)}</div>
                   </div>
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <div className="font-medium text-gray-700">p-value</div>
+                  <div className="p-3 bg-white/[0.03] rounded-lg">
+                    <div className="font-medium text-white/70">p-value</div>
                     <div className="text-lg font-mono">{testResults.pValue.toFixed(4)}</div>
                   </div>
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <div className="font-medium text-gray-700">Decision</div>
+                  <div className="p-3 bg-white/[0.03] rounded-lg">
+                    <div className="font-medium text-white/70">Decision</div>
                     <Badge variant={testResults.decision === 'reject' ? 'destructive' : 'secondary'}>
                       {testResults.decision === 'reject' ? 'Reject H₀' : 'Fail to Reject H₀'}
                     </Badge>
@@ -412,7 +412,7 @@ const SigmundHypothesisArena: React.FC<SigmundHypothesisArenaProps> = ({
                 </div>
 
                 <div className="p-4 border rounded-lg">
-                  <h4 className="font-semibold text-gray-800 mb-2">Statistical Decision:</h4>
+                  <h4 className="font-semibold text-white/90 mb-2">Statistical Decision:</h4>
                   <div className="text-sm">
                     {testResults.pValue < testCalculations.alpha ? (
                       <span className="text-red-600">
@@ -431,12 +431,12 @@ const SigmundHypothesisArena: React.FC<SigmundHypothesisArenaProps> = ({
                   testResults.errorType === 'type-i' ? 'bg-red-100 border-red-300' :
                   'bg-yellow-100 border-yellow-300'
                 }`}>
-                  <h4 className="font-semibold text-gray-800 mb-2">Reality Check:</h4>
+                  <h4 className="font-semibold text-white/90 mb-2">Reality Check:</h4>
                   <div className="text-sm">{getDecisionInterpretation()}</div>
                 </div>
               </div>
             ) : (
-              <div className="text-center py-8 text-gray-500">
+              <div className="text-center py-8 text-white/45">
                 <div className="text-4xl mb-4">🦢</div>
                 <p>Conduct a hypothesis test to see the elegant dance between evidence and decision.</p>
               </div>
@@ -456,7 +456,7 @@ const SigmundHypothesisArena: React.FC<SigmundHypothesisArenaProps> = ({
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
               <div className="p-4 bg-green-100 rounded-lg text-center">
-                <div className="text-2xl font-bold text-green-700">
+                <div className="text-2xl font-bold text-emerald-300/90">
                   {(simulationStats.correctRate * 100).toFixed(1)}%
                 </div>
                 <div className="text-sm text-green-600">Correct Decisions</div>
@@ -475,7 +475,7 @@ const SigmundHypothesisArena: React.FC<SigmundHypothesisArenaProps> = ({
               </div>
             </div>
             
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-white/55">
               <p className="mb-2">
                 <strong>Observe:</strong> Type I error rate should approach α = {(testCalculations.alpha * 100).toFixed(1)}% in the long run when H₀ is true.
               </p>
@@ -496,10 +496,10 @@ const SigmundHypothesisArena: React.FC<SigmundHypothesisArenaProps> = ({
         </CardHeader>
         <CardContent>
           <div className="bg-gradient-to-r from-teal-100 to-cyan-100 p-4 rounded-lg">
-            <p className="text-gray-700 mb-3">
+            <p className="text-white/70 mb-3">
               <strong>The Black Swan Principle:</strong> Hypothesis testing embodies elegant statistical logic - we assume the status quo (null hypothesis) until evidence is strong enough to suggest otherwise. Like the discovery of black swans challenged the belief that "all swans are white," hypothesis testing helps us identify when our assumptions need updating.
             </p>
-            <p className="text-gray-700">
+            <p className="text-white/70">
               Remember: We never "prove" the alternative hypothesis - we simply reject or fail to reject the null. This maintains proper statistical humility while providing a framework for principled decision-making under uncertainty.
             </p>
           </div>

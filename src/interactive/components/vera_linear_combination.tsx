@@ -3,6 +3,8 @@ import { Button } from '@/core/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/core/components/ui/card';
 import { Slider } from '@/core/components/ui/slider';
 import { Badge } from '@/core/components/ui/badge';
+import { drawVectorArrow } from '@/interactive/utils/canvasArrow';
+import { AXIS, BACKGROUND, GRID, LABEL } from '@/interactive/utils/canvasTheme';
 
 interface Vector {
   x: number;
@@ -68,7 +70,7 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
   const drawGrid = (ctx: CanvasRenderingContext2D) => {
     if (!showGrid) return;
     
-    ctx.strokeStyle = '#E5E7EB';
+    ctx.strokeStyle = GRID;
     ctx.lineWidth = 1;
     
     // Draw grid lines
@@ -88,7 +90,7 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
   };
 
   const drawAxes = (ctx: CanvasRenderingContext2D) => {
-    ctx.strokeStyle = '#374151';
+    ctx.strokeStyle = AXIS;
     ctx.lineWidth = 2;
     
     // X-axis
@@ -104,13 +106,13 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
     ctx.stroke();
     
     // Origin point
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = AXIS;
     ctx.beginPath();
     ctx.arc(centerX, centerY, 3, 0, 2 * Math.PI);
     ctx.fill();
     
     // Axis labels
-    ctx.fillStyle = '#6B7280';
+    ctx.fillStyle = LABEL;
     ctx.font = '12px Inter, sans-serif';
     ctx.fillText('x', canvasWidth - 20, centerY - 10);
     ctx.fillText('y', centerX + 10, 15);
@@ -123,35 +125,8 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
     ctx.globalAlpha = alpha;
     ctx.strokeStyle = color;
     ctx.fillStyle = color;
-    ctx.lineWidth = 3;
     
-    if (dashed) {
-      ctx.setLineDash([5, 5]);
-    }
-    
-    // Draw vector line
-    ctx.beginPath();
-    ctx.moveTo(startX, startY);
-    ctx.lineTo(endX, endY);
-    ctx.stroke();
-    
-    // Draw arrowhead
-    const angle = Math.atan2(endY - startY, endX - startX);
-    const arrowLength = 12;
-    const arrowAngle = Math.PI / 6;
-    
-    ctx.beginPath();
-    ctx.moveTo(endX, endY);
-    ctx.lineTo(
-      endX - arrowLength * Math.cos(angle - arrowAngle),
-      endY - arrowLength * Math.sin(angle - arrowAngle)
-    );
-    ctx.lineTo(
-      endX - arrowLength * Math.cos(angle + arrowAngle),
-      endY - arrowLength * Math.sin(angle + arrowAngle)
-    );
-    ctx.closePath();
-    ctx.fill();
+    drawVectorArrow(ctx, startX, startY, endX, endY, color, 3, dashed ? [5, 5] : undefined);
     
     // Draw label
     ctx.fillStyle = color;
@@ -241,7 +216,8 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
     if (!ctx) return;
 
     // Clear canvas
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillStyle = BACKGROUND;
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // Draw grid and axes
     drawGrid(ctx);
@@ -251,7 +227,7 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
     drawLinearCombination(ctx);
 
     // Draw information panel
-    ctx.fillStyle = '#1F2937';
+    ctx.fillStyle = LABEL;
     ctx.font = '14px Inter, sans-serif';
     ctx.fillText(`Linear Combination: ${coeffA.toFixed(1)}u + ${coeffB.toFixed(1)}v`, 20, 30);
     ctx.fillText(`Result: [${result.x.toFixed(1)}, ${result.y.toFixed(1)}]`, 20, 50);
@@ -347,7 +323,7 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-6">
       {/* Header */}
-      <Card className="border-2 border-emerald-200 bg-gradient-to-r from-emerald-50 to-green-50">
+      <Card className="border-2 border-emerald-400/30 bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10">
         <CardHeader className="pb-4">
           <CardTitle className="text-2xl font-bold text-emerald-800 flex items-center gap-2">
             🧭 Vera's Linear Combination Laboratory
@@ -398,13 +374,13 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
 
             {/* Vector Controls */}
             <div className="space-y-4">
-              <h4 className="font-medium text-gray-700">Base Vectors</h4>
+              <h4 className="font-medium text-white/70">Base Vectors</h4>
               
               <div className="space-y-2">
                 <label className="text-sm font-medium text-emerald-700">Vector u</label>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="text-xs text-gray-600">x: {vectorU.x.toFixed(0)}</label>
+                    <label className="text-xs text-white/55">x: {vectorU.x.toFixed(0)}</label>
                     <Slider
                       value={[vectorU.x]}
                       onValueChange={(value) => setVectorU(prev => ({ ...prev, x: value[0] }))}
@@ -415,7 +391,7 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
                     />
                   </div>
                   <div>
-                    <label className="text-xs text-gray-600">y: {vectorU.y.toFixed(0)}</label>
+                    <label className="text-xs text-white/55">y: {vectorU.y.toFixed(0)}</label>
                     <Slider
                       value={[vectorU.y]}
                       onValueChange={(value) => setVectorU(prev => ({ ...prev, y: value[0] }))}
@@ -432,7 +408,7 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
                 <label className="text-sm font-medium text-blue-700">Vector v</label>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="text-xs text-gray-600">x: {vectorV.x.toFixed(0)}</label>
+                    <label className="text-xs text-white/55">x: {vectorV.x.toFixed(0)}</label>
                     <Slider
                       value={[vectorV.x]}
                       onValueChange={(value) => setVectorV(prev => ({ ...prev, x: value[0] }))}
@@ -443,7 +419,7 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
                     />
                   </div>
                   <div>
-                    <label className="text-xs text-gray-600">y: {vectorV.y.toFixed(0)}</label>
+                    <label className="text-xs text-white/55">y: {vectorV.y.toFixed(0)}</label>
                     <Slider
                       value={[vectorV.y]}
                       onValueChange={(value) => setVectorV(prev => ({ ...prev, y: value[0] }))}
@@ -459,14 +435,14 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
 
             {/* Display Options */}
             <div className="space-y-3">
-              <h4 className="font-medium text-gray-700">Display Options</h4>
+              <h4 className="font-medium text-white/70">Display Options</h4>
               <div className="space-y-2">
                 <label className="flex items-center space-x-2">
                   <input
                     type="checkbox"
                     checked={showComponents}
                     onChange={(e) => setShowComponents(e.target.checked)}
-                    className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                    className="rounded border-white/10 text-emerald-600 focus:ring-emerald-500"
                   />
                   <span className="text-sm">Show Parallelogram</span>
                 </label>
@@ -475,7 +451,7 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
                     type="checkbox"
                     checked={showSpan}
                     onChange={(e) => setShowSpan(e.target.checked)}
-                    className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                    className="rounded border-white/10 text-emerald-600 focus:ring-emerald-500"
                   />
                   <span className="text-sm">Show Span Region</span>
                 </label>
@@ -484,7 +460,7 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
                     type="checkbox"
                     checked={showGrid}
                     onChange={(e) => setShowGrid(e.target.checked)}
-                    className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                    className="rounded border-white/10 text-emerald-600 focus:ring-emerald-500"
                   />
                   <span className="text-sm">Show Grid</span>
                 </label>
@@ -493,7 +469,7 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
 
             {/* Animation Speed */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-medium text-white/70">
                 Animation Speed: {animationSpeed.toFixed(1)}x
               </label>
               <Slider
@@ -537,7 +513,8 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
                 ref={canvasRef}
                 width={canvasWidth}
                 height={canvasHeight}
-                className="w-full h-auto border border-gray-200 rounded-lg"
+                aria-label="Vera linear combination visualization"
+                className="w-full h-auto border border-white/10 rounded-lg"
               />
               {isAnimating && (
                 <div className="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full text-sm">
@@ -579,7 +556,7 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-white/55">
                 Vectors that lie on the same line (linearly dependent)
               </p>
               <div className="grid grid-cols-1 gap-2">
@@ -605,7 +582,7 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-white/55">
                 Vectors that span the entire 2D plane (linearly independent)
               </p>
               <div className="grid grid-cols-1 gap-2">
@@ -634,7 +611,7 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
-              <h4 className="font-medium text-gray-700">Linear Combination</h4>
+              <h4 className="font-medium text-white/70">Linear Combination</h4>
               <div className="text-sm space-y-1">
                 <p>Formula: {coeffA.toFixed(2)}u + {coeffB.toFixed(2)}v</p>
                 <p>Result: [{result.x.toFixed(2)}, {result.y.toFixed(2)}]</p>
@@ -642,7 +619,7 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
               </div>
             </div>
             <div className="space-y-2">
-              <h4 className="font-medium text-gray-700">Vector Properties</h4>
+              <h4 className="font-medium text-white/70">Vector Properties</h4>
               <div className="text-sm space-y-1">
                 <p>u = [{vectorU.x.toFixed(0)}, {vectorU.y.toFixed(0)}]</p>
                 <p>v = [{vectorV.x.toFixed(0)}, {vectorV.y.toFixed(0)}]</p>
@@ -650,7 +627,7 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
               </div>
             </div>
             <div className="space-y-2">
-              <h4 className="font-medium text-gray-700">Linear Independence</h4>
+              <h4 className="font-medium text-white/70">Linear Independence</h4>
               <div className="text-sm space-y-1">
                 {Math.abs(vectorU.x * vectorV.y - vectorU.y * vectorV.x) > 0.1 ? (
                   <>

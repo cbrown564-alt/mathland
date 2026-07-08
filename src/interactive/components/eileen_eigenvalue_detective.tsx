@@ -111,7 +111,7 @@ const EileenEigenvalueDetective: React.FC<EileenEigenvalueDetectiveProps> = ({
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     // Draw grid
-    ctx.strokeStyle = '#f1f5f9';
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
     ctx.lineWidth = 1;
     const gridSpacing = SCALE / 2;
     for (let x = gridSpacing; x < CANVAS_WIDTH; x += gridSpacing) {
@@ -128,7 +128,7 @@ const EileenEigenvalueDetective: React.FC<EileenEigenvalueDetectiveProps> = ({
     }
 
     // Draw axes
-    ctx.strokeStyle = '#94a3b8';
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(0, CENTER_Y);
@@ -140,7 +140,7 @@ const EileenEigenvalueDetective: React.FC<EileenEigenvalueDetectiveProps> = ({
     ctx.stroke();
 
     // Draw unit circle for reference
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
     ctx.lineWidth = 1;
     ctx.setLineDash([5, 5]);
     ctx.beginPath();
@@ -220,7 +220,7 @@ const EileenEigenvalueDetective: React.FC<EileenEigenvalueDetectiveProps> = ({
     }
 
     // Origin point
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
     ctx.beginPath();
     ctx.arc(CENTER_X, CENTER_Y, 4, 0, 2 * Math.PI);
     ctx.fill();
@@ -260,8 +260,8 @@ const EileenEigenvalueDetective: React.FC<EileenEigenvalueDetectiveProps> = ({
           <AvatarFallback>E</AvatarFallback>
         </Avatar>
         <div>
-          <h2 className="text-xl font-bold text-slate-800">Eileen's Eigenvalue Detective Kit</h2>
-          <p className="text-slate-600">Discover hidden directions in matrix transformations!</p>
+          <h2 className="text-xl font-bold text-white/90">Eileen's Eigenvalue Detective Kit</h2>
+          <p className="text-white/55">Discover hidden directions in matrix transformations!</p>
         </div>
         <Badge variant="outline" className="ml-auto">
           Case {investigationStep}/3
@@ -271,10 +271,10 @@ const EileenEigenvalueDetective: React.FC<EileenEigenvalueDetectiveProps> = ({
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Visualization Canvas */}
         <div className="lg:col-span-2">
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-50 to-pink-50">
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10">
             <CardHeader className="pb-4">
               <div className="flex justify-between items-center">
-                <CardTitle className="text-lg font-semibold text-purple-800 flex items-center gap-2">
+                <CardTitle className="text-lg font-semibold text-purple-200 flex items-center gap-2">
                   <Search className="w-5 h-5" />
                   Investigation Scene
                 </CardTitle>
@@ -294,14 +294,15 @@ const EileenEigenvalueDetective: React.FC<EileenEigenvalueDetectiveProps> = ({
                 ref={canvasRef}
                 width={CANVAS_WIDTH}
                 height={CANVAS_HEIGHT}
-                className="border border-purple-200 rounded-lg bg-white"
+                aria-label="Eileen eigenvalue detective visualization"
+                className="border border-purple-400/30 rounded-lg bg-white/[0.04]"
               />
             </CardContent>
           </Card>
 
           {/* Evidence Analysis */}
           <div className="mt-4 grid grid-cols-2 gap-4">
-            <Card className="bg-gradient-to-br from-red-50 to-pink-50 border-red-200">
+            <Card className="bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10 border-red-400/30">
               <CardContent className="pt-4">
                 <div className="text-sm">
                   <h4 className="font-semibold text-red-800 mb-2">🔍 Evidence: Eigenvalues</h4>
@@ -312,11 +313,11 @@ const EileenEigenvalueDetective: React.FC<EileenEigenvalueDetectiveProps> = ({
                 </div>
               </CardContent>
             </Card>
-            <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
+            <Card className="bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10 border-emerald-400/30">
               <CardContent className="pt-4">
                 <div className="text-sm">
-                  <h4 className="font-semibold text-green-800 mb-2">🧭 Clue: Special Directions</h4>
-                  <div className="text-xs text-green-700">
+                  <h4 className="font-semibold text-emerald-200 mb-2">🧭 Clue: Special Directions</h4>
+                  <div className="text-xs text-emerald-300/90">
                     {eigenData.values[0] === eigenData.values[1] 
                       ? "All directions are special!"
                       : "Red and green lines show eigenvector directions"}
@@ -383,7 +384,7 @@ const EileenEigenvalueDetective: React.FC<EileenEigenvalueDetectiveProps> = ({
               
               {currentPreset && (
                 <div className="p-3 bg-purple-50 rounded-lg">
-                  <div className="text-sm font-medium text-purple-800 mb-1">Detective's Note</div>
+                  <div className="text-sm font-medium text-purple-200 mb-1">Detective's Note</div>
                   <div className="text-xs text-purple-600">{currentPreset.clue}</div>
                 </div>
               )}
@@ -414,7 +415,7 @@ const EileenEigenvalueDetective: React.FC<EileenEigenvalueDetectiveProps> = ({
           </Card>
 
           {!isPreview && (
-            <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200">
+            <Card className="bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10 border-purple-400/30">
               <CardContent className="pt-6">
                 <div className="text-sm text-purple-700 space-y-2">
                   <p><strong>🔍 Eileen's Investigation Tips:</strong></p>

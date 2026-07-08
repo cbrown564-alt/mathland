@@ -36,7 +36,7 @@ const VeraForestMapping: React.FC<VeraForestMappingProps> = ({
   const allComplete = achieved.size >= 3;
 
   return (
-    <div className="max-w-5xl mx-auto p-4 bg-gradient-to-br from-emerald-50 to-teal-50">
+    <div className="max-w-5xl mx-auto p-4 bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10">
       <div className="flex items-center gap-3 mb-4">
         <Avatar className="h-10 w-10">
           <AvatarImage src="/lovable-uploads/vera.png" alt="Vera" />
@@ -50,7 +50,7 @@ const VeraForestMapping: React.FC<VeraForestMappingProps> = ({
         </div>
       </div>
 
-      <Card className="mb-4 border-emerald-200">
+      <Card className="mb-4 border-emerald-400/30">
         <CardHeader className="pb-2">
           <CardTitle className="text-base text-emerald-800">Capstone Progress</CardTitle>
         </CardHeader>

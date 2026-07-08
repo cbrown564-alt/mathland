@@ -5,6 +5,8 @@ import { Label } from '@/core/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/core/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/core/components/ui/avatar';
 import { RotateCw, Square, Maximize, Shuffle, RotateCcw } from 'lucide-react';
+import { drawVectorArrow } from '@/interactive/utils/canvasArrow';
+import { AXIS, BACKGROUND, GRID } from '@/interactive/utils/canvasTheme';
 
 // Matrix operations
 const multiplyMatrix = (matrix: number[][], point: number[]): number[] => {
@@ -72,7 +74,7 @@ const MaxMatrixTransformer: React.FC<MatrixTransformerProps> = ({
   const drawGrid = useCallback((ctx: CanvasRenderingContext2D) => {
     if (!showGrid) return;
     
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = GRID;
     ctx.lineWidth = 1;
     
     // Vertical lines
@@ -92,7 +94,7 @@ const MaxMatrixTransformer: React.FC<MatrixTransformerProps> = ({
     }
 
     // Axes
-    ctx.strokeStyle = '#64748b';
+    ctx.strokeStyle = AXIS;
     ctx.lineWidth = 2;
     
     // X-axis
@@ -186,13 +188,14 @@ const MaxMatrixTransformer: React.FC<MatrixTransformerProps> = ({
     if (!ctx) return;
     
     // Clear canvas
-    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    ctx.fillStyle = BACKGROUND;
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     
     // Draw grid
     drawGrid(ctx);
     
     // Draw original shape (light blue)
-    drawShape(ctx, originalShape, '#94a3b8', false);
+    drawShape(ctx, originalShape, 'rgba(255,255,255,0.25)', false);
     
     // Draw transformed shape (Max's blue color)
     const transformedShape = originalShape.map(vertex => multiplyMatrix(matrix, vertex));
@@ -204,21 +207,12 @@ const MaxMatrixTransformer: React.FC<MatrixTransformerProps> = ({
     const transformedX = unitX.map(vertex => multiplyMatrix(matrix, vertex));
     const transformedY = unitY.map(vertex => multiplyMatrix(matrix, vertex));
     
-    // Draw basis vectors
-    ctx.strokeStyle = '#dc2626';
-    ctx.lineWidth = 2;
     const xCanvas = transformedX.map(toCanvasCoords);
-    ctx.beginPath();
-    ctx.moveTo(xCanvas[0][0], xCanvas[0][1]);
-    ctx.lineTo(xCanvas[1][0], xCanvas[1][1]);
-    ctx.stroke();
-    
-    ctx.strokeStyle = '#16a34a';
     const yCanvas = transformedY.map(toCanvasCoords);
-    ctx.beginPath();
-    ctx.moveTo(yCanvas[0][0], yCanvas[0][1]);
-    ctx.lineTo(yCanvas[1][0], yCanvas[1][1]);
-    ctx.stroke();
+    
+    // Draw basis vectors
+    drawVectorArrow(ctx, xCanvas[0][0], xCanvas[0][1], xCanvas[1][0], xCanvas[1][1], '#dc2626', 2);
+    drawVectorArrow(ctx, yCanvas[0][0], yCanvas[0][1], yCanvas[1][0], yCanvas[1][1], '#16a34a', 2);
   }, [matrix, drawGrid, drawShape, originalShape, toCanvasCoords]);
 
   // Update canvas when matrix changes
@@ -255,15 +249,15 @@ const MaxMatrixTransformer: React.FC<MatrixTransformerProps> = ({
           <AvatarFallback>M</AvatarFallback>
         </Avatar>
         <div>
-          <h2 className="text-xl font-bold text-slate-800">Matrix Max's Transformation Studio</h2>
-          <p className="text-slate-600">Watch how matrices transform geometric shapes!</p>
+          <h2 className="text-xl font-bold text-white/90">Matrix Max's Transformation Studio</h2>
+          <p className="text-white/55">Watch how matrices transform geometric shapes!</p>
         </div>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Visualization Canvas */}
         <div className="lg:col-span-2">
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-indigo-50">
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10">
             <CardHeader className="pb-4">
               <div className="flex justify-between items-center">
                 <CardTitle className="text-lg font-semibold text-blue-800">
@@ -296,7 +290,8 @@ const MaxMatrixTransformer: React.FC<MatrixTransformerProps> = ({
                 ref={canvasRef}
                 width={CANVAS_WIDTH}
                 height={CANVAS_HEIGHT}
-                className="border border-blue-200 rounded-lg bg-white"
+                aria-label="Max matrix transformation visualization"
+                className="border border-white/10 rounded-lg"
               />
             </CardContent>
           </Card>
@@ -304,7 +299,7 @@ const MaxMatrixTransformer: React.FC<MatrixTransformerProps> = ({
           {/* Legend */}
           <div className="mt-4 grid grid-cols-3 gap-4 text-sm">
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-slate-400 rounded"></div>
+              <div className="w-4 h-4 border-2 border-white/20 rounded"></div>
               <span>Original Shape</span>
             </div>
             <div className="flex items-center gap-2">
@@ -410,7 +405,7 @@ const MaxMatrixTransformer: React.FC<MatrixTransformerProps> = ({
           </Card>
 
           {!isPreview && (
-            <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200">
+            <Card className="bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10 border-blue-400/30">
               <CardContent className="pt-6">
                 <div className="text-sm text-blue-700 space-y-2">
                   <p><strong>⊞ Max's Organization Tips:</strong></p>

@@ -400,7 +400,7 @@ const CLTDemonstration: React.FC<CLTDemonstrationProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-6">
       {/* Header */}
-      <Card className="border-2 border-pink-200 bg-gradient-to-r from-pink-50 to-purple-50">
+      <Card className="border-2 border-pink-400/30 bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10">
         <CardHeader className="pb-4">
           <CardTitle className="text-2xl font-bold text-pink-800 flex items-center gap-2">
             🎭 Pippa's Central Limit Theorem Magic Show
@@ -420,7 +420,7 @@ const CLTDemonstration: React.FC<CLTDemonstrationProps> = ({
           <CardContent className="space-y-6">
             {/* Distribution Type */}
             <div className="space-y-3">
-              <h4 className="font-medium text-gray-700">Population Distribution</h4>
+              <h4 className="font-medium text-white/70">Population Distribution</h4>
               <div className="grid grid-cols-2 gap-2">
                 {(['uniform', 'exponential', 'binomial', 'skewed'] as const).map((type) => (
                   <Button
@@ -439,7 +439,7 @@ const CLTDemonstration: React.FC<CLTDemonstrationProps> = ({
             {/* Distribution Parameters */}
             {distribution.type === 'uniform' && (
               <div className="space-y-4">
-                <h4 className="font-medium text-gray-700">Uniform Parameters</h4>
+                <h4 className="font-medium text-white/70">Uniform Parameters</h4>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-pink-700">Min: {distribution.param1.toFixed(1)}</label>
                   <Slider
@@ -522,7 +522,7 @@ const CLTDemonstration: React.FC<CLTDemonstrationProps> = ({
 
             {/* Sampling Parameters */}
             <div className="space-y-4">
-              <h4 className="font-medium text-gray-700">Sampling Parameters</h4>
+              <h4 className="font-medium text-white/70">Sampling Parameters</h4>
               
               <div className="space-y-2">
                 <label className="text-sm font-medium text-pink-700">Sample Size n: {sampleSize}</label>
@@ -563,14 +563,14 @@ const CLTDemonstration: React.FC<CLTDemonstrationProps> = ({
 
             {/* Display Options */}
             <div className="space-y-3">
-              <h4 className="font-medium text-gray-700">Display Options</h4>
+              <h4 className="font-medium text-white/70">Display Options</h4>
               <div className="space-y-2">
                 <label className="flex items-center space-x-2">
                   <input
                     type="checkbox"
                     checked={showOriginalDist}
                     onChange={(e) => setShowOriginalDist(e.target.checked)}
-                    className="rounded border-gray-300 text-pink-600 focus:ring-pink-500"
+                    className="rounded border-white/10 text-pink-600 focus:ring-pink-500"
                   />
                   <span className="text-sm">Show Original Distribution</span>
                 </label>
@@ -579,7 +579,7 @@ const CLTDemonstration: React.FC<CLTDemonstrationProps> = ({
                     type="checkbox"
                     checked={showSampleMeans}
                     onChange={(e) => setShowSampleMeans(e.target.checked)}
-                    className="rounded border-gray-300 text-pink-600 focus:ring-pink-500"
+                    className="rounded border-white/10 text-pink-600 focus:ring-pink-500"
                   />
                   <span className="text-sm">Show Sample Means</span>
                 </label>
@@ -588,7 +588,7 @@ const CLTDemonstration: React.FC<CLTDemonstrationProps> = ({
                     type="checkbox"
                     checked={showNormalOverlay}
                     onChange={(e) => setShowNormalOverlay(e.target.checked)}
-                    className="rounded border-gray-300 text-pink-600 focus:ring-pink-500"
+                    className="rounded border-white/10 text-pink-600 focus:ring-pink-500"
                   />
                   <span className="text-sm">Show Normal Overlay</span>
                 </label>
@@ -597,7 +597,7 @@ const CLTDemonstration: React.FC<CLTDemonstrationProps> = ({
                     type="checkbox"
                     checked={showStatistics}
                     onChange={(e) => setShowStatistics(e.target.checked)}
-                    className="rounded border-gray-300 text-pink-600 focus:ring-pink-500"
+                    className="rounded border-white/10 text-pink-600 focus:ring-pink-500"
                   />
                   <span className="text-sm">Show Statistics</span>
                 </label>
@@ -647,23 +647,25 @@ const CLTDemonstration: React.FC<CLTDemonstrationProps> = ({
           <CardContent className="space-y-4">
             {/* Original Distribution */}
             <div>
-              <h4 className="font-medium text-gray-700 mb-2">Population Distribution</h4>
+              <h4 className="font-medium text-white/70 mb-2">Population Distribution</h4>
               <canvas
                 ref={canvasRef}
                 width={canvasWidth}
                 height={canvasHeight}
-                className="w-full h-auto border border-gray-200 rounded-lg"
+                aria-label="Pippa population distribution visualization"
+                className="w-full h-auto border border-white/10 rounded-lg"
               />
             </div>
             
             {/* Sample Means Distribution */}
             <div>
-              <h4 className="font-medium text-gray-700 mb-2">Distribution of Sample Means</h4>
+              <h4 className="font-medium text-white/70 mb-2">Distribution of Sample Means</h4>
               <canvas
                 ref={histogramRef}
                 width={histogramWidth}
                 height={histogramHeight}
-                className="w-full h-auto border border-gray-200 rounded-lg"
+                aria-label="Pippa sample means distribution visualization"
+                className="w-full h-auto border border-white/10 rounded-lg"
               />
             </div>
             
@@ -720,7 +722,7 @@ const CLTDemonstration: React.FC<CLTDemonstrationProps> = ({
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <h4 className="font-medium text-gray-700">Population Parameters</h4>
+                <h4 className="font-medium text-white/70">Population Parameters</h4>
                 <div className="text-sm space-y-1">
                   <p>Mean μ = {sampleData.populationMean.toFixed(3)}</p>
                   <p>Std σ = {sampleData.populationStd.toFixed(3)}</p>
@@ -729,7 +731,7 @@ const CLTDemonstration: React.FC<CLTDemonstrationProps> = ({
               </div>
               
               <div className="space-y-2">
-                <h4 className="font-medium text-gray-700">Sample Mean Distribution</h4>
+                <h4 className="font-medium text-white/70">Sample Mean Distribution</h4>
                 <div className="text-sm space-y-1">
                   <p>Expected Mean: μ = {sampleData.populationMean.toFixed(3)}</p>
                   <p>Theoretical SE: σ/√n = {sampleData.theoreticalStdError.toFixed(3)}</p>
@@ -738,7 +740,7 @@ const CLTDemonstration: React.FC<CLTDemonstrationProps> = ({
               </div>
               
               <div className="space-y-2">
-                <h4 className="font-medium text-gray-700">CLT Verification</h4>
+                <h4 className="font-medium text-white/70">CLT Verification</h4>
                 <div className="text-sm space-y-1">
                   <p>Sample Size: n = {sampleSize}</p>
                   <p>CLT Applicable: {sampleSize >= 30 ? '✓ Yes' : '⚠ Marginal'}</p>

@@ -201,7 +201,7 @@ const PCADimensionReducer: React.FC<PCADimensionReducerProps> = ({
   };
 
   const drawAxes = (ctx: CanvasRenderingContext2D) => {
-    ctx.strokeStyle = '#374151';
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
     ctx.lineWidth = 2;
     
     // X-axis
@@ -217,7 +217,7 @@ const PCADimensionReducer: React.FC<PCADimensionReducerProps> = ({
     ctx.stroke();
     
     // Origin
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
     ctx.beginPath();
     ctx.arc(centerX, centerY, 3, 0, 2 * Math.PI);
     ctx.fill();
@@ -488,9 +488,9 @@ const PCADimensionReducer: React.FC<PCADimensionReducerProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-6">
       {/* Header */}
-      <Card className="border-2 border-purple-200 bg-gradient-to-r from-purple-50 to-indigo-50">
+      <Card className="border-2 border-purple-400/30 bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10">
         <CardHeader className="pb-4">
-          <CardTitle className="text-2xl font-bold text-purple-800 flex items-center gap-2">
+          <CardTitle className="text-2xl font-bold text-purple-200 flex items-center gap-2">
             🔍 Eileen's PCA Detective Lab
           </CardTitle>
           <p className="text-purple-700">
@@ -508,7 +508,7 @@ const PCADimensionReducer: React.FC<PCADimensionReducerProps> = ({
           <CardContent className="space-y-6">
             {/* Dataset Type */}
             <div className="space-y-3">
-              <h4 className="font-medium text-gray-700">Dataset Type</h4>
+              <h4 className="font-medium text-white/70">Dataset Type</h4>
               <div className="grid grid-cols-2 gap-2">
                 {(['ellipse', 'diagonal', 'cluster', 'random'] as const).map((type) => (
                   <Button
@@ -526,7 +526,7 @@ const PCADimensionReducer: React.FC<PCADimensionReducerProps> = ({
 
             {/* Dataset Parameters */}
             <div className="space-y-4">
-              <h4 className="font-medium text-gray-700">Dataset Parameters</h4>
+              <h4 className="font-medium text-white/70">Dataset Parameters</h4>
               
               <div className="space-y-2">
                 <label className="text-sm font-medium text-purple-700">Data Points: {numPoints}</label>
@@ -567,7 +567,7 @@ const PCADimensionReducer: React.FC<PCADimensionReducerProps> = ({
 
             {/* PCA Parameters */}
             <div className="space-y-3">
-              <h4 className="font-medium text-gray-700">PCA Analysis</h4>
+              <h4 className="font-medium text-white/70">PCA Analysis</h4>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-purple-700">Components: {numComponents}</label>
                 <Slider
@@ -583,14 +583,14 @@ const PCADimensionReducer: React.FC<PCADimensionReducerProps> = ({
 
             {/* Display Options */}
             <div className="space-y-3">
-              <h4 className="font-medium text-gray-700">Display Options</h4>
+              <h4 className="font-medium text-white/70">Display Options</h4>
               <div className="space-y-2">
                 <label className="flex items-center space-x-2">
                   <input
                     type="checkbox"
                     checked={showOriginalData}
                     onChange={(e) => setShowOriginalData(e.target.checked)}
-                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    className="rounded border-white/10 text-purple-600 focus:ring-purple-500"
                   />
                   <span className="text-sm">Show Original Data</span>
                 </label>
@@ -599,7 +599,7 @@ const PCADimensionReducer: React.FC<PCADimensionReducerProps> = ({
                     type="checkbox"
                     checked={showPrincipalComponents}
                     onChange={(e) => setShowPrincipalComponents(e.target.checked)}
-                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    className="rounded border-white/10 text-purple-600 focus:ring-purple-500"
                   />
                   <span className="text-sm">Show Principal Components</span>
                 </label>
@@ -608,7 +608,7 @@ const PCADimensionReducer: React.FC<PCADimensionReducerProps> = ({
                     type="checkbox"
                     checked={showVarianceEllipse}
                     onChange={(e) => setShowVarianceEllipse(e.target.checked)}
-                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    className="rounded border-white/10 text-purple-600 focus:ring-purple-500"
                   />
                   <span className="text-sm">Show Variance Ellipse</span>
                 </label>
@@ -617,7 +617,7 @@ const PCADimensionReducer: React.FC<PCADimensionReducerProps> = ({
                     type="checkbox"
                     checked={showProjectedData}
                     onChange={(e) => setShowProjectedData(e.target.checked)}
-                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    className="rounded border-white/10 text-purple-600 focus:ring-purple-500"
                   />
                   <span className="text-sm">Show Projected Data</span>
                 </label>
@@ -627,7 +627,7 @@ const PCADimensionReducer: React.FC<PCADimensionReducerProps> = ({
             {/* Component Selection */}
             {pcaResult && (
               <div className="space-y-3">
-                <h4 className="font-medium text-gray-700">Highlight Component</h4>
+                <h4 className="font-medium text-white/70">Highlight Component</h4>
                 <div className="flex gap-2">
                   <Button
                     variant={selectedComponent === 0 ? 'default' : 'outline'}
@@ -688,10 +688,11 @@ const PCADimensionReducer: React.FC<PCADimensionReducerProps> = ({
                 ref={canvasRef}
                 width={canvasWidth}
                 height={canvasHeight}
-                className="w-full h-auto border border-gray-200 rounded-lg"
+                aria-label="Eileen principal component analysis visualization"
+                className="w-full h-auto border border-white/10 rounded-lg"
               />
               {isAnalyzing && (
-                <div className="absolute inset-0 flex items-center justify-center bg-white/80 rounded-lg">
+                <div className="absolute inset-0 flex items-center justify-center bg-white/[0.08] rounded-lg">
                   <div className="text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-2"></div>
                     <p className="text-purple-700 font-medium">Analyzing Data...</p>
@@ -738,12 +739,12 @@ const PCADimensionReducer: React.FC<PCADimensionReducerProps> = ({
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-3">
-                <h4 className="font-medium text-gray-700">Principal Components</h4>
+                <h4 className="font-medium text-white/70">Principal Components</h4>
                 <div className="space-y-2">
                   {pcaResult.principalComponents.map((pc, index) => (
-                    <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                      <span className="font-medium text-gray-700">PC{index + 1}</span>
-                      <span className="text-sm text-gray-600">
+                    <div key={index} className="flex items-center justify-between p-2 bg-white/[0.03] rounded">
+                      <span className="font-medium text-white/70">PC{index + 1}</span>
+                      <span className="text-sm text-white/55">
                         {pcaResult.explainedVariance[index].toFixed(1)}% variance
                       </span>
                     </div>
@@ -752,7 +753,7 @@ const PCADimensionReducer: React.FC<PCADimensionReducerProps> = ({
               </div>
               
               <div className="space-y-3">
-                <h4 className="font-medium text-gray-700">Dimensionality Reduction</h4>
+                <h4 className="font-medium text-white/70">Dimensionality Reduction</h4>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-sm">Original dimensions:</span>

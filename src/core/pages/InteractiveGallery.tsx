@@ -4,6 +4,7 @@ import { Button } from "@/core/components/ui/button";
 import { Badge } from "@/core/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/core/components/ui/tabs";
 import { interactiveDemos, InteractiveDemo } from "@/interactive/demos/demo_registry";
+import { InteractiveShell } from "@/interactive/InteractiveShell";
 import { characters } from "@/utils/characterData";
 
 type GalleryEntry = {
@@ -100,9 +101,9 @@ const InteractiveGallery: React.FC = () => {
     const ComponentToRender = selectedComponentData.component;
 
     return (
-      <div className="border rounded-lg bg-white p-4 min-h-[400px]">
+      <div className="interactive-panel rounded-lg border border-white/10 bg-[#0b0910] p-4 min-h-[400px]">
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-lg font-semibold flex items-center gap-2">
+          <h3 className="text-lg font-semibold flex items-center gap-2 text-white/90">
             <span className="text-2xl">{selectedComponentData.icon}</span>
             {selectedComponentData.characterName}&apos;s {selectedComponentData.name}
           </h3>
@@ -112,7 +113,9 @@ const InteractiveGallery: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <ComponentToRender isPreview />
+          <InteractiveShell ariaLabel={`${selectedComponentData.name} preview`}>
+            <ComponentToRender isPreview />
+          </InteractiveShell>
         </div>
       </div>
     );

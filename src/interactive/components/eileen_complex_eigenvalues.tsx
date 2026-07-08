@@ -184,7 +184,7 @@ const ComplexEigenvalues: React.FC<ComplexEigenvaluesProps> = ({
     const scale = 1;
     
     // Draw axes
-    ctx.strokeStyle = '#e5e7eb';
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(0, centerY);
@@ -278,7 +278,7 @@ const ComplexEigenvalues: React.FC<ComplexEigenvaluesProps> = ({
     ctx.fill();
     
     // Labels
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
     ctx.font = '12px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('x', CANVAS_WIDTH - 15, centerY - 10);
@@ -295,7 +295,7 @@ const ComplexEigenvalues: React.FC<ComplexEigenvaluesProps> = ({
     const scale = 80;
     
     // Draw axes
-    ctx.strokeStyle = '#374151';
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(0, centerY);
@@ -305,7 +305,7 @@ const ComplexEigenvalues: React.FC<ComplexEigenvaluesProps> = ({
     ctx.stroke();
     
     // Draw grid
-    ctx.strokeStyle = '#e5e7eb';
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
     ctx.lineWidth = 1;
     for (let i = -2; i <= 2; i++) {
       if (i !== 0) {
@@ -359,7 +359,7 @@ const ComplexEigenvalues: React.FC<ComplexEigenvaluesProps> = ({
     ctx.stroke();
     
     // Labels
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
     ctx.font = '12px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('Real', CANVAS_WIDTH - 30, centerY - 10);
@@ -480,9 +480,9 @@ const ComplexEigenvalues: React.FC<ComplexEigenvaluesProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-6">
       {/* Header */}
-      <Card className="border-2 border-indigo-200 bg-gradient-to-r from-indigo-50 to-purple-50">
+      <Card className="border-2 border-indigo-400/30 bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10">
         <CardHeader className="pb-4">
-          <CardTitle className="text-2xl font-bold text-indigo-800 flex items-center gap-2">
+          <CardTitle className="text-2xl font-bold text-indigo-200 flex items-center gap-2">
             🌀🔍 Eileen's Complex Eigenvalue Dance Studio
           </CardTitle>
           <p className="text-indigo-700">
@@ -504,10 +504,11 @@ const ComplexEigenvalues: React.FC<ComplexEigenvaluesProps> = ({
                 ref={spiralCanvasRef}
                 width={CANVAS_WIDTH}
                 height={CANVAS_HEIGHT}
-                className="border border-gray-300 rounded-lg bg-white"
+                aria-label="Eileen complex eigenvalue spiral trajectory visualization"
+                className="border border-white/10 rounded-lg bg-white/[0.04]"
               />
             </div>
-            <div className="mt-2 text-center text-xs text-gray-600">
+            <div className="mt-2 text-center text-xs text-white/55">
               <div className="flex items-center justify-center gap-4">
                 <div className="flex items-center gap-1">
                   <div className="w-3 h-3 bg-green-500 rounded-full"></div>
@@ -537,7 +538,8 @@ const ComplexEigenvalues: React.FC<ComplexEigenvaluesProps> = ({
                 ref={complexPlaneRef}
                 width={CANVAS_WIDTH}
                 height={CANVAS_HEIGHT}
-                className="border border-gray-300 rounded-lg bg-white"
+                aria-label="Eileen complex plane eigenvalue visualization"
+                className="border border-white/10 rounded-lg bg-white/[0.04]"
               />
             </div>
             <div className="mt-2 space-y-2">
@@ -592,7 +594,7 @@ const ComplexEigenvalues: React.FC<ComplexEigenvaluesProps> = ({
 
               {/* System Analysis */}
               <div className="bg-purple-50 p-3 rounded-lg">
-                <h4 className="font-medium text-purple-800 mb-2">System Analysis</h4>
+                <h4 className="font-medium text-purple-200 mb-2">System Analysis</h4>
                 <p className="text-sm text-purple-700">{systemAnalysis}</p>
               </div>
             </div>
@@ -636,7 +638,7 @@ const ComplexEigenvalues: React.FC<ComplexEigenvaluesProps> = ({
 
               {/* Eigenvalue Display */}
               <div className="bg-indigo-50 p-3 rounded-lg">
-                <h4 className="font-medium text-indigo-800 mb-2">λ = {eigenvalue.real.toFixed(2)} ± {eigenvalue.imag.toFixed(2)}i</h4>
+                <h4 className="font-medium text-indigo-200 mb-2">λ = {eigenvalue.real.toFixed(2)} ± {eigenvalue.imag.toFixed(2)}i</h4>
                 <div className="text-sm text-indigo-700 space-y-1">
                   <div>Magnitude: {complexMagnitude(eigenvalue).toFixed(3)}</div>
                   <div>Frequency: {eigenvalue.imag.toFixed(2)}</div>
@@ -680,7 +682,7 @@ const ComplexEigenvalues: React.FC<ComplexEigenvaluesProps> = ({
         <CardContent className="space-y-4">
           {currentChallenge && (
             <>
-              <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+              <div className="bg-amber-50 p-4 rounded-lg border border-amber-400/30">
                 <h4 className="font-medium text-amber-800 mb-2">Detective Question:</h4>
                 <p className="text-amber-700">{currentChallenge.question}</p>
               </div>
@@ -691,7 +693,8 @@ const ComplexEigenvalues: React.FC<ComplexEigenvaluesProps> = ({
                   value={userAnswer}
                   onChange={(e) => setUserAnswer(e.target.value)}
                   placeholder="Enter your answer"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
+                  aria-label="Challenge answer"
+                  className="flex-1 px-3 py-2 border border-white/10 rounded-md"
                   disabled={showAnswer}
                 />
                 <Button
@@ -711,7 +714,7 @@ const ComplexEigenvalues: React.FC<ComplexEigenvaluesProps> = ({
 
               {isCorrect !== null && (
                 <Alert className={isCorrect ? 'border-green-500 bg-green-50' : 'border-red-500 bg-red-50'}>
-                  <AlertDescription className={isCorrect ? 'text-green-700' : 'text-red-700'}>
+                  <AlertDescription className={isCorrect ? 'text-emerald-300/90' : 'text-red-700'}>
                     {isCorrect ? (
                       <>🌀 Excellent! You've cracked the complex code!</>
                     ) : (
@@ -742,7 +745,7 @@ const ComplexEigenvalues: React.FC<ComplexEigenvaluesProps> = ({
               </div>
             </div>
             <div className="bg-purple-50 p-4 rounded-lg">
-              <h4 className="font-medium text-purple-800 mb-2">Imaginary Part (b)</h4>
+              <h4 className="font-medium text-purple-200 mb-2">Imaginary Part (b)</h4>
               <div className="text-sm text-purple-700 space-y-1">
                 <div>• Determines rotation speed</div>
                 <div>• Frequency = |b|</div>
@@ -753,7 +756,7 @@ const ComplexEigenvalues: React.FC<ComplexEigenvaluesProps> = ({
           </div>
           
           <div className="mt-4 bg-indigo-50 p-4 rounded-lg">
-            <h4 className="font-medium text-indigo-800 mb-2">Eileen's Complex Rules</h4>
+            <h4 className="font-medium text-indigo-200 mb-2">Eileen's Complex Rules</h4>
             <div className="text-sm text-indigo-700">
               "Complex eigenvalues mean spiraling motion! Real part controls growth, imaginary part controls spinning. It's like mathematical choreography!"
             </div>
@@ -788,15 +791,15 @@ const ComplexEigenvalues: React.FC<ComplexEigenvaluesProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
             <div className="text-center">
               <div className="text-2xl font-bold text-indigo-600">{challengesSolved.size}</div>
-              <div className="text-gray-600">Mysteries Solved</div>
+              <div className="text-white/55">Mysteries Solved</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-indigo-600">{experimentsCompleted}</div>
-              <div className="text-gray-600">Dances Performed</div>
+              <div className="text-white/55">Dances Performed</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-indigo-600">{Math.round(progress)}%</div>
-              <div className="text-gray-600">Progress</div>
+              <div className="text-white/55">Progress</div>
             </div>
           </div>
         </CardContent>

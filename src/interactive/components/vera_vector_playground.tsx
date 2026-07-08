@@ -6,6 +6,7 @@ import { Switch } from '@/core/components/ui/switch';
 import { Alert, AlertTitle, AlertDescription } from '@/core/components/ui/alert';
 import { Avatar, AvatarImage, AvatarFallback } from '@/core/components/ui/avatar';
 import { Label } from '@/core/components/ui/label';
+import { VectorArrow } from '@/core/components/narrative/VectorArrow';
 
 // SVG grid/axes constants
 const GRID_SIZE = 10; // units in each direction from origin
@@ -106,7 +107,7 @@ const VeraVectorPlayground = () => {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (showGrid) {
-      ctx.strokeStyle = '#e5e7eb';
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
       ctx.lineWidth = 1;
       for (let x = 0; x <= canvas.width; x += gridSize) {
         ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
@@ -115,10 +116,10 @@ const VeraVectorPlayground = () => {
         ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
       }
     }
-    ctx.strokeStyle = '#374151'; ctx.lineWidth = 2;
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 2;
     ctx.beginPath(); ctx.moveTo(0, originY); ctx.lineTo(canvas.width, originY); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(originX, 0); ctx.lineTo(originX, canvas.height); ctx.stroke();
-    ctx.fillStyle = '#374151'; ctx.beginPath(); ctx.arc(originX, originY, 4, 0, 2 * Math.PI); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.beginPath(); ctx.arc(originX, originY, 4, 0, 2 * Math.PI); ctx.fill();
     vectors.forEach(vector => {
       const endX = originX + vector.x * gridSize;
       const endY = originY - vector.y * gridSize;
@@ -135,11 +136,11 @@ const VeraVectorPlayground = () => {
       ctx.fillStyle = vector.color; ctx.font = 'bold 12px system-ui'; ctx.fillText(`v${vector.id}`, endX + 10, endY - 10);
       if (showMagnitude) {
         const magnitude = Math.sqrt(vector.x * vector.x + vector.y * vector.y);
-        ctx.fillStyle = '#374151'; ctx.font = '10px system-ui';
+        ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.font = '10px system-ui';
         ctx.fillText(`||v${vector.id}|| = ${magnitude.toFixed(2)}`, endX + 10, endY + 10);
       }
     });
-    ctx.fillStyle = '#374151'; ctx.font = 'bold 14px system-ui';
+    ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.font = 'bold 14px system-ui';
     ctx.fillText('x', canvas.width - 20, originY - 10);
     ctx.fillText('y', originX + 10, 20);
   }, [vectors, showGrid, showMagnitude]);
@@ -178,32 +179,24 @@ const VeraVectorPlayground = () => {
           <AvatarImage src="/lovable-uploads/vera.png" alt="Vera" />
           <AvatarFallback>V</AvatarFallback>
         </Avatar>
-        <span className="text-lg font-semibold text-slate-800">Vera's Vector Playground</span>
+        <span className="text-lg font-semibold text-white/90">Vera's Vector Playground</span>
       </div>
-      <div className="mb-2 text-slate-700 text-base">Drag the vector endpoints to explore!</div>
+      <div className="mb-2 text-white/80 text-base">Drag the vector endpoints to explore!</div>
       <div className="flex flex-col md:flex-row gap-6 items-stretch">
         {/* SVG Grid and Axes */}
         <div className="flex-1 flex flex-col min-w-[320px] min-h-[480px]">
-          <div className="border border-slate-200 bg-slate-50 rounded-lg overflow-hidden flex-1 flex flex-col justify-center">
+          <div className="border border-white/10 bg-white/[0.03] rounded-lg overflow-hidden flex-1 flex flex-col justify-center">
             <svg
               ref={svgRef}
               width={SVG_WIDTH}
               height={SVG_HEIGHT}
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
+              aria-label="Vera interactive vector playground visualization"
               className="w-full h-auto select-none"
               onPointerMove={onPointerMove}
               onPointerUp={onPointerUp}
               onPointerLeave={onPointerUp}
             >
-              <defs>
-                {/* Arrowhead markers for each color */}
-                <marker id="arrowhead-red" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
-                  <path d="M0,1 L6,3 L0,5 Z" fill="#f87171" />
-                </marker>
-                <marker id="arrowhead-blue" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
-                  <path d="M0,1 L6,3 L0,5 Z" fill="#3b82f6" />
-                </marker>
-              </defs>
               {/* Grid lines and labels */}
               <g>
                 {axisLabels.map((v, i) => {
@@ -217,7 +210,7 @@ const VeraVectorPlayground = () => {
                         y1={0}
                         x2={x}
                         y2={SVG_HEIGHT}
-                        stroke="#e5e7eb"
+                        stroke="rgba(255,255,255,0.08)"
                         strokeWidth={v === 0 ? 0 : 1}
                       />
                       {/* Horizontal grid line */}
@@ -226,7 +219,7 @@ const VeraVectorPlayground = () => {
                         y1={y}
                         x2={SVG_WIDTH}
                         y2={y}
-                        stroke="#e5e7eb"
+                        stroke="rgba(255,255,255,0.08)"
                         strokeWidth={v === 0 ? 0 : 1}
                       />
                       {/* x-axis label (skip origin) */}
@@ -235,7 +228,7 @@ const VeraVectorPlayground = () => {
                           x={x}
                           y={SVG_HEIGHT / 2 + 18}
                           fontSize="13"
-                          fill="#a3a3a3"
+                          fill="rgba(255,255,255,0.5)"
                           textAnchor="middle"
                           fontFamily="monospace"
                         >
@@ -248,7 +241,7 @@ const VeraVectorPlayground = () => {
                           x={SVG_WIDTH / 2 - 12}
                           y={y + 4}
                           fontSize="13"
-                          fill="#a3a3a3"
+                          fill="rgba(255,255,255,0.5)"
                           textAnchor="end"
                           fontFamily="monospace"
                         >
@@ -267,7 +260,7 @@ const VeraVectorPlayground = () => {
                   y1={SVG_HEIGHT / 2}
                   x2={SVG_WIDTH}
                   y2={SVG_HEIGHT / 2}
-                  stroke="#94a3b8"
+                  stroke="rgba(255,255,255,0.25)"
                   strokeWidth={2}
                 />
                 {/* y-axis */}
@@ -276,7 +269,7 @@ const VeraVectorPlayground = () => {
                   y1={0}
                   x2={SVG_WIDTH / 2}
                   y2={SVG_HEIGHT}
-                  stroke="#94a3b8"
+                  stroke="rgba(255,255,255,0.25)"
                   strokeWidth={2}
                 />
               </g>
@@ -285,7 +278,6 @@ const VeraVectorPlayground = () => {
                 {vectors.map(vec => {
                   const origin = mathToSvg(0, 0);
                   const tip = mathToSvg(vec.x, vec.y);
-                  const markerId = vec.color === '#f87171' ? 'arrowhead-red' : 'arrowhead-blue';
                   const isActive = dragging && dragging.id === vec.id;
                   const isSelected = selectedVector === vec.id;
                   const isHovered = hoveredVector === vec.id;
@@ -296,25 +288,20 @@ const VeraVectorPlayground = () => {
                       onClick={() => setSelectedVector(vec.id)}
                       style={{ cursor: 'pointer' }}
                     >
-                      <line
+                      <VectorArrow
                         x1={origin.x}
                         y1={origin.y}
                         x2={tip.x}
                         y2={tip.y}
-                        stroke={vec.color}
+                        color={vec.color}
                         strokeWidth={isActive || isSelected ? 5 : 3}
-                        markerEnd={`url(#${markerId})`}
-                        style={{
-                          filter: isActive
-                            ? 'drop-shadow(0 2px 6px rgba(0,0,0,0.18))'
-                            : isSelected
-                            ? 'drop-shadow(0 2px 8px rgba(0,0,0,0.18))'
-                            : isHovered
-                            ? 'drop-shadow(0 2px 8px rgba(59,130,246,0.18))'
-                            : 'drop-shadow(0 1px 2px rgba(0,0,0,0.10))',
-                          cursor: 'pointer',
-                          transition: 'stroke-width 0.15s, filter 0.15s',
-                        }}
+                        filter={isActive
+                          ? 'drop-shadow(0 2px 6px rgba(0,0,0,0.18))'
+                          : isSelected
+                          ? 'drop-shadow(0 2px 8px rgba(0,0,0,0.18))'
+                          : isHovered
+                          ? 'drop-shadow(0 2px 8px rgba(59,130,246,0.18))'
+                          : 'drop-shadow(0 1px 2px rgba(0,0,0,0.10))'}
                       />
                       {/* Label at tip */}
                       <text
@@ -355,7 +342,7 @@ const VeraVectorPlayground = () => {
                 cx={SVG_WIDTH / 2}
                 cy={SVG_HEIGHT / 2}
                 r={4}
-                fill="#64748b"
+                fill="rgba(255,255,255,0.5)"
                 opacity={0.7}
               />
             </svg>
@@ -364,44 +351,44 @@ const VeraVectorPlayground = () => {
         {/* Controls panel */}
         <div className="w-full max-w-xs flex flex-col space-y-4 min-h-[480px]">
           {/* Vector selection buttons */}
-          <div className="rounded-lg border border-slate-200 bg-white p-3 flex gap-2 mb-2">
+          <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3 flex gap-2 mb-2">
             {vectors.map(vec => (
               <button
                 key={vec.id}
                 onClick={() => setSelectedVector(vec.id)}
                 className={`flex-1 flex flex-col items-center justify-center rounded-lg border-2 px-2 py-2 font-mono text-base transition-all
                   ${selectedVector === vec.id
-                    ? 'border-2 shadow border-[${vec.color}] bg-slate-50'
-                    : 'border-slate-200 bg-white hover:bg-slate-100'}
+                    ? 'border-2 shadow border-[${vec.color}] bg-white/[0.03]'
+                    : 'border-white/10 bg-white/[0.04] hover:bg-white/[0.07]'}
                 `}
                 style={{ borderColor: selectedVector === vec.id ? vec.color : undefined }}
                 aria-pressed={selectedVector === vec.id}
               >
                 <span className="w-4 h-4 rounded-full mb-1" style={{ backgroundColor: vec.color }}></span>
                 <span className="font-bold" style={{ color: vec.color }}>{vec.label}</span>
-                <span className="text-xs text-slate-500">[{vec.x}, {vec.y}]</span>
+                <span className="text-xs text-white/45">[{vec.x}, {vec.y}]</span>
               </button>
             ))}
           </div>
           {/* Properties box */}
-          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 mb-2">
-            <h4 className="font-semibold text-slate-700 mb-2 text-sm">Properties</h4>
+          <div className="rounded-lg border border-white/10 bg-white/[0.03] p-4 mb-2">
+            <h4 className="font-semibold text-white/80 mb-2 text-sm">Properties</h4>
             {selectedVec && (
               <>
                 <div className="mb-1">
-                  <span className="block text-xs text-slate-500 mb-0.5">Vector:</span>
+                  <span className="block text-xs text-white/45 mb-0.5">Vector:</span>
                   <span className="font-mono text-sm">{selectedVec.label} = [{selectedVec.x}, {selectedVec.y}]</span>
                 </div>
                 <div className="mb-1">
-                  <span className="block text-xs text-slate-500 mb-0.5">Magnitude:</span>
+                  <span className="block text-xs text-white/45 mb-0.5">Magnitude:</span>
                   <span className="font-mono text-sm">||{selectedVec.label}|| = {magnitude.toFixed(3)}</span>
                 </div>
                 <div className="mb-1">
-                  <span className="block text-xs text-slate-500 mb-0.5">Angle:</span>
+                  <span className="block text-xs text-white/45 mb-0.5">Angle:</span>
                   <span className="font-mono text-sm">{angle.toFixed(1)}°</span>
                 </div>
                 <div className="mb-1">
-                  <span className="block text-xs text-slate-500 mb-0.5">Components:</span>
+                  <span className="block text-xs text-white/45 mb-0.5">Components:</span>
                   <div className="flex gap-2">
                     <span className="font-mono text-sm">x: {selectedVec.x}</span>
                     <span className="font-mono text-sm">y: {selectedVec.y}</span>
@@ -411,8 +398,8 @@ const VeraVectorPlayground = () => {
             )}
           </div>
           {/* Precise control box */}
-          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-            <h4 className="font-semibold text-slate-700 mb-2 text-sm">Precise Control</h4>
+          <div className="rounded-lg border border-white/10 bg-white/[0.03] p-4">
+            <h4 className="font-semibold text-white/80 mb-2 text-sm">Precise Control</h4>
             {selectedVec && (
               <div className="flex gap-2">
                 <input
@@ -445,7 +432,7 @@ const VeraVectorPlayground = () => {
       {/* Bottom row: tips and challenges, side by side */}
       <div className="flex flex-col md:flex-row gap-4 mt-4">
         <div className="flex-1">
-          <Alert className="bg-gradient-to-br from-red-50 to-orange-50 border-red-200 h-full">
+          <Alert className="bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10 border-red-400/30 h-full">
             <AlertTitle className="text-red-800">🧭 Vera's Navigation Tips</AlertTitle>
             <AlertDescription>
               <ul className="text-sm text-red-700 space-y-1">
@@ -458,7 +445,7 @@ const VeraVectorPlayground = () => {
           </Alert>
         </div>
         <div className="flex-1">
-          <Alert className="bg-gradient-to-br from-orange-50 to-red-50 border-orange-200 h-full">
+          <Alert className="bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10 border-orange-400/30 h-full">
             <AlertTitle className="text-orange-800">🎯 Vera's Exploration Challenges</AlertTitle>
             <AlertDescription>
               <ul className="text-sm text-orange-700 space-y-1">

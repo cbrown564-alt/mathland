@@ -231,7 +231,7 @@ const HessianAnalyzer: React.FC<HessianAnalyzerProps> = ({
       ctx.fillStyle = '#f3f4f6';
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       
-      ctx.fillStyle = '#374151';
+      ctx.fillStyle = 'rgba(255,255,255,0.25)';
       ctx.font = '16px sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('Manual Hessian Mode', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 20);
@@ -318,7 +318,7 @@ const HessianAnalyzer: React.FC<HessianAnalyzerProps> = ({
     }
     
     // Labels
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
     ctx.font = '12px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('Click to analyze curvature', CANVAS_WIDTH / 2, CANVAS_HEIGHT - 10);
@@ -440,7 +440,7 @@ const HessianAnalyzer: React.FC<HessianAnalyzerProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-6">
       {/* Header */}
-      <Card className="border-2 border-orange-200 bg-gradient-to-r from-orange-50 to-yellow-50">
+      <Card className="border-2 border-orange-400/30 bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10">
         <CardHeader className="pb-4">
           <CardTitle className="text-2xl font-bold text-orange-800 flex items-center gap-2">
             ⛰️🔍 Greta's Hessian Mountain Surveyor
@@ -462,11 +462,12 @@ const HessianAnalyzer: React.FC<HessianAnalyzerProps> = ({
               ref={surfaceCanvasRef}
               width={CANVAS_WIDTH}
               height={CANVAS_HEIGHT}
-              className="border border-gray-300 rounded-lg bg-white cursor-crosshair"
+              aria-label="Greta interactive Hessian curvature visualization"
+              className="border border-white/10 rounded-lg bg-white/[0.04] cursor-crosshair"
               onClick={handleCanvasClick}
             />
           </div>
-          <div className="mt-2 text-center text-xs text-gray-600">
+          <div className="mt-2 text-center text-xs text-white/55">
             <div className="flex items-center justify-center gap-4">
               <div className="flex items-center gap-1">
                 <div className="w-3 h-3 bg-green-500 rounded-full"></div>
@@ -636,16 +637,16 @@ const HessianAnalyzer: React.FC<HessianAnalyzerProps> = ({
                 <div className="bg-orange-50 p-4 rounded-lg">
                   <h4 className="font-medium text-orange-800 mb-3">Hessian Matrix H</h4>
                   <div className="grid grid-cols-2 gap-2 text-center font-mono text-sm">
-                    <div className="bg-white p-2 rounded border">
+                    <div className="bg-white/[0.04] p-2 rounded border">
                       {hessianData.fxx.toFixed(2)}
                     </div>
-                    <div className="bg-white p-2 rounded border">
+                    <div className="bg-white/[0.04] p-2 rounded border">
                       {hessianData.fxy.toFixed(2)}
                     </div>
-                    <div className="bg-white p-2 rounded border">
+                    <div className="bg-white/[0.04] p-2 rounded border">
                       {hessianData.fyx.toFixed(2)}
                     </div>
-                    <div className="bg-white p-2 rounded border">
+                    <div className="bg-white/[0.04] p-2 rounded border">
                       {hessianData.fyy.toFixed(2)}
                     </div>
                   </div>
@@ -658,10 +659,10 @@ const HessianAnalyzer: React.FC<HessianAnalyzerProps> = ({
                     <div>fxx = {hessianData.fxx.toFixed(2)}</div>
                     <div className="mt-2">
                       <Badge variant="outline" className={
-                        hessianData.classification.includes('Minimum') ? 'border-green-500 text-green-700' :
+                        hessianData.classification.includes('Minimum') ? 'border-green-500 text-emerald-300/90' :
                         hessianData.classification.includes('Maximum') ? 'border-red-500 text-red-700' :
                         hessianData.classification.includes('Saddle') ? 'border-yellow-500 text-yellow-700' :
-                        'border-gray-500 text-gray-700'
+                        'border-gray-500 text-white/70'
                       }>
                         {hessianData.classification}
                       </Badge>
@@ -689,7 +690,7 @@ const HessianAnalyzer: React.FC<HessianAnalyzerProps> = ({
                 </div>
 
                 <div className="bg-purple-50 p-4 rounded-lg">
-                  <h4 className="font-medium text-purple-800 mb-2">Geometric Interpretation</h4>
+                  <h4 className="font-medium text-purple-200 mb-2">Geometric Interpretation</h4>
                   <div className="text-sm text-purple-700">
                     {hessianData.eigenvalues[0] > 0 && hessianData.eigenvalues[1] > 0 ? 
                       "Both eigenvalues positive → curves upward in all directions (bowl shape)" :
@@ -713,7 +714,7 @@ const HessianAnalyzer: React.FC<HessianAnalyzerProps> = ({
         <CardContent className="space-y-4">
           {currentChallenge && (
             <>
-              <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+              <div className="bg-amber-50 p-4 rounded-lg border border-amber-400/30">
                 <h4 className="font-medium text-amber-800 mb-2">Survey Question:</h4>
                 <p className="text-amber-700">{currentChallenge.question}</p>
               </div>
@@ -724,7 +725,8 @@ const HessianAnalyzer: React.FC<HessianAnalyzerProps> = ({
                   value={userAnswer}
                   onChange={(e) => setUserAnswer(e.target.value)}
                   placeholder="Enter your answer"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
+                  aria-label="Challenge answer"
+                  className="flex-1 px-3 py-2 border border-white/10 rounded-md"
                   disabled={showAnswer}
                 />
                 <Button
@@ -744,7 +746,7 @@ const HessianAnalyzer: React.FC<HessianAnalyzerProps> = ({
 
               {isCorrect !== null && (
                 <Alert className={isCorrect ? 'border-green-500 bg-green-50' : 'border-red-500 bg-red-50'}>
-                  <AlertDescription className={isCorrect ? 'text-green-700' : 'text-red-700'}>
+                  <AlertDescription className={isCorrect ? 'text-emerald-300/90' : 'text-red-700'}>
                     {isCorrect ? (
                       <>⛰️ Excellent surveying! You've read the terrain correctly!</>
                     ) : (
@@ -766,8 +768,8 @@ const HessianAnalyzer: React.FC<HessianAnalyzerProps> = ({
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-green-50 p-4 rounded-lg">
-              <h4 className="font-medium text-green-800 mb-2">Second Derivative Test</h4>
-              <div className="text-sm text-green-700 space-y-1">
+              <h4 className="font-medium text-emerald-200 mb-2">Second Derivative Test</h4>
+              <div className="text-sm text-emerald-300/90 space-y-1">
                 <div>1. Calculate D = fxx·fyy - (fxy)²</div>
                 <div>2. If D &gt; 0 and fxx &gt; 0: Minimum</div>
                 <div>3. If D &gt; 0 and fxx &lt; 0: Maximum</div>
@@ -822,15 +824,15 @@ const HessianAnalyzer: React.FC<HessianAnalyzerProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
             <div className="text-center">
               <div className="text-2xl font-bold text-orange-600">{challengesSolved.size}</div>
-              <div className="text-gray-600">Surveys Completed</div>
+              <div className="text-white/55">Surveys Completed</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-orange-600">{classificationsCompleted.size}</div>
-              <div className="text-gray-600">Classification Types</div>
+              <div className="text-white/55">Classification Types</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-orange-600">{Math.round(progress)}%</div>
-              <div className="text-gray-600">Progress</div>
+              <div className="text-white/55">Progress</div>
             </div>
           </div>
         </CardContent>

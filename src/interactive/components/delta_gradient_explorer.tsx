@@ -124,7 +124,7 @@ const GradientExplorer: React.FC<GradientExplorerProps> = ({
   };
 
   const drawAxes = (ctx: CanvasRenderingContext2D) => {
-    ctx.strokeStyle = '#374151';
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
     ctx.lineWidth = 2;
     
     // X-axis
@@ -484,9 +484,9 @@ const GradientExplorer: React.FC<GradientExplorerProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-6">
       {/* Header */}
-      <Card className="border-2 border-indigo-200 bg-gradient-to-r from-indigo-50 to-purple-50">
+      <Card className="border-2 border-indigo-400/30 bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10">
         <CardHeader className="pb-4">
-          <CardTitle className="text-2xl font-bold text-indigo-800 flex items-center gap-2">
+          <CardTitle className="text-2xl font-bold text-indigo-200 flex items-center gap-2">
             🎯 Delta's Gradient Direction Laboratory
           </CardTitle>
           <p className="text-indigo-700">
@@ -504,7 +504,7 @@ const GradientExplorer: React.FC<GradientExplorerProps> = ({
           <CardContent className="space-y-6">
             {/* Function Selection */}
             <div className="space-y-3">
-              <h4 className="font-medium text-gray-700">Function Type</h4>
+              <h4 className="font-medium text-white/70">Function Type</h4>
               <div className="grid grid-cols-1 gap-2">
                 {(['bowl', 'saddle', 'peaks', 'quadratic'] as const).map((type) => (
                   <Button
@@ -522,7 +522,7 @@ const GradientExplorer: React.FC<GradientExplorerProps> = ({
 
             {/* Function Parameters */}
             <div className="space-y-4">
-              <h4 className="font-medium text-gray-700">Function Parameters</h4>
+              <h4 className="font-medium text-white/70">Function Parameters</h4>
               
               <div className="space-y-2">
                 <label className="text-sm font-medium text-purple-700">Parameter A: {funcA.toFixed(2)}</label>
@@ -563,7 +563,7 @@ const GradientExplorer: React.FC<GradientExplorerProps> = ({
 
             {/* Point Position */}
             <div className="space-y-4">
-              <h4 className="font-medium text-gray-700">Exploration Point</h4>
+              <h4 className="font-medium text-white/70">Exploration Point</h4>
               
               <div className="space-y-2">
                 <label className="text-sm font-medium text-indigo-700">X Position: {pointX.toFixed(3)}</label>
@@ -607,14 +607,14 @@ const GradientExplorer: React.FC<GradientExplorerProps> = ({
 
             {/* Display Options */}
             <div className="space-y-3">
-              <h4 className="font-medium text-gray-700">Display Options</h4>
+              <h4 className="font-medium text-white/70">Display Options</h4>
               <div className="space-y-2">
                 <label className="flex items-center space-x-2">
                   <input
                     type="checkbox"
                     checked={showContours}
                     onChange={(e) => setShowContours(e.target.checked)}
-                    className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    className="rounded border-white/10 text-indigo-600 focus:ring-indigo-500"
                   />
                   <span className="text-sm">Show Contour Lines</span>
                 </label>
@@ -623,7 +623,7 @@ const GradientExplorer: React.FC<GradientExplorerProps> = ({
                     type="checkbox"
                     checked={showGradient}
                     onChange={(e) => setShowGradient(e.target.checked)}
-                    className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    className="rounded border-white/10 text-indigo-600 focus:ring-indigo-500"
                   />
                   <span className="text-sm">Show Gradient Vector</span>
                 </label>
@@ -632,7 +632,7 @@ const GradientExplorer: React.FC<GradientExplorerProps> = ({
                     type="checkbox"
                     checked={showGradientField}
                     onChange={(e) => setShowGradientField(e.target.checked)}
-                    className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    className="rounded border-white/10 text-indigo-600 focus:ring-indigo-500"
                   />
                   <span className="text-sm">Show Gradient Field</span>
                 </label>
@@ -641,7 +641,7 @@ const GradientExplorer: React.FC<GradientExplorerProps> = ({
                     type="checkbox"
                     checked={showDirectionalDerivatives}
                     onChange={(e) => setShowDirectionalDerivatives(e.target.checked)}
-                    className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    className="rounded border-white/10 text-indigo-600 focus:ring-indigo-500"
                   />
                   <span className="text-sm">Show Directional Derivatives</span>
                 </label>
@@ -651,7 +651,7 @@ const GradientExplorer: React.FC<GradientExplorerProps> = ({
             {/* Contour Density */}
             {showContours && (
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Contour Density: {contourDensity}</label>
+                <label className="text-sm font-medium text-white/70">Contour Density: {contourDensity}</label>
                 <Slider
                   value={[contourDensity]}
                   onValueChange={(value) => setContourDensity(value[0])}
@@ -694,13 +694,14 @@ const GradientExplorer: React.FC<GradientExplorerProps> = ({
                 ref={canvasRef}
                 width={canvasWidth}
                 height={canvasHeight}
-                className="w-full h-auto border border-gray-200 rounded-lg cursor-crosshair"
+                aria-label="Delta interactive gradient field visualization"
+                className="w-full h-auto border border-white/10 rounded-lg cursor-crosshair"
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseUp}
               />
-              <p className="text-sm text-gray-600 mt-2">
+              <p className="text-sm text-white/55 mt-2">
                 Click and drag on the plot to move the exploration point
               </p>
             </div>
@@ -742,14 +743,14 @@ const GradientExplorer: React.FC<GradientExplorerProps> = ({
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
-              <h4 className="font-medium text-gray-700">Function Value</h4>
+              <h4 className="font-medium text-white/70">Function Value</h4>
               <div className="text-sm space-y-1">
                 <p>Point: ({pointX.toFixed(3)}, {pointY.toFixed(3)})</p>
                 <p>f(x,y) = {evaluateFunction(pointX, pointY).toFixed(3)}</p>
               </div>
             </div>
             <div className="space-y-2">
-              <h4 className="font-medium text-gray-700">Gradient Vector</h4>
+              <h4 className="font-medium text-white/70">Gradient Vector</h4>
               <div className="text-sm space-y-1">
                 {(() => {
                   const grad = calculateGradient(pointX, pointY);
@@ -765,7 +766,7 @@ const GradientExplorer: React.FC<GradientExplorerProps> = ({
               </div>
             </div>
             <div className="space-y-2">
-              <h4 className="font-medium text-gray-700">Directional Derivatives</h4>
+              <h4 className="font-medium text-white/70">Directional Derivatives</h4>
               <div className="text-sm space-y-1">
                 {showDirectionalDerivatives ? (
                   (() => {
@@ -780,7 +781,7 @@ const GradientExplorer: React.FC<GradientExplorerProps> = ({
                     );
                   })()
                 ) : (
-                  <p className="text-gray-500">Enable directional derivatives to see analysis</p>
+                  <p className="text-white/45">Enable directional derivatives to see analysis</p>
                 )}
               </div>
             </div>

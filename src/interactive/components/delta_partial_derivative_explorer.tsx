@@ -183,7 +183,7 @@ const DeltaPartialDerivativeExplorer: React.FC<DeltaPartialDerivativeExplorerPro
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     // Background
-    ctx.fillStyle = '#f8fafc';
+    ctx.fillStyle = 'rgba(255,255,255,0.02)';
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     // Draw derivative vectors if enabled
@@ -262,19 +262,19 @@ const DeltaPartialDerivativeExplorer: React.FC<DeltaPartialDerivativeExplorerPro
         ctx.fill();
         
         // Gradient label
-        ctx.fillStyle = '#374151';
+        ctx.fillStyle = 'rgba(255,255,255,0.25)';
         ctx.font = '12px sans-serif';
         ctx.fillText('∇f', centerX + gradX/2, centerY + gradY/2 - 10);
       }
 
       // Origin point
-      ctx.fillStyle = '#374151';
+      ctx.fillStyle = 'rgba(255,255,255,0.25)';
       ctx.beginPath();
       ctx.arc(centerX, centerY, 4, 0, 2 * Math.PI);
       ctx.fill();
 
       // Labels
-      ctx.fillStyle = '#374151';
+      ctx.fillStyle = 'rgba(255,255,255,0.25)';
       ctx.font = '12px sans-serif';
       ctx.fillText('∂f/∂x', centerX + Math.max(fxLength, 20), centerY - 10);
       ctx.fillText('∂f/∂y', centerX + 10, centerY + Math.min(fyLength, -20));
@@ -305,8 +305,8 @@ const DeltaPartialDerivativeExplorer: React.FC<DeltaPartialDerivativeExplorerPro
           <AvatarFallback>Δ</AvatarFallback>
         </Avatar>
         <div>
-          <h2 className="text-xl font-bold text-slate-800">Dr. Delta's Change Analysis Lab</h2>
-          <p className="text-slate-600">Explore how functions change in multiple dimensions!</p>
+          <h2 className="text-xl font-bold text-white/90">Dr. Delta's Change Analysis Lab</h2>
+          <p className="text-white/55">Explore how functions change in multiple dimensions!</p>
         </div>
         <Badge variant="outline" className="ml-auto">
           Analysis {analysisStep}/3
@@ -317,9 +317,9 @@ const DeltaPartialDerivativeExplorer: React.FC<DeltaPartialDerivativeExplorerPro
         {/* Visualizations */}
         <div className="lg:col-span-2 space-y-4">
           {/* Contour Plot */}
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-emerald-50">
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10">
             <CardHeader className="pb-4">
-              <CardTitle className="text-lg font-semibold text-green-800 flex items-center gap-2">
+              <CardTitle className="text-lg font-semibold text-emerald-200 flex items-center gap-2">
                 <Activity className="w-5 h-5" />
                 Function Landscape: {currentFunction.name}
               </CardTitle>
@@ -330,7 +330,8 @@ const DeltaPartialDerivativeExplorer: React.FC<DeltaPartialDerivativeExplorerPro
                 ref={contourCanvasRef}
                 width={CANVAS_WIDTH}
                 height={CANVAS_HEIGHT}
-                className="border border-green-200 rounded-lg bg-white cursor-crosshair"
+                aria-label="Delta interactive partial derivative contour plot visualization"
+                className="border border-emerald-400/30 rounded-lg bg-white/[0.04] cursor-crosshair"
                 onClick={(e) => {
                   const rect = e.currentTarget.getBoundingClientRect();
                   const x = e.clientX - rect.left;
@@ -345,7 +346,7 @@ const DeltaPartialDerivativeExplorer: React.FC<DeltaPartialDerivativeExplorerPro
           </Card>
 
           {/* Derivative Visualization */}
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-emerald-50 to-green-50">
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10">
             <CardHeader className="pb-4">
               <div className="flex justify-between items-center">
                 <CardTitle className="text-lg font-semibold text-emerald-800 flex items-center gap-2">
@@ -367,7 +368,8 @@ const DeltaPartialDerivativeExplorer: React.FC<DeltaPartialDerivativeExplorerPro
                 ref={derivativeCanvasRef}
                 width={CANVAS_WIDTH}
                 height={CANVAS_HEIGHT}
-                className="border border-emerald-200 rounded-lg"
+                aria-label="Delta partial derivative vectors visualization"
+                className="border border-emerald-400/30 rounded-lg"
               />
             </CardContent>
           </Card>
@@ -408,8 +410,8 @@ const DeltaPartialDerivativeExplorer: React.FC<DeltaPartialDerivativeExplorerPro
               </div>
               
               <div className="p-3 bg-green-50 rounded-lg">
-                <div className="text-sm font-medium text-green-800 mb-2">Function Value</div>
-                <div className="text-lg font-mono text-green-700">
+                <div className="text-sm font-medium text-emerald-200 mb-2">Function Value</div>
+                <div className="text-lg font-mono text-emerald-300/90">
                   f({pointXVal.toFixed(1)}, {pointYVal.toFixed(1)}) = {currentFunction.func(pointXVal, pointYVal).toFixed(3)}
                 </div>
               </div>
@@ -430,8 +432,8 @@ const DeltaPartialDerivativeExplorer: React.FC<DeltaPartialDerivativeExplorerPro
                 <span className="font-mono text-red-700">{derivatives.fx.toFixed(3)}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-green-700">∂f/∂y (green):</span>
-                <span className="font-mono text-green-700">{derivatives.fy.toFixed(3)}</span>
+                <span className="text-sm text-emerald-300/90">∂f/∂y (green):</span>
+                <span className="font-mono text-emerald-300/90">{derivatives.fy.toFixed(3)}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-blue-700">|∇f| (magnitude):</span>
@@ -440,8 +442,8 @@ const DeltaPartialDerivativeExplorer: React.FC<DeltaPartialDerivativeExplorerPro
                 </span>
               </div>
               
-              <div className="p-3 bg-slate-50 rounded-lg">
-                <div className="text-xs text-slate-600">
+              <div className="p-3 bg-white/[0.03] rounded-lg">
+                <div className="text-xs text-white/55">
                   <strong>Dr. Delta's Note:</strong> The gradient vector points in the direction of steepest increase!
                 </div>
               </div>
@@ -472,9 +474,9 @@ const DeltaPartialDerivativeExplorer: React.FC<DeltaPartialDerivativeExplorerPro
           </Card>
 
           {!isPreview && (
-            <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
+            <Card className="bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10 border-emerald-400/30">
               <CardContent className="pt-6">
-                <div className="text-sm text-green-700 space-y-2">
+                <div className="text-sm text-emerald-300/90 space-y-2">
                   <p><strong>📈 Dr. Delta's Analysis Tips:</strong></p>
                   <div className="text-xs space-y-1">
                     <div><strong>Red vector (∂f/∂x):</strong> Rate of change in x-direction</div>

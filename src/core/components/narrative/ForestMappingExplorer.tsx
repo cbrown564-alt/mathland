@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/core/components/ui/tabs";
 import { Button } from "@/core/components/ui/button";
+import { VectorArrow } from "@/core/components/narrative/VectorArrow";
 import { createPlotCoords, FOREST_PLOT } from "./plotCoords";
 
 // Forest Mapping Capstone — Vera's three-phase park mapping project.
@@ -210,26 +211,6 @@ export const ForestMappingExplorer = ({
       onPointerUp={onPointerUp}
       onPointerLeave={onPointerUp}
     >
-      <defs>
-        {CAMERA_COLORS.map((color, i) => (
-          <marker
-            key={color}
-            id={`fme-arrow-${i}`}
-            markerWidth="10"
-            markerHeight="10"
-            refX="8"
-            refY="3"
-            orient="auto"
-            markerUnits="strokeWidth"
-          >
-            <path d="M0,0 L8,3 L0,6 Z" fill={color} />
-          </marker>
-        ))}
-        <marker id="fme-trail" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
-          <path d="M0,0 L8,3 L0,6 Z" fill={TRAIL_COLOR} />
-        </marker>
-      </defs>
-
       {/* grid */}
       {axisLabels.map((val) => {
         const gx = mathToSvg(val, 0).x;
@@ -307,8 +288,16 @@ export const ForestMappingExplorer = ({
                       const end = mathToSvg(waterfall.x, waterfall.y);
                       return (
                         <>
-                          <line x1={origin.x} y1={origin.y} x2={mid.x} y2={mid.y} stroke={TRAIL_COLOR} strokeWidth={3.5} markerEnd="url(#fme-trail)" />
-                          <line x1={mid.x} y1={mid.y} x2={end.x} y2={end.y} stroke={TRAIL_COLOR} strokeWidth={3.5} markerEnd="url(#fme-trail)" strokeDasharray={trailMet ? undefined : "6 4"} />
+                          <VectorArrow x1={origin.x} y1={origin.y} x2={mid.x} y2={mid.y} color={TRAIL_COLOR} strokeWidth={3.5} />
+                          <VectorArrow
+                            x1={mid.x}
+                            y1={mid.y}
+                            x2={end.x}
+                            y2={end.y}
+                            color={TRAIL_COLOR}
+                            strokeWidth={3.5}
+                            strokeDasharray={trailMet ? undefined : "6 4"}
+                          />
                           <circle cx={mid.x} cy={mid.y} r={12} fill={variant === "dark" ? "#1a1030" : "#fff"} stroke={TRAIL_COLOR} strokeWidth={2.5} style={{ cursor: "grab", touchAction: "none" }}
                             aria-label="Drag Rest Stop waypoint"
                             onPointerDown={(e) => { e.preventDefault(); svgRef.current?.setPointerCapture(e.pointerId); setDraggingTrail("rest"); }} />
@@ -355,7 +344,7 @@ export const ForestMappingExplorer = ({
                     const color = CAMERA_COLORS[i];
                     return (
                       <g key={cam.id}>
-                        <line x1={origin.x} y1={origin.y} x2={tip.x} y2={tip.y} stroke={color} strokeWidth={3.5} markerEnd={`url(#fme-arrow-${i})`} />
+                        <VectorArrow x1={origin.x} y1={origin.y} x2={tip.x} y2={tip.y} color={color} strokeWidth={3.5} />
                         <text x={tip.x + 8} y={tip.y - 8} fontSize="14" fill={color} fontWeight="bold">C{i + 1}</text>
                         <circle cx={tip.x} cy={tip.y} r={12} fill={variant === "dark" ? "#1a1030" : "#fff"} stroke={color} strokeWidth={2.5}
                           style={{ cursor: "grab", touchAction: "none" }}
@@ -401,7 +390,7 @@ export const ForestMappingExplorer = ({
                       const origin = mathToSvg(0, 0);
                       const tip = mathToSvg(movement[0], movement[1]);
                       return (
-                        <line x1={origin.x} y1={origin.y} x2={tip.x} y2={tip.y} stroke="#f472b6" strokeWidth={3.5} markerEnd="url(#fme-trail)" />
+                        <VectorArrow x1={origin.x} y1={origin.y} x2={tip.x} y2={tip.y} color="#f472b6" strokeWidth={3.5} />
                       );
                     })()}
                     {/* custom basis vectors */}
@@ -413,7 +402,15 @@ export const ForestMappingExplorer = ({
                           const color = i === 0 ? VERA_EMERALD : VERA_TEAL;
                           return (
                             <g key={i}>
-                              <line x1={origin.x} y1={origin.y} x2={tip.x} y2={tip.y} stroke={color} strokeWidth={2.5} strokeDasharray="4 3" markerEnd={`url(#fme-arrow-${i})`} />
+                              <VectorArrow
+                                x1={origin.x}
+                                y1={origin.y}
+                                x2={tip.x}
+                                y2={tip.y}
+                                color={color}
+                                strokeWidth={2.5}
+                                strokeDasharray="4 3"
+                              />
                               <text x={tip.x + 6} y={tip.y - 6} fontSize="12" fill={color}>b{i + 1}</text>
                             </g>
                           );

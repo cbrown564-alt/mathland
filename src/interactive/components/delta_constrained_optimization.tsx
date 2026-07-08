@@ -208,7 +208,7 @@ const ConstrainedOptimization: React.FC<ConstrainedOptimizationProps> = ({
   };
 
   const drawAxes = (ctx: CanvasRenderingContext2D) => {
-    ctx.strokeStyle = '#374151';
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
     ctx.lineWidth = 2;
     
     // X-axis
@@ -224,7 +224,7 @@ const ConstrainedOptimization: React.FC<ConstrainedOptimizationProps> = ({
     ctx.stroke();
     
     // Origin
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
     ctx.beginPath();
     ctx.arc(centerX, centerY, 3, 0, 2 * Math.PI);
     ctx.fill();
@@ -483,7 +483,7 @@ const ConstrainedOptimization: React.FC<ConstrainedOptimizationProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-6">
       {/* Header */}
-      <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-cyan-50">
+      <Card className="border-2 border-blue-400/30 bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10">
         <CardHeader className="pb-4">
           <CardTitle className="text-2xl font-bold text-blue-800 flex items-center gap-2">
             🎯 Delta's Constrained Optimization Lab
@@ -503,7 +503,7 @@ const ConstrainedOptimization: React.FC<ConstrainedOptimizationProps> = ({
           <CardContent className="space-y-6">
             {/* Problem Type */}
             <div className="space-y-3">
-              <h4 className="font-medium text-gray-700">Problem Type</h4>
+              <h4 className="font-medium text-white/70">Problem Type</h4>
               <div className="grid grid-cols-2 gap-2">
                 {(['quadratic', 'economic', 'engineering', 'custom'] as const).map((type) => (
                   <Button
@@ -521,7 +521,7 @@ const ConstrainedOptimization: React.FC<ConstrainedOptimizationProps> = ({
 
             {/* Constraint Type */}
             <div className="space-y-3">
-              <h4 className="font-medium text-gray-700">Constraint Type</h4>
+              <h4 className="font-medium text-white/70">Constraint Type</h4>
               <div className="grid grid-cols-2 gap-2">
                 {(['circle', 'ellipse', 'linear', 'custom'] as const).map((type) => (
                   <Button
@@ -539,7 +539,7 @@ const ConstrainedOptimization: React.FC<ConstrainedOptimizationProps> = ({
 
             {/* Objective Function Parameters */}
             <div className="space-y-4">
-              <h4 className="font-medium text-gray-700">Objective Function f(x,y)</h4>
+              <h4 className="font-medium text-white/70">Objective Function f(x,y)</h4>
               
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
@@ -582,7 +582,7 @@ const ConstrainedOptimization: React.FC<ConstrainedOptimizationProps> = ({
 
             {/* Constraint Parameters */}
             <div className="space-y-4">
-              <h4 className="font-medium text-gray-700">Constraint Parameters</h4>
+              <h4 className="font-medium text-white/70">Constraint Parameters</h4>
               
               {constraintType === 'circle' || constraintType === 'ellipse' ? (
                 <div className="space-y-2">
@@ -627,14 +627,14 @@ const ConstrainedOptimization: React.FC<ConstrainedOptimizationProps> = ({
 
             {/* Display Options */}
             <div className="space-y-3">
-              <h4 className="font-medium text-gray-700">Display Options</h4>
+              <h4 className="font-medium text-white/70">Display Options</h4>
               <div className="space-y-2">
                 <label className="flex items-center space-x-2">
                   <input
                     type="checkbox"
                     checked={showObjectiveContours}
                     onChange={(e) => setShowObjectiveContours(e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="rounded border-white/10 text-blue-600 focus:ring-blue-500"
                   />
                   <span className="text-sm">Show Objective Contours</span>
                 </label>
@@ -643,7 +643,7 @@ const ConstrainedOptimization: React.FC<ConstrainedOptimizationProps> = ({
                     type="checkbox"
                     checked={showConstraintCurve}
                     onChange={(e) => setShowConstraintCurve(e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="rounded border-white/10 text-blue-600 focus:ring-blue-500"
                   />
                   <span className="text-sm">Show Constraint Curve</span>
                 </label>
@@ -652,7 +652,7 @@ const ConstrainedOptimization: React.FC<ConstrainedOptimizationProps> = ({
                     type="checkbox"
                     checked={showGradients}
                     onChange={(e) => setShowGradients(e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="rounded border-white/10 text-blue-600 focus:ring-blue-500"
                   />
                   <span className="text-sm">Show Gradients</span>
                 </label>
@@ -661,7 +661,7 @@ const ConstrainedOptimization: React.FC<ConstrainedOptimizationProps> = ({
                     type="checkbox"
                     checked={showOptimalPoint}
                     onChange={(e) => setShowOptimalPoint(e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="rounded border-white/10 text-blue-600 focus:ring-blue-500"
                   />
                   <span className="text-sm">Show Optimal Points</span>
                 </label>
@@ -707,10 +707,11 @@ const ConstrainedOptimization: React.FC<ConstrainedOptimizationProps> = ({
                 ref={canvasRef}
                 width={canvasWidth}
                 height={canvasHeight}
-                className="w-full h-auto border border-gray-200 rounded-lg"
+                aria-label="Delta constrained optimization visualization"
+                className="w-full h-auto border border-white/10 rounded-lg"
               />
               {isAnalyzing && (
-                <div className="absolute inset-0 flex items-center justify-center bg-white/80 rounded-lg">
+                <div className="absolute inset-0 flex items-center justify-center bg-white/[0.08] rounded-lg">
                   <div className="text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-2"></div>
                     <p className="text-blue-700 font-medium">Solving...</p>
@@ -758,31 +759,31 @@ const ConstrainedOptimization: React.FC<ConstrainedOptimizationProps> = ({
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <h4 className="font-medium text-gray-700">Lagrange Multiplier</h4>
+                <h4 className="font-medium text-white/70">Lagrange Multiplier</h4>
                 <div className="text-lg font-mono text-blue-600">
                   λ = {optimizationResult.lagrangeMultiplier.toFixed(4)}
                 </div>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-white/55">
                   Measures constraint's marginal impact on objective
                 </p>
               </div>
               
               <div className="space-y-2">
-                <h4 className="font-medium text-gray-700">Optimal Value</h4>
+                <h4 className="font-medium text-white/70">Optimal Value</h4>
                 <div className="text-lg font-mono text-green-600">
                   f* = {optimizationResult.objectiveValue.toFixed(4)}
                 </div>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-white/55">
                   {optimizationResult.optimizationType === 'minimum' ? 'Minimum' : 'Maximum'} value achieved
                 </p>
               </div>
               
               <div className="space-y-2">
-                <h4 className="font-medium text-gray-700">Constraint Status</h4>
+                <h4 className="font-medium text-white/70">Constraint Status</h4>
                 <div className={`text-lg font-mono ${optimizationResult.constraintSatisfied ? 'text-green-600' : 'text-red-600'}`}>
                   {optimizationResult.constraintSatisfied ? '✓ Satisfied' : '✗ Violated'}
                 </div>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-white/55">
                   Constraint equation satisfied at optimum
                 </p>
               </div>

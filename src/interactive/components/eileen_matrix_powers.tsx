@@ -201,7 +201,7 @@ const MatrixPowers: React.FC<MatrixPowersProps> = ({
     const yScale = (pop: number) => margin.top + plotHeight - (pop / maxPop) * plotHeight;
     
     // Draw axes
-    ctx.strokeStyle = '#374151';
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(margin.left, margin.top + plotHeight);
@@ -253,7 +253,7 @@ const MatrixPowers: React.FC<MatrixPowersProps> = ({
     }
     
     // Labels
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
     ctx.font = '12px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('Time Steps', CANVAS_WIDTH / 2, CANVAS_HEIGHT - 5);
@@ -361,9 +361,9 @@ const MatrixPowers: React.FC<MatrixPowersProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-6">
       {/* Header */}
-      <Card className="border-2 border-indigo-200 bg-gradient-to-r from-indigo-50 to-purple-50">
+      <Card className="border-2 border-indigo-400/30 bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10">
         <CardHeader className="pb-4">
-          <CardTitle className="text-2xl font-bold text-indigo-800 flex items-center gap-2">
+          <CardTitle className="text-2xl font-bold text-indigo-200 flex items-center gap-2">
             🔮⏰ Eileen's Matrix Time Machine
           </CardTitle>
           <p className="text-indigo-700">
@@ -383,13 +383,14 @@ const MatrixPowers: React.FC<MatrixPowersProps> = ({
               ref={canvasRef}
               width={CANVAS_WIDTH}
               height={CANVAS_HEIGHT}
-              className="border border-gray-300 rounded-lg bg-white"
+              aria-label="Eileen matrix powers system evolution visualization"
+              className="border border-white/10 rounded-lg bg-white/[0.04]"
             />
           </div>
           
           {powerStep < populationHistory.length && powerStep > 0 && (
             <div className="bg-indigo-50 p-3 rounded-lg text-sm">
-              <div className="font-medium text-indigo-800 mb-1">Step {powerStep}:</div>
+              <div className="font-medium text-indigo-200 mb-1">Step {powerStep}:</div>
               <div className="text-indigo-700">
                 Young: {populationHistory[powerStep].young.toFixed(1)} | 
                 Adult: {populationHistory[powerStep].adult.toFixed(1)}
@@ -438,18 +439,18 @@ const MatrixPowers: React.FC<MatrixPowersProps> = ({
 
               {/* Matrix Display */}
               <div className="bg-indigo-50 p-4 rounded-lg">
-                <h4 className="font-medium text-indigo-800 mb-2">Matrix A</h4>
+                <h4 className="font-medium text-indigo-200 mb-2">Matrix A</h4>
                 <div className="grid grid-cols-2 gap-2 text-center font-mono text-sm">
-                  <div className="bg-white p-2 rounded border">
+                  <div className="bg-white/[0.04] p-2 rounded border">
                     {matrix.a.toFixed(2)}
                   </div>
-                  <div className="bg-white p-2 rounded border">
+                  <div className="bg-white/[0.04] p-2 rounded border">
                     {matrix.b.toFixed(2)}
                   </div>
-                  <div className="bg-white p-2 rounded border">
+                  <div className="bg-white/[0.04] p-2 rounded border">
                     {matrix.c.toFixed(2)}
                   </div>
-                  <div className="bg-white p-2 rounded border">
+                  <div className="bg-white/[0.04] p-2 rounded border">
                     {matrix.d.toFixed(2)}
                   </div>
                 </div>
@@ -562,7 +563,7 @@ const MatrixPowers: React.FC<MatrixPowersProps> = ({
                       Math.abs(eigenData.eigenvalue1) > 1 || Math.abs(eigenData.eigenvalue2) > 1 ? 
                       'border-red-500 text-red-700' : 
                       Math.abs(eigenData.eigenvalue1) < 1 && Math.abs(eigenData.eigenvalue2) < 1 ?
-                      'border-green-500 text-green-700' :
+                      'border-green-500 text-emerald-300/90' :
                       'border-yellow-500 text-yellow-700'
                     }>
                       {Math.abs(eigenData.eigenvalue1) > 1 || Math.abs(eigenData.eigenvalue2) > 1 ? 
@@ -575,7 +576,7 @@ const MatrixPowers: React.FC<MatrixPowersProps> = ({
               </div>
               
               <div className="bg-purple-50 p-4 rounded-lg">
-                <h4 className="font-medium text-purple-800 mb-2">Long-term Behavior</h4>
+                <h4 className="font-medium text-purple-200 mb-2">Long-term Behavior</h4>
                 <p className="text-sm text-purple-700">{stabilityAnalysis}</p>
               </div>
             </div>
@@ -591,7 +592,7 @@ const MatrixPowers: React.FC<MatrixPowersProps> = ({
         <CardContent className="space-y-4">
           {currentChallenge && (
             <>
-              <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+              <div className="bg-amber-50 p-4 rounded-lg border border-amber-400/30">
                 <h4 className="font-medium text-amber-800 mb-2">Detective Question:</h4>
                 <p className="text-amber-700">{currentChallenge.question}</p>
               </div>
@@ -602,7 +603,8 @@ const MatrixPowers: React.FC<MatrixPowersProps> = ({
                   value={userAnswer}
                   onChange={(e) => setUserAnswer(e.target.value)}
                   placeholder="Enter your answer"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
+                  aria-label="Challenge answer"
+                  className="flex-1 px-3 py-2 border border-white/10 rounded-md"
                   disabled={showAnswer}
                 />
                 <Button
@@ -622,7 +624,7 @@ const MatrixPowers: React.FC<MatrixPowersProps> = ({
 
               {isCorrect !== null && (
                 <Alert className={isCorrect ? 'border-green-500 bg-green-50' : 'border-red-500 bg-red-50'}>
-                  <AlertDescription className={isCorrect ? 'text-green-700' : 'text-red-700'}>
+                  <AlertDescription className={isCorrect ? 'text-emerald-300/90' : 'text-red-700'}>
                     {isCorrect ? (
                       <>🔍 Excellent detective work!</>
                     ) : (
@@ -644,8 +646,8 @@ const MatrixPowers: React.FC<MatrixPowersProps> = ({
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-green-50 p-4 rounded-lg">
-              <h4 className="font-medium text-green-800 mb-2">Matrix Powers</h4>
-              <div className="text-sm text-green-700 space-y-1">
+              <h4 className="font-medium text-emerald-200 mb-2">Matrix Powers</h4>
+              <div className="text-sm text-emerald-300/90 space-y-1">
                 <div>• Aⁿ = PDⁿP⁻¹ (diagonalization)</div>
                 <div>• Eigenvalues raised to power n</div>
                 <div>• |λ| &gt; 1: exponential growth</div>
@@ -664,7 +666,7 @@ const MatrixPowers: React.FC<MatrixPowersProps> = ({
           </div>
           
           <div className="mt-4 bg-indigo-50 p-4 rounded-lg">
-            <h4 className="font-medium text-indigo-800 mb-2">Eileen's Detective Rules</h4>
+            <h4 className="font-medium text-indigo-200 mb-2">Eileen's Detective Rules</h4>
             <div className="text-sm text-indigo-700">
               "Eigenvalue magnitude is destiny! &gt;1 grows, &lt;1 shrinks, =1 stays steady. The largest eigenvalue always wins in the long run!"
             </div>
@@ -699,15 +701,15 @@ const MatrixPowers: React.FC<MatrixPowersProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
             <div className="text-center">
               <div className="text-2xl font-bold text-indigo-600">{challengesSolved.size}</div>
-              <div className="text-gray-600">Cases Solved</div>
+              <div className="text-white/55">Cases Solved</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-indigo-600">{experimentsCompleted}</div>
-              <div className="text-gray-600">Experiments Run</div>
+              <div className="text-white/55">Experiments Run</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-indigo-600">{Math.round(progress)}%</div>
-              <div className="text-gray-600">Progress</div>
+              <div className="text-white/55">Progress</div>
             </div>
           </div>
         </CardContent>

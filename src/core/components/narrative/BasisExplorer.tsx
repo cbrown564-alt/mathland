@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import type { InteractiveProps } from "./interactives";
+import { VectorArrow } from "@/core/components/narrative/VectorArrow";
 import { createPlotCoords, NARRATIVE_PLOT } from "./plotCoords";
 
 const {
@@ -175,15 +176,6 @@ export const BasisExplorer = ({ onStateChange }: InteractiveProps = {}) => {
               onPointerUp={onPointerUp}
               onPointerLeave={onPointerUp}
             >
-              <defs>
-                <marker id="be-arrow-b1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
-                  <path d="M0,0 L8,3 L0,6 Z" fill={COLOR_B1} />
-                </marker>
-                <marker id="be-arrow-b2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
-                  <path d="M0,0 L8,3 L0,6 Z" fill={COLOR_B2} />
-                </marker>
-              </defs>
-
               {gridLines.map((line, i) => (
                 <line key={i} x1={line.x1} y1={line.y1} x2={line.x2} y2={line.y2} stroke="rgba(255,255,255,0.07)" strokeWidth={1} />
               ))}
@@ -209,14 +201,13 @@ export const BasisExplorer = ({ onStateChange }: InteractiveProps = {}) => {
                 const isDragging = dragging === vec.id;
                 return (
                   <g key={vec.id} style={{ cursor: useStandard ? "default" : "pointer" }}>
-                    <line
+                    <VectorArrow
                       x1={origin.x}
                       y1={origin.y}
                       x2={tip.x}
                       y2={tip.y}
-                      stroke={vec.color}
+                      color={vec.color}
                       strokeWidth={isDragging ? 5 : 3.5}
-                      markerEnd={`url(#be-arrow-${vec.id})`}
                     />
                     <text x={tip.x + 10} y={tip.y - 8} fontSize="16" fontFamily="serif" fontStyle="italic" fill={vec.color} fontWeight="bold" style={{ pointerEvents: "none" }}>
                       {vec.label}

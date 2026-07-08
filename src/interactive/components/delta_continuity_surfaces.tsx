@@ -485,9 +485,9 @@ const DeltaContinuitySurfaces: React.FC<ContinuitySurfacesProps> = ({
   return (
     <div className="w-full max-w-7xl mx-auto p-6 space-y-6">
       {/* Header */}
-      <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-indigo-200">
+      <Card className="bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10 border-indigo-400/30">
         <CardHeader className="pb-4">
-          <CardTitle className="text-3xl font-bold text-indigo-800 flex items-center gap-2">
+          <CardTitle className="text-3xl font-bold text-indigo-200 flex items-center gap-2">
             🏔️ Dr. Delta's Continuity & Surfaces Explorer
           </CardTitle>
           <p className="text-indigo-700 text-lg">
@@ -673,7 +673,7 @@ const DeltaContinuitySurfaces: React.FC<ContinuitySurfacesProps> = ({
             <CardTitle className="text-lg font-semibold text-indigo-700">
               {show3D ? '3D Surface' : '2D Contour'} Visualization
             </CardTitle>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-white/55">
               Click to inspect points for continuity. Look for smooth vs broken surface regions.
             </p>
           </CardHeader>
@@ -682,8 +682,9 @@ const DeltaContinuitySurfaces: React.FC<ContinuitySurfacesProps> = ({
               ref={canvasRef}
               width={canvasWidth}
               height={canvasHeight}
+              aria-label="Delta interactive continuity surfaces visualization"
               onClick={handleCanvasClick}
-              className="border rounded-lg cursor-crosshair bg-white"
+              className="border rounded-lg cursor-crosshair bg-white/[0.04]"
               style={{ maxWidth: '100%', height: 'auto' }}
             />
           </CardContent>
@@ -716,7 +717,7 @@ const DeltaContinuitySurfaces: React.FC<ContinuitySurfacesProps> = ({
                       infinite: 'text-purple-600'
                     };
                     return (
-                      <span className={colors[type] || 'text-gray-600'}>
+                      <span className={colors[type] || 'text-white/55'}>
                         {type}
                       </span>
                     );
@@ -727,7 +728,7 @@ const DeltaContinuitySurfaces: React.FC<ContinuitySurfacesProps> = ({
 
             {/* Legend */}
             <div className="bg-purple-50 p-3 rounded-lg">
-              <h4 className="font-medium text-purple-800 mb-2">Discontinuity Types</h4>
+              <h4 className="font-medium text-purple-200 mb-2">Discontinuity Types</h4>
               <div className="space-y-2 text-sm">
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
@@ -746,7 +747,7 @@ const DeltaContinuitySurfaces: React.FC<ContinuitySurfacesProps> = ({
 
             {/* Progress Tracking */}
             <div className="bg-green-50 p-3 rounded-lg">
-              <h4 className="font-medium text-green-800 mb-2">Exploration Progress</h4>
+              <h4 className="font-medium text-emerald-200 mb-2">Exploration Progress</h4>
               <div className="space-y-2">
                 {[
                   'Try different functions',
@@ -756,7 +757,7 @@ const DeltaContinuitySurfaces: React.FC<ContinuitySurfacesProps> = ({
                 ].map((step, index) => (
                   <div key={index} className="flex items-center space-x-2">
                     <span className={`w-4 h-4 rounded-full ${completedSteps[index] ? 'bg-green-500' : 'bg-gray-300'}`} />
-                    <span className={`text-sm ${completedSteps[index] ? 'text-green-700' : 'text-gray-600'}`}>
+                    <span className={`text-sm ${completedSteps[index] ? 'text-emerald-300/90' : 'text-white/55'}`}>
                       {step}
                     </span>
                   </div>
@@ -766,7 +767,7 @@ const DeltaContinuitySurfaces: React.FC<ContinuitySurfacesProps> = ({
 
             {/* Key Insights */}
             <div className="bg-indigo-50 p-3 rounded-lg">
-              <h4 className="font-medium text-indigo-800 mb-2">Dr. Delta's Insights</h4>
+              <h4 className="font-medium text-indigo-200 mb-2">Dr. Delta's Insights</h4>
               <div className="space-y-2 text-sm text-indigo-700">
                 <div>🏔️ Continuous = smooth surface</div>
                 <div>🕳️ Discontinuous = holes/jumps</div>
@@ -779,7 +780,7 @@ const DeltaContinuitySurfaces: React.FC<ContinuitySurfacesProps> = ({
       </div>
 
       {/* Instructions */}
-      <Card className="bg-yellow-50 border-yellow-200">
+      <Card className="bg-yellow-50 border-yellow-400/30">
         <CardContent className="pt-6">
           <div className="flex items-start space-x-3">
             <span className="text-2xl">💡</span>

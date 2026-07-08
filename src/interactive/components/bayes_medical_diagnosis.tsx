@@ -70,15 +70,15 @@ const BayesMedicalDiagnosis: React.FC<BayesMedicalDiagnosisProps> = ({
           <AvatarFallback>B</AvatarFallback>
         </Avatar>
         <div>
-          <h2 className="text-xl font-bold text-slate-800">Bayes' Medical Mystery</h2>
-          <p className="text-slate-600">Uncover the truth behind medical test results!</p>
+          <h2 className="text-xl font-bold text-white/90">Bayes' Medical Mystery</h2>
+          <p className="text-white/55">Uncover the truth behind medical test results!</p>
         </div>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Scenario Description */}
         <div className="lg:col-span-2">
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-indigo-50 to-purple-50">
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10">
             <CardHeader className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
               <CardTitle className="flex items-center gap-2">
                 <Stethoscope className="w-5 h-5" />
@@ -87,12 +87,12 @@ const BayesMedicalDiagnosis: React.FC<BayesMedicalDiagnosisProps> = ({
             </CardHeader>
             <CardContent className="p-6">
               <div className="space-y-4">
-                <div className="bg-white rounded-lg p-4 border border-indigo-200">
-                  <h3 className="font-semibold text-indigo-800 mb-2 flex items-center gap-2">
+                <div className="bg-white/[0.04] rounded-lg p-4 border border-indigo-400/30">
+                  <h3 className="font-semibold text-indigo-200 mb-2 flex items-center gap-2">
                     <CheckCircle className="w-4 h-4" />
                     The Mystery Disease
                   </h3>
-                  <p className="text-slate-700 text-sm">
+                  <p className="text-white/80 text-sm">
                     A rare cardiovascular condition affects only <strong>0.1%</strong> of the population. 
                     Your diagnostic test is <strong>95% accurate</strong> (both sensitivity and specificity).
                   </p>
@@ -108,30 +108,30 @@ const BayesMedicalDiagnosis: React.FC<BayesMedicalDiagnosisProps> = ({
 
                 {/* Bayes Calculation Display */}
                 {testApplied && (
-                  <div className="bg-slate-50 rounded-lg p-4 border border-slate-200 animate-in slide-in-from-top-2 duration-500">
-                    <h4 className="font-semibold text-slate-800 mb-3">Bayes' Theorem in Action</h4>
+                  <div className="bg-white/[0.03] rounded-lg p-4 border border-white/10 animate-in slide-in-from-top-2 duration-500">
+                    <h4 className="font-semibold text-white/90 mb-3">Bayes' Theorem in Action</h4>
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
-                        <span className="text-slate-600">P(Disease) = </span>
+                        <span className="text-white/55">P(Disease) = </span>
                         <span className="font-bold text-purple-600">{(priorProbability[0] / 100).toFixed(4)}</span>
                       </div>
                       <div>
-                        <span className="text-slate-600">P(Healthy) = </span>
+                        <span className="text-white/55">P(Healthy) = </span>
                         <span className="font-bold text-green-600">{(1 - priorProbability[0] / 100).toFixed(4)}</span>
                       </div>
                       <div>
-                        <span className="text-slate-600">P(+ | Disease) = </span>
+                        <span className="text-white/55">P(+ | Disease) = </span>
                         <span className="font-bold text-red-600">{sensitivity}</span>
                       </div>
                       <div>
-                        <span className="text-slate-600">P(+ | Healthy) = </span>
+                        <span className="text-white/55">P(+ | Healthy) = </span>
                         <span className="font-bold text-red-600">{falsePositiveRate}</span>
                       </div>
                     </div>
                     
-                    <div className="mt-4 p-3 bg-white rounded border">
+                    <div className="mt-4 p-3 bg-white/[0.04] rounded border">
                       <div className="text-center">
-                        <div className="text-slate-600 mb-2">P(Disease | Positive Test) = </div>
+                        <div className="text-white/55 mb-2">P(Disease | Positive Test) = </div>
                         <div className="text-lg font-bold text-indigo-600">
                           {formatPercentage(posterior)}%
                         </div>
@@ -150,11 +150,11 @@ const BayesMedicalDiagnosis: React.FC<BayesMedicalDiagnosisProps> = ({
           <Card>
             <CardHeader>
               <CardTitle className="text-lg">Prior Belief</CardTitle>
-              <p className="text-sm text-slate-600">Before any tests</p>
+              <p className="text-sm text-white/55">Before any tests</p>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-3">
-                <label className="text-sm font-medium text-slate-700">
+                <label className="text-sm font-medium text-white/80">
                   Disease Probability: {priorProbability[0]}%
                 </label>
                 <Slider
@@ -166,8 +166,8 @@ const BayesMedicalDiagnosis: React.FC<BayesMedicalDiagnosisProps> = ({
                   className="w-full"
                   disabled={testApplied}
                 />
-                <div className="bg-slate-100 rounded-lg p-3">
-                  <div className="flex justify-between text-sm text-slate-600 mb-1">
+                <div className="bg-white/[0.06] rounded-lg p-3">
+                  <div className="flex justify-between text-sm text-white/55 mb-1">
                     <span>Probability</span>
                     <span>{priorProbability[0]}%</span>
                   </div>
@@ -194,19 +194,19 @@ const BayesMedicalDiagnosis: React.FC<BayesMedicalDiagnosisProps> = ({
                     <div className="text-2xl font-bold text-indigo-600 mb-1">
                       {formatPercentage(posterior)}%
                     </div>
-                    <p className="text-sm text-slate-600">Probability of Disease</p>
+                    <p className="text-sm text-white/55">Probability of Disease</p>
                   </div>
                   
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-slate-500 w-16">Before:</span>
+                      <span className="text-xs text-white/45 w-16">Before:</span>
                       <Progress value={priorProbability[0] * 10} className="h-2 flex-1" />
-                      <span className="text-xs text-slate-500">{priorProbability[0]}%</span>
+                      <span className="text-xs text-white/45">{priorProbability[0]}%</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-slate-500 w-16">After:</span>
+                      <span className="text-xs text-white/45 w-16">After:</span>
                       <Progress value={posterior * 100} className="h-2 flex-1" />
-                      <span className="text-xs text-slate-500">{formatPercentage(posterior)}%</span>
+                      <span className="text-xs text-white/45">{formatPercentage(posterior)}%</span>
                     </div>
                   </div>
 
@@ -220,12 +220,12 @@ const BayesMedicalDiagnosis: React.FC<BayesMedicalDiagnosisProps> = ({
 
           {/* Key Insight */}
           {testApplied && (
-            <Card className="border-indigo-200 bg-gradient-to-br from-indigo-50 to-purple-50">
+            <Card className="border-indigo-400/30 bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10">
               <CardContent className="pt-6">
                 <div className="flex items-start gap-3">
                   <AlertTriangle className="w-5 h-5 text-indigo-600 mt-0.5" />
                   <div>
-                    <h4 className="font-semibold text-indigo-800 mb-2">🧪 Bayes' Detective Insight</h4>
+                    <h4 className="font-semibold text-indigo-200 mb-2">🧪 Bayes' Detective Insight</h4>
                     <p className="text-sm text-indigo-700">
                       Even with a 95% accurate test, a positive result doesn't mean 95% chance of disease! 
                       Base rates matter enormously in medical diagnosis. This is what smart detectives always investigate first.
@@ -237,7 +237,7 @@ const BayesMedicalDiagnosis: React.FC<BayesMedicalDiagnosisProps> = ({
           )}
 
           {!isPreview && (
-            <Card className="bg-gradient-to-br from-purple-50 to-indigo-50 border-purple-200">
+            <Card className="bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10 border-purple-400/30">
               <CardContent className="pt-6">
                 <div className="text-sm text-purple-700 space-y-2">
                   <p><strong>🔍 Detective's Investigation Guide:</strong></p>

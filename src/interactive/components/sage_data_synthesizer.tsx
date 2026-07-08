@@ -297,12 +297,12 @@ const SageDataSynthesizer: React.FC<SageDataSynthesizerProps> = ({
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-4 bg-gradient-to-br from-blue-50 to-cyan-50">
+    <div className="max-w-6xl mx-auto p-4 bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+        <h2 className="text-2xl font-bold text-white/90 mb-2">
           🧠 Sage's Data Science Synthesizer 🧠
         </h2>
-        <p className="text-gray-600">
+        <p className="text-white/55">
           Welcome to the pinnacle of mathematical integration! Let's synthesize everything you've learned from your Mathland journey into real-world data science mastery.
         </p>
       </div>
@@ -329,11 +329,11 @@ const SageDataSynthesizer: React.FC<SageDataSynthesizerProps> = ({
                 <CardContent className="p-4">
                   <div className="text-center mb-3">
                     <div className="text-3xl mb-2">{project.icon}</div>
-                    <h3 className="font-semibold text-gray-800">{project.title}</h3>
+                    <h3 className="font-semibold text-white/90">{project.title}</h3>
                     <Badge variant="outline" className="mt-1">{project.domain}</Badge>
                   </div>
-                  <p className="text-sm text-gray-600 mb-3">{project.description}</p>
-                  <div className="text-xs text-gray-500">
+                  <p className="text-sm text-white/55 mb-3">{project.description}</p>
+                  <div className="text-xs text-white/45">
                     <strong>Impact:</strong> {project.businessImpact}
                   </div>
                 </CardContent>
@@ -367,12 +367,12 @@ const SageDataSynthesizer: React.FC<SageDataSynthesizerProps> = ({
                       ? 'bg-blue-100 border-2 border-blue-400'
                       : stageProgress[stage] === 100
                       ? 'bg-green-100 border border-green-300'
-                      : 'bg-gray-100 border border-gray-300'
+                      : 'bg-gray-100 border border-white/10'
                   }`}
                   onClick={() => setCurrentStage(stage)}
                 >
                   <div className="font-semibold capitalize">{stage.replace('-', ' ')}</div>
-                  <div className="text-xs text-gray-600">{stageProgress[stage]}%</div>
+                  <div className="text-xs text-white/55">{stageProgress[stage]}%</div>
                 </div>
               ))}
             </div>
@@ -406,7 +406,7 @@ const SageDataSynthesizer: React.FC<SageDataSynthesizerProps> = ({
                         ? 'bg-green-50 border-green-300'
                         : isRequired
                         ? 'bg-yellow-50 border-yellow-300'
-                        : 'bg-gray-50 border-gray-300'
+                        : 'bg-white/[0.03] border-white/10'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-2">
@@ -414,16 +414,16 @@ const SageDataSynthesizer: React.FC<SageDataSynthesizerProps> = ({
                         <span className="text-lg">{technique.icon}</span>
                         <div>
                           <h4 className="font-semibold text-sm">{technique.name}</h4>
-                          <p className="text-xs text-gray-600">by {technique.character}</p>
+                          <p className="text-xs text-white/55">by {technique.character}</p>
                         </div>
                       </div>
                       <div className="flex gap-1">
                         {isRequired && <Badge variant="secondary" className="text-xs">Required</Badge>}
-                        {isApplied && <Badge variant="secondary" className="bg-green-100 text-green-700 text-xs">Applied</Badge>}
+                        {isApplied && <Badge variant="secondary" className="bg-green-100 text-emerald-300/90 text-xs">Applied</Badge>}
                       </div>
                     </div>
                     
-                    <p className="text-xs text-gray-600 mb-2">{technique.description}</p>
+                    <p className="text-xs text-white/55 mb-2">{technique.description}</p>
                     
                     <div className="flex items-center justify-between">
                       <div className="flex gap-2 text-xs">
@@ -456,8 +456,8 @@ const SageDataSynthesizer: React.FC<SageDataSynthesizerProps> = ({
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="p-4 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-lg">
-              <h4 className="font-semibold text-gray-800 mb-2">Current Project: {scenario.title}</h4>
-              <p className="text-sm text-gray-700 mb-3">{scenario.description}</p>
+              <h4 className="font-semibold text-white/90 mb-2">Current Project: {scenario.title}</h4>
+              <p className="text-sm text-white/70 mb-3">{scenario.description}</p>
               <div className="text-xs">
                 <strong>Applied Techniques:</strong> {appliedTechniques.size} / {scenario.requiredTechniques.length}
               </div>
@@ -465,7 +465,7 @@ const SageDataSynthesizer: React.FC<SageDataSynthesizerProps> = ({
 
             {/* Synthesis Power Control */}
             <div className="p-3 bg-purple-100 rounded-lg">
-              <label className="text-sm font-medium text-gray-700 mb-2 block">
+              <label className="text-sm font-medium text-white/70 mb-2 block">
                 Synthesis Power Level: {synthesisPower[0]}x
               </label>
               <Slider
@@ -476,21 +476,21 @@ const SageDataSynthesizer: React.FC<SageDataSynthesizerProps> = ({
                 step={1}
                 className="w-full"
               />
-              <p className="text-xs text-gray-600 mt-1">
+              <p className="text-xs text-white/55 mt-1">
                 Higher synthesis amplifies the synergy between mathematical techniques
               </p>
             </div>
 
             {/* Project Insights */}
             <div className="space-y-2 max-h-64 overflow-y-auto">
-              <h5 className="font-semibold text-gray-800">Character Insights:</h5>
+              <h5 className="font-semibold text-white/90">Character Insights:</h5>
               {projectInsights.length === 0 ? (
-                <p className="text-sm text-gray-500 italic">
+                <p className="text-sm text-white/45 italic">
                   Apply mathematical techniques to generate insights from your Mathland companions...
                 </p>
               ) : (
                 projectInsights.map((insight, index) => (
-                  <div key={index} className="p-2 bg-white border border-gray-200 rounded text-xs">
+                  <div key={index} className="p-2 bg-white/[0.04] border border-white/10 rounded text-xs">
                     {insight}
                   </div>
                 ))
@@ -499,9 +499,9 @@ const SageDataSynthesizer: React.FC<SageDataSynthesizerProps> = ({
 
             {/* Synthesis Recommendations */}
             <div className="p-3 bg-gradient-to-r from-cyan-100 to-blue-100 rounded-lg">
-              <h5 className="font-semibold text-gray-800 mb-2">🦅 Sage's Synthesis Guidance:</h5>
+              <h5 className="font-semibold text-white/90 mb-2">🦅 Sage's Synthesis Guidance:</h5>
               {getSynthesisRecommendations().map((rec, index) => (
-                <p key={index} className="text-sm text-gray-700 mb-1">{rec}</p>
+                <p key={index} className="text-sm text-white/70 mb-1">{rec}</p>
               ))}
             </div>
           </CardContent>
@@ -517,10 +517,10 @@ const SageDataSynthesizer: React.FC<SageDataSynthesizerProps> = ({
         </CardHeader>
         <CardContent>
           <div className="bg-gradient-to-r from-blue-100 to-cyan-100 p-4 rounded-lg">
-            <p className="text-gray-700 mb-3">
+            <p className="text-white/70 mb-3">
               <strong>The Art of Mathematical Synthesis:</strong> True data science mastery emerges when you stop seeing mathematical techniques as isolated tools and start recognizing them as interconnected components of a greater whole. Each character's expertise amplifies the others - Vera's vectors enable Max's transformations, which reveal patterns that Greta can optimize, while Sigmund validates and Bayes guides decisions.
             </p>
-            <p className="text-gray-700">
+            <p className="text-white/70">
               From this elevated perspective, you see that mathematics isn't just calculation - it's a language for understanding reality, a framework for making decisions under uncertainty, and a pathway for turning insight into impact. You've earned your wings in the mathematical world!
             </p>
           </div>

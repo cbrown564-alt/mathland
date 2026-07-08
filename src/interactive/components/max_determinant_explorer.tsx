@@ -3,6 +3,8 @@ import { Button } from '@/core/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/core/components/ui/card';
 import { Slider } from '@/core/components/ui/slider';
 import { Badge } from '@/core/components/ui/badge';
+import { drawVectorArrow } from '@/interactive/utils/canvasArrow';
+import { AXIS, BACKGROUND, GRID, LABEL } from '@/interactive/utils/canvasTheme';
 
 interface DeterminantExplorerProps {
   onComplete?: () => void;
@@ -65,7 +67,7 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
   const drawGrid = (ctx: CanvasRenderingContext2D) => {
     if (!showGrid) return;
     
-    ctx.strokeStyle = '#E5E7EB';
+    ctx.strokeStyle = GRID;
     ctx.lineWidth = 1;
     
     // Draw grid lines
@@ -85,7 +87,7 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
   };
 
   const drawAxes = (ctx: CanvasRenderingContext2D) => {
-    ctx.strokeStyle = '#374151';
+    ctx.strokeStyle = AXIS;
     ctx.lineWidth = 2;
     
     // X-axis
@@ -101,13 +103,13 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
     ctx.stroke();
     
     // Origin
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = AXIS;
     ctx.beginPath();
     ctx.arc(centerX, centerY, 3, 0, 2 * Math.PI);
     ctx.fill();
     
     // Axis labels
-    ctx.fillStyle = '#6B7280';
+    ctx.fillStyle = LABEL;
     ctx.font = '12px Inter, sans-serif';
     ctx.fillText('x', canvasWidth - 20, centerY - 10);
     ctx.fillText('y', centerX + 10, 15);
@@ -117,33 +119,7 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
     const endX = centerX + x * scale;
     const endY = centerY - y * scale;
     
-    ctx.strokeStyle = color;
-    ctx.fillStyle = color;
-    ctx.lineWidth = 3;
-    
-    // Draw vector line
-    ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.lineTo(endX, endY);
-    ctx.stroke();
-    
-    // Draw arrowhead
-    const angle = Math.atan2(endY - centerY, endX - centerX);
-    const arrowLength = 12;
-    const arrowAngle = Math.PI / 6;
-    
-    ctx.beginPath();
-    ctx.moveTo(endX, endY);
-    ctx.lineTo(
-      endX - arrowLength * Math.cos(angle - arrowAngle),
-      endY - arrowLength * Math.sin(angle - arrowAngle)
-    );
-    ctx.lineTo(
-      endX - arrowLength * Math.cos(angle + arrowAngle),
-      endY - arrowLength * Math.sin(angle + arrowAngle)
-    );
-    ctx.closePath();
-    ctx.fill();
+    drawVectorArrow(ctx, centerX, centerY, endX, endY, color, 3);
     
     // Draw label
     ctx.fillStyle = color;
@@ -326,7 +302,8 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
     if (!ctx) return;
 
     // Clear canvas
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillStyle = BACKGROUND;
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // Draw grid and axes
     drawGrid(ctx);
@@ -345,7 +322,7 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
     drawColumnVectors(ctx);
 
     // Draw information panel
-    ctx.fillStyle = '#1F2937';
+    ctx.fillStyle = LABEL;
     ctx.font = '16px Inter, sans-serif';
     ctx.fillText(`Matrix: [${matrixA.toFixed(2)} ${matrixB.toFixed(2)}]`, 20, 30);
     ctx.fillText(`        [${matrixC.toFixed(2)} ${matrixD.toFixed(2)}]`, 20, 50);
@@ -438,7 +415,7 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-6">
       {/* Header */}
-      <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50">
+      <Card className="border-2 border-blue-400/30 bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10">
         <CardHeader className="pb-4">
           <CardTitle className="text-2xl font-bold text-blue-800 flex items-center gap-2">
             📐 Max's Determinant Detective Agency
@@ -458,11 +435,11 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
           <CardContent className="space-y-6">
             {/* Matrix Element Controls */}
             <div className="space-y-4">
-              <h4 className="font-medium text-gray-700">Matrix Elements</h4>
+              <h4 className="font-medium text-white/70">Matrix Elements</h4>
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-green-700">a: {matrixA.toFixed(2)}</label>
+                  <label className="text-sm font-medium text-emerald-300/90">a: {matrixA.toFixed(2)}</label>
                   <Slider
                     value={[matrixA]}
                     onValueChange={(value) => setMatrixA(value[0])}
@@ -486,7 +463,7 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-green-700">c: {matrixC.toFixed(2)}</label>
+                  <label className="text-sm font-medium text-emerald-300/90">c: {matrixC.toFixed(2)}</label>
                   <Slider
                     value={[matrixC]}
                     onValueChange={(value) => setMatrixC(value[0])}
@@ -510,11 +487,11 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
                 </div>
               </div>
               
-              <div className="bg-gray-50 p-3 rounded-lg">
-                <p className="text-sm text-gray-700 text-center">
+              <div className="bg-white/[0.03] p-3 rounded-lg">
+                <p className="text-sm text-white/70 text-center">
                   Matrix: [{matrixA.toFixed(2)} {matrixB.toFixed(2)}]
                 </p>
-                <p className="text-sm text-gray-700 text-center">
+                <p className="text-sm text-white/70 text-center">
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[{matrixC.toFixed(2)} {matrixD.toFixed(2)}]
                 </p>
               </div>
@@ -522,7 +499,7 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
 
             {/* Shape Selection */}
             <div className="space-y-3">
-              <h4 className="font-medium text-gray-700">Shape to Transform</h4>
+              <h4 className="font-medium text-white/70">Shape to Transform</h4>
               <div className="grid grid-cols-2 gap-2">
                 {(['square', 'triangle', 'circle', 'custom'] as const).map((shape) => (
                   <Button
@@ -540,14 +517,14 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
 
             {/* Display Options */}
             <div className="space-y-3">
-              <h4 className="font-medium text-gray-700">Display Options</h4>
+              <h4 className="font-medium text-white/70">Display Options</h4>
               <div className="space-y-2">
                 <label className="flex items-center space-x-2">
                   <input
                     type="checkbox"
                     checked={showOriginalShape}
                     onChange={(e) => setShowOriginalShape(e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="rounded border-white/10 text-blue-600 focus:ring-blue-500"
                   />
                   <span className="text-sm">Show Original Shape</span>
                 </label>
@@ -556,7 +533,7 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
                     type="checkbox"
                     checked={showParallelogram}
                     onChange={(e) => setShowParallelogram(e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="rounded border-white/10 text-blue-600 focus:ring-blue-500"
                   />
                   <span className="text-sm">Show Basis Parallelogram</span>
                 </label>
@@ -565,7 +542,7 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
                     type="checkbox"
                     checked={showUnitSquare}
                     onChange={(e) => setShowUnitSquare(e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="rounded border-white/10 text-blue-600 focus:ring-blue-500"
                   />
                   <span className="text-sm">Show Unit Square</span>
                 </label>
@@ -574,7 +551,7 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
                     type="checkbox"
                     checked={showGrid}
                     onChange={(e) => setShowGrid(e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="rounded border-white/10 text-blue-600 focus:ring-blue-500"
                   />
                   <span className="text-sm">Show Grid</span>
                 </label>
@@ -583,7 +560,7 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
 
             {/* Animation Speed */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-medium text-white/70">
                 Animation Speed: {animationSpeed.toFixed(1)}x
               </label>
               <Slider
@@ -627,7 +604,8 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
                 ref={canvasRef}
                 width={canvasWidth}
                 height={canvasHeight}
-                className="w-full h-auto border border-gray-200 rounded-lg"
+                aria-label="Max determinant geometric transformation visualization"
+                className="w-full h-auto border border-white/10 rounded-lg"
               />
               {isAnimating && (
                 <div className="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full text-sm">
@@ -669,7 +647,7 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
-              <h4 className="font-medium text-gray-700">Calculation</h4>
+              <h4 className="font-medium text-white/70">Calculation</h4>
               <div className="text-sm space-y-1">
                 <p>det(A) = ad - bc</p>
                 <p>= ({matrixA.toFixed(2)})({matrixD.toFixed(2)}) - ({matrixB.toFixed(2)})({matrixC.toFixed(2)})</p>
@@ -677,7 +655,7 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
               </div>
             </div>
             <div className="space-y-2">
-              <h4 className="font-medium text-gray-700">Geometric Meaning</h4>
+              <h4 className="font-medium text-white/70">Geometric Meaning</h4>
               <div className="text-sm space-y-1">
                 <p>Area scaling factor: {absoluteDeterminant.toFixed(2)}x</p>
                 <p className={isInvertible ? 'text-green-600' : 'text-red-600'}>
@@ -689,7 +667,7 @@ const DeterminantExplorer: React.FC<DeterminantExplorerProps> = ({
               </div>
             </div>
             <div className="space-y-2">
-              <h4 className="font-medium text-gray-700">Special Properties</h4>
+              <h4 className="font-medium text-white/70">Special Properties</h4>
               <div className="text-sm space-y-1">
                 {Math.abs(determinant) < 0.001 && (
                   <p className="text-red-600">⚠ Singular matrix (non-invertible)</p>

@@ -232,7 +232,7 @@ const DeltaLimitsExplorer: React.FC<LimitsExplorerProps> = ({
   }, [mathToScreen]);
 
   const drawAxes = useCallback((ctx: CanvasRenderingContext2D) => {
-    ctx.strokeStyle = '#374151';
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
     ctx.lineWidth = 2;
 
     const [originX, originY] = mathToScreen(0, 0);
@@ -250,7 +250,7 @@ const DeltaLimitsExplorer: React.FC<LimitsExplorerProps> = ({
     ctx.stroke();
 
     // Labels
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
     ctx.font = '14px Inter, sans-serif';
     ctx.fillText('x', margin + plotWidth + 10, originY + 5);
     ctx.fillText('y', originX - 10, margin - 10);
@@ -537,9 +537,9 @@ const DeltaLimitsExplorer: React.FC<LimitsExplorerProps> = ({
   return (
     <div className="w-full max-w-7xl mx-auto p-6 space-y-6">
       {/* Header */}
-      <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-indigo-200">
+      <Card className="bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10 border-indigo-400/30">
         <CardHeader className="pb-4">
-          <CardTitle className="text-3xl font-bold text-indigo-800 flex items-center gap-2">
+          <CardTitle className="text-3xl font-bold text-indigo-200 flex items-center gap-2">
             🎯 Dr. Delta's Multivariable Limits Explorer
           </CardTitle>
           <p className="text-indigo-700 text-lg">
@@ -616,7 +616,7 @@ const DeltaLimitsExplorer: React.FC<LimitsExplorerProps> = ({
                 max={pathType === 'linear' ? 2 * Math.PI : 2}
                 step={0.1}
               />
-              <div className="text-xs text-gray-600">
+              <div className="text-xs text-white/55">
                 {pathType === 'linear' ? 'Angle in radians' : 
                  pathType === 'parabolic' ? 'Curvature parameter' : 'Spiral tightness'}
               </div>
@@ -694,7 +694,7 @@ const DeltaLimitsExplorer: React.FC<LimitsExplorerProps> = ({
         <Card className="xl:col-span-2">
           <CardHeader>
             <CardTitle className="text-lg font-semibold text-indigo-700">Multivariable Limit Visualization</CardTitle>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-white/55">
               Click to set target point. Watch how the function behaves along different approach paths.
             </p>
           </CardHeader>
@@ -703,8 +703,9 @@ const DeltaLimitsExplorer: React.FC<LimitsExplorerProps> = ({
               ref={canvasRef}
               width={canvasWidth}
               height={canvasHeight}
+              aria-label="Delta interactive multivariable limit visualization"
               onClick={handleCanvasClick}
-              className="border rounded-lg cursor-crosshair bg-white"
+              className="border rounded-lg cursor-crosshair bg-white/[0.04]"
               style={{ maxWidth: '100%', height: 'auto' }}
             />
           </CardContent>
@@ -733,7 +734,7 @@ const DeltaLimitsExplorer: React.FC<LimitsExplorerProps> = ({
 
             {/* Key Insights */}
             <div className="bg-purple-50 p-3 rounded-lg">
-              <h4 className="font-medium text-purple-800 mb-2">Dr. Delta's Insights</h4>
+              <h4 className="font-medium text-purple-200 mb-2">Dr. Delta's Insights</h4>
               <div className="space-y-2 text-sm text-purple-700">
                 <div>🎯 All paths must give same limit</div>
                 <div>🔍 Different path limits → no limit exists</div>
@@ -744,7 +745,7 @@ const DeltaLimitsExplorer: React.FC<LimitsExplorerProps> = ({
 
             {/* Progress Tracking */}
             <div className="bg-green-50 p-3 rounded-lg">
-              <h4 className="font-medium text-green-800 mb-2">Exploration Progress</h4>
+              <h4 className="font-medium text-emerald-200 mb-2">Exploration Progress</h4>
               <div className="space-y-2">
                 {[
                   'Try different functions',
@@ -754,7 +755,7 @@ const DeltaLimitsExplorer: React.FC<LimitsExplorerProps> = ({
                 ].map((step, index) => (
                   <div key={index} className="flex items-center space-x-2">
                     <span className={`w-4 h-4 rounded-full ${completedSteps[index] ? 'bg-green-500' : 'bg-gray-300'}`} />
-                    <span className={`text-sm ${completedSteps[index] ? 'text-green-700' : 'text-gray-600'}`}>
+                    <span className={`text-sm ${completedSteps[index] ? 'text-emerald-300/90' : 'text-white/55'}`}>
                       {step}
                     </span>
                   </div>
@@ -764,7 +765,7 @@ const DeltaLimitsExplorer: React.FC<LimitsExplorerProps> = ({
 
             {/* Limit Definition */}
             <div className="bg-indigo-50 p-3 rounded-lg">
-              <h4 className="font-medium text-indigo-800 mb-2">Limit Definition</h4>
+              <h4 className="font-medium text-indigo-200 mb-2">Limit Definition</h4>
               <div className="text-center">
                 <div className="text-sm font-mono text-indigo-700">
                   lim<sub>(x,y)→(a,b)</sub> f(x,y) = L
@@ -779,7 +780,7 @@ const DeltaLimitsExplorer: React.FC<LimitsExplorerProps> = ({
       </div>
 
       {/* Instructions */}
-      <Card className="bg-yellow-50 border-yellow-200">
+      <Card className="bg-yellow-50 border-yellow-400/30">
         <CardContent className="pt-6">
           <div className="flex items-start space-x-3">
             <span className="text-2xl">💡</span>

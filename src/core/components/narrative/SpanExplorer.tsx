@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import type { InteractiveProps } from "./interactives";
+import { VectorArrow } from "@/core/components/narrative/VectorArrow";
 import { createPlotCoords, NARRATIVE_PLOT } from "./plotCoords";
 
 const {
@@ -128,18 +129,6 @@ export const SpanExplorer = ({ onStateChange }: InteractiveProps = {}) => {
               onPointerUp={onPointerUp}
               onPointerLeave={onPointerUp}
             >
-              <defs>
-                <marker id="se-arrow-u" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
-                  <path d="M0,0 L8,3 L0,6 Z" fill={COLOR_U} />
-                </marker>
-                <marker id="se-arrow-v" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
-                  <path d="M0,0 L8,3 L0,6 Z" fill={COLOR_V} />
-                </marker>
-                <marker id="se-arrow-r" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
-                  <path d="M0,0 L8,3 L0,6 Z" fill={COLOR_RESULT} />
-                </marker>
-              </defs>
-
               <g>
                 {axisLabels.map((val) => {
                   const gx = mathToSvg(val, 0).x;
@@ -185,17 +174,14 @@ export const SpanExplorer = ({ onStateChange }: InteractiveProps = {}) => {
                 const isDragging = dragging === vec.id;
                 return (
                   <g key={vec.id} style={{ cursor: "pointer" }}>
-                    <line
+                    <VectorArrow
                       x1={origin.x}
                       y1={origin.y}
                       x2={tip.x}
                       y2={tip.y}
-                      stroke={vec.color}
+                      color={vec.color}
                       strokeWidth={isDragging ? 5 : 3.5}
-                      markerEnd={`url(#se-arrow-${vec.id})`}
-                      style={{
-                        filter: isDragging ? `drop-shadow(0 0 8px ${vec.color}aa)` : undefined,
-                      }}
+                      filter={isDragging ? `drop-shadow(0 0 8px ${vec.color}aa)` : undefined}
                     />
                     <text x={tip.x + 10} y={tip.y - 8} fontSize="18" fontFamily="serif" fontStyle="italic" fill={vec.color} fontWeight="bold" style={{ pointerEvents: "none" }}>
                       {vec.label}
@@ -218,15 +204,14 @@ export const SpanExplorer = ({ onStateChange }: InteractiveProps = {}) => {
               })}
 
               {tone !== "zero" && (
-                <line
+                <VectorArrow
                   x1={origin.x}
                   y1={origin.y}
                   x2={tipR.x}
                   y2={tipR.y}
-                  stroke={COLOR_RESULT}
+                  color={COLOR_RESULT}
                   strokeWidth={4}
                   strokeDasharray="6 4"
-                  markerEnd="url(#se-arrow-r)"
                 />
               )}
 

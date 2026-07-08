@@ -163,7 +163,7 @@ const PippaProbabilityMagic: React.FC<PippaProbabilityMagicProps> = ({
         return (
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-2 block">
+              <label className="text-sm font-medium text-white/70 mb-2 block">
                 Success Probability (p): {bernoulliP[0].toFixed(2)}
               </label>
               <Slider
@@ -181,7 +181,7 @@ const PippaProbabilityMagic: React.FC<PippaProbabilityMagicProps> = ({
         return (
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-2 block">
+              <label className="text-sm font-medium text-white/70 mb-2 block">
                 Number of Trials (n): {binomialN[0]}
               </label>
               <Slider
@@ -194,7 +194,7 @@ const PippaProbabilityMagic: React.FC<PippaProbabilityMagicProps> = ({
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-2 block">
+              <label className="text-sm font-medium text-white/70 mb-2 block">
                 Success Probability (p): {binomialP[0].toFixed(2)}
               </label>
               <Slider
@@ -212,7 +212,7 @@ const PippaProbabilityMagic: React.FC<PippaProbabilityMagicProps> = ({
         return (
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-2 block">
+              <label className="text-sm font-medium text-white/70 mb-2 block">
                 Average Rate (λ): {poissonLambda[0].toFixed(1)}
               </label>
               <Slider
@@ -268,12 +268,12 @@ const PippaProbabilityMagic: React.FC<PippaProbabilityMagicProps> = ({
   }, [simulationResults]);
 
   return (
-    <div className="max-w-4xl mx-auto p-4 bg-gradient-to-br from-pink-50 to-purple-50">
+    <div className="max-w-4xl mx-auto p-4 bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+        <h2 className="text-2xl font-bold text-white/90 mb-2">
           🪄 Pippa's Probability Magic Show 🪄
         </h2>
-        <p className="text-gray-600">
+        <p className="text-white/55">
           Welcome to my magical distribution collection! Each trick demonstrates different probability patterns.
         </p>
       </div>
@@ -292,8 +292,8 @@ const PippaProbabilityMagic: React.FC<PippaProbabilityMagicProps> = ({
           >
             <CardContent className="p-4 text-center">
               <div className="text-3xl mb-2">{trick.icon}</div>
-              <h3 className="font-semibold text-gray-800">{trick.name}</h3>
-              <p className="text-sm text-gray-600 mt-1">{trick.description}</p>
+              <h3 className="font-semibold text-white/90">{trick.name}</h3>
+              <p className="text-sm text-white/55 mt-1">{trick.description}</p>
             </CardContent>
           </Card>
         ))}
@@ -310,8 +310,8 @@ const PippaProbabilityMagic: React.FC<PippaProbabilityMagicProps> = ({
           <CardContent>
             {getParameterControls()}
             
-            <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-              <h4 className="font-semibold text-gray-800 mb-2">Theoretical Properties:</h4>
+            <div className="mt-6 p-4 bg-white/[0.03] rounded-lg">
+              <h4 className="font-semibold text-white/90 mb-2">Theoretical Properties:</h4>
               <div className="text-sm space-y-1">
                 <div>Expected Value: <span className="font-mono">{getExpectedValue().toFixed(3)}</span></div>
                 <div>Variance: <span className="font-mono">{getVariance().toFixed(3)}</span></div>
@@ -341,7 +341,7 @@ const PippaProbabilityMagic: React.FC<PippaProbabilityMagicProps> = ({
                 <div key={k} className="space-y-1">
                   <div className="flex justify-between text-sm">
                     <span className="font-medium">{label}</span>
-                    <span className="font-mono text-gray-600">{prob.toFixed(4)}</span>
+                    <span className="font-mono text-white/55">{prob.toFixed(4)}</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div
@@ -355,14 +355,14 @@ const PippaProbabilityMagic: React.FC<PippaProbabilityMagicProps> = ({
 
             {empiricalStats && (
               <div className="mt-6 p-4 bg-purple-50 rounded-lg">
-                <h4 className="font-semibold text-gray-800 mb-2">🎭 Magic Results (100 tricks):</h4>
+                <h4 className="font-semibold text-white/90 mb-2">🎭 Magic Results (100 tricks):</h4>
                 <div className="text-sm space-y-1">
                   <div>Empirical Mean: <span className="font-mono">{empiricalStats.mean.toFixed(3)}</span></div>
                   <div>Empirical Variance: <span className="font-mono">{empiricalStats.variance.toFixed(3)}</span></div>
                 </div>
                 
                 <div className="mt-3">
-                  <h5 className="font-medium text-gray-700 mb-2">Frequency of Results:</h5>
+                  <h5 className="font-medium text-white/70 mb-2">Frequency of Results:</h5>
                   <div className="flex flex-wrap gap-1">
                     {Object.entries(empiricalStats.counts)
                       .sort(([a], [b]) => parseInt(a) - parseInt(b))
@@ -389,17 +389,17 @@ const PippaProbabilityMagic: React.FC<PippaProbabilityMagicProps> = ({
         <CardContent>
           <div className="bg-gradient-to-r from-pink-100 to-purple-100 p-4 rounded-lg">
             {selectedTrick === 'bernoulli' && (
-              <p className="text-gray-700">
+              <p className="text-white/70">
                 <strong>Coin Flip Magic:</strong> This is my simplest trick! Bernoulli distribution models any situation with just two outcomes - success or failure, heads or tails, yes or no. The magic parameter p controls how likely success is. Notice how the expected value equals p, and the variance is maximized when p = 0.5 (fair coin)!
               </p>
             )}
             {selectedTrick === 'binomial' && (
-              <p className="text-gray-700">
+              <p className="text-white/70">
                 <strong>Success Counter Spell:</strong> This magic counts successes in multiple independent trials! If I flip {binomialN[0]} coins, each with success probability {binomialP[0].toFixed(2)}, this distribution tells me how many successes to expect. The magic formula uses combinations C(n,k) to count all the ways to get exactly k successes!
               </p>
             )}
             {selectedTrick === 'poisson' && (
-              <p className="text-gray-700">
+              <p className="text-white/70">
                 <strong>Rare Event Surprise:</strong> This is my most mysterious trick! Poisson distribution predicts rare events - like shooting stars per hour, or customers arriving at a magic shop. The parameter λ (lambda) is both the expected value AND the variance. When events are rare but happen at a steady average rate, this magic appears!
               </p>
             )}

@@ -250,12 +250,12 @@ const EquationSolver: React.FC<EquationSolverProps> = ({
   return (
     <div className="w-full max-w-4xl mx-auto p-4 space-y-6">
       {/* Header */}
-      <Card className="border-2 border-green-200 bg-gradient-to-r from-green-50 to-emerald-50">
+      <Card className="border-2 border-emerald-400/30 bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10">
         <CardHeader className="pb-4">
-          <CardTitle className="text-2xl font-bold text-green-800 flex items-center gap-2">
+          <CardTitle className="text-2xl font-bold text-emerald-200 flex items-center gap-2">
             🦫 Ollie's Equation Balance Builder
           </CardTitle>
-          <p className="text-green-700">
+          <p className="text-emerald-300/90">
             Learn to solve equations step by step! Just like building a dam, we need to keep everything balanced.
           </p>
         </CardHeader>
@@ -267,7 +267,7 @@ const EquationSolver: React.FC<EquationSolverProps> = ({
           <CardHeader>
             <CardTitle className="text-lg font-semibold flex items-center justify-between">
               Current Problem
-              <Badge variant="outline" className="text-green-700">
+              <Badge variant="outline" className="text-emerald-300/90">
                 {problemType.charAt(0).toUpperCase() + problemType.slice(1)}
               </Badge>
             </CardTitle>
@@ -295,11 +295,11 @@ const EquationSolver: React.FC<EquationSolverProps> = ({
 
             {/* Current equation */}
             {currentProblem && (
-              <div className="bg-gray-50 p-4 rounded-lg text-center">
-                <div className="text-2xl font-mono font-bold text-gray-800">
+              <div className="bg-white/[0.03] p-4 rounded-lg text-center">
+                <div className="text-2xl font-mono font-bold text-white/90">
                   {formatEquation(currentProblem)}
                 </div>
-                <p className="text-sm text-gray-600 mt-2">
+                <p className="text-sm text-white/55 mt-2">
                   {problemType === 'linear' ? 'Solve for x' : 'Find all values of x'}
                 </p>
               </div>
@@ -307,12 +307,13 @@ const EquationSolver: React.FC<EquationSolverProps> = ({
 
             {/* Answer input */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-green-700">Your Answer:</label>
+              <label className="text-sm font-medium text-emerald-300/90">Your Answer:</label>
               <Input
                 type="number"
                 value={userAnswer}
                 onChange={(e) => setUserAnswer(e.target.value)}
                 placeholder="Enter your answer"
+                aria-label="Challenge answer"
                 className="text-center"
                 step="0.01"
               />
@@ -339,7 +340,7 @@ const EquationSolver: React.FC<EquationSolverProps> = ({
             {/* Result feedback */}
             {isCorrect !== null && (
               <Alert className={isCorrect ? 'border-green-500 bg-green-50' : 'border-red-500 bg-red-50'}>
-                <AlertDescription className={isCorrect ? 'text-green-700' : 'text-red-700'}>
+                <AlertDescription className={isCorrect ? 'text-emerald-300/90' : 'text-red-700'}>
                   {isCorrect ? 
                     '🎉 Correct! Great job solving the equation!' : 
                     '❌ Not quite right. Try again or check the solution steps.'
@@ -369,14 +370,14 @@ const EquationSolver: React.FC<EquationSolverProps> = ({
               <div className="space-y-4">
                 {solutionSteps.map((step, index) => (
                   <div key={index} className="border-l-4 border-green-500 pl-4 py-2">
-                    <h4 className="font-medium text-green-800">{step.step}</h4>
+                    <h4 className="font-medium text-emerald-200">{step.step}</h4>
                     <div className="font-mono text-lg mt-1">{step.equation}</div>
-                    <p className="text-sm text-gray-600 mt-1">{step.explanation}</p>
+                    <p className="text-sm text-white/55 mt-1">{step.explanation}</p>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="text-center text-gray-500 py-8">
+              <div className="text-center text-white/45 py-8">
                 <div className="text-6xl mb-4">🔒</div>
                 <p>Solve the problem first to see the step-by-step solution!</p>
               </div>
@@ -395,15 +396,15 @@ const EquationSolver: React.FC<EquationSolverProps> = ({
             <div className="flex items-center gap-3 mb-3">
               <div className="text-2xl">⚖️</div>
               <div>
-                <h4 className="font-medium text-green-800">Balance Rule</h4>
-                <p className="text-sm text-green-700">
+                <h4 className="font-medium text-emerald-200">Balance Rule</h4>
+                <p className="text-sm text-emerald-300/90">
                   "What you do to one side, do to the other - just like keeping my dam balanced!"
                 </p>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
-                <h5 className="font-medium text-green-700">Linear Equations:</h5>
+                <h5 className="font-medium text-emerald-300/90">Linear Equations:</h5>
                 <ul className="text-green-600 space-y-1">
                   <li>• Isolate x by undoing operations</li>
                   <li>• Keep the equation balanced</li>
@@ -411,7 +412,7 @@ const EquationSolver: React.FC<EquationSolverProps> = ({
                 </ul>
               </div>
               <div>
-                <h5 className="font-medium text-green-700">Quadratic Equations:</h5>
+                <h5 className="font-medium text-emerald-300/90">Quadratic Equations:</h5>
                 <ul className="text-green-600 space-y-1">
                   <li>• Factor when possible</li>
                   <li>• Use quadratic formula as backup</li>
@@ -434,7 +435,7 @@ const EquationSolver: React.FC<EquationSolverProps> = ({
                   style={{ width: `${progress}%` }}
                 />
               </div>
-              <Badge variant="outline" className="text-green-700">
+              <Badge variant="outline" className="text-emerald-300/90">
                 {problemsSolved.size} solved
               </Badge>
             </div>
@@ -450,15 +451,15 @@ const EquationSolver: React.FC<EquationSolverProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
             <div className="text-center">
               <div className="text-2xl font-bold text-green-600">{problemsSolved.size}</div>
-              <div className="text-gray-600">Problems Solved</div>
+              <div className="text-white/55">Problems Solved</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-green-600">{consecutiveCorrect}</div>
-              <div className="text-gray-600">Consecutive Correct</div>
+              <div className="text-white/55">Consecutive Correct</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-green-600">{Math.round(progress)}%</div>
-              <div className="text-gray-600">Progress</div>
+              <div className="text-white/55">Progress</div>
             </div>
           </div>
         </CardContent>

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import type { InteractiveProps } from "./interactives";
+import { VectorArrow } from "@/core/components/narrative/VectorArrow";
 import { createPlotCoords, NARRATIVE_PLOT } from "./plotCoords";
 
 const {
@@ -74,11 +75,6 @@ export const VectorBasicsExplorer = ({ onStateChange }: InteractiveProps = {}) =
           onPointerUp={onPointerUp}
           onPointerLeave={onPointerUp}
         >
-          <defs>
-            <marker id="vbe-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-              <path d="M0,0 L8,3 L0,6 Z" fill={COLOR} />
-            </marker>
-          </defs>
           {axisLabels.map((val) => {
             const gx = mathToSvg(val, 0).x;
             const gy = mathToSvg(0, val).y;
@@ -91,14 +87,13 @@ export const VectorBasicsExplorer = ({ onStateChange }: InteractiveProps = {}) =
           })}
           <line x1={0} y1={SVG_HEIGHT / 2} x2={SVG_WIDTH} y2={SVG_HEIGHT / 2} stroke="rgba(255,255,255,0.25)" strokeWidth={1.5} />
           <line x1={SVG_WIDTH / 2} y1={0} x2={SVG_WIDTH / 2} y2={SVG_HEIGHT} stroke="rgba(255,255,255,0.25)" strokeWidth={1.5} />
-          <line
+          <VectorArrow
             x1={origin.x}
             y1={origin.y}
             x2={tip.x}
             y2={tip.y}
-            stroke={COLOR}
+            color={COLOR}
             strokeWidth={dragging ? 5 : 3.5}
-            markerEnd="url(#vbe-arrow)"
           />
           <text x={tip.x + 10} y={tip.y - 8} fill={COLOR} fontFamily="serif" fontStyle="italic" fontSize="18" fontWeight="bold">
             v

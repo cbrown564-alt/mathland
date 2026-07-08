@@ -373,8 +373,8 @@ const GretaGradientDescentClimber: React.FC<GretaGradientDescentClimberProps> = 
           <AvatarFallback>G</AvatarFallback>
         </Avatar>
         <div>
-          <h2 className="text-xl font-bold text-slate-800">Greta's Mountain Optimization</h2>
-          <p className="text-slate-600">{currentLandscape.goal}</p>
+          <h2 className="text-xl font-bold text-white/90">Greta's Mountain Optimization</h2>
+          <p className="text-white/55">{currentLandscape.goal}</p>
         </div>
         <Badge variant="outline" className="ml-auto">
           Expedition #{expeditionCount}
@@ -384,7 +384,7 @@ const GretaGradientDescentClimber: React.FC<GretaGradientDescentClimberProps> = 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Mountain Visualization */}
         <div className="lg:col-span-2">
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-amber-50 to-orange-50">
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10">
             <CardHeader className="pb-4">
               <CardTitle className="text-lg font-semibold text-amber-800 flex items-center gap-2">
                 <Mountain className="w-5 h-5" />
@@ -397,7 +397,8 @@ const GretaGradientDescentClimber: React.FC<GretaGradientDescentClimberProps> = 
                 ref={canvasRef}
                 width={CANVAS_WIDTH}
                 height={CANVAS_HEIGHT}
-                className="border border-amber-200 rounded-lg cursor-crosshair"
+                aria-label="Greta interactive gradient descent landscape visualization"
+                className="border border-amber-400/30 rounded-lg cursor-crosshair"
                 onClick={(e) => {
                   if (!isClimbing) {
                     const rect = e.currentTarget.getBoundingClientRect();
@@ -420,15 +421,15 @@ const GretaGradientDescentClimber: React.FC<GretaGradientDescentClimberProps> = 
 
           {/* Climbing Stats */}
           <div className="mt-4 grid grid-cols-3 gap-4">
-            <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
+            <Card className="bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10 border-emerald-400/30">
               <CardContent className="pt-4">
                 <div className="text-center">
-                  <div className="text-lg font-bold text-green-700">{step}</div>
+                  <div className="text-lg font-bold text-emerald-300/90">{step}</div>
                   <div className="text-xs text-green-600">Steps Taken</div>
                 </div>
               </CardContent>
             </Card>
-            <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200">
+            <Card className="bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10 border-blue-400/30">
               <CardContent className="pt-4">
                 <div className="text-center">
                   <div className="text-lg font-bold text-blue-700">{currentFunction.toFixed(3)}</div>
@@ -436,7 +437,7 @@ const GretaGradientDescentClimber: React.FC<GretaGradientDescentClimberProps> = 
                 </div>
               </CardContent>
             </Card>
-            <Card className="bg-gradient-to-br from-red-50 to-pink-50 border-red-200">
+            <Card className="bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10 border-red-400/30">
               <CardContent className="pt-4">
                 <div className="text-center">
                   <div className="text-lg font-bold text-red-700">{gradientMagnitude.toFixed(3)}</div>
@@ -469,7 +470,7 @@ const GretaGradientDescentClimber: React.FC<GretaGradientDescentClimberProps> = 
                   disabled={isClimbing}
                   className="w-full"
                 />
-                <div className="text-xs text-slate-500 mt-1">
+                <div className="text-xs text-white/45 mt-1">
                   Higher = bigger steps, Lower = smaller steps
                 </div>
               </div>
@@ -541,7 +542,7 @@ const GretaGradientDescentClimber: React.FC<GretaGradientDescentClimberProps> = 
           </Card>
 
           {!isPreview && (
-            <Card className="bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200">
+            <Card className="bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10 border-amber-400/30">
               <CardContent className="pt-6">
                 <div className="text-sm text-amber-700 space-y-2">
                   <p><strong>⛰️ Greta's Climbing Tips:</strong></p>

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import type { InteractiveProps } from "./interactives";
+import { VectorArrow } from "@/core/components/narrative/VectorArrow";
 import { createPlotCoords, NARRATIVE_PLOT } from "./plotCoords";
 
 const {
@@ -76,11 +77,6 @@ export const VectorNormsExplorer = ({ onStateChange }: InteractiveProps = {}) =>
           onPointerUp={onPointerUp}
           onPointerLeave={onPointerUp}
         >
-          <defs>
-            <marker id="vne-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-              <path d="M0,0 L8,3 L0,6 Z" fill={COLOR} />
-            </marker>
-          </defs>
           {axisLabels.map((val) => {
             const gx = mathToSvg(val, 0).x;
             const gy = mathToSvg(0, val).y;
@@ -102,7 +98,14 @@ export const VectorNormsExplorer = ({ onStateChange }: InteractiveProps = {}) =>
             strokeWidth={1.5}
             strokeDasharray="4 3"
           />
-          <line x1={origin.x} y1={origin.y} x2={tip.x} y2={tip.y} stroke={COLOR} strokeWidth={dragging ? 5 : 3.5} markerEnd="url(#vne-arrow)" />
+          <VectorArrow
+            x1={origin.x}
+            y1={origin.y}
+            x2={tip.x}
+            y2={tip.y}
+            color={COLOR}
+            strokeWidth={dragging ? 5 : 3.5}
+          />
           <circle
             cx={tip.x}
             cy={tip.y}

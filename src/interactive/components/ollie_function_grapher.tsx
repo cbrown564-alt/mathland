@@ -132,7 +132,7 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
     const centerY = CANVAS_HEIGHT / 2;
     
     // Grid lines
-    ctx.strokeStyle = '#e5e7eb';
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
     ctx.lineWidth = 1;
     
     // Vertical grid lines
@@ -152,7 +152,7 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
     }
     
     // Axes
-    ctx.strokeStyle = '#374151';
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
     ctx.lineWidth = 2;
     
     // X-axis
@@ -168,7 +168,7 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
     ctx.stroke();
     
     // Axis labels
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
     ctx.font = '12px sans-serif';
     ctx.textAlign = 'center';
     
@@ -240,7 +240,7 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
         ctx.fill();
         
         // Label vertex
-        ctx.fillStyle = '#374151';
+        ctx.fillStyle = 'rgba(255,255,255,0.25)';
         ctx.font = '11px sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText(`V(${vertexX.toFixed(1)}, ${vertexY.toFixed(1)})`, 
@@ -259,7 +259,7 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
         ctx.fill();
         
         // Label y-intercept
-        ctx.fillStyle = '#374151';
+        ctx.fillStyle = 'rgba(255,255,255,0.25)';
         ctx.font = '11px sans-serif';
         ctx.textAlign = 'left';
         ctx.fillText(`(0, ${interceptY})`, pixelInterceptX + 8, pixelInterceptY - 5);
@@ -370,12 +370,12 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-6">
       {/* Header */}
-      <Card className="border-2 border-green-200 bg-gradient-to-r from-green-50 to-emerald-50">
+      <Card className="border-2 border-emerald-400/30 bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10">
         <CardHeader className="pb-4">
-          <CardTitle className="text-2xl font-bold text-green-800 flex items-center gap-2">
+          <CardTitle className="text-2xl font-bold text-emerald-200 flex items-center gap-2">
             🦫 Ollie's Blueprint Function Grapher
           </CardTitle>
-          <p className="text-green-700">
+          <p className="text-emerald-300/90">
             Learn to visualize functions like engineering blueprints! Each function type creates its own structural pattern.
           </p>
         </CardHeader>
@@ -421,7 +421,7 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
               {functionType === 'linear' && (
                 <>
                   <div>
-                    <label className="text-sm font-medium text-green-700">Slope (m): {parameters.a}</label>
+                    <label className="text-sm font-medium text-emerald-300/90">Slope (m): {parameters.a}</label>
                     <Slider
                       value={[parameters.a]}
                       onValueChange={([value]) => setParameters(prev => ({ ...prev, a: value }))}
@@ -432,7 +432,7 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
                     />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-green-700">Y-intercept (b): {parameters.b}</label>
+                    <label className="text-sm font-medium text-emerald-300/90">Y-intercept (b): {parameters.b}</label>
                     <Slider
                       value={[parameters.b]}
                       onValueChange={([value]) => setParameters(prev => ({ ...prev, b: value }))}
@@ -448,7 +448,7 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
               {functionType === 'quadratic' && (
                 <>
                   <div>
-                    <label className="text-sm font-medium text-green-700">a-coefficient: {parameters.a}</label>
+                    <label className="text-sm font-medium text-emerald-300/90">a-coefficient: {parameters.a}</label>
                     <Slider
                       value={[parameters.a]}
                       onValueChange={([value]) => setParameters(prev => ({ ...prev, a: value }))}
@@ -459,7 +459,7 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
                     />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-green-700">b-coefficient: {parameters.b}</label>
+                    <label className="text-sm font-medium text-emerald-300/90">b-coefficient: {parameters.b}</label>
                     <Slider
                       value={[parameters.b]}
                       onValueChange={([value]) => setParameters(prev => ({ ...prev, b: value }))}
@@ -470,7 +470,7 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
                     />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-green-700">c-coefficient: {parameters.c}</label>
+                    <label className="text-sm font-medium text-emerald-300/90">c-coefficient: {parameters.c}</label>
                     <Slider
                       value={[parameters.c]}
                       onValueChange={([value]) => setParameters(prev => ({ ...prev, c: value }))}
@@ -486,7 +486,7 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
               {functionType === 'exponential' && (
                 <>
                   <div>
-                    <label className="text-sm font-medium text-green-700">Initial value (a): {parameters.a}</label>
+                    <label className="text-sm font-medium text-emerald-300/90">Initial value (a): {parameters.a}</label>
                     <Slider
                       value={[parameters.a]}
                       onValueChange={([value]) => setParameters(prev => ({ ...prev, a: value }))}
@@ -497,7 +497,7 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
                     />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-green-700">Base (b): {parameters.b}</label>
+                    <label className="text-sm font-medium text-emerald-300/90">Base (b): {parameters.b}</label>
                     <Slider
                       value={[parameters.b]}
                       onValueChange={([value]) => setParameters(prev => ({ ...prev, b: value }))}
@@ -514,10 +514,10 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
             {/* Current Function Display */}
             {currentFunction && (
               <div className="bg-green-50 p-4 rounded-lg">
-                <div className="font-mono text-lg font-bold text-green-800 mb-2">
+                <div className="font-mono text-lg font-bold text-emerald-200 mb-2">
                   {currentFunction.equation}
                 </div>
-                <p className="text-sm text-green-700">{currentFunction.description}</p>
+                <p className="text-sm text-emerald-300/90">{currentFunction.description}</p>
               </div>
             )}
           </CardContent>
@@ -534,10 +534,11 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
                 ref={canvasRef}
                 width={CANVAS_WIDTH}
                 height={CANVAS_HEIGHT}
-                className="border border-gray-300 rounded-lg bg-white"
+                aria-label="Ollie function graph visualization"
+                className="border border-white/10 rounded-lg bg-white/[0.04]"
               />
             </div>
-            <div className="mt-4 text-center text-sm text-gray-600">
+            <div className="mt-4 text-center text-sm text-white/55">
               <div className="flex items-center justify-center gap-4">
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-1 bg-green-600"></div>
@@ -563,13 +564,13 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
         <CardContent className="space-y-4">
           {currentChallenge && (
             <>
-              <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+              <div className="bg-amber-50 p-4 rounded-lg border border-amber-400/30">
                 <h4 className="font-medium text-amber-800 mb-2">Identify this construction pattern:</h4>
                 <p className="text-amber-700">{currentChallenge.description}</p>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-green-700">Enter the equation:</label>
+                <label className="text-sm font-medium text-emerald-300/90">Enter the equation:</label>
                 <Input
                   value={userGuess}
                   onChange={(e) => setUserGuess(e.target.value)}
@@ -598,7 +599,7 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
 
               {isCorrect !== null && (
                 <Alert className={isCorrect ? 'border-green-500 bg-green-50' : 'border-red-500 bg-red-50'}>
-                  <AlertDescription className={isCorrect ? 'text-green-700' : 'text-red-700'}>
+                  <AlertDescription className={isCorrect ? 'text-emerald-300/90' : 'text-red-700'}>
                     {isCorrect ? (
                       <>🎉 Correct! The equation is {currentChallenge.equation}</>
                     ) : (
@@ -629,7 +630,7 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
               </div>
             </div>
             <div className="bg-purple-50 p-4 rounded-lg">
-              <h4 className="font-medium text-purple-800 mb-2">Quadratic Functions</h4>
+              <h4 className="font-medium text-purple-200 mb-2">Quadratic Functions</h4>
               <div className="text-sm text-purple-700 space-y-1">
                 <div className="font-mono">y = ax² + bx + c</div>
                 <div>• Arch bridge shapes</div>
@@ -661,7 +662,7 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
                   style={{ width: `${progress}%` }}
                 />
               </div>
-              <Badge variant="outline" className="text-green-700">
+              <Badge variant="outline" className="text-emerald-300/90">
                 {challengesSolved.size}/{challenges.length} challenges
               </Badge>
             </div>
@@ -677,15 +678,15 @@ const FunctionGrapher: React.FC<FunctionGrapherProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
             <div className="text-center">
               <div className="text-2xl font-bold text-green-600">{challengesSolved.size}</div>
-              <div className="text-gray-600">Challenges Solved</div>
+              <div className="text-white/55">Challenges Solved</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-green-600">{consecutiveCorrect}</div>
-              <div className="text-gray-600">Consecutive Correct</div>
+              <div className="text-white/55">Consecutive Correct</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-green-600">{Math.round(progress)}%</div>
-              <div className="text-gray-600">Progress</div>
+              <div className="text-white/55">Progress</div>
             </div>
           </div>
         </CardContent>

@@ -229,12 +229,12 @@ const OllieFoundationBuilder: React.FC<OllieFoundationBuilderProps> = ({
   }, []);
 
   return (
-    <div className="max-w-5xl mx-auto p-4 bg-gradient-to-br from-amber-50 to-orange-50">
+    <div className="max-w-5xl mx-auto p-4 bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+        <h2 className="text-2xl font-bold text-white/90 mb-2">
           🔧 Ollie's Foundation Builder 🔧
         </h2>
-        <p className="text-gray-600">
+        <p className="text-white/55">
           Let's build mathematical foundations step by step! Just like constructing a dam, we'll expand and factor expressions piece by piece.
         </p>
       </div>
@@ -255,8 +255,8 @@ const OllieFoundationBuilder: React.FC<OllieFoundationBuilderProps> = ({
             
             <TabsContent value="expand" className="mt-4">
               <div className="p-4 bg-gradient-to-r from-amber-100 to-orange-100 rounded-lg">
-                <h4 className="font-semibold text-gray-800 mb-2">🔨 Expansion Mode</h4>
-                <p className="text-sm text-gray-700">
+                <h4 className="font-semibold text-white/90 mb-2">🔨 Expansion Mode</h4>
+                <p className="text-sm text-white/70">
                   Just like building out from blueprints! Take a compact expression and expand it into all its parts. 
                   Apply distributive property, FOIL method, and special patterns to build the complete structure.
                 </p>
@@ -265,8 +265,8 @@ const OllieFoundationBuilder: React.FC<OllieFoundationBuilderProps> = ({
             
             <TabsContent value="factor" className="mt-4">
               <div className="p-4 bg-gradient-to-r from-amber-100 to-orange-100 rounded-lg">
-                <h4 className="font-semibold text-gray-800 mb-2">🧱 Factoring Mode</h4>
-                <p className="text-sm text-gray-700">
+                <h4 className="font-semibold text-white/90 mb-2">🧱 Factoring Mode</h4>
+                <p className="text-sm text-white/70">
                   Like taking apart a structure to see how it was built! Find the building blocks that multiply together 
                   to create the expression. Look for common factors, special patterns, and systematic approaches.
                 </p>
@@ -300,18 +300,18 @@ const OllieFoundationBuilder: React.FC<OllieFoundationBuilderProps> = ({
                         <div key={exp.id} className="flex items-center space-x-2">
                           <RadioGroupItem value={exp.id} id={exp.id} />
                           <Label htmlFor={exp.id} className="flex-1">
-                            <div className="p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                            <div className="p-3 border rounded-lg cursor-pointer hover:bg-white/[0.03]">
                               <div className="flex items-center justify-between mb-1">
                                 <span className="font-mono text-sm bg-gray-100 px-2 py-1 rounded">
                                   {buildingMode === 'expand' ? exp.expression : (exp.expanded || exp.expression)}
                                 </span>
                                 {solvedExpressions.has(exp.id) && (
-                                  <Badge variant="secondary" className="bg-green-100 text-green-700">
+                                  <Badge variant="secondary" className="bg-green-100 text-emerald-300/90">
                                     ✅ Built!
                                   </Badge>
                                 )}
                               </div>
-                              <p className="text-xs text-gray-600">{exp.description}</p>
+                              <p className="text-xs text-white/55">{exp.description}</p>
                               <Badge variant="outline" className="mt-1 text-xs">
                                 {exp.pattern}
                               </Badge>
@@ -336,17 +336,17 @@ const OllieFoundationBuilder: React.FC<OllieFoundationBuilderProps> = ({
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="p-4 bg-gradient-to-r from-amber-100 to-orange-100 rounded-lg">
-              <h4 className="font-semibold text-gray-800 mb-2">Current Project:</h4>
-              <div className="text-lg font-mono text-center p-3 bg-white border-2 border-dashed border-amber-300 rounded">
+              <h4 className="font-semibold text-white/90 mb-2">Current Project:</h4>
+              <div className="text-lg font-mono text-center p-3 bg-white/[0.04] border-2 border-dashed border-amber-300 rounded">
                 {buildingMode === 'expand' ? currentExpression.expression : (currentExpression.expanded || currentExpression.expression)}
               </div>
-              <div className="text-center mt-2 text-gray-600">
+              <div className="text-center mt-2 text-white/55">
                 {buildingMode === 'expand' ? '➡️ Expand to:' : '➡️ Factor to:'}
               </div>
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-2 block">
+              <label className="text-sm font-medium text-white/70 mb-2 block">
                 Your Answer:
               </label>
               <input
@@ -354,7 +354,7 @@ const OllieFoundationBuilder: React.FC<OllieFoundationBuilderProps> = ({
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
                 placeholder={`Enter ${buildingMode === 'expand' ? 'expanded' : 'factored'} form...`}
-                className="w-full p-3 border border-gray-300 rounded-lg font-mono"
+                className="w-full p-3 border border-white/10 rounded-lg font-mono"
                 onKeyPress={(e) => {
                   if (e.key === 'Enter') {
                     checkAnswer();
@@ -406,8 +406,8 @@ const OllieFoundationBuilder: React.FC<OllieFoundationBuilderProps> = ({
 
             {showWork && (
               <div className="p-4 bg-green-100 border border-green-300 rounded-lg">
-                <h5 className="font-semibold text-green-800 mb-2">🔧 Step-by-Step Construction:</h5>
-                <ol className="text-green-700 text-sm space-y-1">
+                <h5 className="font-semibold text-emerald-200 mb-2">🔧 Step-by-Step Construction:</h5>
+                <ol className="text-emerald-300/90 text-sm space-y-1">
                   {getWorkingSteps().map((step, index) => (
                     <li key={index} className="flex items-start gap-2">
                       <span className="font-mono text-xs bg-green-200 px-1 rounded">{index + 1}</span>
@@ -479,10 +479,10 @@ const OllieFoundationBuilder: React.FC<OllieFoundationBuilderProps> = ({
         </CardHeader>
         <CardContent>
           <div className="bg-gradient-to-r from-amber-100 to-orange-100 p-4 rounded-lg">
-            <p className="text-gray-700 mb-3">
+            <p className="text-white/70 mb-3">
               <strong>Building Mathematical Foundations:</strong> Just like constructing a solid dam, algebra requires patience and systematic approach. Whether we're expanding expressions (building out) or factoring them (breaking down), each step builds upon the previous one.
             </p>
-            <p className="text-gray-700">
+            <p className="text-white/70">
               Remember: in engineering and mathematics, there's always a logical sequence. Follow the patterns, check your work, and don't be afraid to take it step by step. Every expert was once a beginner who kept building!
             </p>
           </div>

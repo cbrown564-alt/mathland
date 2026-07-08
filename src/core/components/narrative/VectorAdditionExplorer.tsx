@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import type { InteractiveProps } from "./interactives";
+import { VectorArrow } from "@/core/components/narrative/VectorArrow";
 import { createPlotCoords, NARRATIVE_PLOT } from "./plotCoords";
 
 const {
@@ -93,17 +94,6 @@ export const VectorAdditionExplorer = ({ onStateChange }: InteractiveProps = {})
           onPointerUp={onPointerUp}
           onPointerLeave={onPointerUp}
         >
-          <defs>
-            <marker id="vae-u" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-              <path d="M0,0 L8,3 L0,6 Z" fill={U_COLOR} />
-            </marker>
-            <marker id="vae-v" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-              <path d="M0,0 L8,3 L0,6 Z" fill={V_COLOR} />
-            </marker>
-            <marker id="vae-sum" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-              <path d="M0,0 L8,3 L0,6 Z" fill={SUM_COLOR} />
-            </marker>
-          </defs>
           {axisLabels.map((val) => {
             const gx = mathToSvg(val, 0).x;
             const gy = mathToSvg(0, val).y;
@@ -120,9 +110,9 @@ export const VectorAdditionExplorer = ({ onStateChange }: InteractiveProps = {})
             <line x1={pu.x} y1={pu.y} x2={ps.x} y2={ps.y} />
             <line x1={pv.x} y1={pv.y} x2={ps.x} y2={ps.y} />
           </g>
-          <line x1={origin.x} y1={origin.y} x2={pu.x} y2={pu.y} stroke={U_COLOR} strokeWidth={3.5} markerEnd="url(#vae-u)" />
-          <line x1={origin.x} y1={origin.y} x2={pv.x} y2={pv.y} stroke={V_COLOR} strokeWidth={3.5} markerEnd="url(#vae-v)" />
-          <line x1={origin.x} y1={origin.y} x2={ps.x} y2={ps.y} stroke={SUM_COLOR} strokeWidth={4} markerEnd="url(#vae-sum)" />
+          <VectorArrow x1={origin.x} y1={origin.y} x2={pu.x} y2={pu.y} color={U_COLOR} strokeWidth={3.5} />
+          <VectorArrow x1={origin.x} y1={origin.y} x2={pv.x} y2={pv.y} color={V_COLOR} strokeWidth={3.5} />
+          <VectorArrow x1={origin.x} y1={origin.y} x2={ps.x} y2={ps.y} color={SUM_COLOR} strokeWidth={4} />
           {vectors.map((vec) => {
             const tip = mathToSvg(vec.x, vec.y);
             return (

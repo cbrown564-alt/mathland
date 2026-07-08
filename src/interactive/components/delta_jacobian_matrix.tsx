@@ -177,7 +177,7 @@ const JacobianMatrixExplorer: React.FC<JacobianMatrixProps> = ({
   }, [evaluateFunction, mathToScreen]);
 
   const drawAxes = useCallback((ctx: CanvasRenderingContext2D, isRight: boolean) => {
-    ctx.strokeStyle = '#374151';
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
     ctx.lineWidth = 2;
 
     const [xAxisStart] = mathToScreen(-2, 0, isRight);
@@ -199,7 +199,7 @@ const JacobianMatrixExplorer: React.FC<JacobianMatrixProps> = ({
     ctx.stroke();
 
     // Labels
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
     ctx.font = '14px Inter, sans-serif';
     ctx.fillText(isRight ? "F(x,y)" : "Input (x,y)", originX + 5, yAxisStart - 10);
   }, [mathToScreen]);
@@ -404,7 +404,7 @@ const JacobianMatrixExplorer: React.FC<JacobianMatrixProps> = ({
     drawJacobianInfo(ctx);
 
     // Labels
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
     ctx.font = 'bold 18px Inter, sans-serif';
     ctx.fillText('Input Space', margin, canvasHeight - 20);
     ctx.fillText('Output Space F(x,y)', leftWidth + margin, canvasHeight - 20);
@@ -496,9 +496,9 @@ const JacobianMatrixExplorer: React.FC<JacobianMatrixProps> = ({
   return (
     <div className="w-full max-w-7xl mx-auto p-6 space-y-6">
       {/* Header */}
-      <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-indigo-200">
+      <Card className="bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10 border-indigo-400/30">
         <CardHeader className="pb-4">
-          <CardTitle className="text-3xl font-bold text-indigo-800 flex items-center gap-2">
+          <CardTitle className="text-3xl font-bold text-indigo-200 flex items-center gap-2">
             🧮 Dr. Delta's Jacobian Matrix Laboratory
           </CardTitle>
           <p className="text-indigo-700 text-lg">
@@ -639,7 +639,7 @@ const JacobianMatrixExplorer: React.FC<JacobianMatrixProps> = ({
         <Card className="xl:col-span-2">
           <CardHeader>
             <CardTitle className="text-lg font-semibold text-indigo-700">Jacobian Matrix Visualization</CardTitle>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-white/55">
               Click on the left panel to move the evaluation point. Watch how the transformation changes!
             </p>
           </CardHeader>
@@ -648,8 +648,9 @@ const JacobianMatrixExplorer: React.FC<JacobianMatrixProps> = ({
               ref={canvasRef}
               width={canvasWidth}
               height={canvasHeight}
+              aria-label="Delta interactive Jacobian matrix visualization"
               onClick={handleCanvasClick}
-              className="border rounded-lg cursor-crosshair bg-white"
+              className="border rounded-lg cursor-crosshair bg-white/[0.04]"
               style={{ maxWidth: '100%', height: 'auto' }}
             />
           </CardContent>
@@ -685,7 +686,7 @@ const JacobianMatrixExplorer: React.FC<JacobianMatrixProps> = ({
 
             {/* Key Insights */}
             <div className="bg-purple-50 p-3 rounded-lg">
-              <h4 className="font-medium text-purple-800 mb-2">Dr. Delta's Insights</h4>
+              <h4 className="font-medium text-purple-200 mb-2">Dr. Delta's Insights</h4>
               <div className="space-y-2 text-sm text-purple-700">
                 <div>📊 Jacobian organizes all partial derivatives</div>
                 <div>📏 Linear approximation: F(x+h) ≈ F(x) + J(x)h</div>
@@ -696,7 +697,7 @@ const JacobianMatrixExplorer: React.FC<JacobianMatrixProps> = ({
 
             {/* Progress Tracking */}
             <div className="bg-green-50 p-3 rounded-lg">
-              <h4 className="font-medium text-green-800 mb-2">Exploration Progress</h4>
+              <h4 className="font-medium text-emerald-200 mb-2">Exploration Progress</h4>
               <div className="space-y-2">
                 {[
                   'Explore different functions',
@@ -706,7 +707,7 @@ const JacobianMatrixExplorer: React.FC<JacobianMatrixProps> = ({
                 ].map((step, index) => (
                   <div key={index} className="flex items-center space-x-2">
                     <span className={`w-4 h-4 rounded-full ${completedSteps[index] ? 'bg-green-500' : 'bg-gray-300'}`} />
-                    <span className={`text-sm ${completedSteps[index] ? 'text-green-700' : 'text-gray-600'}`}>
+                    <span className={`text-sm ${completedSteps[index] ? 'text-emerald-300/90' : 'text-white/55'}`}>
                       {step}
                     </span>
                   </div>
@@ -716,7 +717,7 @@ const JacobianMatrixExplorer: React.FC<JacobianMatrixProps> = ({
 
             {/* Key Formula */}
             <div className="bg-indigo-50 p-3 rounded-lg">
-              <h4 className="font-medium text-indigo-800 mb-2">Jacobian Matrix</h4>
+              <h4 className="font-medium text-indigo-200 mb-2">Jacobian Matrix</h4>
               <div className="text-center">
                 <div className="text-sm font-mono text-indigo-700">
                   <div>J = [∂fᵢ/∂xⱼ]</div>
@@ -732,7 +733,7 @@ const JacobianMatrixExplorer: React.FC<JacobianMatrixProps> = ({
       </div>
 
       {/* Instructions */}
-      <Card className="bg-yellow-50 border-yellow-200">
+      <Card className="bg-yellow-50 border-yellow-400/30">
         <CardContent className="pt-6">
           <div className="flex items-start space-x-3">
             <span className="text-2xl">💡</span>

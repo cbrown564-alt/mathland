@@ -209,7 +209,7 @@ const RandomVariables: React.FC<RandomVariablesProps> = ({
     const yScale = (prob: number) => margin.top + plotHeight - (prob / maxProb) * plotHeight;
     
     // Draw axes
-    ctx.strokeStyle = '#374151';
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(margin.left, margin.top + plotHeight);
@@ -230,7 +230,7 @@ const RandomVariables: React.FC<RandomVariablesProps> = ({
       ctx.fillRect(x, y, barWidth / 2, height);
       
       // Value labels
-      ctx.fillStyle = '#374151';
+      ctx.fillStyle = 'rgba(255,255,255,0.25)';
       ctx.font = '12px sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText(val.toString(), xScale(val), margin.top + plotHeight + 20);
@@ -242,7 +242,7 @@ const RandomVariables: React.FC<RandomVariablesProps> = ({
     });
     
     // Title
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
     ctx.font = '14px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(`PMF: ${dist.name}`, CANVAS_WIDTH / 2, 15);
@@ -276,7 +276,7 @@ const RandomVariables: React.FC<RandomVariablesProps> = ({
     const yScale = (y: number) => margin.top + plotHeight - (y / yMax) * plotHeight;
     
     // Draw axes
-    ctx.strokeStyle = '#374151';
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(margin.left, margin.top + plotHeight);
@@ -315,7 +315,7 @@ const RandomVariables: React.FC<RandomVariablesProps> = ({
     ctx.stroke();
     
     // Title
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
     ctx.font = '14px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(`PDF: ${dist.name}`, CANVAS_WIDTH / 2, 15);
@@ -394,9 +394,9 @@ const RandomVariables: React.FC<RandomVariablesProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-6">
       {/* Header */}
-      <Card className="border-2 border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50">
+      <Card className="border-2 border-purple-400/30 bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10">
         <CardHeader className="pb-4">
-          <CardTitle className="text-2xl font-bold text-purple-800 flex items-center gap-2">
+          <CardTitle className="text-2xl font-bold text-purple-200 flex items-center gap-2">
             🎩✨ Pippa's Random Variable Magic Show
           </CardTitle>
           <p className="text-purple-700">
@@ -438,7 +438,7 @@ const RandomVariables: React.FC<RandomVariablesProps> = ({
             {/* Outcome Mapping */}
             {outcomes.length > 0 && (
               <div className="bg-purple-50 p-4 rounded-lg">
-                <h4 className="font-medium text-purple-800 mb-3">Outcome → Number Mapping</h4>
+                <h4 className="font-medium text-purple-200 mb-3">Outcome → Number Mapping</h4>
                 <div className="space-y-2 max-h-40 overflow-y-auto">
                   {outcomes.map((outcome, index) => (
                     <div key={index} className="flex justify-between items-center text-sm">
@@ -453,7 +453,7 @@ const RandomVariables: React.FC<RandomVariablesProps> = ({
 
             {/* Distribution Preview */}
             <div className="bg-purple-50 p-4 rounded-lg">
-              <h4 className="font-medium text-purple-800 mb-2">Random Variable Summary</h4>
+              <h4 className="font-medium text-purple-200 mb-2">Random Variable Summary</h4>
               <div className="text-sm text-purple-700 space-y-1">
                 <div>Type: <Badge variant="outline">{experimentMode === 'dice' ? 'Discrete' : 'Discrete'}</Badge></div>
                 <div>Sample Space: {experimentMode === 'dice' ? 'All possible dice pairs' : 'All coin flip sequences'}</div>
@@ -560,11 +560,12 @@ const RandomVariables: React.FC<RandomVariablesProps> = ({
                 ref={pmfCanvasRef}
                 width={CANVAS_WIDTH}
                 height={CANVAS_HEIGHT}
-                className="border border-gray-300 rounded-lg bg-white"
+                aria-label="Pippa probability distribution visualization"
+                className="border border-white/10 rounded-lg bg-white/[0.04]"
               />
             </div>
 
-            <div className="text-center text-sm text-gray-600">
+            <div className="text-center text-sm text-white/55">
               <Badge variant="outline" style={{ borderColor: selectedDistribution.color, color: selectedDistribution.color }}>
                 {selectedDistribution.type === 'discrete' ? 'PMF' : 'PDF'}: {selectedDistribution.description}
               </Badge>
@@ -581,7 +582,7 @@ const RandomVariables: React.FC<RandomVariablesProps> = ({
         <CardContent className="space-y-4">
           {currentChallenge && (
             <>
-              <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+              <div className="bg-amber-50 p-4 rounded-lg border border-amber-400/30">
                 <h4 className="font-medium text-amber-800 mb-2">Magic Question:</h4>
                 <p className="text-amber-700">{currentChallenge.question}</p>
               </div>
@@ -592,7 +593,8 @@ const RandomVariables: React.FC<RandomVariablesProps> = ({
                   value={userAnswer}
                   onChange={(e) => setUserAnswer(e.target.value)}
                   placeholder="Enter your answer"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
+                  aria-label="Challenge answer"
+                  className="flex-1 px-3 py-2 border border-white/10 rounded-md"
                   step="0.01"
                   disabled={showAnswer}
                 />
@@ -613,7 +615,7 @@ const RandomVariables: React.FC<RandomVariablesProps> = ({
 
               {isCorrect !== null && (
                 <Alert className={isCorrect ? 'border-green-500 bg-green-50' : 'border-red-500 bg-red-50'}>
-                  <AlertDescription className={isCorrect ? 'text-green-700' : 'text-red-700'}>
+                  <AlertDescription className={isCorrect ? 'text-emerald-300/90' : 'text-red-700'}>
                     {isCorrect ? (
                       <>🎉 Magical! You got it right!</>
                     ) : (
@@ -655,7 +657,7 @@ const RandomVariables: React.FC<RandomVariablesProps> = ({
           </div>
           
           <div className="mt-4 bg-purple-50 p-4 rounded-lg">
-            <h4 className="font-medium text-purple-800 mb-2">The Magic Formula</h4>
+            <h4 className="font-medium text-purple-200 mb-2">The Magic Formula</h4>
             <div className="text-sm text-purple-700">
               Random Variable: X: Ω → ℝ (transforms outcomes to numbers) <br/>
               CDF: F(x) = P(X ≤ x) works for both discrete and continuous!
@@ -691,15 +693,15 @@ const RandomVariables: React.FC<RandomVariablesProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
             <div className="text-center">
               <div className="text-2xl font-bold text-purple-600">{challengesSolved.size}</div>
-              <div className="text-gray-600">Challenges Solved</div>
+              <div className="text-white/55">Challenges Solved</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-purple-600">{experimentsCompleted}</div>
-              <div className="text-gray-600">Experiments Completed</div>
+              <div className="text-white/55">Experiments Completed</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-purple-600">{Math.round(progress)}%</div>
-              <div className="text-gray-600">Progress</div>
+              <div className="text-white/55">Progress</div>
             </div>
           </div>
         </CardContent>

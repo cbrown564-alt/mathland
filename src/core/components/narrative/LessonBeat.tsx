@@ -3,6 +3,7 @@ import { ArrowRight, CheckCircle2, Circle } from "lucide-react";
 import { CoupledVisual } from "./CoupledVisual";
 import { Prose } from "./Prose";
 import { INTERACTIVES } from "./interactives";
+import { InteractiveShell } from "@/interactive/InteractiveShell";
 import {
   resolveBeatVisual,
   resolveDefaultState,
@@ -86,7 +87,7 @@ export function LessonBeat<S>({ beat, lessonVisual, onComplete }: LessonBeatProp
       const initialState = resolveDefaultState(visual);
 
       return (
-        <section className="mx-auto max-w-5xl">
+        <section className="mx-auto max-w-6xl">
           {header(beat.eyebrow, beat.title)}
           {predictBlock(beat.predict)}
           <CoupledVisual
@@ -102,7 +103,7 @@ export function LessonBeat<S>({ beat, lessonVisual, onComplete }: LessonBeatProp
 
     case "do":
       return (
-        <section className="mx-auto max-w-5xl">
+        <section className="mx-auto max-w-6xl">
           {header(beat.eyebrow, beat.title)}
           {predictBlock(beat.predict)}
           <DoBody beat={beat} onComplete={onComplete} />
@@ -111,7 +112,7 @@ export function LessonBeat<S>({ beat, lessonVisual, onComplete }: LessonBeatProp
 
     case "tell":
       return (
-        <section className="mx-auto max-w-5xl">
+        <section className="mx-auto max-w-6xl">
           {header(beat.eyebrow, beat.title)}
           <div className="mx-auto max-w-2xl">
             <Prose md={beat.md} className="font-serif text-[22px] leading-[1.6] text-white/90 sm:text-[27px] sm:leading-[1.55]" />
@@ -123,7 +124,7 @@ export function LessonBeat<S>({ beat, lessonVisual, onComplete }: LessonBeatProp
 
     case "recap":
       return (
-        <section className="mx-auto max-w-5xl">
+        <section className="mx-auto max-w-6xl">
           {header(beat.eyebrow, beat.title)}
           <div
             className="mx-auto max-w-xl rounded-3xl border p-8 text-center"
@@ -282,11 +283,13 @@ function DoBody({ beat, onComplete }: { beat: DoBeat; onComplete?: () => void })
       )}
 
       <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3 backdrop-blur-sm sm:p-4">
-        <Interactive
-          onStateChange={({ tone }) =>
-            setAchieved((prev) => (prev.has(tone) ? prev : new Set(prev).add(tone)))
-          }
-        />
+        <InteractiveShell ariaLabel={beat.title}>
+          <Interactive
+            onStateChange={({ tone }) =>
+              setAchieved((prev) => (prev.has(tone) ? prev : new Set(prev).add(tone)))
+            }
+          />
+        </InteractiveShell>
       </div>
 
       {onComplete && (
