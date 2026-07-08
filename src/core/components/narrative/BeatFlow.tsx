@@ -134,6 +134,7 @@ export function BeatFlow<S>({ lessonId, label, beats, renderVisual, exitTo = "/"
               passages={beat.passages}
               interpolate={beat.interpolate}
               check={beat.check}
+              climax={beat.climax}
               renderVisual={renderVisual}
               onComplete={next}
             />

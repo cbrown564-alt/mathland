@@ -19,7 +19,6 @@ const FlowLabPage = () => (
       beats={dotProductBeats}
       renderVisual={(s: VectorState) => <VectorVisual state={s} />}
       exitTo="/lesson/2.3"
-      playgroundTo="/story/2.3"
     />
   </div>
 );

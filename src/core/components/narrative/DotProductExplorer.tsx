@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // Dot Product Explorer — the narrative's climax beat (Path C3).
 //
@@ -93,7 +93,12 @@ const toneWord: Record<string, string> = {
   opposite: "opposing",
 };
 
-export const DotProductExplorer = () => {
+export interface DotProductExplorerProps {
+  /** Reports {dot, cos, tone} whenever the vectors change — lets a climax beat track outcomes hit. */
+  onStateChange?: (s: { dot: number; cos: number; tone: string }) => void;
+}
+
+export const DotProductExplorer = ({ onStateChange }: DotProductExplorerProps = {}) => {
   const [vectors, setVectors] = useState<Vec[]>(INITIAL);
   const [dragging, setDragging] = useState<"u" | "v" | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -152,6 +157,14 @@ export const DotProductExplorer = () => {
   const reset = () => setVectors(INITIAL.map((vec) => ({ ...vec })));
 
   const { dot, cos, tone } = similarity(u, v);
+
+  // Report state upward without re-subscribing on every parent render.
+  const reportRef = useRef(onStateChange);
+  reportRef.current = onStateChange;
+  useEffect(() => {
+    reportRef.current?.({ dot, cos, tone });
+  }, [dot, cos, tone]);
+
   const angleDeg = (Math.acos(Math.max(-1, Math.min(1, cos))) * 180) / Math.PI;
   const mu = magnitude(u.x, u.y);
   const mv = magnitude(v.x, v.y);

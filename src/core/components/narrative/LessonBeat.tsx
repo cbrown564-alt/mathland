@@ -1,6 +1,7 @@
 import { ReactNode, useState } from "react";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2, Circle } from "lucide-react";
 import { CoupledVisual, CoupledPassage } from "./CoupledVisual";
+import { INTERACTIVES } from "./interactives";
 
 /**
  * LessonBeat — one teaching unit in the v2 blend (Flow C's beat).
@@ -25,26 +26,40 @@ export interface BeatCheck {
   explanation: string;
 }
 
+/** A "do" beat: the read-only picture is replaced by a draggable interactive with goals. */
+export interface ClimaxSpec {
+  /** Key into the INTERACTIVES registry, e.g. "dot_product_explorer". */
+  interactive: string;
+  /** Short prose above the tool. */
+  intro?: ReactNode;
+  /** Outcomes to hit; Continue unlocks once all are achieved. `tone` matches the interactive's reported tone. */
+  goals?: { tone: string; label: string }[];
+}
+
 /** The authorable content of one beat (no render/callback wiring) — used by BeatFlow. */
 export interface BeatData<S> {
   id: string;
   eyebrow?: string;
   title?: ReactNode;
   predict?: PredictPrompt;
-  passages: CoupledPassage<S>[];
+  /** Coupled-reading passages (omitted for a climax beat). */
+  passages?: CoupledPassage<S>[];
   interpolate?: (a: S, b: S, t: number) => S;
   check?: BeatCheck;
+  /** When set, this is a "do" beat: render the interactive instead of coupled reading. */
+  climax?: ClimaxSpec;
 }
 
 interface LessonBeatProps<S> {
   eyebrow?: string;
   title?: ReactNode;
   predict?: PredictPrompt;
-  passages: CoupledPassage<S>[];
-  renderVisual: (state: S) => ReactNode;
+  passages?: CoupledPassage<S>[];
+  renderVisual?: (state: S) => ReactNode;
   interpolate?: (a: S, b: S, t: number) => S;
   check?: BeatCheck;
-  /** Fired when the learner finishes the beat (check answered, or Continue). */
+  climax?: ClimaxSpec;
+  /** Fired when the learner finishes the beat (check answered, goals met, or Continue). */
   onComplete?: () => void;
 }
 
@@ -56,6 +71,7 @@ export function LessonBeat<S>({
   renderVisual,
   interpolate,
   check,
+  climax,
   onComplete,
 }: LessonBeatProps<S>) {
   const [predicted, setPredicted] = useState<string | null>(null);
@@ -115,11 +131,15 @@ export function LessonBeat<S>({
         </div>
       )}
 
-      {/* COUPLED READING — prose bound to a live diagram */}
-      <CoupledVisual passages={passages} renderVisual={renderVisual} interpolate={interpolate} />
+      {/* MIDDLE — coupled reading, or the interactive climax */}
+      {climax ? (
+        <ClimaxBody climax={climax} onComplete={onComplete} />
+      ) : passages && renderVisual ? (
+        <CoupledVisual passages={passages} renderVisual={renderVisual} interpolate={interpolate} />
+      ) : null}
 
-      {/* CHECK — confirm it landed */}
-      {check && (
+      {/* CHECK — confirm it landed (coupled beats only) */}
+      {!climax && check && (
         <div className="mx-auto mt-16 max-w-2xl rounded-2xl border border-white/10 bg-white/[0.03] p-6">
           <p className="mb-1 font-mono text-[11px] uppercase tracking-widest text-white/45">Quick check</p>
           <p className="mb-4 font-serif text-lg text-white/90">{check.question}</p>
@@ -179,8 +199,8 @@ export function LessonBeat<S>({
         </div>
       )}
 
-      {/* no check → a plain Continue */}
-      {!check && onComplete && (
+      {/* no check → a plain Continue (coupled beats only) */}
+      {!climax && !check && onComplete && (
         <div className="mt-16 flex justify-center">
           <button
             onClick={onComplete}
@@ -192,6 +212,72 @@ export function LessonBeat<S>({
         </div>
       )}
     </section>
+  );
+}
+
+/** The climax "do" middle: an interactive plus a goals checklist that unlocks Continue. */
+function ClimaxBody({ climax, onComplete }: { climax: ClimaxSpec; onComplete?: () => void }) {
+  const Interactive = INTERACTIVES[climax.interactive];
+  const [achieved, setAchieved] = useState<Set<string>>(new Set());
+  const goals = climax.goals ?? [];
+  const met = goals.filter((g) => achieved.has(g.tone)).length;
+  const allMet = met === goals.length;
+
+  if (!Interactive) {
+    return <p className="text-white/60">Unknown interactive: {climax.interactive}</p>;
+  }
+
+  return (
+    <div className="mx-auto max-w-3xl">
+      {climax.intro && <p className="mb-5 font-serif text-xl leading-relaxed text-white/85">{climax.intro}</p>}
+
+      {goals.length > 0 && (
+        <div className="mb-5 flex flex-wrap gap-2">
+          {goals.map((g) => {
+            const done = achieved.has(g.tone);
+            return (
+              <div
+                key={g.tone}
+                className={
+                  "flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm transition " +
+                  (done ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-100" : "border-white/10 text-white/55")
+                }
+              >
+                {done ? <CheckCircle2 className="h-4 w-4 text-emerald-300" /> : <Circle className="h-4 w-4 text-white/25" />}
+                {g.label}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3 backdrop-blur-sm sm:p-4">
+        <Interactive
+          onStateChange={({ tone }) =>
+            setAchieved((prev) => (prev.has(tone) ? prev : new Set(prev).add(tone)))
+          }
+        />
+      </div>
+
+      {onComplete && (
+        <div className="mt-8 flex flex-col items-center gap-2">
+          {goals.length > 0 && !allMet && (
+            <p className="text-sm text-white/45">
+              Land all three outcomes to finish — {met} of {goals.length} so far.
+            </p>
+          )}
+          <button
+            onClick={onComplete}
+            disabled={goals.length > 0 && !allMet}
+            className="flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-lg transition enabled:active:scale-95 disabled:opacity-40"
+            style={{ background: "linear-gradient(135deg, var(--ch-accent), var(--ch-accent-2))" }}
+          >
+            {allMet || goals.length === 0 ? "Finish the lesson" : "Keep exploring"}
+            <ArrowRight className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 

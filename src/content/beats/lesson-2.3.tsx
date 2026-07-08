@@ -115,4 +115,29 @@ export const dotProductBeats: BeatData<VectorState>[] = [
       explanation: "Large and positive = closely aligned directions = high similarity. That's exactly the 'agreement' the dot product measures.",
     },
   },
+  {
+    id: "climax",
+    eyebrow: "Beat 4 · Your turn",
+    title: "Make the meter move",
+    predict: {
+      prompt: "Before you touch it — can two non-zero arrows ever have a dot product of exactly zero?",
+      options: [
+        { label: "Yes", value: "yes" },
+        { label: "No", value: "no" },
+      ],
+      nudge: {
+        yes: "You said yes — now prove it by making them perpendicular.",
+        no: "You said no — try anyway; aim for a clean right angle and watch.",
+      },
+    },
+    climax: {
+      interactive: "dot_product_explorer",
+      intro: "This is the whole lesson, in your hands. Drag the arrowheads and read the agreement meter — try to land all three outcomes.",
+      goals: [
+        { tone: "same", label: "Make them agree · dot > 0" },
+        { tone: "ortho", label: "Make them perpendicular · dot = 0" },
+        { tone: "opposite", label: "Make them oppose · dot < 0" },
+      ],
+    },
+  },
 ];
