@@ -34,8 +34,11 @@ interface Vec {
   label: string;
 }
 
-const COLOR_U = "#a78bfa"; // violet (accent-1 in the scr-narrative mockup)
-const COLOR_V = "#f472b6"; // pink  (accent-2)
+// Two *categorical* series colours for the vectors — distinguishable on the dark
+// stage. The character brand is carried by the surrounding chrome (--ch-accent),
+// so these stay neutral rather than hardcoding one character's palette.
+const COLOR_U = "#a78bfa"; // violet
+const COLOR_V = "#38bdf8"; // sky
 
 const INITIAL: Vec[] = [
   { id: "u", x: 3, y: 4, color: COLOR_U, label: "u" }, // [3,4] from the concept check
@@ -159,7 +162,7 @@ export const DotProductExplorer = () => {
   const axisLabels = Array.from({ length: 2 * GRID_SIZE + 1 }, (_, i) => i - GRID_SIZE);
 
   return (
-    <div data-character="vera" className="w-full">
+    <div className="w-full">{/* inherits data-character (→ --ch-accent) from the story root */}
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Plot */}
         <div className="flex-1 min-w-0">

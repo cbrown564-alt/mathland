@@ -1,77 +1,48 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { NarrativeLessonView } from "@/core/components/narrative/NarrativeLessonView";
-import { getLessonDataForModuleAsync, getLessonOrderForModuleAsync } from "@/utils/lessonData";
-import { LessonData } from "@/core/types/lesson";
+import { StoryPlayer } from "@/core/components/narrative/StoryPlayer";
+import { getStory } from "@/content/stories";
+import { getLessonOrderForModuleAsync } from "@/utils/lessonData";
 
 /**
- * Route handler for the Phase C narrative prototype (`/story/:lessonId`). Mirrors
- * LessonPage's async data-loading so the story reuses the exact same lesson data
- * + ordering as the section-form view — only the presentation differs.
+ * Route handler for the Phase C guided-narrative prototype (`/story/:lessonId`).
+ * Loads the authored story script (getStory) rather than the raw 8-section
+ * lesson; the section-form lesson still lives at /lesson/:id for comparison.
  */
 const StoryPage = () => {
   const { lessonId } = useParams<{ lessonId: string }>();
-  const [lesson, setLesson] = useState<LessonData | null>(null);
-  const [lessonOrder, setLessonOrder] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
-
   const id = lessonId || "2.3";
   const moduleId = id.split(".")[0];
 
+  const story = getStory(id);
+  const [lessonOrder, setLessonOrder] = useState<string[]>([]);
+
   useEffect(() => {
-    const loadLessonData = async () => {
-      setLoading(true);
-      try {
-        const [lessonData, orderData] = await Promise.all([
-          getLessonDataForModuleAsync(moduleId, id),
-          getLessonOrderForModuleAsync(moduleId),
-        ]);
-        setLesson(lessonData || null);
-        setLessonOrder(orderData);
-      } catch (error) {
-        console.error("Failed to load lesson data:", error);
-        setLesson(null);
-        setLessonOrder([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+    getLessonOrderForModuleAsync(moduleId)
+      .then(setLessonOrder)
+      .catch(() => setLessonOrder([]));
+  }, [moduleId]);
 
-    loadLessonData();
-  }, [moduleId, id]);
-
-  if (loading) {
+  if (!story) {
     return (
       <div
-        className="flex min-h-screen items-center justify-center text-white/60"
+        className="flex min-h-screen flex-col items-center justify-center gap-3 px-6 text-center text-white/70"
         style={{ background: "linear-gradient(180deg, #0f0a1a 0%, #1a1030 100%)" }}
       >
-        Loading story…
-      </div>
-    );
-  }
-  if (!lesson) {
-    return (
-      <div
-        className="flex min-h-screen items-center justify-center text-white/60"
-        style={{ background: "linear-gradient(180deg, #0f0a1a 0%, #1a1030 100%)" }}
-      >
-        Lesson not found.
+        <p>No guided story has been authored for lesson {id} yet.</p>
+        <Link to={`/lesson/${id}`} className="text-sm text-white/50 underline underline-offset-2 hover:text-white/90">
+          Open the standard lesson →
+        </Link>
       </div>
     );
   }
 
   const currentIndex = lessonOrder.indexOf(id);
   const previousLessonId = currentIndex > 0 ? lessonOrder[currentIndex - 1] : undefined;
-  const nextLessonId = currentIndex < lessonOrder.length - 1 ? lessonOrder[currentIndex + 1] : undefined;
+  const nextLessonId =
+    currentIndex >= 0 && currentIndex < lessonOrder.length - 1 ? lessonOrder[currentIndex + 1] : undefined;
 
-  return (
-    <NarrativeLessonView
-      lesson={lesson}
-      previousLessonId={previousLessonId}
-      nextLessonId={nextLessonId}
-    />
-  );
+  return <StoryPlayer story={story} previousLessonId={previousLessonId} nextLessonId={nextLessonId} />;
 };
 
 export default StoryPage;

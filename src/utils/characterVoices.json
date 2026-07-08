@@ -1,0 +1,56 @@
+{
+  "modelId": "eleven_multilingual_v2",
+  "_note": "voiceId values are ElevenLabs voices in the account tied to ELEVENLABS_API_KEY. Find/replace via `GET /v1/voices`.",
+  "voices": {
+    "ollie": {
+      "voiceId": "9WyxUbwDGAyH6OY6WBjs",
+      "label": "Ollie the Otter",
+      "settings": { "stability": 0.5, "similarity_boost": 0.8, "style": 0.25, "use_speaker_boost": true }
+    },
+    "vera": {
+      "voiceId": "7k3Yelm0WPCNbkRGbWLp",
+      "label": "Vera the Vector",
+      "settings": { "stability": 0.45, "similarity_boost": 0.8, "style": 0.35, "use_speaker_boost": true }
+    },
+    "max": {
+      "voiceId": "zdAprdcFMXBanWj8yxzB",
+      "label": "Matrix Max",
+      "settings": { "stability": 0.45, "similarity_boost": 0.8, "style": 0.3, "use_speaker_boost": true }
+    },
+    "eileen": {
+      "voiceId": "30vRMqqoIPyuK2BSAjLm",
+      "label": "Eileen Eigen",
+      "settings": { "stability": 0.45, "similarity_boost": 0.8, "style": 0.3, "use_speaker_boost": true }
+    },
+    "delta": {
+      "voiceId": "8fuR7Dr52OSonnIzyy30",
+      "label": "Dr. Delta",
+      "settings": { "stability": 0.55, "similarity_boost": 0.8, "style": 0.2, "use_speaker_boost": true }
+    },
+    "greta": {
+      "voiceId": "QhwK2AHfluk1rRTDJzWN",
+      "label": "Gradient Greta",
+      "settings": { "stability": 0.45, "similarity_boost": 0.8, "style": 0.3, "use_speaker_boost": true }
+    },
+    "pippa": {
+      "voiceId": "YJnn9G8whjVqqgRTw9KI",
+      "label": "Probability Pippa",
+      "settings": { "stability": 0.4, "similarity_boost": 0.8, "style": 0.4, "use_speaker_boost": true }
+    },
+    "bayes": {
+      "voiceId": "BIK76NVzBsg1GQ3Y6zkX",
+      "label": "Bayes the Fox",
+      "settings": { "stability": 0.45, "similarity_boost": 0.8, "style": 0.3, "use_speaker_boost": true }
+    },
+    "sigmund": {
+      "voiceId": "mGKHC1TzgyUknHKPbRZ0",
+      "label": "Sigmund the Swan",
+      "settings": { "stability": 0.55, "similarity_boost": 0.8, "style": 0.2, "use_speaker_boost": true }
+    },
+    "sage": {
+      "voiceId": "oeozpbAWHXk7jM6q7Z3D",
+      "label": "Sage the Synthesis Owl",
+      "settings": { "stability": 0.5, "similarity_boost": 0.8, "style": 0.25, "use_speaker_boost": true }
+    }
+  }
+}
