@@ -1,0 +1,63 @@
+[
+  {
+    "sharedText": "Okay, picture this — you and I are both out hiking, but in different directions. How much do our two paths actually agree? That's exactly what the dot product measures. Think of it as a little friendship meter for directions!"
+  },
+  {
+    "id": "el-1",
+    "engine": "ElevenLabs",
+    "model": "Voice Design",
+    "label": "ElevenLabs · design 1",
+    "note": "adventurous outdoor guide",
+    "generatedVoiceId": "UyV551ho7anYJAd3NUvm",
+    "file": "/audio/bakeoff/vera/el-1.mp3",
+    "mime": "audio/mpeg"
+  },
+  {
+    "id": "el-2",
+    "engine": "ElevenLabs",
+    "model": "Voice Design",
+    "label": "ElevenLabs · design 2",
+    "note": "adventurous outdoor guide",
+    "generatedVoiceId": "5lgaUIwalo1NcJZTiZpe",
+    "file": "/audio/bakeoff/vera/el-2.mp3",
+    "mime": "audio/mpeg"
+  },
+  {
+    "id": "el-3",
+    "engine": "ElevenLabs",
+    "model": "Voice Design",
+    "label": "ElevenLabs · design 3",
+    "note": "playful curious mentor",
+    "generatedVoiceId": "9UFOxtWvcNHLhamu5uEP",
+    "file": "/audio/bakeoff/vera/el-3.mp3",
+    "mime": "audio/mpeg"
+  },
+  {
+    "id": "el-4",
+    "engine": "ElevenLabs",
+    "model": "Voice Design",
+    "label": "ElevenLabs · design 4",
+    "note": "playful curious mentor",
+    "generatedVoiceId": "snBRoHsyBnNKhsD7vjm5",
+    "file": "/audio/bakeoff/vera/el-4.mp3",
+    "mime": "audio/mpeg"
+  },
+  {
+    "id": "gemini-leda",
+    "engine": "Gemini",
+    "model": "gemini-2.5-flash-preview-tts",
+    "label": "Gemini · Leda",
+    "note": "youthful",
+    "file": "/audio/bakeoff/vera/gemini-leda.wav",
+    "mime": "audio/wav"
+  },
+  {
+    "id": "gemini-zephyr",
+    "engine": "Gemini",
+    "model": "gemini-2.5-flash-preview-tts",
+    "label": "Gemini · Zephyr",
+    "note": "bright",
+    "file": "/audio/bakeoff/vera/gemini-zephyr.wav",
+    "mime": "audio/wav"
+  }
+]
