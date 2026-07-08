@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import { characters } from "@/utils/characterData";
 import { modulesData } from "@/utils/modulesData";
 import { getLessonOrderForModuleAsync, getLessonDataForModuleAsync } from "@/utils/lessonData";
-import { getLessonProgress } from "@/core/hooks/useLessonProgress";
+import { getLessonProgress, isLessonCompleted } from "@/core/hooks/useLessonProgress";
+import { hasBeatLesson } from "@/content/beats";
 import { LessonData } from "@/core/types/lesson";
 
 const getModuleLessons = async (moduleId: string) => {
@@ -52,9 +53,10 @@ const ModulePage = () => {
         const lessonObjs = lessonData.map(data => {
       if (!data) return null;
       const charObj = characters.find(c => c.id === data.characterId);
-      const progress = getLessonProgress(data.id);
       const sectionCount = getLessonSectionCount(data);
-      const moduleCompleted = progress.completedSections.size >= sectionCount;
+      const moduleCompleted = hasBeatLesson(data.id)
+        ? isLessonCompleted(data.id, sectionCount)
+        : getLessonProgress(data.id).completedSections.size >= sectionCount;
       return {
         id: data.id,
         title: data.title,

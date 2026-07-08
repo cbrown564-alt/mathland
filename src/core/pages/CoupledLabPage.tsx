@@ -2,16 +2,18 @@ import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { LessonStage } from "@/core/components/narrative/LessonStage";
 import { CoupledVisual } from "@/core/components/narrative/CoupledVisual";
-import { VectorVisual, VectorState } from "@/core/components/narrative/VectorVisual";
+import { resolveDefaultState, resolveReadOnlyRenderer } from "@/core/components/narrative/visualRegistry";
 import { dotProductIntroPassages } from "@/content/beats/dotProductIntro";
 
 /**
  * Reference implementation of the coupled-visual scaffold (v2 first build).
- * Lesson 2.3's opening, authored as data: each passage carries the vector state
- * the diagram should morph to as you read it. Audio is a per-passage chip
- * (original Vera voice), not a spine. Route: /lab/coupled.
+ * Route: /lab/coupled.
  */
 const CoupledLabPage = () => {
+  const visual = { key: "vectorPlot" as const };
+  const renderVisual = resolveReadOnlyRenderer(visual);
+  const initialState = resolveDefaultState(visual);
+
   return (
     <LessonStage characterId="vera">
       <header className="sticky top-0 z-30 border-b border-white/5 bg-black/30 backdrop-blur-md">
@@ -35,14 +37,15 @@ const CoupledLabPage = () => {
         <div className="mt-14">
           <CoupledVisual
             passages={dotProductIntroPassages}
-            renderVisual={(s: VectorState) => <VectorVisual state={s} />}
+            renderVisual={renderVisual}
+            initialState={initialState}
           />
         </div>
 
         <div className="mt-24 rounded-2xl border border-white/10 bg-white/[0.03] p-6 text-center text-white/60">
           <p className="font-serif text-lg text-white/80">This is the scaffold, not the lesson.</p>
           <p className="mt-2 text-sm">
-            Next: a beat wraps this coupling with a quick check, and the climax swaps the read-only picture for the draggable{" "}
+            Next: a beat wraps this coupling with a quick check, and the do beat swaps the read-only picture for the draggable{" "}
             <Link to="/story/2.3" className="underline underline-offset-2 hover:text-white">playground</Link>.
           </p>
         </div>

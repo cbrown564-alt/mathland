@@ -1,252 +1,265 @@
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { ArrowRight, CheckCircle2, Circle } from "lucide-react";
-import { CoupledVisual, CoupledPassage } from "./CoupledVisual";
+import { CoupledVisual } from "./CoupledVisual";
+import { Prose } from "./Prose";
 import { INTERACTIVES } from "./interactives";
+import {
+  resolveBeatVisual,
+  resolveDefaultState,
+  resolveInterpolate,
+  resolveReadOnlyRenderer,
+} from "./visualRegistry";
+import type { Beat, Check, DoBeat, Predict, VisualBinding } from "@/content/beats/schema";
 
 /**
  * LessonBeat — one teaching unit in the v2 blend (Flow C's beat).
  *
- * Bookends the coupled reading (Flow A) with active recall: a predict-then-reveal
- * commitment *before* the passage, and a quick check *after* it. So a beat runs
- * predict → read-with-live-picture → check, and no single mode drags. Content is
- * data (predict + passages + check), which is the seed of the authoring format.
+ * Renders one of four archetypes (couple, do, tell, recap) from authored data.
+ * Bookends coupled reading with predict/check where the beat provides them.
  */
-
-export interface PredictPrompt {
-  prompt: ReactNode;
-  options: { label: string; value: string }[];
-  /** Short nudge shown after a choice — keyed by option value. */
-  nudge?: Record<string, string>;
-}
-
-export interface BeatCheck {
-  question: string;
-  options: string[];
-  correctAnswer: number;
-  explanation: string;
-}
-
-/** A "do" beat: the read-only picture is replaced by a draggable interactive with goals. */
-export interface ClimaxSpec {
-  /** Key into the INTERACTIVES registry, e.g. "dot_product_explorer". */
-  interactive: string;
-  /** Short prose above the tool. */
-  intro?: ReactNode;
-  /** Outcomes to hit; Continue unlocks once all are achieved. `tone` matches the interactive's reported tone. */
-  goals?: { tone: string; label: string }[];
-}
-
-/**
- * A whole lesson authored as data — the schema BeatLessonView / BeatFlow consume.
- * `S` is the visual's state type (e.g. VectorState); every beat's coupled `state`
- * and `renderVisual` share it. See src/content/beats/README.md for authoring.
- */
-export interface BeatLesson<S> {
-  /** Matches the /story/:lessonId route and the section-form lesson id. */
-  lessonId: string;
-  characterId: string;
-  /** Header label, e.g. "Vera · The Dot Product". */
-  label: string;
-  /** Exit / section-form comparison target. Defaults to /lesson/:lessonId. */
-  exitTo?: string;
-  /** Draws the coupled + climax visual for this lesson's state type. */
-  renderVisual: (state: S) => ReactNode;
-  /** Ordered teaching beats (predict → couple → check), ending on a climax. */
-  beats: BeatData<S>[];
-}
-
-/** The authorable content of one beat (no render/callback wiring) — used by BeatFlow. */
-export interface BeatData<S> {
-  id: string;
-  eyebrow?: string;
-  title?: ReactNode;
-  predict?: PredictPrompt;
-  /** Coupled-reading passages (omitted for a climax beat). */
-  passages?: CoupledPassage<S>[];
-  interpolate?: (a: S, b: S, t: number) => S;
-  check?: BeatCheck;
-  /** When set, this is a "do" beat: render the interactive instead of coupled reading. */
-  climax?: ClimaxSpec;
-}
 
 interface LessonBeatProps<S> {
-  eyebrow?: string;
-  title?: ReactNode;
-  predict?: PredictPrompt;
-  passages?: CoupledPassage<S>[];
-  renderVisual?: (state: S) => ReactNode;
-  interpolate?: (a: S, b: S, t: number) => S;
-  check?: BeatCheck;
-  climax?: ClimaxSpec;
-  /** Fired when the learner finishes the beat (check answered, goals met, or Continue). */
+  beat: Beat<S>;
+  lessonVisual: VisualBinding<S>;
   onComplete?: () => void;
 }
 
-export function LessonBeat<S>({
-  eyebrow,
-  title,
-  predict,
-  passages,
-  renderVisual,
-  interpolate,
-  check,
-  climax,
-  onComplete,
-}: LessonBeatProps<S>) {
+export function LessonBeat<S>({ beat, lessonVisual, onComplete }: LessonBeatProps<S>) {
   const [predicted, setPredicted] = useState<string | null>(null);
+
+  const header = (eyebrow?: string, title?: string) =>
+    (eyebrow || title) ? (
+      <div className="mb-8">
+        {eyebrow && (
+          <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.2em]" style={{ color: "var(--ch-accent-2)" }}>
+            {eyebrow}
+          </p>
+        )}
+        {title && <h2 className="font-serif text-3xl leading-tight text-white sm:text-4xl">{title}</h2>}
+      </div>
+    ) : null;
+
+  const predictBlock = (predict?: Predict) =>
+    predict ? (
+      <div
+        className="mb-12 rounded-2xl border p-5"
+        style={{
+          borderColor: "color-mix(in srgb, var(--ch-accent) 30%, transparent)",
+          background: "color-mix(in srgb, var(--ch-accent) 6%, transparent)",
+        }}
+      >
+        <p className="mb-1 font-mono text-[11px] uppercase tracking-widest text-white/45">Predict first</p>
+        <p className="font-serif text-lg text-white/90">{predict.prompt}</p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {predict.options.map((o) => {
+            const on = predicted === o.value;
+            return (
+              <button
+                key={o.value}
+                onClick={() => setPredicted(o.value)}
+                aria-pressed={on}
+                className="rounded-full border px-4 py-2 font-mono text-sm transition"
+                style={{
+                  borderColor: on ? "var(--ch-accent)" : "rgba(255,255,255,0.15)",
+                  background: on ? "var(--ch-accent)" : "transparent",
+                  color: on ? "#fff" : "rgba(255,255,255,0.8)",
+                }}
+              >
+                {o.label}
+              </button>
+            );
+          })}
+        </div>
+        {predicted && (
+          <p className="mt-3 text-sm italic text-white/60">
+            {predict.nudge?.[predicted] ?? "Locked in — now scroll and watch whether the picture agrees with you."}
+          </p>
+        )}
+      </div>
+    ) : null;
+
+  switch (beat.kind) {
+    case "couple": {
+      const visual = resolveBeatVisual(lessonVisual, beat.visual);
+      const renderVisual = resolveReadOnlyRenderer(visual);
+      const interpolate = resolveInterpolate(visual, beat.interpolate);
+      const initialState = resolveDefaultState(visual);
+
+      return (
+        <section className="mx-auto max-w-5xl">
+          {header(beat.eyebrow, beat.title)}
+          {predictBlock(beat.predict)}
+          <CoupledVisual
+            passages={beat.passages}
+            renderVisual={renderVisual}
+            interpolate={interpolate}
+            initialState={initialState}
+          />
+          <CheckBlock check={beat.check} onComplete={onComplete} />
+        </section>
+      );
+    }
+
+    case "do":
+      return (
+        <section className="mx-auto max-w-5xl">
+          {header(beat.eyebrow, beat.title)}
+          {predictBlock(beat.predict)}
+          <DoBody beat={beat} onComplete={onComplete} />
+        </section>
+      );
+
+    case "tell":
+      return (
+        <section className="mx-auto max-w-5xl">
+          {header(beat.eyebrow, beat.title)}
+          <div className="mx-auto max-w-2xl">
+            <Prose md={beat.md} className="font-serif text-[22px] leading-[1.6] text-white/90 sm:text-[27px] sm:leading-[1.55]" />
+            {beat.figure && <div className="mt-8">{beat.figure}</div>}
+          </div>
+          <CheckBlock check={beat.check} onComplete={onComplete} />
+        </section>
+      );
+
+    case "recap":
+      return (
+        <section className="mx-auto max-w-5xl">
+          {header(beat.eyebrow, beat.title)}
+          <div
+            className="mx-auto max-w-xl rounded-3xl border p-8 text-center"
+            style={{
+              borderColor: "color-mix(in srgb, var(--ch-accent) 35%, transparent)",
+              background: "color-mix(in srgb, var(--ch-accent) 8%, transparent)",
+            }}
+          >
+            <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-white/45">Remember</p>
+            <p className="font-serif text-2xl leading-snug text-white sm:text-3xl">{beat.mantra}</p>
+            {beat.points && beat.points.length > 0 && (
+              <ul className="mt-6 space-y-2 text-left text-sm text-white/75">
+                {beat.points.map((pt, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 flex-none rounded-full" style={{ background: "var(--ch-accent)" }} />
+                    {pt}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          {onComplete && (
+            <div className="mt-12 flex justify-center">
+              <button
+                onClick={onComplete}
+                className="v2-cta flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition active:scale-95"
+              >
+                Continue <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          )}
+        </section>
+      );
+
+    default: {
+      const _exhaustive: never = beat;
+      return _exhaustive;
+    }
+  }
+}
+
+function CheckBlock({ check, onComplete }: { check?: Check; onComplete?: () => void }) {
   const [selected, setSelected] = useState<number | null>(null);
-  const isCorrect = selected === check?.correctAnswer;
+  if (!check) {
+    if (!onComplete) return null;
+    return (
+      <div className="mt-16 flex justify-center">
+        <button
+          onClick={onComplete}
+          className="v2-cta flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition active:scale-95"
+        >
+          <CheckCircle2 className="h-4 w-4" /> Done — continue
+        </button>
+      </div>
+    );
+  }
+
+  const isCorrect = selected === check.correctAnswer;
   const labels = ["A", "B", "C", "D", "E"];
 
   return (
-    <section className="mx-auto max-w-5xl">
-      {(eyebrow || title) && (
-        <div className="mb-8">
-          {eyebrow && (
-            <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.2em]" style={{ color: "var(--ch-accent-2)" }}>
-              {eyebrow}
-            </p>
-          )}
-          {title && <h2 className="font-serif text-3xl leading-tight text-white sm:text-4xl">{title}</h2>}
-        </div>
-      )}
-
-      {/* PREDICT — commit before you read */}
-      {predict && (
-        <div
-          className="mb-12 rounded-2xl border p-5"
-          style={{
-            borderColor: "color-mix(in srgb, var(--ch-accent) 30%, transparent)",
-            background: "color-mix(in srgb, var(--ch-accent) 6%, transparent)",
-          }}
-        >
-          <p className="mb-1 font-mono text-[11px] uppercase tracking-widest text-white/45">Predict first</p>
-          <p className="font-serif text-lg text-white/90">{predict.prompt}</p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {predict.options.map((o) => {
-              const on = predicted === o.value;
-              return (
-                <button
-                  key={o.value}
-                  onClick={() => setPredicted(o.value)}
-                  aria-pressed={on}
-                  className="rounded-full border px-4 py-2 font-mono text-sm transition"
-                  style={{
-                    borderColor: on ? "var(--ch-accent)" : "rgba(255,255,255,0.15)",
-                    background: on ? "var(--ch-accent)" : "transparent",
-                    color: on ? "#fff" : "rgba(255,255,255,0.8)",
-                  }}
-                >
-                  {o.label}
-                </button>
-              );
-            })}
-          </div>
-          {predicted && (
-            <p className="mt-3 text-sm italic text-white/60">
-              {predict.nudge?.[predicted] ?? "Locked in — now scroll and watch whether the picture agrees with you."}
-            </p>
-          )}
-        </div>
-      )}
-
-      {/* MIDDLE — coupled reading, or the interactive climax */}
-      {climax ? (
-        <ClimaxBody climax={climax} onComplete={onComplete} />
-      ) : passages && renderVisual ? (
-        <CoupledVisual passages={passages} renderVisual={renderVisual} interpolate={interpolate} />
-      ) : null}
-
-      {/* CHECK — confirm it landed (coupled beats only) */}
-      {!climax && check && (
-        <div className="mx-auto mt-16 max-w-2xl rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-          <p className="mb-1 font-mono text-[11px] uppercase tracking-widest text-white/45">Quick check</p>
-          <p className="mb-4 font-serif text-lg text-white/90">{check.question}</p>
-          <div className="grid gap-2">
-            {check.options.map((opt, i) => {
-              const reveal = selected !== null;
-              const style = !reveal
-                ? "border-white/10 bg-white/[0.03] hover:bg-white/[0.07]"
-                : i === check.correctAnswer
-                ? "border-emerald-400/40 bg-emerald-400/10"
-                : selected === i
-                ? "border-amber-400/40 bg-amber-400/10"
-                : "border-white/10 bg-white/[0.02] opacity-50";
-              return (
-                <button
-                  key={i}
-                  disabled={reveal}
-                  onClick={() => setSelected(i)}
-                  className={"flex items-start gap-2.5 rounded-xl border px-4 py-3 text-left text-sm transition " + style}
-                >
-                  <span className="mt-0.5 font-mono text-xs text-white/50">{labels[i]}</span>
-                  <span className="text-white/85">{opt}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          {selected !== null && (
-            <div
-              className={
-                "mt-4 rounded-xl border p-4 text-sm " +
-                (isCorrect ? "border-emerald-400/30 bg-emerald-400/5" : "border-amber-400/30 bg-amber-400/5")
-              }
-            >
-              <p className="mb-1 font-semibold text-white">{isCorrect ? "Exactly right." : "Not quite —"}</p>
-              <p className="text-white/75">{check.explanation}</p>
-              {!isCorrect && (
-                <button
-                  onClick={() => setSelected(null)}
-                  className="mt-2 text-xs text-white/60 underline underline-offset-2 hover:text-white/90"
-                >
-                  Try again
-                </button>
-              )}
-            </div>
-          )}
-
-          {isCorrect && onComplete && (
+    <div className="mx-auto mt-16 max-w-2xl rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+      <p className="mb-1 font-mono text-[11px] uppercase tracking-widest text-white/45">Quick check</p>
+      <p className="mb-4 font-serif text-lg text-white/90">{check.question}</p>
+      <div className="grid gap-2">
+        {check.options.map((opt, i) => {
+          const reveal = selected !== null;
+          const style = !reveal
+            ? "border-white/10 bg-white/[0.03] hover:bg-white/[0.07]"
+            : i === check.correctAnswer
+            ? "border-emerald-400/40 bg-emerald-400/10"
+            : selected === i
+            ? "border-amber-400/40 bg-amber-400/10"
+            : "border-white/10 bg-white/[0.02] opacity-50";
+          return (
             <button
-              onClick={onComplete}
-              className="v2-cta mt-5 flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition active:scale-95"
+              key={i}
+              disabled={reveal}
+              onClick={() => setSelected(i)}
+              className={"flex items-start gap-2.5 rounded-xl border px-4 py-3 text-left text-sm transition " + style}
             >
-              Continue <ArrowRight className="h-4 w-4" />
+              <span className="mt-0.5 font-mono text-xs text-white/50">{labels[i]}</span>
+              <span className="text-white/85">{opt}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {selected !== null && (
+        <div
+          className={
+            "mt-4 rounded-xl border p-4 text-sm " +
+            (isCorrect ? "border-emerald-400/30 bg-emerald-400/5" : "border-amber-400/30 bg-amber-400/5")
+          }
+        >
+          <p className="mb-1 font-semibold text-white">{isCorrect ? "Exactly right." : "Not quite —"}</p>
+          <p className="text-white/75">{check.explanation}</p>
+          {!isCorrect && (
+            <button
+              onClick={() => setSelected(null)}
+              className="mt-2 text-xs text-white/60 underline underline-offset-2 hover:text-white/90"
+            >
+              Try again
             </button>
           )}
         </div>
       )}
 
-      {/* no check → a plain Continue (coupled beats only) */}
-      {!climax && !check && onComplete && (
-        <div className="mt-16 flex justify-center">
-          <button
-            onClick={onComplete}
-            className="v2-cta flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition active:scale-95"
-          >
-            <CheckCircle2 className="h-4 w-4" /> Done — continue
-          </button>
-        </div>
+      {isCorrect && onComplete && (
+        <button
+          onClick={onComplete}
+          className="v2-cta mt-5 flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition active:scale-95"
+        >
+          Continue <ArrowRight className="h-4 w-4" />
+        </button>
       )}
-    </section>
+    </div>
   );
 }
 
-/** The climax "do" middle: an interactive plus a goals checklist that unlocks Continue. */
-function ClimaxBody({ climax, onComplete }: { climax: ClimaxSpec; onComplete?: () => void }) {
-  const Interactive = INTERACTIVES[climax.interactive];
+function DoBody({ beat, onComplete }: { beat: DoBeat; onComplete?: () => void }) {
+  const Interactive = INTERACTIVES[beat.interactive];
   const [achieved, setAchieved] = useState<Set<string>>(new Set());
-  const goals = climax.goals ?? [];
+  const goals = beat.goals ?? [];
   const met = goals.filter((g) => achieved.has(g.tone)).length;
   const allMet = met === goals.length;
 
   if (!Interactive) {
-    return <p className="text-white/60">Unknown interactive: {climax.interactive}</p>;
+    return <p className="text-white/60">Unknown interactive: {beat.interactive}</p>;
   }
 
   return (
     <div className="mx-auto max-w-3xl">
-      {climax.intro && <p className="mb-5 font-serif text-xl leading-relaxed text-white/85">{climax.intro}</p>}
+      {beat.intro && (
+        <Prose md={beat.intro} className="mb-5 font-serif text-xl leading-relaxed text-white/85" />
+      )}
 
       {goals.length > 0 && (
         <div className="mb-5 flex flex-wrap gap-2">
@@ -280,7 +293,7 @@ function ClimaxBody({ climax, onComplete }: { climax: ClimaxSpec; onComplete?: (
         <div className="mt-8 flex flex-col items-center gap-2">
           {goals.length > 0 && !allMet && (
             <p className="text-sm text-white/45">
-              Land all three outcomes to finish — {met} of {goals.length} so far.
+              Land all outcomes to finish — {met} of {goals.length} so far.
             </p>
           )}
           <button

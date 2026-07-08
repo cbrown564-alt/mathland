@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { LessonStage } from "@/core/components/narrative/LessonStage";
 import { LessonBeat } from "@/core/components/narrative/LessonBeat";
-import { VectorVisual, VectorState } from "@/core/components/narrative/VectorVisual";
 import {
   dotProductIntroPredict,
   dotProductIntroPassages,
@@ -12,8 +11,7 @@ import {
 
 /**
  * Reference for a full v2 *beat* (/lab/beat): predict → coupled reading → check,
- * built from the dotProductIntro content module. This is Flow C's teaching unit
- * with Flow A's coupling inside it — the blend, one beat deep.
+ * built from the dotProductIntro content module.
  */
 const BeatLabPage = () => {
   const [done, setDone] = useState(false);
@@ -36,12 +34,16 @@ const BeatLabPage = () => {
 
       <main className="px-5 pb-40 pt-16">
         <LessonBeat
-          eyebrow="Vera · Vectors · Beat 1"
-          title="When directions agree"
-          predict={dotProductIntroPredict}
-          passages={dotProductIntroPassages}
-          renderVisual={(s: VectorState) => <VectorVisual state={s} />}
-          check={dotProductIntroCheck}
+          beat={{
+            kind: "couple",
+            id: "agree",
+            eyebrow: "Vera · Vectors · Beat 1",
+            title: "When directions agree",
+            predict: dotProductIntroPredict,
+            passages: dotProductIntroPassages,
+            check: dotProductIntroCheck,
+          }}
+          lessonVisual={{ key: "vectorPlot" }}
           onComplete={() => setDone(true)}
         />
 
@@ -49,7 +51,7 @@ const BeatLabPage = () => {
           <div className="mx-auto mt-10 max-w-2xl rounded-2xl border border-emerald-400/20 bg-emerald-400/[0.06] p-6 text-center">
             <p className="font-serif text-lg text-white">Beat complete.</p>
             <p className="mt-2 text-sm text-white/60">
-              In the real flow this advances to the next beat; the climax beat swaps the read-only picture for the{" "}
+              In the real flow this advances to the next beat; the do beat swaps the read-only picture for the{" "}
               <Link to="/story/2.3" className="underline underline-offset-2 hover:text-white">draggable playground</Link>.
             </p>
           </div>

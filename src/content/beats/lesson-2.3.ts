@@ -1,5 +1,5 @@
-import { BeatLesson } from "./schema";
-import { VectorVisual, VectorState } from "@/core/components/narrative/VectorVisual";
+import type { BeatLesson } from "./schema";
+import type { VectorPlotState } from "@/core/components/narrative/primitives";
 import {
   dotProductIntroPredict,
   dotProductIntroPassages,
@@ -7,20 +7,27 @@ import {
 } from "./dotProductIntro";
 
 /**
- * Lesson 2.3 — Vera · The Dot Product — authored as data.
+ * Lesson 2.3 — Vera · The Dot Product — reference v2 lesson.
  *
- * Four beats: three teaching beats (predict → coupled reading → check) and a
- * hands-on climax (the draggable explorer with goals). The visual is VectorVisual,
- * so every beat's `state` is a VectorState the diagram morphs to. This whole
- * object is what /story/2.3 renders.
+ * Four beats: three couple beats (predict → coupled reading → check) and a
+ * do beat (draggable explorer with goals). Visual binding: vectorPlot primitive.
  */
-export const dotProductLesson: BeatLesson<VectorState> = {
-  lessonId: "2.3",
-  characterId: "vera",
-  label: "Vera · The Dot Product",
-  renderVisual: (s) => <VectorVisual state={s} />,
+export const dotProductLesson: BeatLesson<VectorPlotState> = {
+  meta: {
+    id: "2.3",
+    characterId: "vera",
+    title: "The Dot Product",
+    oneLine: "A single number that measures how much two directions agree.",
+    objectives: [
+      "Compute the dot product from components",
+      "Relate the dot product to the angle between vectors",
+      "Interpret sign and magnitude in real-world matching problems",
+    ],
+  },
+  visual: { key: "vectorPlot" },
   beats: [
     {
+      kind: "couple",
       id: "agree",
       eyebrow: "Vera · Vectors · Beat 1",
       title: "When directions agree",
@@ -29,6 +36,7 @@ export const dotProductLesson: BeatLesson<VectorState> = {
       check: dotProductIntroCheck,
     },
     {
+      kind: "couple",
       id: "angle",
       eyebrow: "Beat 2",
       title: "It's all about the angle",
@@ -49,30 +57,26 @@ export const dotProductLesson: BeatLesson<VectorState> = {
         {
           id: "a1",
           eyebrow: "Two ways · 1",
-          body: (
-            <>The dot product has a twin definition. One just multiplies the matching components and adds them. The other measures the <em>angle</em>. Same number, every time.</>
-          ),
+          md: "The dot product has a twin definition. One just multiplies the matching components and adds them. The other measures the *angle*. Same number, every time.",
           state: { u: [3, 2.4], v: [3.3, 2.0], emphasis: "none" },
           audioSrc: "/audio/story/2.3/ch3.mp3",
         },
         {
           id: "a2",
           eyebrow: "2",
-          body: <>Line the arrows up — angle near zero — and the dot product is at its <b>maximum</b>.</>,
+          md: "Line the arrows up — angle near zero — and the dot product is at its **maximum**.",
           state: { u: [3, 2], v: [3.2, 2.1], emphasis: "angle" },
         },
         {
           id: "a3",
           eyebrow: "3",
-          body: <>Open the angle toward ninety degrees and it <em>shrinks</em>, all the way down to zero.</>,
+          md: "Open the angle toward ninety degrees and it *shrinks*, all the way down to zero.",
           state: { u: [3, 2], v: [-1.4, 3], emphasis: "angle" },
         },
         {
           id: "a4",
           eyebrow: "4",
-          body: (
-            <>That dial is the cosine. So <b>u · v = |u| |v| cos θ</b> — two lengths and the angle between them, nothing more.</>
-          ),
+          md: "That dial is the cosine. So **u · v = |u| |v| cos θ** — two lengths and the angle between them, nothing more.",
           state: { u: [3.2, 0.4], v: [1.4, 2.8], emphasis: "angle" },
         },
       ],
@@ -89,6 +93,7 @@ export const dotProductLesson: BeatLesson<VectorState> = {
       },
     },
     {
+      kind: "couple",
       id: "world",
       eyebrow: "Beat 3",
       title: "Where it lives",
@@ -96,18 +101,14 @@ export const dotProductLesson: BeatLesson<VectorState> = {
         {
           id: "w1",
           eyebrow: "In the wild · 1",
-          body: (
-            <>This tiny operation quietly runs the modern world. Search, recommendations, machine learning — all of it leans on one question.</>
-          ),
+          md: "This tiny operation quietly runs the modern world. Search, recommendations, machine learning — all of it leans on one question.",
           state: { u: [3, 3], v: [3.2, 2.7], emphasis: "none" },
           audioSrc: "/audio/story/2.3/ch5.mp3",
         },
         {
           id: "w2",
           eyebrow: "2",
-          body: (
-            <>How much do these two things agree? Google scores pages against your query with it; Spotify lines your taste up against a song. Same dot product, billions of times a second.</>
-          ),
+          md: "How much do these two things agree? Google scores pages against your query with it; Spotify lines your taste up against a song. Same dot product, billions of times a second.",
           state: { u: [3, 2.6], v: [2.9, 2.9], emphasis: "u" },
         },
       ],
@@ -124,6 +125,7 @@ export const dotProductLesson: BeatLesson<VectorState> = {
       },
     },
     {
+      kind: "do",
       id: "climax",
       eyebrow: "Beat 4 · Your turn",
       title: "Make the meter move",
@@ -138,15 +140,18 @@ export const dotProductLesson: BeatLesson<VectorState> = {
           no: "You said no — try anyway; aim for a clean right angle and watch.",
         },
       },
-      climax: {
-        interactive: "dot_product_explorer",
-        intro: "This is the whole lesson, in your hands. Drag the arrowheads and read the agreement meter — try to land all three outcomes.",
-        goals: [
-          { tone: "same", label: "Make them agree · dot > 0" },
-          { tone: "ortho", label: "Make them perpendicular · dot = 0" },
-          { tone: "opposite", label: "Make them oppose · dot < 0" },
-        ],
-      },
+      intro: "This is the whole lesson, in your hands. Drag the arrowheads and read the agreement meter — try to land all three outcomes.",
+      interactive: "dot_product_explorer",
+      goals: [
+        { tone: "same", label: "Make them agree · dot > 0" },
+        { tone: "ortho", label: "Make them perpendicular · dot = 0" },
+        { tone: "opposite", label: "Make them oppose · dot < 0" },
+      ],
     },
   ],
+  landing: {
+    mantra: "Positive is together, zero is strangers, negative is opposite.",
+    recap: "Four beats, each a little predict → read → check. You measured agreement with your own hands.",
+    playgroundTo: "/lab/coupled",
+  },
 };

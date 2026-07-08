@@ -1,0 +1,157 @@
+import React, { useEffect, useRef, useState } from "react";
+import type { InteractiveProps } from "./interactives";
+
+const GRID_SIZE = 5;
+const SVG_WIDTH = 560;
+const SVG_HEIGHT = 420;
+const U_COLOR = "#f4623c";
+const V_COLOR = "#5aa2e0";
+const SUM_COLOR = "#a3e635";
+
+const mathToSvg = (x: number, y: number) => ({
+  x: SVG_WIDTH / 2 + (x * SVG_WIDTH) / (2 * GRID_SIZE),
+  y: SVG_HEIGHT / 2 - (y * SVG_HEIGHT) / (2 * GRID_SIZE),
+});
+
+const svgToMath = (x: number, y: number) => ({
+  x: ((x - SVG_WIDTH / 2) * (2 * GRID_SIZE)) / SVG_WIDTH,
+  y: -((y - SVG_HEIGHT / 2) * (2 * GRID_SIZE)) / SVG_HEIGHT,
+});
+
+const snap = (v: number) => Math.round(v * 2) / 2;
+
+interface Vec {
+  id: "u" | "v";
+  x: number;
+  y: number;
+  color: string;
+}
+
+function classify(u: Vec, v: Vec): string {
+  const sx = u.x + v.x;
+  const sy = u.y + v.y;
+  if (Math.abs(sx - 4) < 0.6 && Math.abs(sy - 6) < 0.6) return "sum46";
+  if (u.x < -0.5 || u.y < -0.5) return "flip";
+  if (Math.hypot(sx, sy) > 6.5) return "long";
+  return "explore";
+}
+
+export const VectorAdditionExplorer = ({ onStateChange }: InteractiveProps = {}) => {
+  const [vectors, setVectors] = useState<Vec[]>([
+    { id: "u", x: 3, y: 2, color: U_COLOR },
+    { id: "v", x: 1, y: 4, color: V_COLOR },
+  ]);
+  const [dragging, setDragging] = useState<"u" | "v" | null>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const reportRef = useRef(onStateChange);
+  reportRef.current = onStateChange;
+
+  const u = vectors[0];
+  const v = vectors[1];
+  const sum = { x: u.x + v.x, y: u.y + v.y };
+  const tone = classify(u, v);
+
+  useEffect(() => {
+    reportRef.current?.({ dot: sum.x, cos: sum.y, tone });
+  }, [sum.x, sum.y, tone]);
+
+  const onPointerDown = (id: "u" | "v") => (e: React.PointerEvent) => {
+    e.preventDefault();
+    svgRef.current?.setPointerCapture(e.pointerId);
+    setDragging(id);
+  };
+
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (!dragging || !svgRef.current) return;
+    const rect = svgRef.current.getBoundingClientRect();
+    const math = svgToMath(e.clientX - rect.left, e.clientY - rect.top);
+    setVectors((prev) =>
+      prev.map((vec) => (vec.id === dragging ? { ...vec, x: snap(math.x), y: snap(math.y) } : vec)),
+    );
+  };
+
+  const onPointerUp = (e: React.PointerEvent) => {
+    setDragging(null);
+    svgRef.current?.releasePointerCapture(e.pointerId);
+  };
+
+  const origin = mathToSvg(0, 0);
+  const pu = mathToSvg(u.x, u.y);
+  const pv = mathToSvg(v.x, v.y);
+  const ps = mathToSvg(sum.x, sum.y);
+  const labels = Array.from({ length: 2 * GRID_SIZE + 1 }, (_, i) => i - GRID_SIZE);
+
+  return (
+    <div className="w-full">
+      <div className="rounded-xl border border-white/10 bg-white/[0.03] p-2">
+        <svg
+          ref={svgRef}
+          viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
+          className="w-full select-none touch-none"
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerLeave={onPointerUp}
+        >
+          <defs>
+            <marker id="vae-u" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+              <path d="M0,0 L8,3 L0,6 Z" fill={U_COLOR} />
+            </marker>
+            <marker id="vae-v" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+              <path d="M0,0 L8,3 L0,6 Z" fill={V_COLOR} />
+            </marker>
+            <marker id="vae-sum" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+              <path d="M0,0 L8,3 L0,6 Z" fill={SUM_COLOR} />
+            </marker>
+          </defs>
+          {labels.map((val) => {
+            const gx = mathToSvg(val, 0).x;
+            const gy = mathToSvg(0, val).y;
+            return (
+              <React.Fragment key={val}>
+                <line x1={gx} y1={0} x2={gx} y2={SVG_HEIGHT} stroke="rgba(255,255,255,0.06)" />
+                <line x1={0} y1={gy} x2={SVG_WIDTH} y2={gy} stroke="rgba(255,255,255,0.06)" />
+              </React.Fragment>
+            );
+          })}
+          <line x1={0} y1={SVG_HEIGHT / 2} x2={SVG_WIDTH} y2={SVG_HEIGHT / 2} stroke="rgba(255,255,255,0.25)" strokeWidth={1.5} />
+          <line x1={SVG_WIDTH / 2} y1={0} x2={SVG_WIDTH / 2} y2={SVG_HEIGHT} stroke="rgba(255,255,255,0.25)" strokeWidth={1.5} />
+          <g stroke="rgba(255,255,255,0.2)" strokeWidth={1} strokeDasharray="4 4">
+            <line x1={pu.x} y1={pu.y} x2={ps.x} y2={ps.y} />
+            <line x1={pv.x} y1={pv.y} x2={ps.x} y2={ps.y} />
+          </g>
+          <line x1={origin.x} y1={origin.y} x2={pu.x} y2={pu.y} stroke={U_COLOR} strokeWidth={3.5} markerEnd="url(#vae-u)" />
+          <line x1={origin.x} y1={origin.y} x2={pv.x} y2={pv.y} stroke={V_COLOR} strokeWidth={3.5} markerEnd="url(#vae-v)" />
+          <line x1={origin.x} y1={origin.y} x2={ps.x} y2={ps.y} stroke={SUM_COLOR} strokeWidth={4} markerEnd="url(#vae-sum)" />
+          {vectors.map((vec) => {
+            const tip = mathToSvg(vec.x, vec.y);
+            return (
+              <circle
+                key={vec.id}
+                cx={tip.x}
+                cy={tip.y}
+                r={dragging === vec.id ? 16 : 12}
+                fill="#1a1030"
+                stroke={vec.color}
+                strokeWidth={3}
+                style={{ cursor: "grab", touchAction: "none" }}
+                onPointerDown={onPointerDown(vec.id)}
+              />
+            );
+          })}
+          <circle cx={origin.x} cy={origin.y} r={3} fill="rgba(255,255,255,0.5)" />
+        </svg>
+      </div>
+      <div className="mt-3 flex flex-wrap gap-2 font-mono text-xs">
+        <span className="rounded-lg border border-white/12 bg-white/[0.04] px-2.5 py-1 text-white/70">
+          u+v = [{sum.x.toFixed(1)}, {sum.y.toFixed(1)}]
+        </span>
+        <span className="rounded-lg border border-lime-400/25 bg-lime-400/[0.06] px-2.5 py-1 text-lime-100/80">
+          |u+v| = {Math.hypot(sum.x, sum.y).toFixed(2)}
+        </span>
+      </div>
+      <p className="mt-2 text-center text-xs italic text-white/40">Drag u and v — the green arrow is always u + v.</p>
+    </div>
+  );
+};
+
+export default VectorAdditionExplorer;

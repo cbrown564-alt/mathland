@@ -1,6 +1,6 @@
-import { BeatLesson } from "./LessonBeat";
 import { BeatFlow } from "./BeatFlow";
 import { LessonStage } from "./LessonStage";
+import type { BeatLesson } from "@/content/beats/schema";
 
 /**
  * Renders a whole authored lesson: the immersive stage (character-tinted) plus
@@ -9,14 +9,8 @@ import { LessonStage } from "./LessonStage";
  */
 export function BeatLessonView<S>({ lesson }: { lesson: BeatLesson<S> }) {
   return (
-    <LessonStage characterId={lesson.characterId}>
-      <BeatFlow
-        lessonId={lesson.lessonId}
-        label={lesson.label}
-        beats={lesson.beats}
-        renderVisual={lesson.renderVisual}
-        exitTo={lesson.exitTo ?? `/lesson/${lesson.lessonId}`}
-      />
+    <LessonStage characterId={lesson.meta.characterId}>
+      <BeatFlow lesson={lesson} />
     </LessonStage>
   );
 }

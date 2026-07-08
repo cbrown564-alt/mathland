@@ -1,5 +1,7 @@
-import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AudioChip } from "./AudioChip";
+import { parseInline } from "./Prose";
+import type { Passage } from "@/content/beats/schema";
 
 /**
  * CoupledVisual — the core v2 primitive.
@@ -10,29 +12,18 @@ import { AudioChip } from "./AudioChip";
  * words (Flow A's coupling — reused inside Flow C's beats). The visual is a
  * render prop, so the same scaffold drives vectors, matrices, distributions…
  * anything with a lerp-able state.
- *
- * It is deliberately generic and content-agnostic: lessons become data
- * (passages + states), not bespoke code.
  */
 
-export interface CoupledPassage<S> {
-  id: string;
-  /** Small mono eyebrow above the passage. */
-  eyebrow?: string;
-  /** The prose. */
-  body: ReactNode;
-  /** Diagram state this passage corresponds to. */
-  state: S;
-  /** Optional per-passage voice clip (the demoted-audio chip). */
-  audioSrc?: string;
-}
+export type { Passage } from "@/content/beats/schema";
+/** @deprecated Use Passage */
+export type CoupledPassage<S> = Passage<S>;
 
 interface CoupledVisualProps<S> {
-  passages: CoupledPassage<S>[];
-  /** Draw the diagram for a given (interpolated) state. */
+  passages: Passage<S>[];
   renderVisual: (state: S) => ReactNode;
-  /** Blend two states; defaults to a deep numeric lerp. */
   interpolate?: (a: S, b: S, t: number) => S;
+  /** Fallback when the first passage omits state. */
+  initialState?: S;
   className?: string;
 }
 
@@ -54,15 +45,35 @@ export function deepLerp<S>(a: S, b: S, t: number): S {
   return (t < 0.5 ? a : b) as S;
 }
 
-export function CoupledVisual<S>({ passages, renderVisual, interpolate = deepLerp, className }: CoupledVisualProps<S>) {
+/** Carry forward the previous diagram state when a passage omits `state`. */
+export function resolvePassageStates<S>(passages: Passage<S>[], fallback: S): (Passage<S> & { state: S })[] {
+  let current = fallback;
+  return passages.map((p) => {
+    if (p.state !== undefined) current = p.state;
+    return { ...p, state: current };
+  });
+}
+
+export function CoupledVisual<S>({
+  passages,
+  renderVisual,
+  interpolate = deepLerp,
+  initialState,
+  className,
+}: CoupledVisualProps<S>) {
+  const resolved = useMemo(
+    () => resolvePassageStates(passages, initialState ?? passages[0]?.state as S),
+    [passages, initialState],
+  );
+
   const refs = useRef<(HTMLDivElement | null)[]>([]);
   const frame = useRef<number | null>(null);
-  const [state, setState] = useState<S>(passages[0]?.state);
+  const [state, setState] = useState<S>(resolved[0]?.state);
   const [activeIdx, setActiveIdx] = useState(0);
 
   const recompute = useCallback(() => {
     frame.current = null;
-    const anchor = window.innerHeight * 0.42; // slightly above centre reads better
+    const anchor = window.innerHeight * 0.42;
     const centers = refs.current.map((el) => {
       if (!el) return Infinity;
       const r = el.getBoundingClientRect();
@@ -70,20 +81,19 @@ export function CoupledVisual<S>({ passages, renderVisual, interpolate = deepLer
     });
     if (!centers.length) return;
 
-    // Find the segment [i, i+1] the anchor sits within.
     let i = 0;
     while (i < centers.length - 1 && centers[i + 1] < anchor) i++;
 
     const cur = centers[i];
     const nxt = centers[i + 1];
     let t = 0;
-    if (i < passages.length - 1 && Number.isFinite(nxt)) {
+    if (i < resolved.length - 1 && Number.isFinite(nxt)) {
       t = Math.max(0, Math.min(1, (anchor - cur) / (nxt - cur)));
     }
-    const next = passages[Math.min(i + 1, passages.length - 1)];
-    setState(interpolate(passages[i].state, next.state, t));
-    setActiveIdx(t < 0.5 ? i : Math.min(i + 1, passages.length - 1));
-  }, [passages, interpolate]);
+    const next = resolved[Math.min(i + 1, resolved.length - 1)];
+    setState(interpolate(resolved[i].state, next.state, t));
+    setActiveIdx(t < 0.5 ? i : Math.min(i + 1, resolved.length - 1));
+  }, [resolved, interpolate]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -101,9 +111,8 @@ export function CoupledVisual<S>({ passages, renderVisual, interpolate = deepLer
 
   return (
     <div className={"grid gap-8 md:grid-cols-2 md:gap-12 " + (className ?? "")}>
-      {/* prose column */}
       <div className="order-2 md:order-1">
-        {passages.map((p, idx) => (
+        {resolved.map((p, idx) => (
           <div
             key={p.id}
             ref={(el) => { refs.current[idx] = el; }}
@@ -122,7 +131,7 @@ export function CoupledVisual<S>({ passages, renderVisual, interpolate = deepLer
               </p>
             )}
             <div className="font-serif text-[22px] leading-[1.6] text-white/90 sm:text-[27px] sm:leading-[1.55]">
-              {p.body}
+              {"body" in p && p.body !== undefined ? p.body : parseInline(p.md)}
             </div>
             {p.audioSrc && (
               <div className="mt-4">
@@ -133,7 +142,6 @@ export function CoupledVisual<S>({ passages, renderVisual, interpolate = deepLer
         ))}
       </div>
 
-      {/* sticky visual */}
       <div className="order-1 md:order-2">
         <div className="sticky top-20 rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.015] p-4 shadow-[0_24px_70px_-34px_rgba(0,0,0,0.85)] ring-1 ring-inset ring-white/5 backdrop-blur-sm md:top-24">
           <div className="mb-2 flex items-center gap-1.5 px-1">
