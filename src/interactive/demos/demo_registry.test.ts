@@ -17,7 +17,7 @@ describe('interactive demo registry (Path A7 single source of truth)', () => {
   const characterIds = new Set(characters.map((c) => c.id));
 
   it('has the expected number of demos', () => {
-    expect(interactiveDemos.length).toBe(28);
+    expect(interactiveDemos.length).toBe(29);
   });
 
   it('every demo references a real character', () => {
