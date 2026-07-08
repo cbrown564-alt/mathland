@@ -3,6 +3,7 @@ import { ComponentType } from "react";
 import { deepLerp } from "../CoupledVisual";
 import { DotProductExplorer } from "../DotProductExplorer";
 import type { InteractiveProps } from "../interactives";
+import { VectorArrow } from "../VectorArrow";
 
 /**
  * Parametric vector diagram state for Module 2 lessons (2.1–2.7).
@@ -39,6 +40,21 @@ const SPAN_FILL = "rgba(167, 139, 250, 0.08)";
 
 const toPx = (x: number, y: number) => ({ x: CX + x * UNIT, y: CY - y * UNIT });
 const mag = (x: number, y: number) => Math.hypot(x, y);
+
+/** Place labels just beyond the vector tip, offset along the arrow direction. */
+const labelPos = (ox: number, oy: number, tx: number, ty: number) => {
+  const dx = tx - ox;
+  const dy = ty - oy;
+  const len = Math.hypot(dx, dy) || 1;
+  const ux = dx / len;
+  const uy = dy / len;
+  const nx = -uy;
+  const ny = ux;
+  return {
+    x: tx + ux * 12 + nx * 5,
+    y: ty + uy * 12 + ny * 5,
+  };
+};
 
 /** True when u and v are nearly parallel (dependent span → a line). */
 const areParallel = (u: [number, number], v: [number, number]) => {
@@ -100,6 +116,9 @@ export const VectorPlotReadOnly = ({ state }: { state: VectorPlotState }) => {
   const pv = toPx(v[0], v[1]);
   const ps = toPx(sumVec[0], sumVec[1]);
   const pScaled = toPx(scaledU[0], scaledU[1]);
+  const labelU = labelPos(CX, CY, pu.x, pu.y);
+  const labelV = labelPos(CX, CY, pv.x, pv.y);
+  const labelSum = labelPos(CX, CY, ps.x, ps.y);
   const tone = dot > 0.06 ? "#4ade80" : dot < -0.06 ? "#fb7185" : "#fbbf24";
   const toneWord = dot > 0.06 ? "agree" : dot < -0.06 ? "oppose" : "⟂";
   const gridLines = Array.from({ length: 15 }, (_, i) => i - 7);
@@ -160,15 +179,6 @@ export const VectorPlotReadOnly = ({ state }: { state: VectorPlotState }) => {
         aria-label={`Vectors u and v${sum ? " with sum u+v" : ""}${unitCircle ? " and unit circle" : ""}`}
       >
         <defs>
-          <marker id="vp-u" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto">
-            <path d="M0,0 L8,3 L0,6 Z" fill={U_COLOR} />
-          </marker>
-          <marker id="vp-v" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto">
-            <path d="M0,0 L8,3 L0,6 Z" fill={V_COLOR} />
-          </marker>
-          <marker id="vp-sum" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto">
-            <path d="M0,0 L8,3 L0,6 Z" fill={SUM_COLOR} />
-          </marker>
           <radialGradient id="vp-fade" cx="50%" cy="50%" r="62%">
             <stop offset="0%" stopColor="#fff" />
             <stop offset="70%" stopColor="#fff" stopOpacity="0.75" />
@@ -283,62 +293,54 @@ export const VectorPlotReadOnly = ({ state }: { state: VectorPlotState }) => {
 
         {/* scalar multiple ghost */}
         {scale !== undefined && (
-          <line
+          <VectorArrow
             x1={CX}
             y1={CY}
             x2={pScaled.x}
             y2={pScaled.y}
-            stroke={SCALE_GHOST}
+            color={SCALE_GHOST}
             strokeWidth={3}
             strokeDasharray="6 4"
-            strokeLinecap="round"
-            markerEnd="url(#vp-u)"
           />
         )}
 
         <g filter="url(#vp-glow)">
-          <line
+          <VectorArrow
             x1={CX}
             y1={CY}
             x2={pu.x}
             y2={pu.y}
-            stroke={U_COLOR}
+            color={U_COLOR}
             strokeWidth={emphasis === "u" ? 5.5 : 4}
-            strokeLinecap="round"
-            markerEnd="url(#vp-u)"
           />
-          <line
+          <VectorArrow
             x1={CX}
             y1={CY}
             x2={pv.x}
             y2={pv.y}
-            stroke={V_COLOR}
+            color={V_COLOR}
             strokeWidth={emphasis === "v" ? 5.5 : 4}
-            strokeLinecap="round"
-            markerEnd="url(#vp-v)"
           />
           {sum && (
-            <line
+            <VectorArrow
               x1={CX}
               y1={CY}
               x2={ps.x}
               y2={ps.y}
-              stroke={SUM_COLOR}
+              color={SUM_COLOR}
               strokeWidth={4}
-              strokeLinecap="round"
-              markerEnd="url(#vp-sum)"
             />
           )}
         </g>
 
-        <text x={pu.x + 9} y={pu.y - 8} fill={U_COLOR} fontFamily="Newsreader, Georgia, serif" fontStyle="italic" fontSize="20" fontWeight="600">
+        <text x={labelU.x} y={labelU.y} fill={U_COLOR} fontFamily="Newsreader, Georgia, serif" fontStyle="italic" fontSize="20" fontWeight="600">
           u
         </text>
-        <text x={pv.x + 9} y={pv.y - 8} fill={V_COLOR} fontFamily="Newsreader, Georgia, serif" fontStyle="italic" fontSize="20" fontWeight="600">
+        <text x={labelV.x} y={labelV.y} fill={V_COLOR} fontFamily="Newsreader, Georgia, serif" fontStyle="italic" fontSize="20" fontWeight="600">
           v
         </text>
         {sum && (
-          <text x={ps.x + 9} y={ps.y - 8} fill={SUM_COLOR} fontFamily="Newsreader, Georgia, serif" fontStyle="italic" fontSize="18" fontWeight="600">
+          <text x={labelSum.x} y={labelSum.y} fill={SUM_COLOR} fontFamily="Newsreader, Georgia, serif" fontStyle="italic" fontSize="18" fontWeight="600">
             u+v
           </text>
         )}
