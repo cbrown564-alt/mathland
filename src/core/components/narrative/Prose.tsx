@@ -65,9 +65,9 @@ function pushParagraphs(text: string, out: ReactNode[]) {
     .split(/\n\s*\n/)
     .map((s) => s.trim())
     .filter(Boolean);
-  paras.forEach((p, idx) =>
+  paras.forEach((p) =>
     out.push(
-      <p key={`prose-pg-${idx}`} className="mb-4 leading-relaxed last:mb-0">
+      <p key={nextKey()} className="mb-4 leading-relaxed last:mb-0">
         {parseInline(p.replace(/\n/g, " "))}
       </p>,
     ),
