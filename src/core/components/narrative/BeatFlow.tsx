@@ -144,7 +144,12 @@ export function BeatFlow<S>({ lesson }: BeatFlowProps<S>) {
               transition={{ duration: TRANSITION_DURATION, ease: TRANSITION_EASE }}
               style={{ transformStyle: "preserve-3d" }}
             >
-              <LessonBeat beat={beat} lessonVisual={lesson.visual} onComplete={next} />
+              <LessonBeat
+                beat={beat}
+                lessonVisual={lesson.visual}
+                characterId={lesson.meta.characterId}
+                onComplete={next}
+              />
             </motion.div>
           </AnimatePresence>
         </div>

@@ -123,6 +123,7 @@ export function LessonBeat<S>({ beat, lessonVisual, characterId, onComplete }: L
             renderVisual={renderVisual}
             interpolate={interpolate}
             initialState={initialState}
+            characterId={characterId}
           />
           <CheckBlock check={beat.check} characterId={characterId} onComplete={onComplete} />
         </section>

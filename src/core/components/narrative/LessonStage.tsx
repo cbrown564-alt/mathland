@@ -17,6 +17,7 @@ export const LessonStage = ({
   className?: string;
 }) => (
   <div data-character={characterId} className={cn("lesson-stage min-h-screen text-white", className)}>
+    <div className="lesson-stage-particles" aria-hidden />
     <div className="lesson-stage-content">{children}</div>
   </div>
 );

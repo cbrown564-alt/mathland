@@ -25,6 +25,8 @@ interface CoupledVisualProps<S> {
   interpolate?: (a: S, b: S, t: number) => S;
   /** Fallback when the first passage omits state. */
   initialState?: S;
+  /** Drives dynamic "hear {character}" labels on passage audio chips. */
+  characterId?: string;
   className?: string;
 }
 
@@ -60,6 +62,7 @@ export function CoupledVisual<S>({
   renderVisual,
   interpolate = deepLerp,
   initialState,
+  characterId,
   className,
 }: CoupledVisualProps<S>) {
   const resolved = useMemo(
@@ -172,7 +175,7 @@ export function CoupledVisual<S>({
               </div>
               {p.audioSrc && (
                 <div className="mt-6" onClick={(e) => e.stopPropagation()}>
-                  <AudioChip src={p.audioSrc} />
+                  <AudioChip src={p.audioSrc} characterId={characterId} />
                 </div>
               )}
               <div className="mt-4 flex gap-1" aria-hidden>

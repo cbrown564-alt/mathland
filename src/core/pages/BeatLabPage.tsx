@@ -44,6 +44,7 @@ const BeatLabPage = () => {
             check: dotProductIntroCheck,
           }}
           lessonVisual={{ key: "vectorPlot" }}
+          characterId="vera"
           onComplete={() => setDone(true)}
         />
 
