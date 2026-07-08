@@ -1,8 +1,9 @@
 import { characters } from "./characterData";
+import { getCharacterTheme } from "./theme";
 
-function getCharacterColor(characterName: string) {
-  const char = characters.find(c => c.name === characterName || c.fullName === characterName);
-  return char?.color || "from-gray-400 to-gray-600";
+function getModuleColor(characterName: string) {
+  const char = characters.find((c) => c.name === characterName || c.fullName === characterName);
+  return char ? getCharacterTheme(char.id).color : "from-gray-400 to-gray-600";
 }
 
 export const modulesData = [
@@ -14,7 +15,7 @@ export const modulesData = [
     duration: "4-5 hours",
     lessons: 8,
     status: "available",
-    color: getCharacterColor("Ollie the Otter"),
+    color: getModuleColor("Ollie the Otter"),
     character: {
       name: "Ollie the Otter",
       avatar: "/lovable-uploads/ollie.png"
@@ -61,7 +62,7 @@ export const modulesData = [
     duration: "5-6 hours",
     lessons: 10,
     status: "available",
-    color: getCharacterColor("Vera the Vector"),
+    color: getModuleColor("Vera the Vector"),
     character: {
       name: "Vera the Vector",
       avatar: "/lovable-uploads/vera.png"
@@ -108,7 +109,7 @@ export const modulesData = [
     duration: "6-7 hours",
     lessons: 12,
     status: "coming-soon",
-    color: getCharacterColor("Matrix Max"),
+    color: getModuleColor("Matrix Max"),
     character: {
       name: "Matrix Max",
       avatar: "/lovable-uploads/max.png"
@@ -155,7 +156,7 @@ export const modulesData = [
     duration: "4-5 hours",
     lessons: 8,
     status: "coming-soon",
-    color: getCharacterColor("Eileen Eigen"),
+    color: getModuleColor("Eileen Eigen"),
     character: {
       name: "Eileen Eigen",
       avatar: "/lovable-uploads/eileen.png"
@@ -201,7 +202,7 @@ export const modulesData = [
     duration: "5-6 hours",
     lessons: 10,
     status: "coming-soon",
-    color: getCharacterColor("Dr. Delta"),
+    color: getModuleColor("Dr. Delta"),
     character: {
       name: "Dr. Delta",
       avatar: "/lovable-uploads/delta.png"
@@ -245,7 +246,7 @@ export const modulesData = [
     duration: "4-5 hours",
     lessons: 9,
     status: "coming-soon",
-    color: getCharacterColor("Gradient Greta"),
+    color: getModuleColor("Gradient Greta"),
     character: {
       name: "Gradient Greta",
       avatar: "/lovable-uploads/greta.png"
@@ -288,7 +289,7 @@ export const modulesData = [
     duration: "6-7 hours",
     lessons: 11,
     status: "coming-soon",
-    color: getCharacterColor("Probability Pippa"),
+    color: getModuleColor("Probability Pippa"),
     character: {
       name: "Probability Pippa",
       avatar: "/lovable-uploads/pippa.png"
@@ -335,7 +336,7 @@ export const modulesData = [
     duration: "5-6 hours",
     lessons: 10,
     status: "coming-soon",
-    color: getCharacterColor("Sigmund the Swan"),
+    color: getModuleColor("Sigmund the Swan"),
     character: {
       name: "Sigmund the Swan",
       avatar: "/lovable-uploads/sigmund.png"
@@ -380,7 +381,7 @@ export const modulesData = [
     duration: "4-5 hours",
     lessons: 8,
     status: "coming-soon",
-    color: getCharacterColor("Bayes the Fox"),
+    color: getModuleColor("Bayes the Fox"),
     character: {
       name: "Bayes the Fox",
       avatar: "/lovable-uploads/bayes.png"
@@ -425,7 +426,7 @@ export const modulesData = [
     duration: "8-10 hours",
     lessons: 1,
     status: "coming-soon",
-    color: getCharacterColor("Sage the Visionary Eagle"),
+    color: getModuleColor("Sage the Visionary Eagle"),
     character: {
       name: "Sage the Visionary Eagle",
       avatar: "/lovable-uploads/sage.png"

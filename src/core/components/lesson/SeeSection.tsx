@@ -1,3 +1,4 @@
+import { Eye } from "lucide-react";
 import { CharacterAvatar } from "@/core/components/CharacterAvatar";
 import { LessonData } from "@/core/types/lesson";
 
@@ -11,10 +12,28 @@ interface SeeSectionProps {
   };
 }
 
+const hasVisualContent = (lesson: LessonData) =>
+  Boolean(lesson.seeVideoUrl?.trim() || lesson.seePreQuote?.trim());
+
+/**
+ * Renders the "See" section. Shows a neutral empty state when no video or
+ * framing quote is available (Path A4).
+ */
 export const SeeSection = ({ lesson, character }: SeeSectionProps) => {
+  if (!hasVisualContent(lesson)) {
+    return (
+      <div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
+        <Eye className="w-8 h-8 text-slate-400 mx-auto mb-3" />
+        <p className="font-semibold text-slate-700">Visual content coming soon</p>
+        <p className="text-sm text-slate-500 mt-1">
+          The demonstration for this section is still being prepared.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <>
-      {/* Section content follows here */}
       {lesson.seePreQuote && (
         <div className="flex items-start gap-4 mb-4">
           <CharacterAvatar src={character.avatar} alt={character.fullName} size="lg" />
@@ -25,22 +44,26 @@ export const SeeSection = ({ lesson, character }: SeeSectionProps) => {
           </div>
         </div>
       )}
-      <div className="w-full">
-        <div className="flex justify-center w-full mb-4">
-          <div className="aspect-video max-w-2xl w-full rounded-lg overflow-hidden mx-auto">
-            <iframe
-              className="w-full h-full"
-              src={lesson.seeVideoUrl?.includes('youtube.com/watch?v=')
-                ? lesson.seeVideoUrl.replace('watch?v=', 'embed/')
-                : lesson.seeVideoUrl}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
+      {lesson.seeVideoUrl && (
+        <div className="w-full">
+          <div className="flex justify-center w-full mb-4">
+            <div className="aspect-video max-w-2xl w-full rounded-lg overflow-hidden mx-auto">
+              <iframe
+                className="w-full h-full"
+                src={
+                  lesson.seeVideoUrl.includes("youtube.com/watch?v=")
+                    ? lesson.seeVideoUrl.replace("watch?v=", "embed/")
+                    : lesson.seeVideoUrl
+                }
+                title="Lesson video"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
-}; 
+};

@@ -1,5 +1,12 @@
-import { interactiveDemos, getDemosByCharacter, getDemoById, getReadyDemos } from './demo_registry';
+import {
+  interactiveDemos,
+  getDemosByCharacter,
+  getDemoById,
+  getReadyDemos,
+  getDoComponentKey,
+} from './demo_registry';
 import { characters } from '@/utils/characterData';
+import { customDoComponents } from '@/interactive';
 
 /**
  * Path A7 guard: demo_registry.ts is the single source of truth for the
@@ -26,17 +33,19 @@ describe('interactive demo registry (Path A7 single source of truth)', () => {
 
   it('helpers stay consistent with the full list', () => {
     expect(getDemoById(interactiveDemos[0].id)).toBe(interactiveDemos[0]);
-    // Sum of per-character slices equals the whole.
     const summed = characters.reduce(
       (n, c) => n + getDemosByCharacter(c.id).length,
       0,
     );
     expect(summed).toBe(interactiveDemos.length);
+    expect(getReadyDemos().length).toBeGreaterThan(0);
+    expect(getReadyDemos().length).toBeLessThanOrEqual(interactiveDemos.length);
   });
 
-  it('ready demos are a non-empty subset', () => {
-    const ready = getReadyDemos();
-    expect(ready.length).toBeGreaterThan(0);
-    expect(ready.length).toBeLessThanOrEqual(interactiveDemos.length);
+  it('every demo maps to a lesson doComponent entry', () => {
+    for (const demo of interactiveDemos) {
+      const key = getDoComponentKey(demo.id);
+      expect(customDoComponents[key]).toBeDefined();
+    }
   });
 });

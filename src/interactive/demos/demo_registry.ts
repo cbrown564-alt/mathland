@@ -438,7 +438,7 @@ export const interactiveDemos: InteractiveDemo[] = [
     tags: ['random-variables', 'pmf', 'pdf', 'distributions']
   },
   {
-    id: 'sigmund-hypothesis-tester',
+    id: 'sigmund-hypothesis-arena',
     characterId: 'sigmund',
     title: 'Black Swan Investigator',
     description: 'Test hypotheses elegantly and discover the power of statistical inference!',
@@ -506,7 +506,7 @@ export const interactiveDemos: InteractiveDemo[] = [
     tags: ['functions', 'graphing', 'linear', 'quadratic', 'exponential']
   },
   {
-    id: 'sage-data-integrator',
+    id: 'sage-data-synthesizer',
     characterId: 'sage',
     title: 'Data Science Synthesizer',
     description: 'Bring together all mathematical concepts in a real data science project!',
@@ -523,6 +523,21 @@ export const interactiveDemos: InteractiveDemo[] = [
     tags: ['data-science', 'synthesis', 'capstone', 'integration']
   }
 ];
+
+/**
+ * Snake_case keys stored in lesson JSON `doComponent` fields. Most demos map
+ * cleanly from kebab-case id; these overrides cover historical naming drift.
+ */
+const DO_COMPONENT_KEY_OVERRIDES: Record<string, string> = {
+  "delta-derivative-explorer": "delta_partial_derivative_explorer",
+  "eileen-eigenvalue-explorer": "eileen_eigenvalue_detective",
+  "greta-gradient-climber": "greta_gradient_descent_climber",
+};
+
+/** Resolve the lesson `doComponent` key for a registered demo id. */
+export function getDoComponentKey(demoId: string): string {
+  return DO_COMPONENT_KEY_OVERRIDES[demoId] ?? demoId.replace(/-/g, "_");
+}
 
 export const getDemosByCharacter = (characterId: string): InteractiveDemo[] => {
   return interactiveDemos.filter(demo => demo.characterId === characterId);
