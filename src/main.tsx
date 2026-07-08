@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
+import 'katex/dist/katex.min.css'
 import { ensureInitialized } from './utils/lessonData'
 
 // Initialize lesson data before rendering the app
