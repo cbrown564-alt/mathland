@@ -25,6 +25,10 @@ function lessonHeaderLabel(lesson: BeatLesson<unknown>): string {
   return `${name} · ${lesson.meta.title}`;
 }
 
+function beatLabel(beat: BeatLesson<unknown>["beats"][number], index: number): string {
+  return beat.title || beat.eyebrow || `Beat ${index + 1}`;
+}
+
 export function BeatFlow<S>({ lesson }: BeatFlowProps<S>) {
   const lessonId = lesson.meta.id;
   const total = lesson.beats.length;
@@ -74,6 +78,7 @@ export function BeatFlow<S>({ lesson }: BeatFlowProps<S>) {
   }, [resetBeatProgress]);
 
   const beat = lesson.beats[index];
+  const currentBeatLabel = beatLabel(beat as BeatLesson<unknown>["beats"][number], index);
 
   return (
     <>
@@ -83,11 +88,18 @@ export function BeatFlow<S>({ lesson }: BeatFlowProps<S>) {
             <X className="h-5 w-5" />
           </Link>
 
-          <div className="flex flex-1 items-center gap-1.5">
+          <ol aria-label="Lesson progress" className="hidden flex-1 items-start md:flex">
             {lesson.beats.map((b, i) => (
-              <div key={b.id} className="flex flex-1 items-center gap-1.5 last:flex-none">
+              <li key={b.id} className="relative flex min-w-0 flex-1 flex-col items-center">
+                {i < total - 1 && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute left-1/2 right-[-50%] top-[5px] h-px"
+                    style={{ background: i < index ? "var(--ch-accent-2)" : "rgba(255,255,255,0.12)" }}
+                  />
+                )}
                 <span
-                  className="h-2.5 w-2.5 flex-none rounded-full transition-all duration-300"
+                  className="relative z-10 h-2.5 w-2.5 flex-none rounded-full transition-all duration-300"
                   style={{
                     background:
                       i < index ? "var(--ch-accent-2)" : i === index ? "var(--ch-accent)" : "rgba(255,255,255,0.18)",
@@ -95,14 +107,34 @@ export function BeatFlow<S>({ lesson }: BeatFlowProps<S>) {
                   }}
                   aria-current={i === index ? "step" : undefined}
                 />
-                {i < total - 1 && (
-                  <span
-                    className="h-px flex-1"
-                    style={{ background: i < index ? "var(--ch-accent-2)" : "rgba(255,255,255,0.12)" }}
-                  />
-                )}
-              </div>
+                <span
+                  className={`mt-1.5 w-full truncate px-2 text-center font-mono text-[9px] uppercase tracking-[0.12em] transition-colors ${
+                    i === index ? "text-white/80" : i < index ? "text-white/50" : "text-white/30"
+                  }`}
+                  title={beatLabel(b as BeatLesson<unknown>["beats"][number], i)}
+                >
+                  {beatLabel(b as BeatLesson<unknown>["beats"][number], i)}
+                </span>
+              </li>
             ))}
+          </ol>
+
+          <div className="flex min-w-0 flex-1 flex-col gap-1 md:hidden">
+            <span className="truncate font-mono text-[10px] uppercase tracking-[0.14em] text-white/70">
+              {currentBeatLabel}
+            </span>
+            <div aria-hidden="true" className="flex items-center gap-1.5">
+              {lesson.beats.map((b, i) => (
+                <span
+                  key={b.id}
+                  className="h-1 flex-1 rounded-full transition-colors"
+                  style={{
+                    background:
+                      i < index ? "var(--ch-accent-2)" : i === index ? "var(--ch-accent)" : "rgba(255,255,255,0.14)",
+                  }}
+                />
+              ))}
+            </div>
           </div>
 
           <span className="flex items-center gap-1.5 font-mono text-[11px] text-white/45">
