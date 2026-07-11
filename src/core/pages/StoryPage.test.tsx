@@ -29,4 +29,11 @@ describe("StoryPage", () => {
     expect(screen.getByText("No guided lesson has been authored for lesson 9.9 yet.")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Open the standard lesson/ })).toHaveAttribute("href", "/lesson/9.9");
   });
+
+  it("keeps study participants inside their assigned format", async () => {
+    renderStory("/story/2.3?study=1");
+
+    expect(await screen.findByRole("heading", { name: "When directions agree" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Exit lesson" })).toHaveAttribute("href", "/module/2");
+  });
 });

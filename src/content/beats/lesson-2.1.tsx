@@ -1,11 +1,11 @@
 import type { BeatLesson } from "./schema";
-import type { VectorState } from "@/core/components/narrative/VectorVisual";
+import type { VectorPlotState } from "@/core/components/narrative/primitives";
 
 /**
  * Lesson 2.1 — Vera · Vector Basics
  * Archetypes: couple ×2 → do · visual: vectorPlot (single vector, components)
  */
-export const vectorBasicsLesson: BeatLesson<VectorState> = {
+export const vectorBasicsLesson: BeatLesson<VectorPlotState> = {
   meta: {
     id: "2.1",
     characterId: "vera",
@@ -42,25 +42,25 @@ export const vectorBasicsLesson: BeatLesson<VectorState> = {
           id: "p1",
           eyebrow: "The forest · 1",
           md: "I'm planning a hike through the forest. Someone tells me to walk **5 kilometers** — and I immediately ask: *which way?* A plain number is a **scalar**: size only, no direction.",
-          state: { u: [4.5, 0], v: [0.3, 0.3], emphasis: "u" },
+          state: { u: [4.5, 0], v: [0, 0], emphasis: "u", singleVector: true },
         },
         {
           id: "p2",
           eyebrow: "2",
           md: "A **vector** answers both questions at once — *how far* and *which way*. Think of it as GPS instructions that actually work: not just \"go 3 miles,\" but \"go 3 miles northeast.\"",
-          state: { u: [3.5, 2.5], v: [0.3, 0.3], emphasis: "u" },
+          state: { u: [3.5, 2.5], v: [0, 0], emphasis: "u", singleVector: true },
         },
         {
           id: "p3",
           eyebrow: "3",
           md: "On a grid we write a vector as an ordered pair **[x, y]** — east-west, then north-south. Walk 4 meters east, then 3 north: the displacement is **[4, 3]**.",
-          state: { u: [4, 3], v: [0.3, 0.3], emphasis: "u" },
+          state: { u: [4, 3], v: [0, 0], emphasis: "u", singleVector: true },
         },
         {
           id: "p4",
           eyebrow: "4",
           md: "The arrow's length is the **magnitude**: $||\\mathbf{v}|| = \\sqrt{x^2 + y^2}$. For [4, 3] that's $\\sqrt{16 + 9} =$ **5** — the straight-line distance, no matter how you wandered to get there.",
-          state: { u: [4, 3], v: [0.3, 0.3], emphasis: "u" },
+          state: { u: [4, 3], v: [0, 0], emphasis: "u", singleVector: true },
         },
       ],
       check: {
@@ -85,19 +85,19 @@ export const vectorBasicsLesson: BeatLesson<VectorState> = {
           id: "n1",
           eyebrow: "Notation · 1",
           md: "You'll see vectors as bold **v**, with an arrow $\\vec{v}$, or as a column of components. All three names point at the same mathematical object — a journey with a start and a direction.",
-          state: { u: [3, 2], v: [0.3, 0.3], emphasis: "u" },
+          state: { u: [3, 2], v: [0, 0], emphasis: "u", singleVector: true },
         },
         {
           id: "n2",
           eyebrow: "2",
           md: "A **unit vector** has magnitude exactly 1 — pure direction, no extra stretch. Point due east? That's [1, 0]. The zero vector **0** has no length and no direction at all.",
-          state: { u: [1, 0], v: [0.3, 0.3], emphasis: "u", unitCircle: true },
+          state: { u: [1, 0], v: [0, 0], emphasis: "u", unitCircle: true, singleVector: true },
         },
         {
           id: "n3",
           eyebrow: "3",
           md: "Vectors are the language of anything with direction *and* size: wind velocity, GPS fixes, forces in physics, even customer-preference arrows in data science. Once you start seeing them, they're everywhere.",
-          state: { u: [2.8, 3.2], v: [0.3, 0.3], emphasis: "u" },
+          state: { u: [2.8, 3.2], v: [0, 0], emphasis: "u", singleVector: true },
         },
       ],
       check: {

@@ -8,6 +8,12 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
+    "lint:ci": "eslint . --max-warnings 92",
+    "typecheck": "tsc -p tsconfig.release.json --pretty false",
+    "validate:content": "node scripts/validate-content.mjs",
+    "test:e2e": "playwright test",
+    "test:e2e:install": "playwright install chromium",
+    "quality": "npm run lint:ci && npm run typecheck && npm run validate:content && npm run test:ci && npm run build",
     "preview": "vite preview",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -71,7 +77,9 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
     "@eslint/js": "^9.9.0",
+    "@playwright/test": "^1.61.1",
     "@tailwindcss/typography": "^0.5.15",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",

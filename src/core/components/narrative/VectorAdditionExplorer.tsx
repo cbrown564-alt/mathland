@@ -76,6 +76,20 @@ export const VectorAdditionExplorer = ({ onStateChange }: InteractiveProps = {})
     svgRef.current?.releasePointerCapture(e.pointerId);
   };
 
+  const onKeyDown = (id: "u" | "v") => (e: React.KeyboardEvent) => {
+    const delta = e.shiftKey ? 1 : 0.5;
+    if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) return;
+    e.preventDefault();
+    setVectors((current) => current.map((vec) => {
+      if (vec.id !== id) return vec;
+      const next = clamp(
+        vec.x + (e.key === "ArrowRight" ? delta : e.key === "ArrowLeft" ? -delta : 0),
+        vec.y + (e.key === "ArrowUp" ? delta : e.key === "ArrowDown" ? -delta : 0),
+      );
+      return { ...vec, ...next };
+    }));
+  };
+
   const origin = mathToSvg(0, 0);
   const pu = mathToSvg(u.x, u.y);
   const pv = mathToSvg(v.x, v.y);
@@ -126,6 +140,13 @@ export const VectorAdditionExplorer = ({ onStateChange }: InteractiveProps = {})
                 strokeWidth={3}
                 style={{ cursor: "grab", touchAction: "none" }}
                 aria-label={`Drag vector ${vec.id} tip`}
+                role="slider"
+                tabIndex={0}
+                aria-valuemin={-GRID_SIZE}
+                aria-valuemax={GRID_SIZE}
+                aria-valuenow={vec.x}
+                aria-valuetext={`${vec.id} = [${vec.x.toFixed(1)}, ${vec.y.toFixed(1)}]. Use left and right for x; up and down for y.`}
+                onKeyDown={onKeyDown(vec.id)}
                 onPointerDown={onPointerDown(vec.id)}
               />
             );
@@ -142,6 +163,11 @@ export const VectorAdditionExplorer = ({ onStateChange }: InteractiveProps = {})
         </span>
       </div>
       <p className="mt-2 text-center text-xs italic text-white/40">Drag u and v — the green arrow is always u + v.</p>
+      <div className="mt-3 flex flex-wrap justify-center gap-2" aria-label="Guided addition presets">
+        <button type="button" onClick={() => setVectors([{ id: "u", x: 3, y: 2, color: U_COLOR }, { id: "v", x: 1, y: 4, color: V_COLOR }])} className="rounded-full border border-white/15 px-3 py-2 text-xs text-white/75 hover:bg-white/10">Make sum [4, 6]</button>
+        <button type="button" onClick={() => setVectors([{ id: "u", x: -2, y: -1, color: U_COLOR }, { id: "v", x: 1, y: 2, color: V_COLOR }])} className="rounded-full border border-white/15 px-3 py-2 text-xs text-white/75 hover:bg-white/10">Flip u negative</button>
+        <button type="button" onClick={() => setVectors([{ id: "u", x: 4, y: 3, color: U_COLOR }, { id: "v", x: 3, y: 2, color: V_COLOR }])} className="rounded-full border border-white/15 px-3 py-2 text-xs text-white/75 hover:bg-white/10">Stretch the sum</button>
+      </div>
     </div>
   );
 };

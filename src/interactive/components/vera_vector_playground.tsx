@@ -41,7 +41,7 @@ function getAngle(x: number, y: number) {
 }
 
 const VeraVectorPlayground = () => {
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [vectors, setVectors] = useState(initialVectors);
   const [selectedVector, setSelectedVector] = useState<number>(1);
   const [hoveredVector, setHoveredVector] = useState<number | null>(null);
@@ -105,6 +105,7 @@ const VeraVectorPlayground = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (showGrid) {
       ctx.strokeStyle = 'rgba(255,255,255,0.08)';

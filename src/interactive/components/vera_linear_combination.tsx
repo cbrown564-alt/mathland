@@ -237,6 +237,8 @@ const LinearCombination: React.FC<LinearCombinationProps> = ({
     const determinant = vectorU.x * vectorV.y - vectorU.y * vectorV.x;
     const isIndependent = Math.abs(determinant) > 0.1;
     ctx.fillText(`Vectors are: ${isIndependent ? 'Independent' : 'Dependent'}`, 20, 90);
+  // Drawing helpers close over precisely the state listed here.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vectorU, vectorV, coeffA, coeffB, showGrid, showComponents, showSpan, scaledU, scaledV, result]);
 
   // Animation functions

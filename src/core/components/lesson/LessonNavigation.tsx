@@ -6,9 +6,10 @@ import { Button } from "@/core/components/ui/button";
 interface LessonNavigationProps {
   previousLessonId?: string;
   nextLessonId?: string;
+  showNext?: boolean;
 }
 
-export const LessonNavigation = ({ previousLessonId, nextLessonId }: LessonNavigationProps) => {
+export const LessonNavigation = ({ previousLessonId, nextLessonId, showNext = false }: LessonNavigationProps) => {
   const navigate = useNavigate();
 
   return (
@@ -26,7 +27,7 @@ export const LessonNavigation = ({ previousLessonId, nextLessonId }: LessonNavig
         <div />
       )}
 
-      {nextLessonId ? (
+      {showNext && nextLessonId ? (
         <Button
           onClick={() => navigate(`/lesson/${nextLessonId}`)}
           className="character-accent text-white hover:opacity-90"
@@ -34,7 +35,7 @@ export const LessonNavigation = ({ previousLessonId, nextLessonId }: LessonNavig
           Next Lesson
           <ArrowRight className="w-4 h-4 ml-2" />
         </Button>
-      ) : (
+      ) : showNext ? (
         <Button
           onClick={() => navigate("/module-detail/1")}
           className="character-accent text-white hover:opacity-90"
@@ -42,7 +43,7 @@ export const LessonNavigation = ({ previousLessonId, nextLessonId }: LessonNavig
           Back to Module
           <ArrowRight className="w-4 h-4 ml-2" />
         </Button>
-      )}
+      ) : <div />}
     </div>
   );
 };

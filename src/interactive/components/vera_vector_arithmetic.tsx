@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { Button } from '@/core/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/core/components/ui/card';
 import { Slider } from '@/core/components/ui/slider';
@@ -42,8 +42,8 @@ const VectorArithmetic: React.FC<VectorArithmeticProps> = ({
   const scale = 3;
 
   // Calculate scaled vectors
-  const scaledA = { x: vectorA.x * scalarA, y: vectorA.y * scalarA };
-  const scaledB = { x: vectorB.x * scalarB, y: vectorB.y * scalarB };
+  const scaledA = useMemo(() => ({ x: vectorA.x * scalarA, y: vectorA.y * scalarA }), [vectorA.x, vectorA.y, scalarA]);
+  const scaledB = useMemo(() => ({ x: vectorB.x * scalarB, y: vectorB.y * scalarB }), [vectorB.x, vectorB.y, scalarB]);
 
   // Calculate result based on operation
   const calculateResult = useCallback(() => {
@@ -256,6 +256,9 @@ const VectorArithmetic: React.FC<VectorArithmeticProps> = ({
         drawDotProduct(ctx);
         break;
     }
+  // The drawing helpers intentionally close over the complete state list below;
+  // recreating them with nested callbacks would add identities without changing behavior.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vectorA, vectorB, scalarA, scalarB, operation, showComponents, showGrid, scaledA, scaledB, result]);
 
   // Redraw when dependencies change

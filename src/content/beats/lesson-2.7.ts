@@ -27,14 +27,14 @@ export const basisDimensionLesson: BeatLesson<VectorPlotState> = {
       eyebrow: "Vera · Vectors · Beat 1",
       title: "A GPS for any space",
       predict: {
-        prompt: "A basis must be linearly independent AND span the space. Can you have a spanning set that isn't a basis?",
+        prompt: "Three vectors reach every point in a 2D plane, but one is a combination of the other two. Is the full set a basis?",
         options: [
-          { label: "Yes — if it has redundant vectors", value: "yes" },
-          { label: "No — spanning always means basis", value: "no" },
+          { label: "Yes — reaching everywhere is enough", value: "yes" },
+          { label: "No — the redundant vector prevents a basis", value: "no" },
         ],
         nudge: {
-          yes: "You said yes — redundancy is exactly what keeps a spanning set from being minimal.",
-          no: "You said no — scroll and see what extra vectors do to a spanning set.",
+          yes: "You said yes — scroll and test whether reaching everywhere is the only requirement.",
+          no: "You said no — now identify the second condition a basis needs.",
         },
       },
       interpolate: interpolateVectorPlot,

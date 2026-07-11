@@ -61,6 +61,16 @@ export const VectorNormsExplorer = ({ onStateChange }: InteractiveProps = {}) =>
     svgRef.current?.releasePointerCapture(e.pointerId);
   };
 
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    const delta = e.shiftKey ? 1 : 0.5;
+    if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) return;
+    e.preventDefault();
+    setVec((current) => clamp(
+      current.x + (e.key === "ArrowRight" ? delta : e.key === "ArrowLeft" ? -delta : 0),
+      current.y + (e.key === "ArrowUp" ? delta : e.key === "ArrowDown" ? -delta : 0),
+    ));
+  };
+
   const origin = mathToSvg(0, 0);
   const tip = mathToSvg(vec.x, vec.y);
 
@@ -115,6 +125,13 @@ export const VectorNormsExplorer = ({ onStateChange }: InteractiveProps = {}) =>
             strokeWidth={3}
             style={{ cursor: "grab", touchAction: "none" }}
             aria-label="Drag vector tip"
+            role="slider"
+            tabIndex={0}
+            aria-valuemin={-GRID_SIZE}
+            aria-valuemax={GRID_SIZE}
+            aria-valuenow={vec.x}
+            aria-valuetext={`v = [${vec.x.toFixed(1)}, ${vec.y.toFixed(1)}]. Use left and right for x; up and down for y.`}
+            onKeyDown={onKeyDown}
             onPointerDown={onPointerDown}
           />
           <circle cx={origin.x} cy={origin.y} r={3} fill="rgba(255,255,255,0.5)" />
@@ -132,6 +149,11 @@ export const VectorNormsExplorer = ({ onStateChange }: InteractiveProps = {}) =>
         </span>
       </div>
       <p className="mt-2 text-center text-xs italic text-white/40">Drag the vector — compare straight-line, city-block, and max-coordinate distances.</p>
+      <div className="mt-3 flex flex-wrap justify-center gap-2" aria-label="Guided norm presets">
+        <button type="button" onClick={() => setVec({ x: 3, y: 4 })} className="rounded-full border border-white/15 px-3 py-2 text-xs text-white/75 hover:bg-white/10">Set [3, 4]</button>
+        <button type="button" onClick={() => setVec({ x: 1, y: 0 })} className="rounded-full border border-white/15 px-3 py-2 text-xs text-white/75 hover:bg-white/10">Normalize to length 1</button>
+        <button type="button" onClick={() => setVec({ x: 3, y: -4 })} className="rounded-full border border-white/15 px-3 py-2 text-xs text-white/75 hover:bg-white/10">Make L1 equal 7</button>
+      </div>
     </div>
   );
 };

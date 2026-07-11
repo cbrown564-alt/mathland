@@ -135,7 +135,7 @@ export function CoupledVisual<S>({
             </div>
             {p.audioSrc && (
               <div className="mt-6">
-                <AudioChip src={p.audioSrc} />
+                <AudioChip src={p.audioSrc} label={`Hear Vera: ${p.eyebrow ?? `passage ${idx + 1}`}`} />
               </div>
             )}
           </div>

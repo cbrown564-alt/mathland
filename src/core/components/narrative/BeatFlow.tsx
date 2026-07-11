@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, Compass, RotateCcw, X } from "lucide-react";
 import { LessonBeat } from "./LessonBeat";
@@ -30,9 +30,11 @@ function beatLabel(beat: BeatLesson<unknown>["beats"][number], index: number): s
 }
 
 export function BeatFlow<S>({ lesson }: BeatFlowProps<S>) {
+  const location = useLocation();
+  const isStudyMode = new URLSearchParams(location.search).get("study") === "1";
   const lessonId = lesson.meta.id;
   const total = lesson.beats.length;
-  const exitTo = lesson.exitTo ?? `/lesson/${lessonId}`;
+  const exitTo = isStudyMode ? `/module/${lessonId.split(".")[0]}` : lesson.exitTo ?? `/lesson/${lessonId}`;
   const label = lessonHeaderLabel(lesson as BeatLesson<unknown>);
 
   const {

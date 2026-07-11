@@ -248,6 +248,7 @@ function CheckBlock({ check, onComplete }: { check?: Check; onComplete?: () => v
 function DoBody({ beat, onComplete }: { beat: DoBeat; onComplete?: () => void }) {
   const Interactive = INTERACTIVES[beat.interactive];
   const [achieved, setAchieved] = useState<Set<string>>(new Set());
+  const [showHelp, setShowHelp] = useState(false);
   const goals = beat.goals ?? [];
   const met = goals.filter((g) => achieved.has(g.tone)).length;
   const allMet = met === goals.length;
@@ -295,9 +296,11 @@ function DoBody({ beat, onComplete }: { beat: DoBeat; onComplete?: () => void })
       {onComplete && (
         <div className="mt-8 flex flex-col items-center gap-2">
           {goals.length > 0 && !allMet && (
-            <p className="text-sm text-white/45">
-              Land all outcomes to finish — {met} of {goals.length} so far.
-            </p>
+            <div className="text-center text-sm text-white/45">
+              <p>Complete each outcome to finish — {met} of {goals.length} so far. Dragging snaps to the activity grid; guided presets count too.</p>
+              <button type="button" onClick={() => setShowHelp((value) => !value)} className="mt-2 underline underline-offset-2 hover:text-white/80">I’m stuck</button>
+              {showHelp && <p className="mt-2 max-w-xl text-white/65">Use the labeled guided presets inside the activity, or operate its sliders and number controls with the keyboard. Each completed goal turns green.</p>}
+            </div>
           )}
           <button
             onClick={onComplete}

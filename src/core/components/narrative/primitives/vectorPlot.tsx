@@ -24,6 +24,8 @@ export interface VectorPlotState {
   span?: boolean;
   /** Skewed basis grid from u and v (lesson 2.7). */
   basis?: boolean;
+  /** Show one vector with component/magnitude readouts; used before relationships are introduced. */
+  singleVector?: boolean;
 }
 
 const W = 460;
@@ -76,6 +78,7 @@ export const VectorPlotReadOnly = ({ state }: { state: VectorPlotState }) => {
     unitCircle = false,
     span = false,
     basis = false,
+    singleVector = false,
   } = state;
 
   const { dot, angleDeg, arcPath, mu, mv, sumVec, scaledU, parallel } = useMemo(() => {
@@ -188,7 +191,7 @@ export const VectorPlotReadOnly = ({ state }: { state: VectorPlotState }) => {
         viewBox={`0 0 ${W} ${H}`}
         className="w-full select-none"
         role="img"
-        aria-label={`Vectors u and v${sum ? " with sum u+v" : ""}${unitCircle ? " and unit circle" : ""}`}
+        aria-label={singleVector ? `Vector [${u[0]}, ${u[1]}] with magnitude ${mu.toFixed(2)}` : `Vectors u and v${sum ? " with sum u+v" : ""}${unitCircle ? " and unit circle" : ""}`}
       >
         <defs>
           <filter id="vp-glow" x="-30%" y="-30%" width="160%" height="160%">
@@ -304,7 +307,7 @@ export const VectorPlotReadOnly = ({ state }: { state: VectorPlotState }) => {
           </g>
         )}
 
-        {mu > 0.01 && mv > 0.01 && (
+        {!singleVector && mu > 0.01 && mv > 0.01 && (
           <path
             d={arcPath}
             fill="none"
@@ -336,14 +339,14 @@ export const VectorPlotReadOnly = ({ state }: { state: VectorPlotState }) => {
             color={U_COLOR}
             strokeWidth={emphasis === "u" ? 5.5 : 4}
           />
-          <VectorArrow
+          {!singleVector && <VectorArrow
             x1={CX}
             y1={CY}
             x2={pv.x}
             y2={pv.y}
             color={V_COLOR}
             strokeWidth={emphasis === "v" ? 5.5 : 4}
-          />
+          />}
           {sum && (
             <VectorArrow
               x1={CX}
@@ -357,11 +360,11 @@ export const VectorPlotReadOnly = ({ state }: { state: VectorPlotState }) => {
         </g>
 
         <text x={labelU.x} y={labelU.y} fill={U_COLOR} fontFamily="Newsreader, Georgia, serif" fontStyle="italic" fontSize="20" fontWeight="600">
-          u
+          {singleVector ? "v" : "u"}
         </text>
-        <text x={labelV.x} y={labelV.y} fill={V_COLOR} fontFamily="Newsreader, Georgia, serif" fontStyle="italic" fontSize="20" fontWeight="600">
+        {!singleVector && <text x={labelV.x} y={labelV.y} fill={V_COLOR} fontFamily="Newsreader, Georgia, serif" fontStyle="italic" fontSize="20" fontWeight="600">
           v
-        </text>
+        </text>}
         {sum && (
           <text x={labelSum.x} y={labelSum.y} fill={SUM_COLOR} fontFamily="Newsreader, Georgia, serif" fontStyle="italic" fontSize="18" fontWeight="600">
             u+v
@@ -376,7 +379,14 @@ export const VectorPlotReadOnly = ({ state }: { state: VectorPlotState }) => {
       </svg>
 
       <div className="mt-3 flex flex-wrap items-center gap-2 px-1">
-        <span
+        {singleVector ? <>
+          <span className="inline-flex items-baseline gap-1.5 rounded-lg border border-white/12 bg-white/[0.04] px-2.5 py-1 font-mono text-xs text-white/75">
+            <span className="text-white/45">v</span> [{u[0].toFixed(1)}, {u[1].toFixed(1)}]
+          </span>
+          <span className="inline-flex items-baseline gap-1.5 rounded-lg border border-amber-400/25 bg-amber-400/[0.06] px-2.5 py-1 font-mono text-xs text-amber-100/80">
+            <span className="text-white/45">|v|</span> {mu.toFixed(2)}
+          </span>
+        </> : <><span
           className="inline-flex items-baseline gap-1.5 rounded-lg border px-2.5 py-1 font-mono text-xs tabular-nums"
           style={{
             borderColor: `color-mix(in srgb, ${tone} 45%, transparent)`,
@@ -392,6 +402,7 @@ export const VectorPlotReadOnly = ({ state }: { state: VectorPlotState }) => {
         <span className="inline-flex items-baseline gap-1.5 rounded-lg border border-white/12 bg-white/[0.04] px-2.5 py-1 font-mono text-xs tabular-nums text-white/70">
           <span className="text-white/45">θ</span> {Math.round(angleDeg)}°
         </span>
+        </>}
         {unitCircle && (
           <>
             <span className="inline-flex items-baseline gap-1.5 rounded-lg border border-amber-400/25 bg-amber-400/[0.06] px-2.5 py-1 font-mono text-xs tabular-nums text-amber-100/80">

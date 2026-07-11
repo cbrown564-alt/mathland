@@ -1,208 +1,102 @@
-# Mathland: Character-Driven Math Learning Platform
+# Mathland
 
-> **📚 Complete documentation available at [docs/README.md](docs/README.md)**  
-> **🏗️ Clean project structure implemented - see documentation for details**
+Mathland is a character-driven mathematics learning platform for adults preparing for data science. It combines structured lessons, mathematical visualizations, interactive practice, audio/transcript support, and locally persisted progress.
 
-## Quick Start
+## Repository status
+
+As of 11 July 2026, the committed repository contains:
+
+- 96 JSON lessons across 10 modules;
+- 10 mathematical character guides;
+- 30 ready demos in `src/interactive/demos/demo_registry.ts`;
+- a nine-lesson Module 2 pilot of the beat-based Lesson v2 format;
+- 63 passing Jest tests across 16 suites;
+- a passing Vite production build;
+- a passing ESLint run with 96 warnings and no errors.
+
+These are implementation counts, not claims of educational or production readiness. The current goal is to validate and finish Module 2 to a defined release standard before migrating more curriculum. See the [delivery roadmap](PLAN.md).
+
+## Curriculum
+
+1. Mathematical prerequisites and refresher — Ollie
+2. Vectors and vector spaces — Vera
+3. Matrices and linear mappings — Max
+4. Eigenvalues and eigenvectors — Eileen
+5. Multivariable calculus — Delta
+6. Optimisation and gradient descent — Greta
+7. Probability and distributions — Pippa
+8. Statistical inference and hypothesis testing — Sigmund
+9. Bayesian inference — Bayes
+10. Integration and capstone work — Sage
+
+The source of truth is `src/content/lessons/`. Module indexes define lesson order and lesson JSON files provide the original eight-section experience. Module 2 also has a beat-authored version under `src/content/beats/` rendered at `/story/:lessonId`.
+
+## Technology
+
+- React 18, TypeScript, Vite
+- React Router
+- Tailwind CSS and shadcn/ui
+- Canvas, SVG, Plotly, and Three.js-based visualizations
+- Jest and React Testing Library
+- localStorage-based progress persistence
+
+## Start locally
+
+Requirements: a current Node.js LTS release and npm.
 
 ```bash
-git clone <repository>
 npm install
 npm run dev
 ```
 
-**New Project Structure:**
-- **Core Application**: `src/core/` - UI components, pages, hooks, types
-- **Educational Content**: `src/content/` - Lessons, data
-- **Interactive Components**: `src/interactive/` - Educational demos and activities
-- **Documentation**: `docs/` - All project documentation
-- **Tools**: `tools/` - Build scripts and utilities
+The development server defaults to `http://localhost:8080`.
 
-## Project Overview
-
-Mathland is an interactive, web-based mathematics learning platform designed to make advanced mathematical concepts engaging and accessible for adult learners transitioning to data science. The platform features a comprehensive curriculum covering algebra, calculus, linear algebra, probability, and statistics through the lens of character-driven storytelling and real-world applications.
-
-## 🎯 **Learning Philosophy**
-
-Mathland transforms abstract mathematical concepts into memorable stories through:
-
-- **Character Guides**: 10 unique mathematical personalities (Ollie the Otter, Vera the Vector, Matrix Max, etc.)
-- **Narrative-Driven Learning**: Each concept is introduced through engaging stories and real-world scenarios
-- **Progressive Complexity**: Carefully structured learning path from foundations to advanced applications
-- **Interactive Elements**: Audio transcripts, visual demonstrations, and hands-on practice activities
-
-## 📚 **Curriculum Structure**
-
-### **10 Comprehensive Modules:**
-
-1. **Module 1**: Prerequisites & Refresher (Algebra foundations)
-2. **Module 2**: Vectors & Vector Spaces (Direction and magnitude)
-3. **Module 3**: Matrices & Linear Mappings (Transforming spaces)
-4. **Module 4**: Eigenvalues & Eigenvectors (Special directions)
-5. **Module 5**: Multivariate Calculus Foundations (Multiple variables)
-6. **Module 6**: Optimisation & Gradient Descent (Finding the best)
-7. **Module 7**: Probability & Distributions (Understanding uncertainty)
-8. **Module 8**: Hypothesis Testing & Inference (Making decisions)
-9. **Module 9**: Bayesian Inference (Updating beliefs)
-10. **Module 10**: Integration & Synthesis (Capstone application)
-
-### **Lesson Structure:**
-
-Each lesson follows a consistent 8-section format:
-
-1. **Narrative Hook** - Story introduction with character interaction
-2. **Read** - Core concept explanation with analogies and key points
-3. **See** - Visual demonstrations and interactive elements
-4. **Hear** - Audio explanations with synchronized transcripts
-5. **Do** - Hands-on practice and interactive exercises
-6. **Memory Aids** - Mnemonics and visual memory techniques
-7. **Concept Check** - Interactive quizzes and assessments
-8. **Real World** - Practical applications and career connections
-
-## 🚀 **Current Status**
-
-### **✅ Implemented Features:**
-
-- **Complete Curriculum**: 96 lessons across 10 modules
-- **Lesson v2 Pilot**: Beat-based guided story lessons for Module 2 (2.1–2.9)
-- **Interactive Library**: 29 registered, production-ready mathematical demos
-- **Character System**: 10 unique mathematical guides with distinct personalities and expertise
-- **Interactive Learning**: Audio transcripts, progress tracking, and completion badges
-- **Responsive Design**: Mobile-friendly interface with modern UI components
-- **Progress Persistence**: Local storage-based progress tracking
-- **Modular Architecture**: Clean, maintainable codebase with separated concerns
-
-### **🎨 Technical Implementation:**
-
-- **Frontend**: React 18 + TypeScript + Vite
-- **Styling**: Tailwind CSS + shadcn/ui components
-- **Audio**: React H5 Audio Player with synchronized transcripts
-- **State Management**: React hooks with localStorage persistence
-- **Code Organization**: Modular lesson data structure for easy maintenance
-
-## 🛠 **Recent Major Updates**
-
-### **Modular Lesson Data Structure** (Latest)
-
-- Split monolithic lesson data into 10 separate module files
-- Improved code maintainability and organization
-- Enhanced development workflow for content updates
-- Maintained backward compatibility with existing API
-
-### **Character-Driven Learning Experience**
-
-- Implemented 10 unique mathematical character guides
-- Each character specializes in specific mathematical domains
-- Rich narrative integration throughout all lessons
-- Consistent character voice and personality across modules
-
-### **Comprehensive Audio Integration**
-
-- Synchronized audio transcripts for all lessons
-- Word-based timing for accurate transcript highlighting
-- Audio player with progress tracking and controls
-- Character voice integration in audio content
-
-## 🔧 **Development & Deployment**
-
-### **Local Development:**
+## Quality commands
 
 ```bash
-git clone <repository>
-npm install
-npm run dev
+npm run build          # production bundle
+npm run build:dev      # development-mode bundle
+npm run test           # Jest suite
+npm run test:ci        # non-watch test run with coverage
+npm run lint           # ESLint
+npm run preview        # preview the production bundle
 ```
 
-### **Project Structure:**
+CI runs lint, tests, coverage, and the production build on Node 18 and 20. Its current lint step is advisory (`|| echo`), so lint failures do not block CI. The roadmap calls for making quality gates blocking and adding explicit typecheck, content-integrity validation, and browser smoke tests.
 
-```
+## Repository layout
+
+```text
 src/
-├── core/                # Pages, shared UI, hooks, and types
-├── content/
-│   ├── lessons/         # 96 JSON lessons in module1–module10
-│   └── beats/           # Lesson v2 beat-authored Module 2 pilot
-├── interactive/         # Production demos, registry, and prototypes
-└── utils/               # Lesson loading, characters, and module metadata
+  core/                 application shell, pages, shared UI, hooks, and types
+  content/
+    lessons/            canonical JSON curriculum and module indexes
+    beats/              Module 2 Lesson v2 pilot and authoring schema
+  interactive/
+    components/         integrated mathematical interactives
+    demos/              canonical demo registry
+    examples/           isolated research prototypes
+  tier2/                reusable visual/diagram templates
+  utils/                lesson loading, characters, modules, and themes
+docs/                   living architecture, authoring, and product guidance
+public/                 static runtime assets
 ```
 
-### **Content Management:**
+## Documentation
 
-- **Lesson Data**: Edit JSON files in `src/content/lessons/module1`–`module10`
-- **Lesson v2 Data**: Edit beat lessons in `src/content/beats/`
-- **Character Data**: Update character information in `src/utils/characterData.ts`
-- **Module Metadata**: Configure module settings in `src/utils/modulesData.ts`
+- [Delivery roadmap](PLAN.md) — active priorities and finish criteria
+- [Documentation index](docs/README.md) — authoritative guides and their scope
+- [Product strategy](docs/strategic_development_plan.md) — durable product decisions
+- [Lesson v2 design](docs/LESSON_V2_DESIGN.md) — beat format specification
+- [Interactive development](docs/development/INTERACTIVE_COMPONENT_DEVELOPMENT.md) — implementation and integration standards
+- [History](docs/HISTORY.md) — completed refactors and superseded plans
 
-## 🎯 **Target Audience**
+## Content and interactive changes
 
-- **Career Changers**: Transitioning to data science roles
-- **Adult Learners**: Building mathematical confidence
-- **Self-Directed Students**: Seeking structured learning paths
-- **Professionals**: Refreshing mathematical foundations
+To add or edit original lesson content, update the relevant JSON file and module index under `src/content/lessons/`. For Lesson v2 authoring, follow [the beat authoring guide](src/content/beats/README.md). New integrated interactives belong in `src/interactive/components/` and must be registered in `src/interactive/demos/demo_registry.ts`; follow the [interactive development guide](docs/development/INTERACTIVE_COMPONENT_DEVELOPMENT.md).
 
-## 🔮 **Future Development**
+Run lint, tests, and a production build before proposing changes. Content changes should also receive mathematical and editorial review; automated checks alone do not validate teaching quality.
 
-### **Planned Enhancements:**
+## Deployment
 
-- **User Accounts**: Cloud-synced progress and personalized learning paths
-- **Advanced Interactives**: More sophisticated mathematical visualizations
-- **Assessment System**: Comprehensive progress tracking and skill validation
-- **Mobile App**: Native mobile experience with offline capabilities
-- **Teacher Tools**: Classroom management and student progress monitoring
-
-### **Content Expansion:**
-
-- **Additional Modules**: Machine learning foundations, deep learning mathematics
-- **Specialized Tracks**: Finance, healthcare, engineering applications
-- **Advanced Topics**: Optimization algorithms, statistical modeling techniques
-
-## 🌐 **Project URL**
-
-[https://lovable.dev/projects/bce691bb-c063-4907-be7f-a51461ebc50d](https://lovable.dev/projects/bce691bb-c063-4907-be7f-a51461ebc50d)
-
-## 🛠 **Tech Stack**
-
-- **Frontend Framework**: React 18 + TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS + shadcn/ui
-- **Audio**: React H5 Audio Player
-- **State Management**: React Hooks + localStorage
-- **Deployment**: Lovable Platform
-
-## 🤝 **Contributing**
-
-### **Content Contributions:**
-
-- Edit lesson content in the modular lesson data files
-- Update character information and storylines
-- Add new interactive elements and visualizations
-
-### **Development Contributions:**
-
-- Enhance UI components and user experience
-- Improve audio synchronization and transcript features
-- Add new interactive mathematical tools
-
-### **Editing Options:**
-
-- **Lovable Web Interface**: [Project Editor](https://lovable.dev/projects/bce691bb-c063-4907-be7f-a51461ebc50d)
-- **Local Development**: Clone repository and run locally
-- **GitHub**: Direct repository contributions
-
-## 🚀 **Deployment**
-
-Deploy through the Lovable platform:
-
-1. Open project in Lovable
-2. Use Share → Publish feature
-3. Configure custom domain (optional)
-
-## 🌍 **Custom Domains**
-
-Custom domains are supported through Lovable:
-
-- Go to Project > Settings > Domains
-- Follow the [step-by-step guide](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
-
----
-
-**Mathland** - Where mathematical concepts become unforgettable stories through character-driven learning adventures.
+The Vite build outputs static assets to `dist/`. Historical documents referenced Lovable deployment, but no committed runbook currently establishes a supported production host, environment configuration, monitoring, or rollback procedure. Creating that runbook is part of platform hardening in the roadmap.

@@ -1,6 +1,6 @@
 # Lesson v2 — the beat design (formal spec)
 
-Status: **Module 2 pilot complete; stabilization verified.** This is the source of truth for the `/story/:lessonId`
+Status: **Module 2 implementation pilot complete; learner validation pending.** This is the source of truth for the `/story/:lessonId`
 lesson format. The reference implementation is lesson **2.3** (Vera · The Dot Product).
 Authoring quick-start lives in `src/content/beats/README.md`; this doc is the *why*
 and the *contract*.

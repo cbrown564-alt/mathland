@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Sparkles } from 'lucide-react';
 import { Card, CardContent } from "@/core/components/ui/card";
 import { LessonData } from "@/core/types/lesson";
@@ -29,6 +29,8 @@ interface LessonTemplateProps {
 }
 
 export const LessonTemplate = ({ lesson, previousLessonId, nextLessonId }: LessonTemplateProps) => {
+  const location = useLocation();
+  const isStudyMode = new URLSearchParams(location.search).get("study") === "1";
   const {
     completedSections,
     currentSection,
@@ -128,7 +130,7 @@ export const LessonTemplate = ({ lesson, previousLessonId, nextLessonId }: Lesso
             </div>
 
             {/* Phase C prototype opt-in (Path C1). Gated to the one redesigned lesson. */}
-            {hasBeatLesson(lesson.id) && (
+            {hasBeatLesson(lesson.id) && !isStudyMode && (
               <Link
                 to={`/story/${lesson.id}`}
                 className="mb-8 flex items-center gap-3 rounded-xl border border-pink-200 bg-gradient-to-br from-purple-50 to-pink-50 px-4 py-3 transition hover:from-purple-100 hover:to-pink-100"
@@ -163,6 +165,7 @@ export const LessonTemplate = ({ lesson, previousLessonId, nextLessonId }: Lesso
             <LessonNavigation 
               previousLessonId={previousLessonId}
               nextLessonId={nextLessonId}
+              showNext={isLastSection}
             />
           </div>
 

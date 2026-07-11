@@ -1,205 +1,124 @@
-# Mathland UI Implementation Plan
+# Mathland delivery roadmap
 
-Derived from `ui-directions.html` (UI Review · July 2026). The document plots 13
-candidate moves on an effort × differentiation map and recommends a staged approach:
+This is the active execution plan for taking Mathland from a strong technical MVP to a high-quality, learner-validated release. It supersedes the July 2026 A/B/C UI implementation plan; completed work from that plan is summarized in [docs/HISTORY.md](docs/HISTORY.md).
 
-> **Do A now, commit to B as the overhaul, stage C as a prototype.**
+## Product position
 
-This plan converts those moves into concrete engineering tasks, grouped into the three
-paths (A = Stabilize & polish, B = Let the characters lead, C = Re-architect the lesson),
-with file references and acceptance criteria. Phase 1 below is **Path A** and is what we
-start implementing now.
+Mathland is a React 18 and TypeScript mathematics-learning application for adults moving toward data science. The committed product currently contains:
 
----
+- 96 JSON lessons across 10 modules;
+- 10 character guides;
+- 30 ready interactive demos in the canonical registry;
+- a nine-lesson Module 2 pilot of the beat-based Lesson v2 format;
+- local progress persistence, character theming, responsive application chrome, and production routing;
+- 63 passing Jest tests across 16 suites and a passing production build.
 
-## Strategic framing (from the doc)
+These numbers describe repository inventory, not learner outcomes. “Complete curriculum” means the lesson files exist; it does not mean every lesson has passed editorial, mathematical, accessibility, or learner validation.
 
-- **Lower-left cluster (Path A)** is non-negotiable hygiene: correctness, not style. Do it
-  regardless of direction.
-- **Amber arc (Path B)** converts the biggest *wasted* asset — 10 voiced characters, ~60 MB
-  of orphaned animation GIFs, per-character color systems — into the biggest *visible*
-  asset. Highest leverage, moderate cost, hard for competitors to copy.
-- **Teal cluster (Path C)** is the structural bet: the lesson as one continuous character-led
-  story. Highest payoff, highest risk. De-risk by prototyping **one** lesson end-to-end first.
+## Definition of a high-quality finish
 
----
+A release candidate is ready only when all of the following are true:
 
-## Phase 1 — Path A: Stabilize & polish (weeks 1–4, low risk)
+1. **Correct:** priority lessons have mathematical and editorial review, with no known high-severity content defects.
+2. **Coherent:** one lesson format is selected from evidence, and every release-scope lesson follows its authoring and interaction standards.
+3. **Usable:** core journeys work at keyboard, touch, mobile, tablet, and desktop sizes.
+4. **Accessible:** the release scope meets WCAG 2.2 AA expectations, including focus order, contrast, reduced motion, canvas alternatives, and screen-reader labels.
+5. **Reliable:** build, lint, unit/integration tests, and critical browser journeys are automated CI gates.
+6. **Performant:** agreed budgets are measured on representative devices; large visualizations do not block initial navigation.
+7. **Validated:** representative learners can complete the pilot, and decisions are based on observed comprehension and friction rather than internal preference.
+8. **Operable:** deployment, smoke testing, rollback, privacy, analytics, and issue-triage procedures are documented.
 
-Same structure, same screens — but consistent, correct, and considered. These are the
-"stop the bleeding" tasks. **Every subsequent path depends on A being done first.**
+## Current gaps
 
-### A1 · Fix the JIT gradient purge  ⚠️ highest-priority bug
-- **Problem:** Character/module colors are stored as class strings (e.g. `from-amber-500
-  to-orange-500`) and injected via template literals like
-  `bg-gradient-to-br ${character.color}`. Tailwind's JIT scanner never sees these literal
-  strings, so they are **purged in production builds** — characters render with no color.
-- **Sources that build classes dynamically:** `characterData.ts` (`color` on all 10
-  characters), `modulesData.ts` (`getCharacterColor`), `JourneyTransformation.tsx`
-  (`step.colorTheme`), `CharacterPreviewCarousel.tsx`, `ModuleCard.tsx`, `ModuleCharacterCard.tsx`,
-  `LessonRoadmap.tsx`.
-- **Fix (two complementary parts):**
-  1. Add a `safelist` to `tailwind.config.ts` covering the `from-/to-/via-` gradient utilities
-     used dynamically (regex over the known palette + shades 400–700). Immediate prod fix,
-     zero behavior change.
-  2. Introduce a **static theme map** (`src/utils/theme.ts`) so dynamic colors are resolved
-     from a single typed source instead of raw strings. This also seeds Path B re-theming.
-- **Acceptance:** `npm run build` then load a lesson in prod preview — character gradients
-  (sidebar avatar, module cards, journey steps) render with correct colors. No regression in
-  dev.
+- Lesson v2 is implemented for Module 2 but has not yet been validated against the section-based lesson experience.
+- The repository has 96 ESLint warnings, mainly React hook dependencies and Fast Refresh boundaries. Hook warnings in interactive canvases deserve priority because stale closures can cause behavioral bugs.
+- Test coverage is concentrated in shared UI, registries, progress, and the story route; critical learner journeys do not yet have browser-level coverage.
+- “Ready” in the interactive registry means integrated code status, not a completed accessibility, content, responsiveness, or learner-quality audit.
+- No committed evidence establishes production analytics, account sync, formal privacy practices, or learner outcome measurement.
+- Several large bundles and visualization chunks warrant explicit performance budgets and measurement.
 
-### A2 · Wire up the no-op "Next" buttons
-- **Problem:** Doc reports 3 of 8 lesson sections silently do nothing on click.
-- **Findings:** `RealWorldConnection.tsx` and `MemoryAids.tsx` pass `onNext={() => {}}` to
-  `SectionCompletion`; this is currently masked because `onComplete` auto-advances via
-  `handleSectionComplete` in `LessonTemplate.tsx:51`. Must audit every section path
-  (`NarrativeHook`, `ReadSection`, `SeeSection`, `HearSection`, `DoSection`, `MemoryAids`,
-  `ConceptCheck`, `RealWorldConnection`) to confirm a click always advances or completes.
-- **Fix:** Make `SectionCompletion`'s primary action unambiguous (explicit "Complete & continue"
-  when not last; disable/relabel when last), and guarantee each section calls `onNextSection`
-  exactly once.
-- **Acceptance:** Clicking the completion control on every one of the 8 sections advances or
-  marks the lesson complete; no dead clicks.
+## Roadmap
 
-### A3 · Delete dead code
-- **Confirmed dead:** `src/core/components/lesson/LessonAudioPlayer.tsx` — only self-referenced
-  (no importers). Remove it.
-- **To verify before deleting:** a "dead Canvas" component (grep pending) and the **4 stray
-  Next.js apps** under `src/interactive/examples/*/app`. These example apps are also referenced
-  by `CLAUDE.md` as research prototypes, so **do not delete blindly** — confirm with owner,
-  or relocate to a clearly-separated `archive/` rather than delete.
-- **Acceptance:** No unused component/hook remains in `src/core`; example apps either moved to
-  `archive/` or annotated as intentionally separate.
+### Milestone 1 — Establish the release baseline
 
-### A4 · Remove placeholder content
-- **Problem:** `ReadSection.tsx` ships a data-science filler tutorial when lesson data is
-  missing ("Why This Matters in Data Science" hardcoded in `RealWorldConnection.tsx:9`).
-- **Fix:** Render a graceful "content coming soon" empty state instead of wrong-domain filler;
-  remove the hardcoded "Data Science" framing that leaks across all lessons.
-- **Acceptance:** A lesson with missing `readContent` shows a neutral empty state, never
-  cross-domain placeholder text.
+Goal: make quality visible and prevent regressions before expanding content.
 
-### A5 · Consistent page chrome
-- **Problem:** A header is present on 3 pages and absent on 3; same for footer.
-- **Fix:** Introduce a single shared `AppShell` (or `<Header/>`/`<Footer/>` pair) mounted in
-  `App.tsx` and used by every route in `src/core/pages` and the experience pages. Audit
-  `Index`, `Experience`, `InteractiveGallery`, `Tier2Gallery`, `ModuleDetail`, `ModulePage`,
-  `LessonPage`.
-- **Acceptance:** Every top-level route shows the same header/footer chrome; no route is bare.
+- [x] Turn the 96 lint warnings into a triaged backlog; fix hook-dependency warnings in release-scope production interactives first.
+- [x] Add an explicit TypeScript typecheck command and run it in CI.
+- [x] Add browser smoke tests for home → module → lesson, story progress persistence, and an interactive.
+- [x] Define supported browsers/viewports and record baseline accessibility and performance results.
+- [x] Add automated validation for lesson IDs, module indexes, character IDs, custom interactive references, and internal documentation links.
+- [x] Decide and document the initial release scope: Module 2 plus shared navigation/progress.
 
-### A6 · Unified design tokens (foundation for B)
-- **Problem:** Hardcoded `blue-600` / `orange-200` / `slate-*` scattered across components; no
-  semantic layer for character-driven theming.
-- **Fix (started this session):**
-  1. Add a character **brand-color token layer** to `src/index.css` (`:root` CSS variables
-     `--ch-<id>` and `--ch-<id>-2` mirroring the `ui-directions.html` palette: ollie, vera,
-     max, eileen, delta, greta, pippa, sigmund, bayes, sage).
-  2. Expose `src/utils/theme.ts` with a typed `characterTheme` map + `getCharacterTheme(id)`
-     returning gradient/soft/accent class sets built from those tokens.
-- **Acceptance:** A single source of truth for character colors exists; JIT-safe; Path B can
-  re-tint the whole UI by swapping a root class/data-attribute.
+Exit criteria: CI blocks build, lint errors, type errors, unit/integration failures, broken content references, and critical browser-journey failures; baseline audit results are recorded.
 
-### A7 · One component catalog
-- **Problem:** Three contradictory component counts ("23", "24", really 28 interactive demos).
-- **Fix:** Collapse to a single registry. `src/interactive/demos/demo_registry.ts` + and
-  `src/utils/characterData.ts`/`modulesData.ts` are the candidates — pick one canonical
-  manifest and delete the others. Add a lightweight test asserting the registry is the only
-  source.
-- **Acceptance:** Exactly one interactive/component registry; counts are derived, not hardcoded.
+Milestone completed 11 July 2026. Baseline, support policy, audit gaps, budgets, warning triage, and release-scope decision are recorded in [docs/RELEASE_BASELINE.md](docs/RELEASE_BASELINE.md).
 
----
+### Milestone 2 — Validate the learning experience
 
-## Phase 2 — Path B: Let the characters lead (months 1–2, medium risk)
+Goal: decide whether Lesson v2 should become the standard before migrating more modules.
 
-The differentiating move. Surfaces assets that already exist.
+- [x] Write a lightweight research protocol: target learner, tasks, comprehension checks, completion signals, interview prompts, and decision thresholds.
+- [ ] Test the nine Module 2 Lesson v2 lessons with representative adult learners.
+- [ ] Compare Lesson v2 with the existing section-based flow on comprehension, completion, time-on-task, navigation confusion, and qualitative preference.
+- [ ] Log issues by severity and distinguish content, interaction, visual, performance, and format problems.
+- [ ] Make an explicit decision: adopt v2, revise and retest, or retain the current format. Record the evidence and consequences.
 
-### B1 · Wire in the 60 MB orphaned GIFs
-- 11 animated character GIFs exist (per doc) but are referenced by **zero** files. Locate under
-  `assets/` / `public/`, wire into `CharacterAvatar` / companion rail so animations play on
-  lesson screens. Build a `<CharacterAnimation>` component.
-- **Acceptance:** Each character's animated portrait renders on its lesson; no broken refs.
+Exit criteria: a written format decision with evidence, prioritized issues, and an approved authoring standard.
 
-### B2 · Per-character re-theming
-- Whole interface re-tints to the active character's color (sidebar, header accent, buttons,
-  progress). Built on the A6 token layer: set a root `data-character` / class and let CSS
-  variables drive accents. Microcopy flavored with character verbs (`reactionVerb`,
-  `explainVerb`, `catchphrase` from `characterData.ts`).
-- **Acceptance:** Switching Ollie → Vera re-themes chrome with no component changes, only a
-  root attribute flip.
+Preparation completed 11 July 2026: the [learner-validation protocol](docs/research/MILESTONE_2_PROTOCOL.md), draft [comprehension question bank](docs/research/COMPREHENSION_QUESTION_BANK.md), [assignment matrix](docs/research/ASSIGNMENT_MATRIX.md), [session worksheet](docs/research/SESSION_WORKSHEET.md), and [findings/decision record](docs/research/MILESTONE_2_FINDINGS.md) define the counterbalanced comparison, measures, issue taxonomy, and predeclared thresholds. The question bank still needs review and a wording pilot. Recruitment, sessions, analysis, and the format decision remain open; the latter three require learner evidence.
 
-### B3 · Themed interactives
-- The 28 interactives (currently "slate boxes") inherit their character's workshop look. Drive
-  accent colors from the theme layer.
-- **Acceptance:** Each interactive reads its character theme; no hardcoded slate.
+### Milestone 3 — Finish one flagship module
 
-### B4 · Mathland world-map home
-- Replace the generic timeline with a character-guarded territory map (mockup `scr-world` in the
-  doc: 10 zones tinted per character, progress = territories explored, current pulses). New
-  route `/(world)`; reuse `modulesData` for zone metadata.
-- **Acceptance:** Home is a navigable map of 10 character territories with progress state.
+Goal: produce one complete, credible example of release quality.
 
-### B5 · Character as companion
-- Persistent character presence in lesson chrome: companion rail with live "speaking" indicator
-  during audio playback (mockup `scr-themed`). Extend `LessonTemplate` layout with a right rail.
-- **Acceptance:** Character portrait + step indicator + speaking pulse visible throughout a lesson.
+- [ ] Apply the chosen format and resolve all validation findings across Module 2.
+- [ ] Conduct independent mathematical and editorial review of every Module 2 lesson.
+- [ ] Audit all Module 2 visuals and interactives for keyboard/touch use, responsive layout, reduced motion, labels, instructions, and non-canvas alternatives where needed.
+- [ ] Verify progress, resume, reset, completion, and error/empty states.
+- [ ] Optimize Module 2 route and interactive loading against the performance budget.
+- [ ] Run a second learner pass and close all release-blocking findings.
 
----
+Exit criteria: Module 2 satisfies the definition of finish and can serve as the pattern for subsequent modules.
 
-## Phase 3 — Path C: Re-architect the lesson (prototype, high risk) ✅ prototyped
+### Milestone 4 — Harden the platform
 
-Biggest bet. De-risk by redesigning **one** lesson end-to-end first.
+Goal: make the application safe to release and maintain.
 
-> **Status (July 2026):** prototyped end-to-end for lesson 2.3 at the dedicated
-> route `/story/:lessonId` (entry point: the "Read as a guided story" card on
-> `/lesson/2.3`). The section-form `/lesson/2.3` is untouched, so the two can be
-> compared for engagement. Note: the actual lesson 2.3 content is **"The Dot
-> Product — Measuring Similarity"** (Vera), not "Vector Addition" as written
-> above — the prototype is built against the real content.
+- [ ] Complete an application-wide navigation, responsive, accessibility, and cross-browser pass.
+- [ ] Define analytics events and privacy boundaries; collect only data needed for stated learning questions.
+- [ ] Document deployment, environment configuration, smoke checks, rollback, and incident ownership.
+- [ ] Add error monitoring and a user-visible recovery path for lazy-load, lesson-load, audio, and interactive failures.
+- [ ] Remove or isolate research/gallery routes from the production learner navigation if they are not release features.
+- [ ] Resolve remaining high-impact bundle and rendering issues.
 
-### C1 · Guided narrative lesson (one lesson) ✅
-- Prototype lesson 2.3 (Vera · **The Dot Product**) as one continuous scroll story: Hook → Read →
-  See → Hear → Do as a single paced narrative, dark immersive theme (mockup `scr-narrative`),
-  persistent audio w/ synced transcript, interactive arriving as the climax.
-- **Implementation:** `src/core/components/narrative/NarrativeLessonView.tsx` renders all 8
-  beats as frosted-glass cards on the `#0f0a1a → #1a1030` gradient with the two radial glows
-  from the mockup. `src/core/pages/StoryPage.tsx` loads the same lesson data as `LessonPage`.
-- **Acceptance:** One full lesson redesigned; measurable engagement vs. the section-form version.
+Exit criteria: a deployable release candidate with an operational checklist and no open critical defects.
 
-### C2 · Adaptive pacing ✅
-- Use existing progress data (`useLessonProgress`) to skip mastered sections, linger on weak
-  ones.
-- **Implementation:** reads/writes the same `lesson-progress-<id>` localStorage key as the
-  section-form lesson. Beats already in `completedSections` get a "✓ mastered" tag and collapse
-  by default (the climax never auto-collapses). An `IntersectionObserver` marks a beat complete
-  when it scrolls ~55% into view, so pacing lingers on un-viewed beats and remembers mastered
-  ones across visits.
-- **Acceptance:** Lesson adapts order/depth from stored progress.
+### Milestone 5 — Scale deliberately
 
-### C3 · Interactive as climax ✅
-- The "Do" tool becomes where every section converges; embed inline rather than a tab.
-- **Implementation:** `src/core/components/narrative/DotProductExplorer.tsx` — a focused
-  two-vector dot-product tool (drag handles reused from `vera_vector_playground`) with a live
-  similarity meter (−1…+1) realizing the lesson's "agreement scale" metaphor. Defaults to
-  [3,4]·[1,2]=11 to match the lesson's own concept check. Embedded inline as the highlighted
-  "Do" beat, not a tab.
-- **Acceptance:** Interactive is the natural final beat of the narrative, not a separate view.
+Goal: expand only after the flagship module and authoring system are proven.
 
----
+- [ ] Prioritize modules by learner value, prerequisite order, content readiness, and interactive reuse.
+- [ ] Migrate one module at a time using the flagship checklist.
+- [ ] Generate curriculum inventory from source data rather than maintaining duplicate lesson descriptions by hand.
+- [ ] Track review and validation status separately from file existence.
+- [ ] Reassess accounts, cloud sync, teacher tools, native apps, and new curricula only after core learning quality and retention justify them.
 
-## Sequencing & dependencies
+Exit criteria: each promoted module independently meets the same release bar; roadmap scope is evidence-led.
 
-```
-A1 (safelist+theme) ──► A6 (tokens) ──┬─► B2 (re-theme) ──► B3 (themed interactives)
-A2,A3,A4,A5,A7  (hygiene, parallel) ─┤                      B1 (GIFs) ──► B5 (companion)
-                                       └─► B4 (world map) ──► C1 (narrative proto) ──► C2/C3
-```
+## Immediate next work
 
-- **A must finish before any B/C work ships** — B/C build on the token layer and correct chrome.
-- **B is the visible overhaul** and the highest-leverage investment.
-- **C is a prototype only** until the product shows traction.
+Start Milestone 1 in this order:
 
-## Verification approach
-- Lint + typecheck on every change (`npm run lint`).
-- `npm run build` + `npm run preview` to confirm the JIT-purge fix visually in prod.
-- Jest for registry/testable logic (`npm run test`).
-- Manual pass on each of the 8 lesson sections for A2.
+1. Agree that Module 2 is the release candidate scope.
+2. Fix production React hook warnings and establish a zero-new-warning rule.
+3. Add typecheck, content-integrity, and browser smoke-test gates.
+4. Run and record baseline accessibility, responsive, and performance audits.
+5. Prepare the learner-validation protocol while engineering baseline work proceeds.
+
+## Decision rules
+
+- Do not migrate another module to Lesson v2 before the Milestone 2 decision.
+- Do not call a lesson or interactive “finished” based only on implementation status.
+- Do not add major platform features while release-blocking learning, accessibility, or reliability findings remain.
+- Keep repository facts in [README.md](README.md), architecture and authoring guidance under `docs/`, and active priorities only in this file.

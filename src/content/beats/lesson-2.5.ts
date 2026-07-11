@@ -27,7 +27,7 @@ export const linearCombinationsLesson: BeatLesson<VectorPlotState> = {
       eyebrow: "Vera · Vectors · Beat 1",
       title: "Recipes for new vectors",
       predict: {
-        prompt: "If you mix 2 parts of one direction with 3 parts of another — can you reach any point in the plane?",
+        prompt: "If you can scale and mix two non-parallel directions, can you reach any point in the plane?",
         options: [
           { label: "Yes — with the right recipe", value: "yes" },
           { label: "No — only along one line", value: "no" },
@@ -41,7 +41,7 @@ export const linearCombinationsLesson: BeatLesson<VectorPlotState> = {
         {
           id: "r1",
           eyebrow: "Linear combinations · 1",
-          md: "Any destination in my forest can be reached by mixing basic directions in the right proportions. A linear combination **c₁v₁ + c₂v₂ + … + cₙvₙ** is like a recipe: mix 2 parts east-vector with 3 parts north-vector to reach your destination.",
+          md: "With two non-parallel directions, any destination in my forest can be reached by mixing them in the right proportions. A linear combination **c₁v₁ + c₂v₂ + … + cₙvₙ** is like a recipe: mix 2 parts east-vector with 3 parts north-vector to reach your destination.",
           state: { u: [2, 0.5], v: [0.5, 2], emphasis: "u" },
           audioSrc: "/audio/story/2.5/ch1.mp3",
         },
@@ -54,7 +54,7 @@ export const linearCombinationsLesson: BeatLesson<VectorPlotState> = {
         {
           id: "r3",
           eyebrow: "3",
-          md: "Think of it as mixing paint colors or following multiple treasure map clues at once. Different amounts of each base ingredient create completely different results — but you can create *any* color with the right recipe.",
+          md: "Think of it as following multiple treasure-map clues at once. Different amounts of independent base directions create different results — and in a plane, two non-parallel directions can reach every destination.",
           state: { u: [3, 1], v: [1, 3], emphasis: "none" },
         },
       ],

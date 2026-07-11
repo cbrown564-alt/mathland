@@ -87,6 +87,20 @@ export const SpanExplorer = ({ onStateChange }: InteractiveProps = {}) => {
     if (svg && e.pointerId !== undefined) svg.releasePointerCapture(e.pointerId);
   };
 
+  const onKeyDown = (id: "u" | "v") => (e: React.KeyboardEvent) => {
+    const delta = e.shiftKey ? 1 : 0.5;
+    if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) return;
+    e.preventDefault();
+    setVectors((current) => current.map((vec) => {
+      if (vec.id !== id) return vec;
+      const next = clamp(
+        vec.x + (e.key === "ArrowRight" ? delta : e.key === "ArrowLeft" ? -delta : 0),
+        vec.y + (e.key === "ArrowUp" ? delta : e.key === "ArrowDown" ? -delta : 0),
+      );
+      return { ...vec, ...next };
+    }));
+  };
+
   const reportRef = useRef(onStateChange);
   reportRef.current = onStateChange;
   useEffect(() => {
@@ -198,6 +212,11 @@ export const SpanExplorer = ({ onStateChange }: InteractiveProps = {}) => {
                       aria-label={`Drag vector ${vec.label}`}
                       role="slider"
                       tabIndex={0}
+                      aria-valuemin={-GRID_SIZE}
+                      aria-valuemax={GRID_SIZE}
+                      aria-valuenow={vec.x}
+                      aria-valuetext={`${vec.label} = [${vec.x.toFixed(1)}, ${vec.y.toFixed(1)}]. Use left and right for x; up and down for y.`}
+                      onKeyDown={onKeyDown(vec.id)}
                     />
                   </g>
                 );
@@ -228,6 +247,16 @@ export const SpanExplorer = ({ onStateChange }: InteractiveProps = {}) => {
             <div className="text-[11px] uppercase tracking-wider text-white/50 mb-3">Coefficients</div>
             <SliderRow label="a" value={a} onChange={setA} color={COLOR_U} />
             <SliderRow label="b" value={b} onChange={setB} color={COLOR_V} />
+          </div>
+
+          <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
+            <div className="mb-2 text-[11px] uppercase tracking-wider text-white/50">Guided presets</div>
+            <div className="grid gap-2">
+              <button type="button" onClick={() => { setVectors(INITIAL); setA(0); setB(0); }} className="rounded-lg border border-white/15 px-3 py-2 text-left text-xs text-white/75 hover:bg-white/10">Zero combination</button>
+              <button type="button" onClick={() => { setVectors(INITIAL); setA(1); setB(0); }} className="rounded-lg border border-white/15 px-3 py-2 text-left text-xs text-white/75 hover:bg-white/10">Use u only</button>
+              <button type="button" onClick={() => { setVectors(INITIAL); setA(1); setB(1); }} className="rounded-lg border border-white/15 px-3 py-2 text-left text-xs text-white/75 hover:bg-white/10">Mix both; span the plane</button>
+              <button type="button" onClick={() => { setVectors([{ ...INITIAL[0] }, { ...INITIAL[1], x: 4, y: 2 }]); setA(1); setB(1); }} className="rounded-lg border border-white/15 px-3 py-2 text-left text-xs text-white/75 hover:bg-white/10">Make vectors dependent</button>
+            </div>
           </div>
 
           <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">

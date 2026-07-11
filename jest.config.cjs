@@ -22,6 +22,7 @@ module.exports = {
   // Standalone example apps under src/interactive/examples share package names and
   // are not part of the main test surface — ignore them for module resolution.
   modulePathIgnorePatterns: ['<rootDir>/src/interactive/examples/'],
+  testPathIgnorePatterns: ['/node_modules/', '<rootDir>/e2e/'],
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     '!src/**/*.d.ts',
