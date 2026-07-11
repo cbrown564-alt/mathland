@@ -23,7 +23,7 @@ async function ensureInitialized() {
 // Load all modules into cache
 async function initializeAllModules() {
   const loadPromises = Array.from({ length: 10 }, async (_, i) => {
-    const moduleId = i.toString();
+    const moduleId = (i + 1).toString();
     try {
       const lessons = await loadModuleLessons(moduleId);
       if (Object.keys(lessons).length > 0) {

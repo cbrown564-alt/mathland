@@ -1,6 +1,6 @@
 # Lesson v2 — the beat design (formal spec)
 
-Status: **agreed, pre-scale.** This is the source of truth for the `/story/:lessonId`
+Status: **Module 2 pilot complete; stabilization verified.** This is the source of truth for the `/story/:lessonId`
 lesson format. The reference implementation is lesson **2.3** (Vera · The Dot Product).
 Authoring quick-start lives in `src/content/beats/README.md`; this doc is the *why*
 and the *contract*.
@@ -29,7 +29,7 @@ a passage) and **audio demoted to a per-passage chip** (voice is seasoning, not 
 
 ## 2. What v1 had, and where each piece goes
 
-The old 8-section `LessonData` (106 lessons) maps cleanly onto beats. Decisions:
+The old 8-section `LessonData` (96 lessons) maps cleanly onto beats. Decisions:
 
 | v1 field | v2 home |
 |---|---|
@@ -217,10 +217,11 @@ Seed the library from the existing 24+ interactives (e.g. `DotProductExplorer` b
 ## 6. Progress — one model
 
 The prototype persisted `beatflow-<id>` in its own localStorage key, parallel to the v1
-`useLessonProgress`. Before scaling, **`useLessonProgress` is the single source of truth**:
+`useLessonProgress`. **`useLessonProgress` is now the single source of truth**:
 finishing the last beat marks the lesson complete there, and "furthest beat" is stored as
 per-lesson beat state under the same hook. The v1 8-section player keeps reading the same
-completion flag, so a lesson done in v2 shows done everywhere.
+completion flag, so a lesson done in v2 shows done everywhere. Prototype keys are migrated
+once, and hydration is guarded so stored progress is not overwritten by initial defaults.
 
 ---
 
@@ -255,9 +256,10 @@ build and the reading experience hold up on mobile.
    migrate `lesson-2.3` to it as the reference; update `README.md`.
 3. **`vectorPlot` primitive** — generalize `VectorVisual` (ReadOnly) + `DotProductExplorer`
    (Climax) into one registered primitive with the §5 flags.
-4. **Progress unification** — route beat completion through `useLessonProgress`.
+4. **Progress unification** — complete: beat completion and migration use `useLessonProgress`.
 5. **Author 2.1–2.9** — data only for 2.1–2.7; 2.8 tell-beats; 2.9 capstone.
-6. **Review the pilot**, then decide on modules 3–10.
+6. **Review the pilot** — complete: responsive, route, persistence, structure, and build gates pass.
+7. **Choose the next module** based on the primitive needed; do not scale all modules at once.
 
 ---
 

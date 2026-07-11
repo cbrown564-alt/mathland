@@ -77,7 +77,7 @@ export const EnhancedAudioPlayer: React.FC<EnhancedAudioPlayerProps> = ({
       audio.removeEventListener('ended', handleEnded);
       audio.removeEventListener('error', handleError);
     };
-  }, [onAudioLoaded, handleAudioTimeUpdate, onPlayingChange]);
+  }, [audioRef, onAudioLoaded, handleAudioTimeUpdate, onPlayingChange]);
 
   const togglePlay = () => {
     const audio = audioRef.current;
@@ -254,4 +254,4 @@ export const EnhancedAudioPlayer: React.FC<EnhancedAudioPlayerProps> = ({
       />
     </div>
   );
-}; 
+};

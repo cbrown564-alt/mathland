@@ -1,9 +1,9 @@
 # Complete Lessons List
 
-Generated on: 2025-07-09T09:19:20.322Z
+Reconciled with the repository on: 2026-07-11
 
 Total Lessons: 96
-Total Interactive Components: 37 (24 completed, 13 remaining)
+Total Registered Interactive Components: 29 ready
 
 
 ## Module 1
@@ -31,7 +31,7 @@ Total Interactive Components: 37 (24 completed, 13 remaining)
 | 2.6 | Linear Independence - Fundamental Directions | 35-40 minutes | vera | N/A |
 | 2.7 | Basis and Dimension - The Foundation Framework | 40-45 minutes | vera | N/A |
 | 2.8 | Vector Spaces - The Abstract Framework | 35-40 minutes | vera | N/A |
-| 2.9 | Vera's Forest Mapping Capstone Project | 45-60 minutes | vera | *planned* |
+| 2.9 | Vera's Forest Mapping Capstone Project | 45-60 minutes | vera | vera_forest_mapping |
 
 ## Module 3
 
@@ -67,13 +67,13 @@ Total Interactive Components: 37 (24 completed, 13 remaining)
 | Lesson ID | Title | Duration | Character | Interactive Component |
 |-----------|-------|----------|-----------|----------------------|
 | 5.1 | Introduction to Multivariable Functions | 30-35 minutes | delta | delta_partial_derivative_explorer |
-| 5.2 | Limits in Multivariable Calculus | 40-45 minutes | delta | *planned* |
-| 5.3 | Continuity and Surfaces | 35-40 minutes | delta | *planned* |
-| 5.4 | Introduction to Partial Derivatives | 40-45 minutes | delta | *planned* |
+| 5.2 | Limits in Multivariable Calculus | 40-45 minutes | delta | delta_limits_explorer |
+| 5.3 | Continuity and Surfaces | 35-40 minutes | delta | delta_continuity_surfaces |
+| 5.4 | Introduction to Partial Derivatives | 40-45 minutes | delta | delta_partial_derivative_explorer |
 | 5.5 | Computing Partial Derivatives | 35-40 minutes | delta | N/A |
 | 5.6 | The Gradient Vector | 45-50 minutes | delta | delta_gradient_explorer |
-| 5.7 | Directional Derivatives | 40-45 minutes | delta | *planned* |
-| 5.8 | The Jacobian Matrix | 45-50 minutes | delta | *planned* |
+| 5.7 | Directional Derivatives | 40-45 minutes | delta | delta_directional_derivatives |
+| 5.8 | The Jacobian Matrix | 45-50 minutes | delta | delta_jacobian_matrix |
 | 5.9 | Applications: Optimization Preview | 40-45 minutes | delta | delta_constrained_optimization |
 | 5.10 | Dr. Delta's Multivariable Calculus Capstone | 50-60 minutes | delta | *planned* |
 
@@ -2259,4 +2259,3 @@ Total Interactive Components: 37 (24 completed, 13 remaining)
 - Celebrate transformation from mathematical student to practitioner
 
 ---
-

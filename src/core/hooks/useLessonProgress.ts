@@ -123,6 +123,7 @@ export const useLessonProgress = (lessonId: string): LessonProgress & LessonProg
   const [currentSection, setCurrentSectionState] = useState<string>("narrative");
   const [beatIndex, setBeatIndexState] = useState<number>(0);
   const [lessonCompleted, setLessonCompletedState] = useState<boolean>(false);
+  const [hydratedLessonId, setHydratedLessonId] = useState<string | null>(null);
 
   useEffect(() => {
     const stored = getStoredProgress(lessonId);
@@ -130,11 +131,13 @@ export const useLessonProgress = (lessonId: string): LessonProgress & LessonProg
     setCurrentSectionState(stored.currentSection);
     setBeatIndexState(stored.beatIndex ?? 0);
     setLessonCompletedState(stored.lessonCompleted ?? false);
+    setHydratedLessonId(lessonId);
   }, [lessonId]);
 
   useEffect(() => {
+    if (hydratedLessonId !== lessonId) return;
     storeProgress(lessonId, completedSections, currentSection, beatIndex, lessonCompleted);
-  }, [lessonId, completedSections, currentSection, beatIndex, lessonCompleted]);
+  }, [lessonId, hydratedLessonId, completedSections, currentSection, beatIndex, lessonCompleted]);
 
   useEffect(() => {
     const handleProgressUpdate = (event: CustomEvent) => {
@@ -156,7 +159,8 @@ export const useLessonProgress = (lessonId: string): LessonProgress & LessonProg
       }
     };
 
-    const handleStorage = () => {
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key && event.key !== `lesson-progress-${lessonId}`) return;
       const stored = getStoredProgress(lessonId);
       setCompletedSections(stored.completedSections);
       setCurrentSectionState(stored.currentSection);

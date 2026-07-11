@@ -42,7 +42,7 @@ const ModulePage = () => {
   const { moduleId } = useParams<{ moduleId: string }>();
   const navigate = useNavigate();
   const [lessons, setLessons] = useState<LessonData[]>([]);
-  const moduleMeta = getModuleMeta(moduleId || "0");
+  const moduleMeta = getModuleMeta(moduleId || "1");
 
   useEffect(() => {
     if (!moduleId) return;
@@ -124,4 +124,4 @@ const ModulePage = () => {
   );
 };
 
-export default ModulePage; 
+export default ModulePage;

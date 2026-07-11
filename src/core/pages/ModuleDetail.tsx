@@ -76,7 +76,11 @@ export default function ModuleDetail() {
                 <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {module.duration}</span>
                 {/* Difficulty and success rate can be added here if available */}
               </div>
-              <Button size="lg" className={`px-8 py-3 text-lg text-white mb-3 bg-gradient-to-r ${module.color} hover:opacity-90`} onClick={() => {/* TODO: route to first lesson */}}>
+              <Button
+                size="lg"
+                className={`px-8 py-3 text-lg text-white mb-3 bg-gradient-to-r ${module.color} hover:opacity-90`}
+                onClick={() => navigate(`/lesson/${module.learningJourney.steps[0].id}`)}
+              >
                 Start Module <ArrowLeft className="ml-2 h-5 w-5 rotate-180" />
               </Button>
               {/* Character's Promise Box */}
@@ -210,4 +214,4 @@ export default function ModuleDetail() {
       </main>
     </div>
   );
-} 
+}

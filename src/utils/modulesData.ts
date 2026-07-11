@@ -88,16 +88,17 @@ export const modulesData = [
     learningJourney: {
       start: "🌟 Start: Vector Operations",
       milestone: "🎯 Milestone: Linear Independence",
-      finish: "🏆 Finish: Vector Spaces",
+      finish: "🏆 Finish: Forest Mapping Capstone",
       steps: [
-        { id: "2.1", title: "Vector Addition & Scalar Multiplication" },
-        { id: "2.2", title: "Dot Product & Norm" },
-        { id: "2.3", title: "Unit Vectors" },
-        { id: "2.4", title: "Linear Combination & Span" },
-        { id: "2.5", title: "Linear Independence" },
-        { id: "2.6", title: "Basis & Dimension" },
-        { id: "2.7", title: "Row/Column Picture" },
-        { id: "2.8", title: "Subspace & Null Space" }
+        { id: "2.1", title: "Vector Basics — Arrows with Purpose" },
+        { id: "2.2", title: "Vector Addition & Scalar Multiplication" },
+        { id: "2.3", title: "The Dot Product — Measuring Similarity" },
+        { id: "2.4", title: "Vector Norms — Measuring Distance" },
+        { id: "2.5", title: "Linear Combinations — Building New Vectors" },
+        { id: "2.6", title: "Linear Independence — Fundamental Directions" },
+        { id: "2.7", title: "Basis and Dimension — The Foundation Framework" },
+        { id: "2.8", title: "Vector Spaces — The Abstract Framework" },
+        { id: "2.9", title: "Vera's Forest Mapping Capstone Project" }
       ]
     }
   },
@@ -462,4 +463,4 @@ export const modulesData = [
     }
   }
   // Add more modules here as needed
-]; 
+];

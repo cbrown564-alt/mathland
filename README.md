@@ -35,16 +35,16 @@ Mathland transforms abstract mathematical concepts into memorable stories throug
 
 ### **10 Comprehensive Modules:**
 
-1. **Module 0**: Prerequisites & Refresher (Algebra foundations)
-2. **Module 1**: Vectors & Vector Spaces (Direction and magnitude)
-3. **Module 2**: Matrices & Linear Mappings (Transforming spaces)
-4. **Module 3**: Eigenvalues & Eigenvectors (Special directions)
-5. **Module 4**: Multivariate Calculus Foundations (Multiple variables)
-6. **Module 5**: Optimisation & Gradient Descent (Finding the best)
-7. **Module 6**: Probability & Distributions (Understanding uncertainty)
-8. **Module 7**: Hypothesis Testing & Inference (Making decisions)
-9. **Module 8**: Bayesian Inference (Updating beliefs)
-10. **Module 9**: Capstone Project (Real-world application)
+1. **Module 1**: Prerequisites & Refresher (Algebra foundations)
+2. **Module 2**: Vectors & Vector Spaces (Direction and magnitude)
+3. **Module 3**: Matrices & Linear Mappings (Transforming spaces)
+4. **Module 4**: Eigenvalues & Eigenvectors (Special directions)
+5. **Module 5**: Multivariate Calculus Foundations (Multiple variables)
+6. **Module 6**: Optimisation & Gradient Descent (Finding the best)
+7. **Module 7**: Probability & Distributions (Understanding uncertainty)
+8. **Module 8**: Hypothesis Testing & Inference (Making decisions)
+9. **Module 9**: Bayesian Inference (Updating beliefs)
+10. **Module 10**: Integration & Synthesis (Capstone application)
 
 ### **Lesson Structure:**
 
@@ -63,7 +63,9 @@ Each lesson follows a consistent 8-section format:
 
 ### **✅ Implemented Features:**
 
-- **Complete Curriculum**: 97+ lessons across 10 modules with full content
+- **Complete Curriculum**: 96 lessons across 10 modules
+- **Lesson v2 Pilot**: Beat-based guided story lessons for Module 2 (2.1–2.9)
+- **Interactive Library**: 29 registered, production-ready mathematical demos
 - **Character System**: 10 unique mathematical guides with distinct personalities and expertise
 - **Interactive Learning**: Audio transcripts, progress tracking, and completion badges
 - **Responsive Design**: Mobile-friendly interface with modern UI components
@@ -115,20 +117,18 @@ npm run dev
 
 ```
 src/
-├── components/          # React components
-│   ├── lesson/         # Lesson-specific components
-│   └── ui/             # Reusable UI components
-├── utils/
-│   ├── lessonData/     # Modular lesson data (module0.ts - module9.ts)
-│   ├── characterData.ts # Character definitions and metadata
-│   └── modulesData.ts  # Module overview and metadata
-├── pages/              # Route components
-└── types/              # TypeScript type definitions
+├── core/                # Pages, shared UI, hooks, and types
+├── content/
+│   ├── lessons/         # 96 JSON lessons in module1–module10
+│   └── beats/           # Lesson v2 beat-authored Module 2 pilot
+├── interactive/         # Production demos, registry, and prototypes
+└── utils/               # Lesson loading, characters, and module metadata
 ```
 
 ### **Content Management:**
 
-- **Lesson Data**: Edit individual module files in `src/utils/lessonData/`
+- **Lesson Data**: Edit JSON files in `src/content/lessons/module1`–`module10`
+- **Lesson v2 Data**: Edit beat lessons in `src/content/beats/`
 - **Character Data**: Update character information in `src/utils/characterData.ts`
 - **Module Metadata**: Configure module settings in `src/utils/modulesData.ts`
 

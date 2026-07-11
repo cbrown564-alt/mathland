@@ -104,7 +104,7 @@ export async function getLessonDataForModule(moduleId: string, lessonId: string)
  * Preload all modules (useful for initial app load)
  */
 export async function preloadAllModules(): Promise<void> {
-  const moduleIds = Array.from({ length: 10 }, (_, i) => i.toString());
+  const moduleIds = Array.from({ length: 10 }, (_, i) => (i + 1).toString());
   
   await Promise.all(
     moduleIds.map(moduleId => loadModuleIndex(moduleId))

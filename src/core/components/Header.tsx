@@ -2,7 +2,7 @@ import { Menu, X } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/core/components/ui/button";
-import { getLessonOrderForModule } from "@/utils/lessonData";
+import { getLessonOrderForModuleAsync } from "@/utils/lessonData";
 import { isLessonCompleted } from "@/core/hooks/useLessonProgress";
 import { modulesData } from "@/utils/modulesData";
 import { characters } from "@/utils/characterData";
@@ -30,27 +30,33 @@ function resolveCharacterId(pathname: string): string {
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [nextLessonId, setNextLessonId] = useState("0.1");
+  const [nextLessonId, setNextLessonId] = useState("1.1");
   const [isNew, setIsNew] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
   const characterId = useMemo(() => resolveCharacterId(location.pathname), [location.pathname]);
 
   useEffect(() => {
-    const lessonOrder = getLessonOrderForModule("0");
-    let found = false;
-    for (const id of lessonOrder) {
-      if (!isLessonCompleted(id, 8)) {
-        setNextLessonId(id);
-        setIsNew(id === lessonOrder[0]);
-        found = true;
-        break;
+    let cancelled = false;
+
+    const findNextLesson = async () => {
+      const lessonOrder = await getLessonOrderForModuleAsync("1");
+      if (cancelled || lessonOrder.length === 0) return;
+
+      const nextId = lessonOrder.find((id) => !isLessonCompleted(id, 8));
+      if (nextId) {
+        setNextLessonId(nextId);
+        setIsNew(nextId === lessonOrder[0]);
+      } else {
+        setNextLessonId(lessonOrder[lessonOrder.length - 1]);
+        setIsNew(false);
       }
-    }
-    if (!found) {
-      setNextLessonId(lessonOrder[lessonOrder.length - 1]);
-      setIsNew(false);
-    }
+    };
+
+    void findNextLesson();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const handleContinue = (e: React.MouseEvent) => {

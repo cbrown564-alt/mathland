@@ -8,8 +8,8 @@
 
 Mathland has successfully validated its core concept: character-driven mathematics education that respects adult learners while making abstract concepts emotionally engaging. With a proven universal template system, sophisticated interactive components, and 96 lessons mapped across 10 modules, the platform is positioned to become the premier mathematics learning experience for data science professionals.
 
-**Current Status:** Strong MVP with validated character system and technical infrastructure  
-**Immediate Goal:** Complete universal template system and scale content creation  
+**Current Status:** Strong MVP with 96 lessons, 29 registered interactives, and a completed nine-lesson Module 2 Lesson v2 pilot
+**Immediate Goal:** Validate the Module 2 pilot with learners, then scale one visual primitive/module at a time
 **Strategic Vision:** Market-leading mathematics platform combining educational rigor with engaging character narratives
 
 ---
@@ -246,13 +246,13 @@ Mathland has solved the core challenges that plague mathematics education:
 
 ### **Immediate Market Entry (6 months)**
 
-**Free Tier:** Module 0 (Prerequisites) \+ Module 1 preview (Vera)
+**Free Tier:** Module 1 (Prerequisites) + Module 2 preview (Vera)
 
 * Demonstrates platform quality and character system effectiveness  
 * Builds user base and validates product-market fit  
 * Collects user feedback and learning analytics
 
-**Premium Tier:** Complete Modules 1-3 (Linear Algebra sequence)
+**Premium Tier:** Complete Modules 2-4 (Linear Algebra sequence)
 
 * Professional portfolio-worthy content for career development  
 * Corporate training pilot programs with quantified learning outcomes  
@@ -308,4 +308,3 @@ The pathway to success is clear, the resources are defined, and the technical fo
 ---
 
 *This document serves as the definitive strategic guide for Mathland development. All major decisions should align with these priorities, standards, and timelines to ensure consistent progress toward the platform's educational and business objectives.*
-

@@ -151,8 +151,8 @@ npm run dev
 # Run tests
 npm test
 
-# Type checking
-npm run type-check
+# Production build (includes Vite/TypeScript transformation)
+npm run build
 ```
 
 ### **Exploring the Codebase**
@@ -184,4 +184,4 @@ npm run type-check
 
 **Built with:** React, TypeScript, Tailwind CSS, Vite
 **Educational Focus:** Data Science Mathematics via Character-Driven Learning
-**Architecture:** Clean separation of core application, educational content, and interactive experiences 
+**Architecture:** Clean separation of core application, educational content, and interactive experiences
