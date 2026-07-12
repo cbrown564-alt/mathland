@@ -2,6 +2,7 @@ export type DomainId = "engineering" | "ai" | "finance" | "climate";
 
 export type JourneyStep =
   | "entry"
+  | "tour"
   | "observatory"
   | "studio"
   | "practice"
@@ -10,6 +11,7 @@ export type JourneyStep =
   | "retrieval";
 
 export type EvidenceKind =
+  | "attempted"
   | "predicted"
   | "constructed"
   | "supported"
@@ -17,6 +19,10 @@ export type EvidenceKind =
   | "explained"
   | "transferred"
   | "retrieved"
+  | "tour_completed"
+  | "tour_skipped"
+  | "transfer_deferred"
+  | "retrieval_substituted"
   | "detour_started"
   | "detour_resolved";
 
@@ -26,7 +32,7 @@ export interface EvidenceEvent {
   territoryId: string;
   at: string;
   detail?: string;
-  support?: "none" | "cue" | "worked";
+  support?: "none" | "observation" | "cue" | "comparison" | "worked" | "restudied" | "deferred" | "substituted";
 }
 
 export type AtlasEvidenceState =
@@ -76,8 +82,10 @@ export interface DetourState {
 }
 
 export interface WorldSnapshot {
-  version: 1;
+  version: 2;
   activeGoal: Exclude<DomainId, "climate">;
+  horizonChosenAt: string | null;
+  tourStatus: "not-started" | "in-progress" | "completed" | "skipped";
   step: JourneyStep;
   evidence: EvidenceEvent[];
   detour: DetourState | null;

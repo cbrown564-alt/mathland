@@ -1,14 +1,5 @@
 import { expect, test } from "@playwright/test";
 
-test("home to module to lesson journey", async ({ page }) => {
-  await page.goto("/");
-  await page.getByRole("link", { name: /Go to Vectors & Vector Spaces/i }).click();
-  await expect(page).toHaveURL(/\/module\/2$/);
-  await page.getByRole("button", { name: /Start with Lesson 2\.1/i }).click();
-  await expect(page).toHaveURL(/\/lesson\/2\.1$/);
-  await expect(page.getByRole("heading", { name: /Vector Basics/i }).first()).toBeVisible();
-});
-
 test("story progress persists after reload", async ({ page }) => {
   await page.goto("/story/2.3");
   await page.getByRole("button", { name: /11 — the paths/i }).click();

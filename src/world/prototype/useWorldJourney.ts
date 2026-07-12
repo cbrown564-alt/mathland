@@ -6,6 +6,8 @@ import { DomainId, EvidenceEvent, EvidenceKind, JourneyStep, ReturnTarget, World
 export interface WorldJourney {
   snapshot: WorldSnapshot;
   setGoal: (goal: Exclude<DomainId, "climate">) => void;
+  chooseHorizon: (goal: Exclude<DomainId, "climate">) => void;
+  setTourStatus: (status: WorldSnapshot["tourStatus"]) => void;
   goTo: (step: JourneyStep) => void;
   record: (kind: EvidenceKind, detail?: string, support?: EvidenceEvent["support"]) => void;
   startDetour: (target: ReturnTarget) => void;
@@ -39,6 +41,12 @@ export const useWorldJourney = (): WorldJourney => {
   return useMemo(() => ({
     snapshot,
     setGoal: (activeGoal) => mutate((current) => ({ ...current, activeGoal })),
+    chooseHorizon: (activeGoal) => mutate((current) => ({
+      ...current,
+      activeGoal,
+      horizonChosenAt: current.horizonChosenAt ?? new Date().toISOString(),
+    })),
+    setTourStatus: (tourStatus) => mutate((current) => ({ ...current, tourStatus })),
     goTo: (step) => mutate((current) => ({ ...current, step })),
     record,
     startDetour: (target) => mutate((current) => ({

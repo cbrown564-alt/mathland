@@ -1,10 +1,12 @@
 # First vertical slice: one operation, three worlds
 
-Status: **recommended first prototype**.
+Status: **Phase 1 revision implemented; learner and external-review gate open**.
 
 Implementation status: **integrated research build available** at `/prototype/one-operation-three-worlds`.
 
 The first vertical slice will use the dot product to test the entire Atlas–Studio–Observatory architecture with the primary adult audience.
+
+The first learner review produced a revise-and-retest decision. The revision keeps the core hypothesis and replaces the underpowered, editorial, correctness-gated parts of the first build. The structured observation-to-response record is [research/PHASE_1_REVISION_RECORD.md](research/PHASE_1_REVISION_RECORD.md).
 
 ## Product hypothesis
 
@@ -61,6 +63,8 @@ The learner manipulates two vectors and observes:
 
 Every draggable vector must also have keyboard and numeric controls.
 
+The revised instrument also requires purposeful comparison, exact input, extreme cases, reset and undo, a pinned comparison, and simultaneously readable geometric, component, symbolic, and contextual views. Routine orientation must leave the working object visible in the first viewport.
+
 ### 3. Studio — formalisation with fading support
 
 Sequence:
@@ -71,9 +75,13 @@ Sequence:
 4. a geometry-to-components translation;
 5. a components-to-context interpretation.
 
+The formal spine includes the component definition, the geometric identity, assumptions for non-zero vectors, a derivation from the law of cosines, and the sign consequence. Calculation exposes each signed contribution. Explanation is checked against named reasoning criteria rather than text length.
+
 ### 4. Cross-domain transfer
 
 Teach through one case, then require the learner to use the operation in a second. The case order can vary during research so the product does not confuse a particular story with the concept.
+
+Before finance, state why the domain changes, which operation remains fixed, the meanings and units of weights and realised returns, and all simplifying assumptions. Learners can defer finance without transfer evidence or a retrieval schedule.
 
 ### 5. Atlas reveal
 
@@ -101,6 +109,12 @@ The original case remains visible in the route summary and resumes at the exact 
 ### 7. Return loop
 
 After a delay, present a short problem from a domain the learner did not use during the main sequence. Record whether the structure is retrieved independently, with a cue, or only after restudy.
+
+Climate-model orientation occurs before the retrieval attempt. Cues are staged and recorded. If climate language blocks access, offer a mathematically equivalent quality-control context and record the substitution. Preview attempts never count as delayed retrieval.
+
+### 8. First-run and guide interventions
+
+A five-to-seven-minute tour demonstrates the Studio loop, a harmless error, progressive help, evidence, and Atlas orientation. It is skippable and reopenable. Vera contributes one complete vector-lens intervention: a signed-projection diagram, optional short audio with transcript, and the same essential teaching through linked representations and formal text.
 
 ## Atlas evidence
 
@@ -164,7 +178,7 @@ Observed failures should change the architecture or content contract before broa
 
 ## Research-build verification
 
-The implementation includes pure-model tests for component and geometric calculations, evidence-transition tests, corrupt-local-state recovery, detour return-state tests, component-level keyboard tests, and a complete Playwright journey through prediction, construction, detour, independent work, transfer, Atlas orientation, retrieval, and reload.
+The revised implementation includes pure-model tests for component and geometric calculations; version migration and corrupt-local-state recovery; evidence and support transitions; exact detour return; horizon persistence; tour completion and reopening; vector keyboard, explicit-control, comparison, reset, and undo paths; progressive error recovery; transfer framing and deferment; retrieval orientation, cueing, preview semantics, and substitution; reduced-motion and narrow-screen behavior; accessibility scans; and desktop/mobile browser journeys.
 
 Automated checks establish implementation reliability only. They do not answer the validation questions above. Before a continue decision, the research team must record:
 

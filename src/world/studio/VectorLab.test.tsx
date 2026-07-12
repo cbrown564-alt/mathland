@@ -17,8 +17,19 @@ describe("accessible vector Studio", () => {
 
   test("offers explicit numeric and preset controls", () => {
     render(<VectorLab onConstructed={jest.fn()} />);
-    fireEvent.click(screen.getByRole("button", { name: "Resisting" }));
+    fireEvent.click(screen.getByRole("button", { name: /Maximum resistance/ }));
     expect(screen.getAllByText(/Negative directional overlap/)).not.toHaveLength(0);
-    expect(screen.getByLabelText("Fₓ")).toHaveValue(-3);
+    expect(screen.getByLabelText("Fₓ")).toHaveValue(-4);
+  });
+
+  test("pins a comparison and supports undo and reset", () => {
+    render(<VectorLab onConstructed={jest.fn()} />);
+    fireEvent.click(screen.getByRole("button", { name: "Pin comparison" }));
+    fireEvent.click(screen.getByRole("button", { name: /Sideways/ }));
+    expect(screen.getByText(/Current change: -12 J/)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Undo" }));
+    expect(screen.getByLabelText("Fₓ")).toHaveValue(3);
+    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+    expect(screen.getByLabelText("Fᵧ")).toHaveValue(2);
   });
 });

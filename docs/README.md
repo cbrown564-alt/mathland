@@ -8,7 +8,8 @@ The active documentation set is intentionally small and expresses one product di
 2. [Experience architecture](EXPERIENCE_ARCHITECTURE.md) — responsibilities and interaction contracts for Atlas, Studio, Observatory, progress, and detours.
 3. [Content strategy](CONTENT_STRATEGY.md) — territory model, case-first authoring, domain lenses, and legacy-content salvage policy.
 4. [First vertical slice](FIRST_VERTICAL_SLICE.md) — the dot-product prototype across engineering, AI, and finance.
-5. [Active rebuild plan](../PLAN.md) — phases, gates, scope, and immediate work.
+5. [Phase 1 revision research record](research/PHASE_1_REVISION_RECORD.md) — observation, response, evidence gaps, and retest measures.
+6. [Active rebuild plan](../PLAN.md) — phases, gates, scope, and immediate work.
 
 ## Implementation references
 

@@ -1,6 +1,6 @@
 import { FormEvent, useMemo, useState } from "react";
 import { domainJourneys, territories } from "../atlas/territories";
-import { cases, primaryDomains } from "../cases/cases";
+import { cases, horizonNames, primaryDomains } from "../cases/cases";
 import { deriveAtlasState } from "../evidence/evidenceStore";
 import { DomainId, EvidenceEvent, WorldSnapshot } from "../types/world";
 
@@ -13,28 +13,59 @@ interface EntryProps {
 export const EntrySection = ({ goal, onGoal, onContinue }: EntryProps) => (
   <section className="world-entry world-section" aria-labelledby="entry-title">
     <div className="world-entry-copy">
-      <span className="world-kicker">ONE OPERATION · THREE WORLDS</span>
-      <h1 id="entry-title">A force. A meaning. A return.</h1>
-      <p className="world-lede">Three systems produce one number. Learn to see the shared mathematical move—and carry it into the harder thing you care about.</p>
-      <div className="world-promise"><span>Today’s capability</span><p>Calculate a dot product, explain what its sign means, and recognise it in a new setting.</p></div>
+      <p className="world-local-label">One operation across three worlds</p>
+      <h1 id="entry-title">A force, a meaning, a return—one mathematical move.</h1>
+      <p className="world-lede">Learn to calculate the dot product, explain its sign, and recognise the same structure when the nouns change.</p>
+      <div className="world-promise"><strong>What you will be able to do</strong><p>Predict, construct, calculate, explain, transfer, and later retrieve the operation.</p></div>
     </div>
     <div className="world-goal-panel">
-      <span className="world-kicker">CHOOSE YOUR HORIZON</span>
-      <h2>What are you building toward?</h2>
-      <p>No school level. Your goal sets the route; the mathematics remains one connected world.</p>
-      <div className="world-goal-list" role="radiogroup" aria-label="Learning goal">
+      <h2>Choose your horizon once</h2>
+      <p>Your horizon is the harder thing you are building toward. It stays visible through Studios and detours, and you can deliberately change it from the header or Atlas.</p>
+      <div className="world-goal-list" role="radiogroup" aria-label="Learning horizon">
         {primaryDomains.map((domain) => {
           const item = cases[domain];
-          return <button key={domain} role="radio" aria-checked={goal === domain} className={goal === domain ? "is-active" : ""} onClick={() => onGoal(domain)}>
-            <span>{item.eyebrow.split(" · ")[0]}</span><strong>{domain === "engineering" ? "Understand physical systems" : domain === "ai" ? "Understand intelligent systems" : "Reason about portfolios"}</strong><small>{domain === "engineering" ? "Forces → control systems" : domain === "ai" ? "Embeddings → optimisation" : "Returns → risk & optimisation"}</small>
+          return <button key={domain} type="button" role="radio" aria-checked={goal === domain} className={goal === domain ? "is-active" : ""} onClick={() => onGoal(domain)}>
+            <strong>{horizonNames[domain]}</strong><span>{domain === "engineering" ? "Forces → control systems" : domain === "ai" ? "Embeddings → optimisation" : "Returns → risk and optimisation"}</span><small>{item.formula}</small>
           </button>;
         })}
       </div>
-      <button className="world-primary-action" type="button" onClick={onContinue}>Enter through a real system <span aria-hidden="true">→</span></button>
-      <p className="world-time-note">About 25 focused minutes · your work is saved locally</p>
+      <button className="world-primary-action" type="button" onClick={onContinue}>Set this horizon and learn the workshop <span aria-hidden="true">→</span></button>
+      <p className="world-time-note">The optional tour takes about 5–7 minutes · your work stays in this browser</p>
     </div>
   </section>
 );
+
+interface TourProps { onComplete: () => void; onSkip: () => void }
+
+const tourMoves = [
+  { title: "Predict before the reveal", body: "Commit to an expectation. A prediction gives the result something to answer.", action: "I predict the sign is positive" },
+  { title: "Manipulate the object", body: "Drag, use arrow keys, choose an extreme case, or enter exact components. Every route changes the same model.", action: "Move force to a right angle" },
+  { title: "Check a harmless attempt", body: "Try the tempting answer first. Mathland preserves the attempt and starts teaching from it.", action: "Check 6 for [2, 1] · [3, 1]" },
+  { title: "Ask for progressive help", body: "Help starts with one observation, then a cue, comparison, worked step, detour, and fresh attempt. Supported work is recorded honestly.", action: "Show one focused cue" },
+  { title: "Read evidence, not completion", body: "The Atlas records what you predicted, constructed, explained, transferred, and retrieved—and the support used.", action: "Record this tour move" },
+  { title: "Orient in the Atlas", body: "The Atlas holds your horizon, current territory, connections, detours, and return path. Opening it never erases Studio work.", action: "Finish the tour" },
+];
+
+export const TourSection = ({ onComplete, onSkip }: TourProps) => {
+  const [move, setMove] = useState(0);
+  const [acted, setActed] = useState(false);
+  const current = tourMoves[move];
+  const act = () => {
+    if (move === tourMoves.length - 1) { onComplete(); return; }
+    setActed(true);
+  };
+  const next = () => { setMove((value) => value + 1); setActed(false); };
+  return <section className="world-section world-tour" aria-labelledby="tour-title">
+    <div className="world-compact-intro"><p className="world-local-label">Workshop tour · move {move + 1} of {tourMoves.length}</p><h1 id="tour-title">{current.title}</h1><p>{current.body}</p></div>
+    <div className="world-tour-workbench">
+      <div className={`world-tour-demo tour-${move}`} aria-hidden="true"><span className="world-tour-vector vector-one" /><span className="world-tour-vector vector-two" /><strong>{move === 2 ? "6 → look again" : move === 4 ? "supported · cue" : move === 5 ? "dot product ↗ projection" : "F · s"}</strong></div>
+      <div className="world-tour-action"><button className="world-primary-action" type="button" onClick={act}>{current.action}</button>{acted && <p className="world-feedback good" role="status">{move === 2 ? "The attempt stays visible. The first divergence is the missing 1 × 1 contribution: 6 + 1 = 7." : move === 3 ? "Cue: write one product for each matched position before adding." : "Move recorded. The mathematical state, not the animation, is what matters."}</p>}
+        {acted && <button className="world-secondary-action" type="button" onClick={next}>Continue tour <span aria-hidden="true">→</span></button>}
+      </div>
+    </div>
+    <div className="world-tour-footer"><button className="world-quiet-action" type="button" onClick={onSkip}>Skip tour for now</button><span>You can reopen it from Help at any time.</span></div>
+  </section>;
+};
 
 interface ObservatoryProps { onPredict: (prediction: string) => void; onContinue: () => void; predicted: boolean }
 
@@ -42,146 +73,100 @@ export const ObservatorySection = ({ onPredict, onContinue, predicted }: Observa
   const [prediction, setPrediction] = useState<string | null>(predicted ? "restored" : null);
   const choose = (value: string) => { setPrediction(value); onPredict(value); };
   return <section className="world-section world-observatory" aria-labelledby="observatory-title">
-    <div className="world-section-intro">
-      <span className="world-kicker">OBSERVATORY · THE MYSTERIOUS SCALAR</span>
-      <h1 id="observatory-title">Different worlds. The same compression.</h1>
-      <p>Each system combines two lists into one consequential number. Before the mechanism is named, commit to what direction and sign might be doing.</p>
-    </div>
+    <div className="world-compact-intro"><p className="world-local-label">Observatory opening</p><h1 id="observatory-title">Three systems compress two lists into one number.</h1><p>Before the mechanism is named, decide what opposing directions should do to the sign.</p></div>
     <div className="world-case-triptych">
-      {primaryDomains.map((domain, index) => {
-        const item = cases[domain];
-        return <article key={domain} className={`world-case-card case-${domain}`}>
-          <div className="world-case-orbit" aria-hidden="true"><i /><i /><span>{index === 0 ? "12 J" : index === 1 ? "0.96" : "+5.0%"}</span></div>
-          <span className="world-kicker">{item.eyebrow}</span><h2>{item.title}</h2><p>{item.question}</p>
-          <div className="world-case-formula">{prediction ? item.formula : "? → one number"}</div>
-        </article>;
-      })}
+      {primaryDomains.map((domain, index) => { const item = cases[domain]; return <article key={domain} className={`world-case-card case-${domain}`}><div className="world-case-orbit" aria-hidden="true"><i /><span>{index === 0 ? "12 J" : index === 1 ? "0.96" : "+5.0%"}</span></div><p className="world-local-label">{domain}</p><h2>{item.title}</h2><p>{item.question}</p><div className="world-case-formula">{prediction ? item.formula : "? → one number"}</div></article>; })}
     </div>
-    <div className="world-prediction-panel">
-      <div><span className="world-kicker">PREDICT BEFORE THE REVEAL</span><h2>If the two lists point against each other, what should happen to the number?</h2></div>
-      <div className="world-prediction-options">
-        {["It becomes negative", "It becomes zero", "Direction should not matter"].map((value) => <button key={value} className={prediction === value ? "is-selected" : ""} onClick={() => choose(value)}>{value}</button>)}
-      </div>
-      {prediction && <div className="world-reveal" role="status"><strong>{prediction === "It becomes negative" ? "Yes—when opposing contributions dominate." : "Hold that thought."}</strong><p>Multiply matching components, then add: <b>a · b = a₁b₁ + a₂b₂</b>. The sign records net directional agreement. You’ll test the claim next.</p></div>}
-    </div>
-    <div className="world-action-row"><button className="world-primary-action" disabled={!prediction} onClick={onContinue}>Take the operation into the Studio <span aria-hidden="true">→</span></button></div>
+    <div className="world-prediction-panel"><h2>If opposing contributions dominate, what should happen?</h2><div className="world-prediction-options">{["It becomes negative", "It becomes zero", "Direction should not matter"].map((value) => <button type="button" key={value} className={prediction === value ? "is-selected" : ""} onClick={() => choose(value)}>{value}</button>)}</div>{prediction && <div className="world-reveal" role="status"><strong>{prediction === "It becomes negative" ? "Yes—opposition wins the net." : "Keep that prediction visible while you test it."}</strong><p>Multiply matching components, then add: <b>a · b = a₁b₁ + a₂b₂</b>. The sign records net directional agreement.</p></div>}</div>
+    <div className="world-action-row"><button className="world-primary-action" disabled={!prediction} onClick={onContinue}>Test the claim in the Studio <span aria-hidden="true">→</span></button></div>
   </section>;
 };
 
-interface PracticeProps {
-  events: EvidenceEvent[];
-  onRecord: (kind: "supported" | "independent" | "explained", detail: string, support: EvidenceEvent["support"]) => void;
-  onDetour: (focusId: string, prompt: string) => void;
-  onContinue: () => void;
-}
+export const VeraIntervention = () => (
+  <aside className="world-vera" aria-labelledby="vera-title">
+    <div className="world-vera-guide"><img src="/lovable-uploads/vera.png" alt="Vera, Mathland's vector field specialist" /><div><p className="world-local-label">Vera · vector lens</p><h2 id="vera-title">Project before you multiply</h2><p>Vera’s professional habit is to ask which part of a force lies along the motion. The dashed projection is the component that can do work.</p></div></div>
+    <figure className="world-projection-figure"><svg viewBox="0 0 360 180" role="img" aria-labelledby="projection-title projection-desc"><title id="projection-title">Force projected onto displacement</title><desc id="projection-desc">A diagonal force vector is projected onto a horizontal displacement direction. The horizontal projected length is the part of the force that contributes to work.</desc><line x1="35" y1="140" x2="320" y2="140" className="projection-axis"/><line x1="35" y1="140" x2="230" y2="42" className="projection-force"/><line x1="230" y1="42" x2="230" y2="140" className="projection-drop"/><line x1="35" y1="140" x2="230" y2="140" className="projection-part"/><text x="236" y="48">F</text><text x="120" y="166">component along s</text></svg><figcaption>Geometric view: F · s = |s| times the signed length of F projected onto s.</figcaption></figure>
+    <div className="world-vera-audio"><div><strong>Hear Vera’s 14-second lens</strong><span>Optional audio · no autoplay</span></div><audio controls preload="metadata"><source src="/audio/bakeoff/vera/el-1.mp3" type="audio/mpeg" />Your browser does not support audio.</audio><details><summary>Read transcript</summary><p>“Okay, picture this—you and I are both out hiking, but in different directions. How much do our two paths actually agree? That’s exactly what the dot product measures. Think of it as a little friendship meter for directions.”</p><p className="world-media-note">Non-media path: use the projection diagram and the linked component, symbolic, and context views above. “Agreement” means a positive signed projection; the formal definition below is authoritative.</p></details></div>
+  </aside>
+);
+
+export const FormalSpine = () => (
+  <section className="world-formal-spine" aria-labelledby="formal-title"><div><p className="world-local-label">Formal spine</p><h2 id="formal-title">Two definitions, one scalar</h2><p>The dot product of two real vectors with the same dimension is the sum of their matched component products.</p></div><div className="world-formal-grid"><article><strong>Component definition</strong><p className="world-math">a · b = Σᵢ aᵢbᵢ</p><p>For two dimensions: a₁b₁ + a₂b₂.</p></article><article><strong>Geometric identity</strong><p className="world-math">a · b = ‖a‖‖b‖ cos θ</p><p>For non-zero vectors, θ is the angle from 0 to π.</p></article><article><strong>Sign theorem</strong><p>Because both magnitudes are non-negative, the sign is the sign of cos θ: positive below 90°, zero at 90°, negative above 90°.</p></article></div><details><summary>Derive the geometric identity</summary><p>Apply the law of cosines to the triangle formed by <b>a</b>, <b>b</b>, and <b>a − b</b>: ‖a − b‖² = ‖a‖² + ‖b‖² − 2‖a‖‖b‖cos θ. Expanding the left side by components gives ‖a‖² + ‖b‖² − 2a · b. Equating the two expressions and cancelling common terms yields a · b = ‖a‖‖b‖cos θ.</p></details></section>
+);
+
+interface PracticeProps { events: EvidenceEvent[]; onRecord: (kind: "attempted" | "supported" | "independent" | "explained", detail: string, support: EvidenceEvent["support"]) => void; onDetour: (focusId: string, prompt: string) => void; onContinue: () => void }
+
+const recoveryCopy = [
+  "Observation: your work is preserved. Compare the sign of each matched product with the sign of your total.",
+  "Focused cue: write the two contributions separately before adding them.",
+  "Comparison: (2 × −4) is negative and (−3 × 1) is also negative, so a positive total cannot fit both contributions.",
+  "Worked step: 2 × −4 = −8 and −3 × 1 = −3. The remaining move is −8 + (−3).",
+  "A signed-components detour can repair this exact move and return here.",
+  "Fresh equivalent attempt: use [3, −2] · [−2, 4]. Your earlier answer remains above.",
+];
 
 export const PracticeSection = ({ events, onRecord, onDetour, onContinue }: PracticeProps) => {
   const [faded, setFaded] = useState("");
-  const [independent, setIndependent] = useState("");
-  const [explanation, setExplanation] = useState("");
+  const [parts, setParts] = useState({ first: "", second: "", total: "" });
+  const [supportLevel, setSupportLevel] = useState(0);
   const [feedback, setFeedback] = useState<Record<string, string>>({});
-  const supportedDone = events.some((event) => event.kind === "supported");
-  const independentDone = events.some((event) => event.kind === "independent");
+  const [reason, setReason] = useState("");
+  const [meaning, setMeaning] = useState("");
+  const supportedDone = events.some((event) => event.kind === "supported" && event.detail?.startsWith("Faded"));
+  const calculationDone = events.some((event) => event.kind === "independent" || (event.kind === "supported" && event.detail?.startsWith("Calculation")));
   const explainedDone = events.some((event) => event.kind === "explained");
+  const fresh = supportLevel >= 5;
+  const expected = fresh ? { first: -6, second: -8, total: -14 } : { first: -8, second: -3, total: -11 };
+  const vectorText = fresh ? "[3, −2] · [−2, 4]" : "[2, −3] · [−4, 1]";
 
-  const check = (id: string, answer: string, expected: number, onCorrect: () => void) => {
-    const correct = Math.abs(Number(answer) - expected) < 0.001;
-    setFeedback((current) => ({ ...current, [id]: correct ? "Correct. The component contributions combine to the scalar." : "Not yet. Multiply matching positions, keep each sign, then add." }));
-    if (correct) onCorrect();
+  const checkFaded = () => {
+    if (Number(faded) === 2) { setFeedback((value) => ({ ...value, faded: "Correct: +12 and −10 leave a net contribution of +2." })); onRecord("supported", "Faded calculation completed", "cue"); }
+    else setFeedback((value) => ({ ...value, faded: "Keep both signed contributions visible: +12 + (−10)." }));
+  };
+  const checkCalculation = () => {
+    const correct = Number(parts.first) === expected.first && Number(parts.second) === expected.second && Number(parts.total) === expected.total;
+    if (correct) {
+      const support: EvidenceEvent["support"] = supportLevel === 0 ? "none" : supportLevel <= 2 ? "cue" : supportLevel === 3 ? "worked" : supportLevel === 4 ? "restudied" : "comparison";
+      onRecord(supportLevel === 0 ? "independent" : "supported", `Calculation ${vectorText} = ${expected.total}`, support);
+      setFeedback((value) => ({ ...value, calculation: supportLevel === 0 ? "Independent calculation recorded." : `Completed with ${support}. Independent evidence remains open.` }));
+      return;
+    }
+    onRecord("attempted", `Attempt ${vectorText}: ${parts.first}, ${parts.second}, ${parts.total}`, supportLevel === 0 ? "none" : "cue");
+    setSupportLevel((value) => Math.min(5, value + 1));
+    setFeedback((value) => ({ ...value, calculation: "Your entries stay in place. Use the next teaching step below, then revise them." }));
+  };
+  const saveExplanation = () => {
+    if (reason !== "opposing" || !meaning.trim()) { setFeedback((value) => ({ ...value, explanation: "Name which contributions determine the sign, then state what a negative result means for direction." })); return; }
+    onRecord("explained", `Opposing contributions dominate. ${meaning.trim()}`, "none");
+    setFeedback((value) => ({ ...value, explanation: "Explanation recorded against the stated reasoning criteria." }));
   };
 
-  return <section className="world-section world-practice" aria-labelledby="practice-title">
-    <div className="world-section-intro"><span className="world-kicker">STUDIO · SUPPORT FADES</span><h1 id="practice-title">Make the procedure yours.</h1><p>The representation stays stable while the scaffolding disappears. Accuracy matters; so does what the number means.</p></div>
-    <ol className="world-practice-stack">
-      <li className="world-practice-card is-complete">
-        <div className="world-practice-index">01</div><div><span className="world-kicker">WORKED EXAMPLE</span><h2>See every contribution</h2><p><b>[3, 2] · [4, −1]</b></p><div className="world-worked-line"><span>3 × 4</span><i>+</i><span>2 × (−1)</span><i>=</i><strong>10</strong></div><p className="world-feedback good">The first dimensions contribute +12; the second contributes −2. The dot product is their net, not a distance.</p></div>
-      </li>
-      <li className={supportedDone ? "world-practice-card is-complete" : "world-practice-card"} id="faded-challenge" tabIndex={-1}>
-        <div className="world-practice-index">02</div><div><span className="world-kicker">FADING SUPPORT</span><h2>Complete the final sum</h2><p><b>[4, −2] · [3, 5] = 12 + (−10) =</b></p><div className="world-inline-answer"><label><span className="sr-only">Faded example answer</span><input inputMode="decimal" value={faded} onChange={(event) => setFaded(event.target.value)} /></label><button onClick={() => check("faded", faded, 2, () => onRecord("supported", "Completed faded component calculation", "cue"))}>Check</button></div>{feedback.faded && <p className={`world-feedback ${supportedDone ? "good" : ""}`} role="status">{feedback.faded}</p>}<button className="world-help-link" onClick={() => onDetour("faded-challenge", "Complete 12 + (−10) in the faded calculation")}>I want a two-minute signed-components refresher</button></div>
-      </li>
-      <li className={independentDone ? "world-practice-card is-complete" : "world-practice-card"} id="independent-challenge" tabIndex={-1}>
-        <div className="world-practice-index">03</div><div><span className="world-kicker">INDEPENDENT CALCULATION</span><h2>No component scaffold</h2><p><b>[2, −3] · [−4, 1] = ?</b></p><div className="world-inline-answer"><label><span className="sr-only">Independent calculation answer</span><input inputMode="decimal" value={independent} onChange={(event) => setIndependent(event.target.value)} /></label><button onClick={() => check("independent", independent, -11, () => onRecord("independent", "Calculated [2,-3] dot [-4,1]", "none"))}>Check</button></div>{feedback.independent && <p className={`world-feedback ${independentDone ? "good" : ""}`} role="status">{feedback.independent}</p>}</div>
-      </li>
-      <li className={explainedDone ? "world-practice-card is-complete" : "world-practice-card"}>
-        <div className="world-practice-index">04</div><div><span className="world-kicker">EXPLAIN THE SIGN</span><h2>What does −11 tell you?</h2><label className="world-textarea-label">Explain in your own words<textarea value={explanation} onChange={(event) => setExplanation(event.target.value)} placeholder="The dot product is negative because…" /></label><button className="world-secondary-action" disabled={explanation.trim().length < 24} onClick={() => onRecord("explained", explanation.trim(), "none")}>Save explanation</button>{explainedDone && <p className="world-feedback good">Recorded. A human facilitator should review meaning; length alone is not proof of understanding.</p>}</div>
-      </li>
-    </ol>
-    <div className="world-action-row"><button className="world-primary-action" disabled={!(supportedDone && independentDone && explainedDone)} onClick={onContinue}>Use it in another world <span aria-hidden="true">→</span></button></div>
-  </section>;
+  return <section className="world-section world-practice" aria-labelledby="practice-title"><div className="world-compact-intro"><p className="world-local-label">Studio · calculate and explain</p><h1 id="practice-title">Expose the contributions, then explain the sign.</h1><p>Support fades, but the component structure stays visible.</p></div><FormalSpine /><ol className="world-practice-stack">
+    <li className="world-practice-card is-complete"><div className="world-practice-index">1</div><div><h2>Worked example: see every contribution</h2><p className="world-math">[3, 2] · [4, −1] = (3 × 4) + (2 × −1)</p><div className="world-contribution-row"><span>+12 supporting</span><span>−2 opposing</span><strong>= +10 net</strong></div><p className="world-feedback good">The scalar is a signed net of component contributions, not a distance.</p></div></li>
+    <li className={supportedDone ? "world-practice-card is-complete" : "world-practice-card"} id="faded-challenge" tabIndex={-1}><div className="world-practice-index">2</div><div><h2>Faded example: complete the net</h2><p className="world-math">[4, −2] · [3, 5] = +12 + (−10)</p><div className="world-inline-answer"><label>Net contribution<input aria-label="Faded example answer" inputMode="decimal" value={faded} onChange={(event) => setFaded(event.target.value)} /></label><button type="button" onClick={checkFaded}>Check</button></div>{feedback.faded && <p className={`world-feedback ${supportedDone ? "good" : ""}`} role="status">{feedback.faded}</p>}<button className="world-help-link" type="button" onClick={() => onDetour("faded-challenge", "Complete +12 + (−10) in the faded calculation")}>Open a two-minute signed-components detour</button></div></li>
+    <li className={calculationDone ? "world-practice-card is-complete" : "world-practice-card"} id="independent-challenge" tabIndex={-1}><div className="world-practice-index">3</div><div><h2>{fresh ? "Fresh equivalent attempt" : "Independent calculation"}</h2><p className="world-math">{vectorText}</p><div className="world-contribution-inputs"><label>First matched product<input aria-label="First matched product" value={parts.first} inputMode="decimal" onChange={(event) => setParts({ ...parts, first: event.target.value })} /></label><label>Second matched product<input aria-label="Second matched product" value={parts.second} inputMode="decimal" onChange={(event) => setParts({ ...parts, second: event.target.value })} /></label><label>Net dot product<input aria-label="Net dot product" value={parts.total} inputMode="decimal" onChange={(event) => setParts({ ...parts, total: event.target.value })} /></label></div><button className="world-secondary-action" type="button" onClick={checkCalculation}>Check all three values</button>{feedback.calculation && <p className={`world-feedback ${calculationDone ? "good" : ""}`} role="status">{feedback.calculation}</p>}{supportLevel > 0 && !calculationDone && <div className="world-recovery" aria-live="polite"><strong>Teaching step {supportLevel} of 6</strong><p>{recoveryCopy[supportLevel - 1]}</p>{supportLevel === 4 && <button className="world-help-link" type="button" onClick={() => onDetour("independent-challenge", `Resolve the signed contributions in ${vectorText}`)}>Take the diagnostic detour</button>}<button className="world-quiet-action" type="button" onClick={() => setSupportLevel((value) => Math.min(5, value + 1))}>Show the next level of help</button></div>}</div></li>
+    <li className={explainedDone ? "world-practice-card is-complete" : "world-practice-card"}><div className="world-practice-index">4</div><div><h2>Explain against clear criteria</h2><fieldset className="world-reason-options"><legend>What determines the negative sign?</legend><label><input type="radio" name="reason" value="opposing" checked={reason === "opposing"} onChange={(event) => setReason(event.target.value)} /> The negative component contributions dominate the net.</label><label><input type="radio" name="reason" value="length" checked={reason === "length"} onChange={(event) => setReason(event.target.value)} /> The vectors have different lengths.</label></fieldset><label className="world-textarea-label">In this calculation, what does a negative dot product say about direction?<textarea value={meaning} onChange={(event) => setMeaning(event.target.value)} placeholder="State the directional relationship in your own words." /></label><button className="world-secondary-action" type="button" onClick={saveExplanation}>Check reasoning</button>{feedback.explanation && <p className={`world-feedback ${explainedDone ? "good" : ""}`} role="status">{feedback.explanation}</p>}</div></li>
+  </ol><div className="world-action-row"><button className="world-primary-action" disabled={!(supportedDone && calculationDone && explainedDone)} onClick={onContinue}>Transfer the structure to finance <span aria-hidden="true">→</span></button></div></section>;
 };
 
 interface DetourProps { prompt: string; onFinish: () => void }
+export const DetourSection = ({ prompt, onFinish }: DetourProps) => { const [first, setFirst] = useState(""); const [second, setSecond] = useState(""); const ready = Number(first) === -10 && Number(second) === 2; return <section className="world-section world-detour" aria-labelledby="detour-title"><div className="world-route-ribbon"><span>Your original move</span><strong>{prompt}</strong><small>Your horizon and work are preserved.</small></div><div className="world-detour-card"><p className="world-local-label">Diagnostic detour · signed components</p><h1 id="detour-title">Preserve each sign, then find the net.</h1><p>You need one reliable move, not an arithmetic chapter: treat each matched pair as a signed contribution, then add.</p><div className="world-detour-visual"><div><span>−2 × 5</span><strong>−10</strong><small>opposing</small></div><i>+</i><div><span>4 × 3</span><strong>+12</strong><small>supporting</small></div><i>=</i><div className="is-result"><strong>+2</strong><small>net</small></div></div><div className="world-detour-check"><label>First contribution: −2 × 5 = <input value={first} onChange={(event) => setFirst(event.target.value)} inputMode="numeric" /></label><label>Net: −10 + 12 = <input value={second} onChange={(event) => setSecond(event.target.value)} inputMode="numeric" /></label></div><button className="world-primary-action" disabled={!ready} onClick={onFinish}>Return to my exact calculation <span aria-hidden="true">↩</span></button></div></section>; };
 
-export const DetourSection = ({ prompt, onFinish }: DetourProps) => {
-  const [first, setFirst] = useState("");
-  const [second, setSecond] = useState("");
-  const ready = Number(first) === -10 && Number(second) === 2;
-  return <section className="world-section world-detour" aria-labelledby="detour-title">
-    <div className="world-route-ribbon"><span>YOUR ORIGINAL MOVE</span><strong>{prompt}</strong><small>We will return here exactly.</small></div>
-    <div className="world-detour-card"><span className="world-kicker">DIAGNOSTIC DETOUR · SIGNED COMPONENTS</span><h1 id="detour-title">Two products. One careful sum.</h1><p>You do not need a chapter on arithmetic. You need one reliable move: treat each matched pair as a contribution, preserve its sign, then add.</p>
-      <div className="world-detour-visual"><div><span>−2 × 5</span><strong>−10</strong><small>opposing contribution</small></div><i>+</i><div><span>4 × 3</span><strong>+12</strong><small>supporting contribution</small></div><i>=</i><div className="is-result"><strong>+2</strong><small>net contribution</small></div></div>
-      <div className="world-detour-check"><label>First contribution: −2 × 5 = <input value={first} onChange={(event) => setFirst(event.target.value)} inputMode="numeric" /></label><label>Net: −10 + 12 = <input value={second} onChange={(event) => setSecond(event.target.value)} inputMode="numeric" /></label></div>
-      <button className="world-primary-action" disabled={!ready} onClick={onFinish}>Return to my exact calculation <span aria-hidden="true">↩</span></button>
-    </div>
-  </section>;
+interface TransferProps { events: EvidenceEvent[]; onTransfer: (detail: string) => void; onDefer: () => void; onContinue: () => void }
+export const TransferSection = ({ events, onTransfer, onDefer, onContinue }: TransferProps) => {
+  const [oriented, setOriented] = useState(false); const [parts, setParts] = useState({ first: "", second: "", total: "" }); const [meaning, setMeaning] = useState(""); const [feedback, setFeedback] = useState(""); const done = events.some((event) => event.kind === "transferred");
+  const submit = (event: FormEvent) => { event.preventDefault(); const correct = Math.abs(Number(parts.first) - .04) < .0001 && Math.abs(Number(parts.second) + .004) < .0001 && (Math.abs(Number(parts.total) - .036) < .0001 || Math.abs(Number(parts.total) - 3.6) < .01); if (!correct || meaning !== "realised") { setFeedback("Keep the two weighted contributions visible: 0.8 × 0.05 and 0.2 × −0.02. Then identify this as a realised one-period return."); return; } setFeedback("Yes: +4.0% and −0.4% combine to +3.6% in this bounded model."); onTransfer("Finance transfer: +0.04 + -0.004 = +0.036 realised return"); };
+  return <section className="world-section world-transfer" aria-labelledby="transfer-title"><div className="world-compact-intro"><p className="world-local-label">Cross-domain transfer · finance</p><h1 id="transfer-title">The nouns will change; the operation will not.</h1><p>This change of domain tests whether the dot-product structure travels. It does not test prior finance knowledge.</p></div><div className="world-transfer-orientation"><div><strong>Structure that stays fixed</strong><p>Multiply matched components, preserve signs, add the contributions to one scalar.</p></div><div><strong>New terms and units</strong><p>A weight is the fraction allocated to an asset. A realised return is the observed percentage change over one period.</p></div><div><strong>Simplifications</strong><p>Fixed weights, one realised period, no fees, tax, slippage, rebalancing, forecast, or advice.</p></div></div>{!oriented ? <div className="world-orientation-actions"><button className="world-primary-action" type="button" onClick={() => setOriented(true)}>I’m ready to translate the terms</button><button className="world-secondary-action" type="button" onClick={onDefer}>Defer finance without recording transfer</button></div> : <div className="world-transfer-grid"><article className="world-transfer-case"><h2>Two assets, one realised return</h2><div className="world-asset-row"><span>Asset A</span><strong>0.8 weight</strong><em>+0.05 return</em></div><div className="world-asset-row"><span>Asset B</span><strong>0.2 weight</strong><em>−0.02 return</em></div><p className="world-assumption">The weights sum to 1. Returns are decimals: 0.05 means +5%.</p></article><form className="world-transfer-work" onSubmit={submit}><h2>Expose both contributions</h2><p className="world-math">[0.8, 0.2] · [0.05, −0.02]</p><label>Asset A contribution<input aria-label="Asset A contribution" value={parts.first} onChange={(event) => setParts({ ...parts, first: event.target.value })} /></label><label>Asset B contribution<input aria-label="Asset B contribution" value={parts.second} onChange={(event) => setParts({ ...parts, second: event.target.value })} /></label><label>Portfolio return<input aria-label="Portfolio return" value={parts.total} onChange={(event) => setParts({ ...parts, total: event.target.value })} placeholder="decimal or %" /></label><fieldset className="world-reason-options"><legend>What does the scalar represent?</legend><label><input type="radio" name="transfer-meaning" value="realised" checked={meaning === "realised"} onChange={(event) => setMeaning(event.target.value)} /> The weighted realised return for this one period.</label><label><input type="radio" name="transfer-meaning" value="forecast" checked={meaning === "forecast"} onChange={(event) => setMeaning(event.target.value)} /> A forecast of the next period.</label></fieldset><button className="world-primary-action" type="submit">Check transfer</button>{feedback && <p className={`world-feedback ${done ? "good" : ""}`} role="status">{feedback}</p>}</form></div>}<div className="world-action-row"><button className="world-primary-action" disabled={!done} onClick={onContinue}>Open the Atlas <span aria-hidden="true">→</span></button></div></section>;
 };
 
-interface TransferProps { events: EvidenceEvent[]; onTransfer: (detail: string) => void; onContinue: () => void }
+interface AtlasProps { snapshot: WorldSnapshot; onRetrieval: () => void; onResume: () => void; onEditHorizon: () => void }
+export const AtlasSection = ({ snapshot, onRetrieval, onResume, onEditHorizon }: AtlasProps) => { const evidenceState = deriveAtlasState(snapshot.evidence, snapshot.retrievalDueAt); const activeJourney = domainJourneys[snapshot.activeGoal]; const connections = useMemo(() => territories.flatMap((territory) => territory.downstreamIds.map((target) => ({ from: territory, to: territories.find((item) => item.id === target) })).filter((item) => item.to)), []); return <section className="world-section world-atlas" aria-labelledby="atlas-title"><div className="world-compact-intro"><p className="world-local-label">Atlas · orientation</p><h1 id="atlas-title">You are in dot product, heading toward {horizonNames[snapshot.activeGoal].toLowerCase()}.</h1><p>The highlighted route keeps the horizon visible. Changing it changes the future route, not the work already recorded.</p><button className="world-quiet-action" type="button" onClick={onEditHorizon}>Edit horizon deliberately</button></div><div className="world-atlas-layout"><div className="world-map" role="img" aria-label={`Map of eight connected mathematical territories. Dot product evidence state: ${evidenceState}.`}><svg viewBox="0 0 100 100" aria-hidden="true" preserveAspectRatio="none">{connections.map(({ from, to }) => to && <line key={`${from.id}-${to.id}`} x1={from.x} y1={from.y} x2={to.x} y2={to.y} className={activeJourney.includes(from.id) && activeJourney.includes(to.id) ? "is-route" : ""} />)}</svg>{territories.map((territory) => <span aria-hidden="true" key={territory.id} style={{ left: `${territory.x}%`, top: `${territory.y}%` }} className={`world-node ${territory.id === "dot-product" ? "is-current" : ""} ${territory.status === "horizon" ? "is-horizon" : ""} ${activeJourney.includes(territory.id) ? "is-route" : ""}`}><span>{territory.notation ?? territory.shortTitle}</span>{territory.id === "dot-product" && <small>{evidenceState.replace(/-/g, " ")}</small>}</span>)}</div><aside className="world-atlas-aside"><h2>Evidence, with support visible</h2><ul className="world-evidence-list">{[["predicted", "Prediction"], ["constructed", "Vector construction"], ["independent", "Independent calculation"], ["explained", "Explanation"], ["transferred", "Finance transfer"]].map(([kind, label]) => { const event = snapshot.evidence.find((item) => item.kind === kind); return <li key={kind} className={event ? "is-recorded" : ""}><i aria-hidden="true" /><span>{label}{event?.support && event.support !== "none" ? ` · ${event.support}` : ""}</span></li>; })}</ul><div className="world-next-move"><strong>Next territory: projection</strong><p>Turn direction agreement into “how much lies along this direction?”</p></div></aside></div><div className="world-return-card"><div><h2>{snapshot.retrievalDueAt ? `Retrieval scheduled for ${new Date(snapshot.retrievalDueAt).toLocaleDateString()}` : "Transfer is deferred; retrieval is not scheduled"}</h2><p>Domain orientation is separate from the future memory attempt. Preview work never counts as delayed retrieval.</p></div><button className="world-secondary-action" onClick={onRetrieval}>Preview retrieval orientation</button></div><div className="world-action-row"><button className="world-primary-action" onClick={onResume}>Return to the exact Studio move <span aria-hidden="true">↩</span></button></div></section>; };
 
-export const TransferSection = ({ events, onTransfer, onContinue }: TransferProps) => {
-  const [answer, setAnswer] = useState("");
-  const [meaning, setMeaning] = useState("");
-  const [feedback, setFeedback] = useState("");
-  const done = events.some((event) => event.kind === "transferred");
-  const submit = (event: FormEvent) => {
-    event.preventDefault();
-    const numeric = Number(answer.replace("%", ""));
-    const correct = Math.abs(numeric - 3.6) < 0.01 || Math.abs(numeric - 0.036) < 0.0001;
-    if (!correct || meaning.trim().length < 20) { setFeedback("Check the weighting: 0.8(5%) + 0.2(−2%). Then say what that scalar represents."); return; }
-    setFeedback("Yes. +3.6% is the realised weighted return in this simplified one-period model.");
-    onTransfer(`Finance transfer: ${answer}; ${meaning.trim()}`);
-  };
-  return <section className="world-section world-transfer" aria-labelledby="transfer-title">
-    <div className="world-section-intro"><span className="world-kicker">CROSS-DOMAIN TRANSFER · FINANCE</span><h1 id="transfer-title">The nouns changed. Did the structure?</h1><p>No force. No displacement. Decide whether the operation still belongs.</p></div>
-    <div className="world-transfer-grid"><article className="world-transfer-case"><span className="world-kicker">ONE-PERIOD PORTFOLIO</span><h2>Two assets, one realised return</h2><div className="world-asset-row"><span>Asset A</span><strong>80% weight</strong><em>+5% return</em></div><div className="world-asset-row"><span>Asset B</span><strong>20% weight</strong><em>−2% return</em></div><p className="world-assumption"><b>Model boundary:</b> fixed weights for one realised period; no fees, tax, slippage, or forecast. This is not investment advice.</p></article>
-      <form className="world-transfer-work" onSubmit={submit}><span className="world-kicker">YOUR MODEL</span><h2>Compress the contributions</h2><p className="world-large-equation">[0.8, 0.2] · [0.05, −0.02]</p><label>Portfolio return<input aria-label="Portfolio return" value={answer} onChange={(event) => setAnswer(event.target.value)} placeholder="decimal or %" /></label><label>What does the result mean here?<textarea value={meaning} onChange={(event) => setMeaning(event.target.value)} placeholder="It represents…" /></label><button className="world-primary-action" type="submit">Check transfer</button>{feedback && <p className={`world-feedback ${done ? "good" : ""}`} role="status">{feedback}</p>}</form></div>
-    <div className="world-action-row"><button className="world-primary-action" disabled={!done} onClick={onContinue}>See where this sits in the Atlas <span aria-hidden="true">→</span></button></div>
-  </section>;
-};
-
-interface AtlasProps { snapshot: WorldSnapshot; onRetrieval: () => void; onResume: () => void }
-
-export const AtlasSection = ({ snapshot, onRetrieval, onResume }: AtlasProps) => {
-  const evidenceState = deriveAtlasState(snapshot.evidence, snapshot.retrievalDueAt);
-  const activeJourney = domainJourneys[snapshot.activeGoal];
-  const connections = useMemo(() => territories.flatMap((territory) => territory.downstreamIds.map((target) => ({ from: territory, to: territories.find((item) => item.id === target) })).filter((item) => item.to)), []);
-  return <section className="world-section world-atlas" aria-labelledby="atlas-title">
-    <div className="world-section-intro"><span className="world-kicker">ATLAS · YOUR MATHEMATICAL HORIZON</span><h1 id="atlas-title">One territory, several futures.</h1><p>You entered through {cases[snapshot.activeGoal].eyebrow.split(" · ")[0].toLowerCase()}. The highlighted route keeps that goal visible while showing where the same mathematics meets other routes.</p></div>
-    <div className="world-atlas-layout"><div className="world-map" role="img" aria-label={`Map of eight connected mathematical territories. Dot product evidence state: ${evidenceState}.`}>
-      <svg viewBox="0 0 100 100" aria-hidden="true" preserveAspectRatio="none">{connections.map(({ from, to }) => to && <line key={`${from.id}-${to.id}`} x1={from.x} y1={from.y} x2={to.x} y2={to.y} className={activeJourney.includes(from.id) && activeJourney.includes(to.id) ? "is-route" : ""} />)}</svg>
-      {territories.map((territory) => <span aria-hidden="true" key={territory.id} style={{ left: `${territory.x}%`, top: `${territory.y}%` }} className={`world-node ${territory.id === "dot-product" ? "is-current" : ""} ${territory.status === "horizon" ? "is-horizon" : ""} ${activeJourney.includes(territory.id) ? "is-route" : ""}`} title={territory.title}><span>{territory.notation ?? territory.shortTitle}</span>{territory.id === "dot-product" && <small>{evidenceState.replace(/-/g, " ")}</small>}</span>)}
-    </div><aside className="world-atlas-aside"><span className="world-kicker">EVIDENCE, NOT COMPLETION</span><h2>Your dot-product record</h2><ul className="world-evidence-list">{[
-      ["predicted", "Committed to a prediction"], ["constructed", "Manipulated the vector model"], ["independent", "Calculated without scaffold"], ["explained", "Explained the sign"], ["transferred", "Used it in finance"],
-    ].map(([kind, label]) => <li key={kind} className={snapshot.evidence.some((event) => event.kind === kind) ? "is-recorded" : ""}><i aria-hidden="true" />{label}</li>)}</ul><div className="world-next-move"><span>NEXT MOVE</span><strong>Projection</strong><p>Turn direction agreement into “how much lies along this direction?”</p></div></aside></div>
-    <div className="world-return-card"><div><span className="world-kicker">MEMORY IS A RETURN LOOP</span><h2>{snapshot.retrievalDueAt ? `Retrieval scheduled for ${new Date(snapshot.retrievalDueAt).toLocaleDateString()}` : "Complete transfer to schedule retrieval"}</h2><p>The future prompt uses an unfamiliar climate-monitoring context. It records independent retrieval, a cue, or restudy—not a streak.</p></div><button className="world-secondary-action" onClick={onRetrieval}>Preview the future retrieval prompt</button></div>
-    <div className="world-action-row"><button className="world-primary-action" onClick={onResume}>Return to the Studio <span aria-hidden="true">↩</span></button></div>
-  </section>;
-};
-
-interface RetrievalProps { events: EvidenceEvent[]; dueAt: string | null; onRecord: (detail: string, support: EvidenceEvent["support"]) => void; onAtlas: () => void }
-
-export const RetrievalSection = ({ events, dueAt, onRecord, onAtlas }: RetrievalProps) => {
-  const done = events.some((event) => event.kind === "retrieved");
-  const [answer, setAnswer] = useState("");
-  const [cue, setCue] = useState(false);
-  const [feedback, setFeedback] = useState(done ? "Retrieved: this climate-index return is already recorded in the local evidence store." : "");
-  const check = () => {
-    if (Math.abs(Number(answer) - 2.1) > 0.001) { setFeedback("Not yet. Combine each sensor deviation in proportion to its importance."); return; }
-    setFeedback("Retrieved: 0.5(4) + 0.3(−1) + 0.2(2) = 2.1 index points.");
-    onRecord("Climate index retrieval", cue ? "cue" : "none");
-  };
-  return <section className="world-section world-retrieval" aria-labelledby="retrieval-title"><div className="world-section-intro"><span className="world-kicker">RETURN LOOP · CLIMATE MONITORING</span><h1 id="retrieval-title">Can the structure return without its original story?</h1><p>{dueAt ? `Scheduled return: ${new Date(dueAt).toLocaleDateString()}. ` : "Preview mode. "}Three sensors report deviations from baseline. Their reliability weights sum to one.</p></div>
-    <div className="world-retrieval-card"><div className="world-sensor-table" role="table" aria-label="Sensor weights and deviations"><div role="row"><span role="columnheader">Sensor</span><span role="columnheader">Weight</span><span role="columnheader">Deviation</span></div>{[["Air", "0.5", "+4"], ["Water", "0.3", "−1"], ["Soil", "0.2", "+2"]].map((row) => <div role="row" key={row[0]}>{row.map((cell) => <span role="cell" key={cell}>{cell}</span>)}</div>)}</div><div className="world-retrieval-work"><h2>Find the weighted exposure index.</h2>{cue && <p className="world-feedback">Cue: this is two equal-length lists compressed into one scalar.</p>}<label>Exposure index<input value={answer} inputMode="decimal" onChange={(event) => setAnswer(event.target.value)} /></label><div className="world-button-pair"><button className="world-secondary-action" onClick={() => setCue(true)}>Give me one cue</button><button className="world-primary-action" onClick={check}>Check retrieval</button></div>{feedback && <p className={`world-feedback ${done ? "good" : ""}`} role="status">{feedback}</p>}</div></div>
-    <div className="world-action-row"><button className="world-primary-action" disabled={!done} onClick={onAtlas}>Update the Atlas record <span aria-hidden="true">→</span></button></div>
-  </section>;
+interface RetrievalProps { events: EvidenceEvent[]; dueAt: string | null; onRecord: (detail: string, support: EvidenceEvent["support"]) => void; onSubstitute: () => void; onAtlas: () => void }
+export const RetrievalSection = ({ events, dueAt, onRecord, onSubstitute, onAtlas }: RetrievalProps) => {
+  const due = Boolean(dueAt && new Date(dueAt) <= new Date()); const done = events.some((event) => event.kind === "retrieved"); const [oriented, setOriented] = useState(false); const [answer, setAnswer] = useState(""); const [cue, setCue] = useState(0); const [substitute, setSubstitute] = useState(false); const [feedback, setFeedback] = useState("");
+  const useSubstitute = () => { setSubstitute(true); setAnswer(""); onSubstitute(); };
+  const expected = substitute ? 1.7 : 2.1;
+  const check = () => { if (Math.abs(Number(answer) - expected) > .001) { setFeedback("Your work stays in place. Keep each weight beside its matched deviation, then add the three signed contributions."); setCue((value) => Math.min(3, value + 1)); return; } if (!due) { setFeedback(`Preview complete: the result is ${expected}. No delayed-retrieval evidence was recorded.`); return; } const support: EvidenceEvent["support"] = substitute ? "substituted" : cue === 0 ? "none" : cue < 3 ? "cue" : "worked"; setFeedback(`Retrieved: the weighted score is ${expected}. Evidence recorded as ${support}.`); onRecord(`${substitute ? "Quality-control" : "Climate index"} retrieval`, support); };
+  return <section className="world-section world-retrieval" aria-labelledby="retrieval-title"><div className="world-compact-intro"><p className="world-local-label">Return loop · domain orientation first</p><h1 id="retrieval-title">Retrieve the operation, not climate vocabulary.</h1><p>{due ? `This scheduled return was due ${new Date(dueAt!).toLocaleDateString()}.` : "Preview mode: this attempt will not count as delayed retrieval."}</p></div>{!oriented ? <div className="world-retrieval-orientation"><h2>What this model means</h2><p>Three sensors report deviations from a baseline. A positive deviation is above baseline; a negative deviation is below. Reliability weights state how much each sensor contributes and sum to one. The weighted exposure index is only a small linear summary, not a climate conclusion.</p><div className="world-button-pair"><button className="world-primary-action" onClick={() => setOriented(true)}>Start the memory attempt</button><button className="world-secondary-action" onClick={useSubstitute}>Climate terms block me—use an equivalent context</button></div></div> : <div className="world-retrieval-card"><div className="world-sensor-table" role="table" aria-label={`${substitute ? "Quality-control signal" : "Climate sensor"} weights and deviations`}><div role="row"><span role="columnheader">{substitute ? "Signal" : "Sensor"}</span><span role="columnheader">Weight</span><span role="columnheader">Deviation</span></div>{(substitute ? [["Shape", "0.5", "+3"], ["Surface", "0.3", "−2"], ["Mass", "0.2", "+4"]] : [["Air", "0.5", "+4"], ["Water", "0.3", "−1"], ["Soil", "0.2", "+2"]]).map((row) => <div role="row" key={row[0]}>{row.map((cell) => <span role="cell" key={cell}>{cell}</span>)}</div>)}</div><div className="world-retrieval-work"><h2>Find the weighted {substitute ? "quality" : "exposure"} index.</h2>{cue > 0 && <p className="world-feedback">{cue === 1 ? "Observation: there are two equal-length lists and one requested scalar." : cue === 2 ? "Cue: multiply each weight by the deviation in the same row, then add." : substitute ? "Worked setup: 0.5(3) + 0.3(−2) + 0.2(4)." : "Worked setup: 0.5(4) + 0.3(−1) + 0.2(2)."}</p>}<label>Weighted index<input aria-label="Weighted index" value={answer} inputMode="decimal" onChange={(event) => setAnswer(event.target.value)} /></label><div className="world-button-pair"><button className="world-secondary-action" onClick={() => setCue((value) => Math.min(3, value + 1))}>Reveal the next cue</button><button className="world-primary-action" onClick={check}>Check retrieval</button></div>{!substitute && <button className="world-quiet-action" type="button" onClick={useSubstitute}>Switch to the equivalent quality-control context</button>}{feedback && <p className={`world-feedback ${done || feedback.startsWith("Preview complete") ? "good" : ""}`} role="status">{feedback}</p>}</div></div>}<div className="world-action-row"><button className="world-primary-action" disabled={due && !done} onClick={onAtlas}>Return to the Atlas <span aria-hidden="true">→</span></button></div></section>;
 };

@@ -48,3 +48,9 @@ export const cases: Record<DomainId, DomainCase> = {
 };
 
 export const primaryDomains: Exclude<DomainId, "climate">[] = ["engineering", "ai", "finance"];
+
+export const horizonNames: Record<Exclude<DomainId, "climate">, string> = {
+  engineering: "Understand physical systems",
+  ai: "Understand intelligent systems",
+  finance: "Reason about portfolios",
+};

@@ -1,11 +1,14 @@
 import { AtlasEvidenceState, EvidenceEvent, EvidenceKind, WorldSnapshot } from "../types/world";
 
-export const WORLD_STORAGE_KEY = "mathland.world.dot-product.v1";
+export const WORLD_STORAGE_KEY = "mathland.world.dot-product.v2";
+export const LEGACY_WORLD_STORAGE_KEY = "mathland.world.dot-product.v1";
 export const RETRIEVAL_DELAY_MS = 7 * 24 * 60 * 60 * 1000;
 
 export const createSnapshot = (now = new Date()): WorldSnapshot => ({
-  version: 1,
+  version: 2,
   activeGoal: "engineering",
+  horizonChosenAt: null,
+  tourStatus: "not-started",
   step: "entry",
   evidence: [],
   detour: null,
@@ -50,15 +53,30 @@ export const scheduleRetrieval = (now = new Date()): string => new Date(now.getT
 const isSnapshot = (value: unknown): value is WorldSnapshot => {
   if (!value || typeof value !== "object") return false;
   const candidate = value as Partial<WorldSnapshot>;
-  return candidate.version === 1 && Array.isArray(candidate.evidence) && typeof candidate.step === "string";
+  return candidate.version === 2 && Array.isArray(candidate.evidence) && typeof candidate.step === "string"
+    && typeof candidate.tourStatus === "string";
+};
+
+interface LegacySnapshot extends Omit<WorldSnapshot, "version" | "horizonChosenAt" | "tourStatus"> { version: 1 }
+
+const migrateLegacySnapshot = (value: unknown): WorldSnapshot | null => {
+  if (!value || typeof value !== "object") return null;
+  const candidate = value as Partial<LegacySnapshot>;
+  if (candidate.version !== 1 || !Array.isArray(candidate.evidence) || typeof candidate.step !== "string") return null;
+  return {
+    ...(candidate as LegacySnapshot),
+    version: 2,
+    horizonChosenAt: candidate.updatedAt ?? new Date().toISOString(),
+    tourStatus: "skipped",
+  };
 };
 
 export const loadSnapshot = (storage: Pick<Storage, "getItem">, now = new Date()): WorldSnapshot => {
   try {
-    const raw = storage.getItem(WORLD_STORAGE_KEY);
+    const raw = storage.getItem(WORLD_STORAGE_KEY) ?? storage.getItem(LEGACY_WORLD_STORAGE_KEY);
     if (!raw) return createSnapshot(now);
     const parsed: unknown = JSON.parse(raw);
-    return isSnapshot(parsed) ? parsed : createSnapshot(now);
+    return isSnapshot(parsed) ? parsed : migrateLegacySnapshot(parsed) ?? createSnapshot(now);
   } catch {
     return createSnapshot(now);
   }

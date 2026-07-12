@@ -105,6 +105,15 @@ Allowed outcomes are **reuse**, **adapt**, **extract**, and **archive**. “Alre
 - Write retrieval prompts that can stand apart from the original lesson.
 - Define accessibility and evidence behaviour with the content, not after it.
 - Use adult, plain language without flattening mathematical precision.
+- Author the formal spine explicitly: definition, notation, assumptions, derivation, theorem or proof status, worked reasoning, and the relationship between representations.
+- Specify the wrong-answer recovery ladder and a fresh equivalent attempt with the task, not as generic feedback added later.
+- Write domain orientation separately from transfer and retrieval prompts. State why the context changes, what structure stays fixed, which terms and units are new, and which simplifications apply.
+- Provide a defer path for an unfamiliar transfer domain and an equivalent-context substitution for retrieval when domain language—not mathematics—blocks entry.
+- Give every guide or time-based medium a named mathematical teaching job, transcript or captions, and a complete non-media path.
+
+## Multimodal intervention standard
+
+A bounded guide intervention must identify the guide's professional lens, the mathematical feature that lens reveals, and the evidence expected afterward. Illustration should clarify structure, mechanism, scale, or context. Audio may pace verbal reasoning or direct attention; video may demonstrate motion or construction. Neither autoplays. Essential claims appear in the transcript, captions, mathematical diagram, or adjacent formal explanation so the learner can take the same path without media.
 
 ## Migration sequence
 

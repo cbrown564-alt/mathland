@@ -1,4 +1,4 @@
-import { appendEvidence, createSnapshot, deriveAtlasState, loadSnapshot, makeEvidence, RETRIEVAL_DELAY_MS, scheduleRetrieval, WORLD_STORAGE_KEY } from "./evidenceStore";
+import { appendEvidence, createSnapshot, deriveAtlasState, LEGACY_WORLD_STORAGE_KEY, loadSnapshot, makeEvidence, RETRIEVAL_DELAY_MS, scheduleRetrieval, WORLD_STORAGE_KEY } from "./evidenceStore";
 
 describe("world evidence store", () => {
   const now = new Date("2026-07-12T12:00:00.000Z");
@@ -32,5 +32,20 @@ describe("world evidence store", () => {
     expect(loadSnapshot(corrupt, now)).toEqual(createSnapshot(now));
     expect(loadSnapshot(wrongVersion, now)).toEqual(createSnapshot(now));
     expect(corrupt.getItem).toHaveBeenCalledWith(WORLD_STORAGE_KEY);
+  });
+
+  test("migrates the version-one journey without losing work", () => {
+    const legacy = {
+      version: 1, activeGoal: "ai", step: "practice", evidence: [makeEvidence("predicted", "negative", "none", now)],
+      detour: null, retrievalDueAt: null, updatedAt: now.toISOString(),
+    };
+    const storage = { getItem: jest.fn((key: string) => key === LEGACY_WORLD_STORAGE_KEY ? JSON.stringify(legacy) : null) };
+    expect(loadSnapshot(storage, now)).toMatchObject({ version: 2, activeGoal: "ai", step: "practice", tourStatus: "skipped", horizonChosenAt: now.toISOString() });
+  });
+
+  test("keeps supported completion distinct from independent evidence", () => {
+    const supported = [makeEvidence("supported", "Calculation recovered", "worked", now)];
+    expect(deriveAtlasState(supported, null, now)).toBe("supported");
+    expect(deriveAtlasState([...supported, makeEvidence("independent", "Fresh attempt", "none", now)], null, now)).toBe("independent");
   });
 });

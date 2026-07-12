@@ -1,12 +1,14 @@
 # Mathland rebuild plan
 
-Status: **integrated research build complete; learner evidence gate open**. This plan implements the clean-sheet direction accepted on 12 July 2026.
+Status: **Phase 1 revision build complete; external review and learner retest gate active**. This plan implements the clean-sheet direction accepted on 12 July 2026 and incorporates the first round of vertical-slice feedback.
 
-The isolated research build is available at `/prototype/one-operation-three-worlds`. Repository completion and educational validation are deliberately separate: automated implementation gates pass, while representative-adult testing, delayed retrieval observation, and external domain review remain required before the prototype can replace production surfaces.
+The isolated research build is available at `/prototype/one-operation-three-worlds`. Early reviews were mildly positive: the visual direction and active mathematical work have promise, but the slice is not yet strong or intuitive enough to justify expansion. The current decision is **revise and retest**. Automated implementation gates still pass; educational validation, delayed retrieval observation, and external domain review remain open.
 
 The goal is not to ship an improved version of the current application. The goal is to prove and then build an open mathematical world for motivated adults, using the Atlas–Studio–Observatory architecture.
 
 The previous Module 2 release roadmap is archived at [docs/archive/pre-reboot/PLAN.md](docs/archive/pre-reboot/PLAN.md).
+
+Design-facing product and interface context is captured in [PRODUCT.md](PRODUCT.md) and [DESIGN.md](DESIGN.md). These files make the current revision direction actionable for design tools and agents; the canonical documents under `docs/` continue to own product decisions.
 
 ## Product gate
 
@@ -17,6 +19,11 @@ All work must satisfy the [product doctrine](docs/PRODUCT_DOCTRINE.md). In parti
 - the Atlas provides orientation and respectful prerequisite detours;
 - the Studio produces evidence through prediction, construction, explanation, transfer, and retrieval;
 - the Observatory is selective and hands off to work;
+- unfamiliar interaction patterns are introduced through a welcoming, optional first-run tour;
+- wrong answers begin a teaching sequence rather than a repeated correctness gate;
+- interaction-led learning preserves definitions, derivations, theorems, worked reasoning, and sustained explanation where they are the strongest medium;
+- domain transfer and retrieval test the stable mathematical structure rather than unannounced domain literacy;
+- characters, illustration, audio, and video earn their place by making mathematics more intelligible and remain fully accessible;
 - legacy implementation does not determine the new experience;
 - broad migration waits for learner evidence from an integrated slice.
 
@@ -28,12 +35,13 @@ Goal: remove competing product narratives.
 - [x] Accept Atlas outside, Studio inside, Observatory selectively.
 - [x] Define motivated adults relearning maths for advanced domains as the primary learner.
 - [x] Consolidate canonical product and experience documentation.
+- [x] Capture design-facing product and visual context in `PRODUCT.md` and `DESIGN.md`.
 - [x] Archive the Module 2 release, Lesson v2, tier/template, and format-comparison documentation.
 - [x] Review local planning surfaces and branches for superseded work. The remaining `cursor/*` branches and legacy route work describe the old application; they do not define the rebuild. External issue trackers still need owner review if they contain work not represented in this repository.
 
 Exit: active documentation presents one product direction and links historical material only as archive.
 
-## Phase 1 — Prototype one operation across three worlds
+## Phase 1 — Prototype and revise one operation across three worlds
 
 Goal: test the entire product architecture with the dot product before rebuilding the platform.
 
@@ -52,20 +60,58 @@ Goal: test the entire product architecture with the dot product before rebuildin
 
 The detailed contract is [docs/FIRST_VERTICAL_SLICE.md](docs/FIRST_VERTICAL_SLICE.md).
 
-### Learner evidence
+Completed checkboxes above mean the research build contains the named capability. They do not mean the capability has met the learner-quality bar.
 
-Test with representative adults who have a concrete physics, engineering, AI, or finance motivation. Determine whether they can:
+### Initial learner evidence
 
-- enter through a goal without choosing a school level;
-- understand the shared structure across cases;
-- calculate and interpret the dot product;
-- transfer it to an unseen context;
-- understand their Atlas location and next moves;
-- use a prerequisite detour without losing motivation;
-- resume the original goal after the detour;
-- retrieve the idea after time has passed.
+Initial sessions found enough promise to continue, alongside material problems that require redesign:
 
-Exit: a written decision to continue, revise and retest, or reject material parts of the architecture. **Not yet met:** the research build is ready for representative-adult sessions; no learner outcome is inferred from automated checks.
+- The visual design is attractive but too editorial; oversized headings consume space that should belong to mathematical work.
+- Choosing a horizon and seeing it persist in the header is not yet self-explanatory.
+- Manipulation, calculation, and experimentation feel useful but underpowered relative to the emphasis placed on them.
+- Finance transfer helps some learners and surprises or overloads others; the purpose, vocabulary, assumptions, and available support need clearer framing.
+- Climate retrieval compounds the same problem and risks testing unfamiliar context rather than retrieval of the mathematical structure.
+- Incorrect answers create frustration because the current experience repeats a gate instead of diagnosing and teaching from the attempt.
+- The Atlas–Studio–Observatory model is unfamiliar enough to require a dedicated, reassuring guided tour.
+- The absence of field specialists, illustration, audio, and video removes teaching modalities that should make difficult ideas clearer and the world more inhabited.
+- Reduced exposition cannot become reduced mathematical depth; the formal spine needs definitions, derivations, theorems, worked reasoning, and sustained explanation where appropriate.
+
+The research record must still document participant count, goals, prior experience, input/accessibility paths, support level, facilitator intervention, and exact blocking moves. Mildly positive feedback is a direction signal, not evidence of learning effectiveness.
+
+### Revision cycle
+
+- [x] Consolidate the available first-session findings into a structured research record and map each observation to a product hypothesis, design response, and retest measure. Participant-level source metadata was not present in the repository and is recorded as an evidence gap rather than inferred.
+- [x] Update the canonical doctrine, experience architecture, content strategy, and first-slice contract where the accepted revision decisions belong; `PRODUCT.md` remains a design-facing summary rather than a competing source of truth.
+- [x] Replace routine oversized headings and repeated eyebrow scaffolding with compact task orientation that keeps the mathematical object visible above the fold.
+- [x] Make horizon behaviour explicit: choose once per journey, persist it compactly, allow deliberate editing, and preserve it through detours and returns.
+- [x] Build a five-to-seven-minute first-run tour that demonstrates prediction, manipulation, checking, a harmless mistake, progressive help, evidence, and Atlas orientation. It is skippable and reopenable.
+- [x] Redesign the Studio instrument around purposeful comparison, exact input, extreme cases, reset/undo, linked geometric/component/symbolic/contextual views, and readable state across pointer, touch, keyboard, and assistive technology.
+- [x] Strengthen calculation and explanation work so learners expose contributions and reasoning rather than submit only a scalar or satisfy a text-length threshold.
+- [x] Add a visible formal spine: precise definitions, notation, assumptions, derivations, worked reasoning, and theorem or proof treatment when the concept warrants it.
+- [x] Implement a progressive wrong-answer path that preserves work and escalates through observation, focused cue, comparison, worked step, diagnostic detour, and a fresh equivalent attempt.
+- [x] Add finance transfer orientation that states why the domain is changing, what structure remains fixed, which terms and units are new, and which simplifications apply; allow deferment without recording transfer.
+- [x] Separate climate-model orientation from delayed retrieval, stage cues, and provide a mathematically equivalent unfamiliar context when domain knowledge itself blocks access.
+- [x] Prototype one complete field-specialist intervention in the slice, using Vera's vector lens plus purposeful illustration and optional audio with transcript and a complete non-media path.
+- [x] Add mathematical, evidence-transition, support-level, error-recovery, horizon-persistence, tour, transfer-framing, detour-return, keyboard, reduced-motion, responsive, and browser-journey tests for the revised experience.
+- [x] Run focused automated accessibility QA at 320 CSS pixels and across desktop/mobile journeys.
+- [ ] Complete assistive-technology review and external engineering/ML/finance review before the next learner round.
+- [ ] Retest the revised slice with representative motivated adults, then re-contact the relevant cohort after seven days for delayed retrieval.
+
+### Revised learner gate
+
+Before Phase 2 expansion, representative learners must be able to:
+
+- understand the first-run experience, active horizon, current move, Atlas, help, and return path without facilitator explanation;
+- manipulate, calculate, and explain the dot product using the linked representations rather than repeating interface language;
+- make an incorrect attempt, use the recovery path, and articulate what changed in their reasoning;
+- encounter finance transfer without confusing domain unfamiliarity for a new mathematical operation;
+- attempt delayed retrieval without climate vocabulary becoming the principal difficulty;
+- continue after supported work while understanding that independent evidence has not yet been recorded;
+- use at least one guide or media intervention that improves mathematical understanding rather than merely engagement;
+- complete the essential journey through keyboard or touch with readable alternatives, visible focus, and reduced motion;
+- retrieve and transfer the structure independently or with no more than a light cue at the declared evidence level.
+
+Exit: a written **continue**, **revise again**, or **reject material parts** decision supported by the structured learner record, delayed retrieval results, accessibility review, and external domain review. Until then, Phase 1 remains active.
 
 ## Phase 2 — Establish the first Atlas region
 
@@ -81,6 +127,8 @@ Candidate neighbouring territories:
 - gradients as direction and local change.
 
 Work should expand from observed learner needs in Phase 1, not from the order of the legacy Module 2 curriculum.
+
+**Gate:** no neighbouring Studio expansion begins while the Phase 1 revision cycle is active. The current feedback concerns the quality of the core experience, not a lack of territories.
 
 Repository foundations now present:
 
@@ -101,7 +149,7 @@ Goal: make the same Atlas useful from several ambitious starting points.
 - [x] Define one coherent finance journey through weighted sums, dot products, matrices, and optimisation.
 - [x] Ensure the journeys converge on shared territory identities rather than duplicating content.
 - [x] Add bounded engineering, AI, finance, and climate cases plus finance transfer and climate retrieval tasks.
-- [ ] Complete external domain review and validate with learners that lens switching preserves the mathematical identity.
+- [ ] Complete external domain review and validate with learners that the revised framing makes lens switching preserve the mathematical identity without surprise or avoidable domain overload.
 
 Exit: adults can enter from different goals and recognise that they inhabit one mathematical world.
 
@@ -127,21 +175,25 @@ Exit: the production experience expresses the accepted doctrine without dependin
 - designing the entire Atlas before testing one region;
 - implementing accounts, cloud sync, teacher tools, native apps, or broad gamification;
 - completing all ten character experiences;
+- producing a broad illustration, audio, or video library before one bounded intervention demonstrates learning value;
 - treating existing module order as the product roadmap;
 - claiming mastery or educational validation from completion data.
 
 ## Immediate next work
 
-1. Run five to eight moderated sessions with motivated adults across the three entry goals.
-2. Run external engineering/ML/finance review, with particular attention to the finance assumptions and normalised-similarity language.
-3. Re-contact learners after the seven-day return interval and record independent, cued, and restudy retrieval separately.
-4. Use observed blocking moves to select the first neighbouring territory Studio.
-5. Write the continue/revise/reject decision before promoting or replacing any legacy route.
+1. Attach participant-level source records from the initial sessions so the provisional research record can distinguish widespread, cohort-specific, and facilitator-dependent observations.
+2. Complete assistive-technology and external engineering/ML/finance review.
+3. Run the revised learner round and seven-day retrieval follow-up, recording independent, cued, compared, worked, restudied, deferred, and substituted evidence separately.
+4. Write the continue/revise-again/reject decision before selecting a neighbouring territory or promoting any production route.
 
 ## Decision discipline
 
 - Prefer a tested vertical slice to a broad design system.
 - Prefer extracting mathematical logic to wrapping legacy pages.
 - Prefer observed learner difficulty to speculative prerequisite trees.
+- Prefer a recoverable wrong answer to a correctness gate.
+- Prefer one exceptional Studio instrument to several merely functional interactions.
+- Prefer formal depth beside the object to either an exposition dump or interaction without explanation.
+- Prefer a bounded, evidence-bearing guide or media intervention to decorative character coverage.
 - Prefer cross-domain transfer to completion volume.
 - Prefer revising the doctrine explicitly to allowing silent exceptions.

@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-12T20:24:56.000Z",
+  "title": "Design System: Mathland",
+  "extensions": {
+    "colorMeta": {
+      "action-mint": {
+        "role": "primary",
+        "displayName": "Action Mint",
+        "canonical": "#61e6b0",
+        "tonalRamp": ["oklch(18% 0.08 162)", "oklch(28% 0.09 162)", "oklch(38% 0.10 162)", "oklch(50% 0.11 162)", "oklch(62% 0.12 162)", "oklch(74% 0.11 162)", "oklch(86% 0.08 162)", "oklch(95% 0.03 162)"]
+      },
+      "consequence-coral": {
+        "role": "secondary",
+        "displayName": "Consequence Coral",
+        "canonical": "#ff7657",
+        "tonalRamp": ["oklch(18% 0.10 35)", "oklch(28% 0.13 35)", "oklch(38% 0.16 35)", "oklch(50% 0.18 35)", "oklch(62% 0.18 35)", "oklch(74% 0.15 35)", "oklch(86% 0.09 35)", "oklch(95% 0.03 35)"]
+      },
+      "reasoning-gold": {
+        "role": "tertiary",
+        "displayName": "Reasoning Gold",
+        "canonical": "#f1c75b",
+        "tonalRamp": ["oklch(18% 0.06 87)", "oklch(28% 0.08 87)", "oklch(38% 0.10 87)", "oklch(50% 0.12 87)", "oklch(62% 0.13 87)", "oklch(74% 0.12 87)", "oklch(86% 0.08 87)", "oklch(95% 0.03 87)"]
+      },
+      "world-ground": {
+        "role": "neutral",
+        "displayName": "World Ground",
+        "canonical": "#07110f",
+        "tonalRamp": ["#07110f", "#0d1a17", "#26332f", "#43504b", "#65716b", "#919b95", "#c2c9c4", "#eef4ec"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Rare Observatory Display", "purpose": "First-run welcome and rare Observatory openings only." },
+      "headline": { "displayName": "Task Headline", "purpose": "Orient a Studio or Atlas task without crowding out the object." },
+      "body": { "displayName": "Mathematical Prose", "purpose": "Explanations, assumptions, derivations, and guide reasoning." },
+      "data": { "displayName": "Instrument Data", "purpose": "Equations, values, components, and live readouts." },
+      "label": { "displayName": "Control Label", "purpose": "Sentence-case controls and compact metadata." }
+    },
+    "shadows": [
+      { "name": "active-signal", "value": "0 0 22px rgba(97, 230, 176, 0.30)", "purpose": "Current mathematical node or active instrument state only." },
+      { "name": "focused-workspace", "value": "0 24px 56px rgba(0, 0, 0, 0.24)", "purpose": "Optional separation for one dominant Studio instrument on wide screens." }
+    ],
+    "motion": [
+      { "name": "state-fast", "value": "150ms cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Hover, focus, and compact control state." },
+      { "name": "state-standard", "value": "220ms cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Feedback, panel, and representation state transitions." }
+    ],
+    "breakpoints": [
+      { "name": "narrow", "value": "320px" },
+      { "name": "phone", "value": "360px" },
+      { "name": "tablet", "value": "768px" },
+      { "name": "wide", "value": "1440px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single forward action for the current mathematical move.",
+      "html": "<button class=\"ds-btn-primary\">Continue to the Studio</button>",
+      "css": ".ds-btn-primary { min-height: 48px; padding: 12px 18px; color: #07110f; background: #61e6b0; border: 1px solid #61e6b0; border-radius: 2px; font: 500 12px/1.35 'JetBrains Mono', ui-monospace, monospace; transition: background 150ms cubic-bezier(.22,1,.36,1), transform 150ms cubic-bezier(.22,1,.36,1); } .ds-btn-primary:hover { background: #8bf3ca; transform: translateY(-1px); } .ds-btn-primary:focus-visible { outline: 3px solid #f1c75b; outline-offset: 4px; } .ds-btn-primary:active { transform: translateY(0); }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "A visible but subordinate help, Atlas, cue, or alternate-route action.",
+      "html": "<button class=\"ds-btn-secondary\">Give me one cue</button>",
+      "css": ".ds-btn-secondary { min-height: 48px; padding: 12px 18px; color: #61e6b0; background: #07110f; border: 1px solid #61e6b0; border-radius: 2px; font: 500 12px/1.35 'JetBrains Mono', ui-monospace, monospace; transition: background 150ms cubic-bezier(.22,1,.36,1); } .ds-btn-secondary:hover { background: #0d1a17; } .ds-btn-secondary:focus-visible { outline: 3px solid #f1c75b; outline-offset: 4px; }"
+    },
+    {
+      "name": "Mathematical Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Exact numeric or symbolic entry that preserves learner work through feedback.",
+      "html": "<label class=\"ds-field-label\">Portfolio return<input class=\"ds-field\" value=\"3.6%\"></label>",
+      "css": ".ds-field-label { display: grid; gap: 6px; color: #eef4ec; font: 500 12px/1.35 'JetBrains Mono', ui-monospace, monospace; } .ds-field { min-height: 44px; padding: 10px 12px; color: #eef4ec; background: #0d1a17; border: 1px solid rgba(207,232,215,.28); border-radius: 2px; font: 500 14px/1.45 'JetBrains Mono', ui-monospace, monospace; } .ds-field:hover { border-color: rgba(97,230,176,.65); } .ds-field:focus-visible { outline: 3px solid #f1c75b; outline-offset: 3px; }"
+    },
+    {
+      "name": "Active Horizon",
+      "kind": "chip",
+      "refersTo": "horizon-chip",
+      "description": "A persistent, editable reminder of the learner's motivating destination.",
+      "html": "<button class=\"ds-horizon\"><span>Active horizon</span><strong>Physical systems</strong></button>",
+      "css": ".ds-horizon { display: inline-flex; align-items: baseline; gap: 8px; padding: 8px 12px; color: #eef4ec; background: #0d1a17; border: 1px solid rgba(207,232,215,.16); border-radius: 999px; font: 500 12px/1.35 'JetBrains Mono', ui-monospace, monospace; } .ds-horizon span { color: #a7b3aa; } .ds-horizon strong { color: #61e6b0; } .ds-horizon:hover { border-color: #61e6b0; } .ds-horizon:focus-visible { outline: 3px solid #f1c75b; outline-offset: 4px; }"
+    },
+    {
+      "name": "Learning Feedback",
+      "kind": "custom",
+      "description": "Local, actionable feedback that begins a recovery path without erasing the attempt.",
+      "html": "<div class=\"ds-feedback\" role=\"status\"><strong>Your products are right.</strong><p>The sign changed when the two contributions were added. Compare −8 + −3 with your final line.</p><button>Show the two contributions</button></div>",
+      "css": ".ds-feedback { padding: 16px; color: #eef4ec; background: rgba(241,199,91,.08); border: 1px solid rgba(241,199,91,.45); border-radius: 12px; font: 400 17px/1.5 Newsreader, Georgia, serif; } .ds-feedback strong { color: #f1c75b; } .ds-feedback p { max-width: 65ch; margin: 6px 0 12px; } .ds-feedback button { min-height: 44px; padding: 9px 12px; color: #f1c75b; background: transparent; border: 1px solid #f1c75b; border-radius: 2px; font: 500 12px/1.35 'JetBrains Mono', ui-monospace, monospace; } .ds-feedback button:hover { background: rgba(241,199,91,.08); } .ds-feedback button:focus-visible { outline: 3px solid #f1c75b; outline-offset: 4px; }"
+    },
+    {
+      "name": "Transfer Orientation",
+      "kind": "custom",
+      "description": "Frames why the domain changes before transfer is assessed.",
+      "html": "<section class=\"ds-transfer\"><h3>Why finance appears here</h3><p>The nouns change from force and displacement to weights and returns. The operation stays the same: multiply matching contributions, then add.</p><dl><div><dt>New term</dt><dd>Weight: the fraction assigned to an asset</dd></div><div><dt>Assumption</dt><dd>One realised period, fixed weights, no fees</dd></div></dl></section>",
+      "css": ".ds-transfer { max-width: 680px; padding: 24px; color: #eef4ec; background: #0d1a17; border: 1px solid rgba(207,232,215,.16); border-radius: 12px; } .ds-transfer h3 { margin: 0 0 8px; font: 500 24px/1.15 Newsreader, Georgia, serif; } .ds-transfer p { max-width: 65ch; margin: 0 0 16px; color: #cbd6cf; font: 400 17px/1.5 Newsreader, Georgia, serif; } .ds-transfer dl { display: grid; gap: 8px; margin: 0; } .ds-transfer dl div { display: grid; grid-template-columns: 100px 1fr; gap: 12px; padding-top: 8px; border-top: 1px solid rgba(207,232,215,.16); } .ds-transfer dt { color: #f1c75b; font: 500 12px/1.35 'JetBrains Mono', ui-monospace, monospace; } .ds-transfer dd { margin: 0; font: 500 13px/1.45 'JetBrains Mono', ui-monospace, monospace; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Instrumented Workshop",
+    "overview": "Mathland should feel like entering a beautifully maintained mathematical workshop at night: calm enough for concentration, alive with instruments, and organised around the object being investigated. The current deep green ground, mint action color, coral contrast, gold reasoning state, serif voice, and monospaced measurements create a distinctive foundation worth preserving. The next iteration moves that foundation away from editorial theatre and toward earned familiarity.",
+    "keyCharacteristics": [
+      "Dark, high-contrast working surfaces with restrained, semantic color.",
+      "Mathematical objects, data, and controls above editorial copy in the hierarchy.",
+      "Compact persistent orientation: active horizon, current move, Atlas, and help.",
+      "Familiar controls with unusually specific feedback and recovery states.",
+      "Rare moments of spectacle, followed immediately by learner action.",
+      "Field specialists and media used as teaching instruments, not decoration."
+    ],
+    "rules": [
+      { "name": "The Three Signals Rule", "body": "Mint means action or established state, coral means opposition or contrast, and gold means attention or reasoning. Never swap these roles between screens.", "section": "colors" },
+      { "name": "The Object Above the Fold Rule", "body": "On a 768px-tall Studio viewport, task orientation plus framing may consume no more than one third of the initial view.", "section": "typography" },
+      { "name": "The Flat-by-Default Rule", "body": "Surfaces are flat at rest. Elevation appears only when it clarifies focus, overlap, or current state.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do put the mathematical representation, working, and feedback above the fold in every Studio.",
+      "Do choose the horizon once per journey, show it compactly in the header, and provide a deliberate edit route.",
+      "Do let wrong answers branch into observation, cue, comparison, worked step, detour, and fresh retry while preserving the learner's work."
+    ],
+    "donts": [
+      "Don't create editorial spectacle that crowds out work with oversized words, poster pacing, or a new full-viewport introduction for every step.",
+      "Don't ship underpowered interaction theatre that merely animates an explanation or produces a number without supporting comparison, exact calculation, reasoning, and revision.",
+      "Don't build punitive correctness gates that repeat not yet, erase work, or block progress without a diagnostic next move."
+    ]
+  }
+}

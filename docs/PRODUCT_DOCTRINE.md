@@ -44,6 +44,19 @@ These are product responsibilities, not visual themes. The detailed contract is 
 8. **Accessibility is interaction design.** Every essential interaction works without drag alone, focus remains obvious, and navigation and help are predictable.
 9. **Characters are field specialists.** They own tools, language, questions, and ways of seeing. They do not decorate content or infantilise the learner.
 10. **Transfer is the outcome.** Success means recognising and using a mathematical structure beyond the example that introduced it.
+11. **The unfamiliar product teaches itself.** A skippable, reopenable first-run tour demonstrates the complete working loop before expecting independent navigation.
+12. **Wrong answers begin instruction.** Preserve the attempt, locate the first meaningful divergence, and escalate support without converting supported work into independent evidence.
+13. **Domain changes are announced.** Transfer and retrieval separate domain orientation from the mathematical attempt, and allow deferment or equivalent-context substitution when vocabulary blocks access.
+14. **Interaction and exposition share the load.** Mathematical objects lead, while precise definitions, derivations, theorems, worked reasoning, and sustained explanation remain visible when they are the strongest medium.
+15. **Media must change what the learner can notice.** A guide, illustration, audio clip, or video earns its place only by teaching a mathematical move and providing a complete accessible alternative.
+
+## Journey and evidence contract
+
+- A learner chooses one active horizon per journey. It persists through Studios, Atlas visits, detours, returns, and reloads; changing it is a deliberate action that never discards work.
+- Routine task orientation stays compact enough to keep the mathematical object visible in the first viewport. Display-scale spectacle is reserved for rare Observatory openings.
+- Support escalates through observation, focused cue, comparison, worked step, diagnostic detour, and a fresh equivalent attempt.
+- Evidence names both the action and the support used: independent, observed, cued, compared, worked, restudied, deferred, or substituted. Page views and interface locks never create capability claims.
+- Previewing a future retrieval prompt is preparation, not delayed-retrieval evidence.
 
 ## Entry paths into one world
 

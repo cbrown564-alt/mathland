@@ -76,6 +76,27 @@ Every essential Studio interaction must:
 - respect reduced motion and remain usable from 320 CSS pixels upward;
 - define what evidence is recorded for Atlas progress.
 
+### First-run workshop tour
+
+The unfamiliar architecture must teach itself through a five-to-seven-minute, skippable and reopenable first-run Studio. It demonstrates prediction, manipulation, checking, a harmless wrong attempt, progressive help, evidence semantics, and Atlas orientation. The tour uses the same input and accessibility standards as the main experience. Skipping it does not block entry, and Help exposes it again from every main surface.
+
+### Error-recovery sequence
+
+An incorrect attempt stays visible and editable. The Studio identifies the first meaningful divergence and offers support in this order:
+
+1. a specific observation about the learner's current work;
+2. a focused cue;
+3. a comparison that exposes the consequence;
+4. one worked step;
+5. a diagnostic detour with exact return state;
+6. a fresh equivalent attempt.
+
+Learners can continue after supported completion. The Atlas records the support level and leaves independent evidence open.
+
+### Formal spine
+
+Each territory identifies the precise definitions, notation, assumptions, derivations, theorem or proof treatment, worked reasoning, and domain boundaries needed to make the insight portable. These elements sit beside the relevant object or step; interaction is not a reason to hide them, and formal exposition is not a reason to postpone learner action.
+
 ## Observatory
 
 ### Responsibility
@@ -147,6 +168,10 @@ Vera, for example, owns direction, magnitude, projection, similarity, and vector
 - Domain switching reveals alternative cases without duplicating the underlying concept.
 - No global chrome competes with the current mathematical object.
 - Progress is descriptive and evidential, not celebratory theatre.
+- The active horizon is chosen once, named in plain language, and deliberately editable without losing current work.
+- Routine headings orient compactly; mathematical work remains visible above the fold on a typical laptop viewport.
+- Help and the first-run tour are available from a predictable global location.
+- Transfer and retrieval introduce domain terms and assumptions before the evidence-bearing attempt.
 
 ## First proof
 
