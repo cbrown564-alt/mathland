@@ -9,7 +9,8 @@ import {
 
 /**
  * A registered visual primitive: read-only coupled renderer, draggable climax twin,
- * and optional state interpolation. See docs/LESSON_V2_DESIGN.md §5.
+ * and optional state interpolation. This legacy format is frozen; its historical
+ * specification is archived at docs/archive/pre-reboot/LESSON_V2_DESIGN.md.
  */
 export interface VisualPrimitive<S> {
   ReadOnly: ComponentType<{ state: S }>;

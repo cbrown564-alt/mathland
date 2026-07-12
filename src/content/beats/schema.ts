@@ -4,7 +4,8 @@
  * A lesson author writes one file (`lesson-<id>.tsx`) exporting a `BeatLesson`,
  * then registers it in `index.ts`. Everything else (the immersive stage, the
  * beat sequencer, the coupling, audio chips, the climax) is generic and driven
- * by this data. See README.md and docs/LESSON_V2_DESIGN.md §3.
+ * by this data. This legacy format is frozen; its historical specification is
+ * archived at docs/archive/pre-reboot/LESSON_V2_DESIGN.md.
  */
 import type { ComponentType, ReactNode } from "react";
 import type { InteractiveProps } from "@/core/components/narrative/interactives";

@@ -37,7 +37,14 @@ for (const moduleName of fs.readdirSync(lessonRoot).filter((name) => /^module\d+
   }
 }
 
-const markdownFiles = ["README.md", "PLAN.md", ...fs.readdirSync(path.join(root, "docs"), { recursive: true }).filter((f) => f.endsWith(".md")).map((f) => `docs/${f}`)];
+const markdownFiles = [
+  "README.md",
+  "PLAN.md",
+  ...fs
+    .readdirSync(path.join(root, "docs"), { recursive: true })
+    .filter((f) => f.endsWith(".md") && !f.startsWith(`archive${path.sep}`))
+    .map((f) => `docs/${f}`),
+];
 for (const relative of markdownFiles) {
   const source = fs.readFileSync(path.join(root, relative), "utf8");
   for (const match of source.matchAll(/\[[^\]]*\]\(([^)]+)\)/g)) {

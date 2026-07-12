@@ -1,0 +1,1978 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Mathland Clean-Sheet Directions</title>
+<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;max-width:736px;height:calc(100vh - 2rem);margin:0 auto;border:0}</style>
+</head>
+<body>
+<iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="Mathland Clean-Sheet Directions" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
+&lt;title&gt;Mathland Clean-Sheet Directions&lt;/title&gt;
+&lt;style&gt;:root {
+  color-scheme: light dark;
+  background-color: var(--background) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: light-dark(rgb(255 255 255), rgb(24 24 24));
+  --foreground: light-dark(rgb(26 28 31), rgb(255 255 255));
+  --card: color-mix(in oklab, var(--foreground) 5%, transparent);
+  --card-foreground: var(--foreground);
+  --popover: light-dark(rgb(255 255 255), rgb(45 45 45));
+  --popover-foreground: var(--foreground);
+  --primary: light-dark(rgb(51 156 255), rgb(131 195 255));
+  --primary-foreground: light-dark(rgb(255 255 255), rgb(13 13 13));
+  --secondary: light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%));
+  --secondary-foreground: var(--foreground);
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: light-dark(
+    rgb(26 28 31 / 49.4%),
+    rgb(255 255 255 / 49.8%)
+  );
+  --accent: light-dark(rgb(229 242 255), rgb(13 39 63));
+  --accent-foreground: var(--primary);
+  --destructive: light-dark(rgb(226 85 7), rgb(255 133 73));
+  --border: light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%));
+  --input: light-dark(
+    rgb(26 28 31 / 11.8%),
+    color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+  );
+  --ring: light-dark(rgb(51 156 255), rgb(131 195 255 / 76%));
+  --font-size-base: 14px;
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, &quot;Segoe UI&quot;, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, &quot;SF Mono&quot;, Menlo, Consolas, &quot;Liberation Mono&quot;,
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --radius: 12.5px;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; viewBox=&#x27;0 0 17 17&#x27;%3E%3Cpath d=&#x27;M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z&#x27;/%3E%3C/svg%3E&quot;);
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+  --color-background-primary: var(--background);
+  --color-text-primary: var(--foreground);
+  --color-border-secondary: var(--border);
+}
+
+:root[data-theme=&quot;light&quot;] {
+  color-scheme: light;
+}
+
+:root[data-theme=&quot;dark&quot;] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html &gt; body {
+  margin: 0;
+  padding: 5px;
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--viz-font-weight-medium);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: superellipse(1.5);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget &gt; :not(.card) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls &gt; .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls &gt; .form-label &gt; :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type=&quot;file&quot;] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type=&quot;file&quot;]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type=&quot;file&quot;]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type=&quot;color&quot;] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: superellipse(1.5);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: &quot;&quot;;
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type=&quot;radio&quot;] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type=&quot;radio&quot;]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: &quot;&quot;;
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+    [aria-pressed=&quot;true&quot;],
+    [aria-selected=&quot;true&quot;],
+    .is-selected
+  ) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed=&quot;true&quot;], [aria-selected=&quot;true&quot;], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget &gt; svg {
+  width: 100%;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html&gt;body{padding:0}&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;main id=&quot;mathland-clean-sheet&quot;&gt;
+  &lt;style&gt;
+    #mathland-clean-sheet {
+      --line: color-mix(in srgb, var(--foreground) 18%, transparent);
+      --line-soft: color-mix(in srgb, var(--foreground) 9%, transparent);
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      color: var(--foreground);
+      background:
+        radial-gradient(circle at 88% 4%, color-mix(in srgb, var(--viz-series-5) 13%, transparent), transparent 31%),
+        radial-gradient(circle at 5% 40%, color-mix(in srgb, var(--viz-series-2) 9%, transparent), transparent 26%);
+    }
+
+    #mathland-clean-sheet .kicker,
+    #mathland-clean-sheet .route-code,
+    #mathland-clean-sheet .micro-label {
+      font-family: var(--font-mono);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    #mathland-clean-sheet .masthead {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(200px, .55fr);
+      gap: 22px;
+      align-items: end;
+      padding-block: 22px;
+      border-block: 1px solid var(--line);
+    }
+
+    #mathland-clean-sheet .mast-copy {
+      display: grid;
+      gap: 12px;
+    }
+
+    #mathland-clean-sheet .mast-copy h1 {
+      max-width: 24ch;
+    }
+
+    #mathland-clean-sheet .mast-copy p {
+      max-width: 62ch;
+    }
+
+    #mathland-clean-sheet .thesis {
+      display: grid;
+      gap: 8px;
+      padding-left: 16px;
+      border-left: 3px solid var(--viz-series-1);
+    }
+
+    #mathland-clean-sheet .split-ledger {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    #mathland-clean-sheet .ledger-list,
+    #mathland-clean-sheet .compact-list,
+    #mathland-clean-sheet .route-notes {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    #mathland-clean-sheet .ledger-list li,
+    #mathland-clean-sheet .compact-list li,
+    #mathland-clean-sheet .route-notes li {
+      margin-block: 6px;
+    }
+
+    #mathland-clean-sheet .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, .7fr);
+      gap: 18px;
+      align-items: end;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    #mathland-clean-sheet .principle-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 18px;
+    }
+
+    #mathland-clean-sheet .principle {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      padding-block: 14px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    #mathland-clean-sheet .principle-index {
+      color: var(--muted-foreground);
+      font-family: var(--font-mono);
+    }
+
+    #mathland-clean-sheet .principle-copy {
+      display: grid;
+      gap: 4px;
+    }
+
+    #mathland-clean-sheet .principle-copy p {
+      color: var(--muted-foreground);
+    }
+
+    #mathland-clean-sheet .evidence {
+      display: grid;
+      gap: 0;
+    }
+
+    #mathland-clean-sheet .evidence-row {
+      display: grid;
+      grid-template-columns: minmax(120px, .65fr) minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+      padding-block: 12px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    #mathland-clean-sheet .route-picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    #mathland-clean-sheet .route-stage {
+      display: grid;
+      grid-template-columns: minmax(0, .72fr) minmax(0, 1.28fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    #mathland-clean-sheet .route-brief {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 22px;
+      padding-block: 8px;
+    }
+
+    #mathland-clean-sheet .route-title {
+      display: grid;
+      gap: 8px;
+    }
+
+    #mathland-clean-sheet .route-title p {
+      color: var(--muted-foreground);
+    }
+
+    #mathland-clean-sheet .route-facts {
+      display: grid;
+      gap: 0;
+    }
+
+    #mathland-clean-sheet .route-fact {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 10px;
+      padding-block: 8px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    #mathland-clean-sheet .route-fact span:first-child {
+      color: var(--muted-foreground);
+    }
+
+    #mathland-clean-sheet .mockup {
+      display: grid;
+      min-height: 420px;
+      padding: 0;
+    }
+
+    #mathland-clean-sheet .mock-shell {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-height: 420px;
+    }
+
+    #mathland-clean-sheet .mock-topbar,
+    #mathland-clean-sheet .mock-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    #mathland-clean-sheet .mock-footer {
+      border-top: 1px solid var(--line-soft);
+      border-bottom: 0;
+    }
+
+    #mathland-clean-sheet .mock-body {
+      min-height: 0;
+    }
+
+    #mathland-clean-sheet .atlas-body {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+    }
+
+    #mathland-clean-sheet .atlas-rail {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 18px 14px;
+      border-right: 1px solid var(--line-soft);
+    }
+
+    #mathland-clean-sheet .atlas-map,
+    #mathland-clean-sheet .observatory-scene {
+      position: relative;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      overflow: hidden;
+      background:
+        linear-gradient(var(--line-soft) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    #mathland-clean-sheet .map-svg,
+    #mathland-clean-sheet .scene-svg,
+    #mathland-clean-sheet .studio-svg {
+      width: 100%;
+      height: auto;
+      color: var(--foreground);
+    }
+
+    #mathland-clean-sheet .map-route,
+    #mathland-clean-sheet .vector-axis,
+    #mathland-clean-sheet .projection-line {
+      fill: none;
+      stroke: var(--line);
+      stroke-width: 2;
+    }
+
+    #mathland-clean-sheet .map-route.active,
+    #mathland-clean-sheet .vector-u {
+      stroke: var(--viz-series-1);
+      stroke-width: 4;
+    }
+
+    #mathland-clean-sheet .vector-v {
+      stroke: var(--viz-series-2);
+      stroke-width: 4;
+    }
+
+    #mathland-clean-sheet .map-node {
+      fill: var(--background);
+      stroke: var(--foreground);
+      stroke-width: 2;
+    }
+
+    #mathland-clean-sheet .map-node.done {
+      fill: var(--viz-series-3);
+      stroke: var(--viz-series-3);
+    }
+
+    #mathland-clean-sheet .map-node.current {
+      fill: var(--primary);
+      stroke: var(--primary);
+    }
+
+    #mathland-clean-sheet .map-label,
+    #mathland-clean-sheet .plot-label {
+      fill: var(--foreground);
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    #mathland-clean-sheet .studio-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(180px, .85fr);
+    }
+
+    #mathland-clean-sheet .studio-canvas {
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      border-right: 1px solid var(--line-soft);
+    }
+
+    #mathland-clean-sheet .studio-coach {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 18px 14px;
+    }
+
+    #mathland-clean-sheet .studio-result {
+      display: grid;
+      gap: 4px;
+      padding-block: 12px;
+      border-block: 1px solid var(--line-soft);
+    }
+
+    #mathland-clean-sheet .range-wrap {
+      display: grid;
+      gap: 8px;
+    }
+
+    #mathland-clean-sheet .observatory-body {
+      display: grid;
+      grid-template-columns: minmax(190px, .75fr) minmax(0, 1.25fr);
+    }
+
+    #mathland-clean-sheet .observatory-script {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+      padding: 24px 18px;
+      border-right: 1px solid var(--line-soft);
+    }
+
+    #mathland-clean-sheet .observatory-scene {
+      background:
+        radial-gradient(circle at center, color-mix(in srgb, var(--viz-series-5) 18%, transparent), transparent 42%),
+        linear-gradient(var(--line-soft) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+      background-size: auto, 28px 28px, 28px 28px;
+    }
+
+    #mathland-clean-sheet .projection-line {
+      stroke: var(--viz-series-4);
+      stroke-width: 5;
+      transition: opacity .25s ease;
+    }
+
+    #mathland-clean-sheet .decision-table {
+      display: grid;
+      gap: 0;
+    }
+
+    #mathland-clean-sheet .decision-row {
+      display: grid;
+      grid-template-columns: 112px repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      padding-block: 11px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    #mathland-clean-sheet .decision-row:first-child {
+      border-bottom-color: var(--line);
+    }
+
+    #mathland-clean-sheet .decision-row &gt; :first-child {
+      color: var(--muted-foreground);
+    }
+
+    #mathland-clean-sheet .synthesis {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(220px, .8fr);
+      gap: 18px;
+      align-items: start;
+      padding-block: 20px;
+      border-block: 1px solid var(--line);
+    }
+
+    #mathland-clean-sheet .synthesis-copy {
+      display: grid;
+      gap: 12px;
+    }
+
+    #mathland-clean-sheet .stack-diagram {
+      display: grid;
+      gap: 6px;
+    }
+
+    #mathland-clean-sheet .stack-band {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 10px;
+      padding: 10px;
+      background: color-mix(in srgb, var(--viz-series-1) 9%, transparent);
+    }
+
+    #mathland-clean-sheet .stack-band:nth-child(2) {
+      background: color-mix(in srgb, var(--viz-series-2) 9%, transparent);
+    }
+
+    #mathland-clean-sheet .stack-band:nth-child(3) {
+      background: color-mix(in srgb, var(--viz-series-5) 9%, transparent);
+    }
+
+    #mathland-clean-sheet .experiment-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    #mathland-clean-sheet .audience-contract {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      padding-block: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    #mathland-clean-sheet .contract-column {
+      display: grid;
+      gap: 8px;
+    }
+
+    #mathland-clean-sheet .domain-paths {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      padding-top: 14px;
+    }
+
+    #mathland-clean-sheet .domain-path {
+      display: grid;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 3px solid var(--viz-series-1);
+    }
+
+    #mathland-clean-sheet .domain-path:nth-child(2) { border-color: var(--viz-series-2); }
+    #mathland-clean-sheet .domain-path:nth-child(3) { border-color: var(--viz-series-5); }
+
+    #mathland-clean-sheet .path-sequence {
+      color: var(--muted-foreground);
+      font-family: var(--font-mono);
+    }
+
+    #mathland-clean-sheet .flagship {
+      display: grid;
+      grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+      gap: 18px;
+      align-items: start;
+      padding-block: 18px;
+      border-block: 1px solid var(--line);
+    }
+
+    #mathland-clean-sheet .flagship-copy,
+    #mathland-clean-sheet .flagship-loop {
+      display: grid;
+      gap: 10px;
+    }
+
+    #mathland-clean-sheet .loop-step {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 10px;
+      padding-block: 8px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    #mathland-clean-sheet .experiment {
+      display: grid;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 3px solid var(--line);
+    }
+
+    #mathland-clean-sheet .experiment:nth-child(1) { border-color: var(--viz-series-1); }
+    #mathland-clean-sheet .experiment:nth-child(2) { border-color: var(--viz-series-2); }
+    #mathland-clean-sheet .experiment:nth-child(3) { border-color: var(--viz-series-5); }
+
+    #mathland-clean-sheet .source-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 18px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    #mathland-clean-sheet [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 660px) {
+      #mathland-clean-sheet .masthead,
+      #mathland-clean-sheet .section-head,
+      #mathland-clean-sheet .route-stage,
+      #mathland-clean-sheet .synthesis {
+        grid-template-columns: 1fr;
+      }
+
+      #mathland-clean-sheet .principle-grid,
+      #mathland-clean-sheet .split-ledger,
+      #mathland-clean-sheet .audience-contract,
+      #mathland-clean-sheet .domain-paths,
+      #mathland-clean-sheet .experiment-grid,
+      #mathland-clean-sheet .source-list {
+        grid-template-columns: 1fr;
+      }
+
+      #mathland-clean-sheet .flagship {
+        grid-template-columns: 1fr;
+      }
+
+      #mathland-clean-sheet .evidence-row {
+        grid-template-columns: 96px 1fr;
+      }
+
+      #mathland-clean-sheet .evidence-row &gt; :last-child {
+        grid-column: 2;
+      }
+
+      #mathland-clean-sheet .decision-row {
+        grid-template-columns: 72px repeat(3, minmax(0, 1fr));
+        overflow-wrap: anywhere;
+      }
+
+      #mathland-clean-sheet .atlas-body,
+      #mathland-clean-sheet .studio-body,
+      #mathland-clean-sheet .observatory-body {
+        grid-template-columns: 1fr;
+      }
+
+      #mathland-clean-sheet .atlas-rail,
+      #mathland-clean-sheet .studio-canvas,
+      #mathland-clean-sheet .observatory-script {
+        border-right: 0;
+        border-bottom: 1px solid var(--line-soft);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #mathland-clean-sheet .projection-line { transition: none; }
+    }
+  &lt;/style&gt;
+
+  &lt;section class=&quot;masthead&quot; aria-labelledby=&quot;reboot-title&quot;&gt;
+    &lt;div class=&quot;mast-copy&quot;&gt;
+      &lt;span class=&quot;kicker text-muted&quot;&gt;Mathland / clean-sheet proposition / 12 July 2026&lt;/span&gt;
+      &lt;h1 id=&quot;reboot-title&quot;&gt;Stop polishing the course shell. Build a place where mathematics happens.&lt;/h1&gt;
+      &lt;p&gt;The current product is organized around content delivery. The next product should be organized around learner action: orient, attempt, notice, revise, connect, retrieve.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;thesis&quot;&gt;
+      &lt;span class=&quot;micro-label text-muted&quot;&gt;North star&lt;/span&gt;
+      &lt;strong&gt;Math is something you do with a model until it becomes a way you see.&lt;/strong&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&quot;split-ledger&quot; aria-label=&quot;What survives and what goes&quot;&gt;
+    &lt;article class=&quot;card&quot;&gt;
+      &lt;span class=&quot;micro-label text-muted&quot;&gt;Earns its way forward&lt;/span&gt;
+      &lt;ul class=&quot;ledger-list&quot;&gt;
+        &lt;li&gt;Core lesson ideas, examples and real-world hooks&lt;/li&gt;
+        &lt;li&gt;Ten characters as guides, not mascots&lt;/li&gt;
+        &lt;li&gt;Interactive mathematical primitives&lt;/li&gt;
+        &lt;li&gt;Module prerequisite structure&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/article&gt;
+    &lt;article class=&quot;card&quot;&gt;
+      &lt;span class=&quot;micro-label text-muted&quot;&gt;Deliberately discarded&lt;/span&gt;
+      &lt;ul class=&quot;ledger-list&quot;&gt;
+        &lt;li&gt;Homepage-as-marketing-page&lt;/li&gt;
+        &lt;li&gt;Eight-section lesson jukebox&lt;/li&gt;
+        &lt;li&gt;Generic dashboard and course-card chrome&lt;/li&gt;
+        &lt;li&gt;Completion masquerading as mastery&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/article&gt;
+  &lt;/section&gt;
+
+  &lt;section aria-labelledby=&quot;principles-title&quot;&gt;
+    &lt;div class=&quot;section-head&quot;&gt;
+      &lt;div&gt;
+        &lt;span class=&quot;kicker text-muted&quot;&gt;01 / first principles&lt;/span&gt;
+        &lt;h2 id=&quot;principles-title&quot;&gt;The product laws&lt;/h2&gt;
+      &lt;/div&gt;
+      &lt;p class=&quot;text-muted&quot;&gt;These are stronger than a visual style. Every screen and flow should be rejected if it violates them.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;principle-grid&quot;&gt;
+      &lt;article class=&quot;principle&quot;&gt;
+        &lt;span class=&quot;principle-index&quot;&gt;01&lt;/span&gt;
+        &lt;div class=&quot;principle-copy&quot;&gt;&lt;strong&gt;Action before exposition&lt;/strong&gt;&lt;p&gt;Start with a question, prediction or manipulable model. Explain into the learner’s attention—not before it exists.&lt;/p&gt;&lt;/div&gt;
+      &lt;/article&gt;
+      &lt;article class=&quot;principle&quot;&gt;
+        &lt;span class=&quot;principle-index&quot;&gt;02&lt;/span&gt;
+        &lt;div class=&quot;principle-copy&quot;&gt;&lt;strong&gt;One cognitive job per moment&lt;/strong&gt;&lt;p&gt;Keep words, diagrams and controls spatially coupled. Remove every element that does not help the current move.&lt;/p&gt;&lt;/div&gt;
+      &lt;/article&gt;
+      &lt;article class=&quot;principle&quot;&gt;
+        &lt;span class=&quot;principle-index&quot;&gt;03&lt;/span&gt;
+        &lt;div class=&quot;principle-copy&quot;&gt;&lt;strong&gt;Agency with a visible horizon&lt;/strong&gt;&lt;p&gt;Learners can choose routes and tools while always knowing where they are, why it matters and what comes next.&lt;/p&gt;&lt;/div&gt;
+      &lt;/article&gt;
+      &lt;article class=&quot;principle&quot;&gt;
+        &lt;span class=&quot;principle-index&quot;&gt;04&lt;/span&gt;
+        &lt;div class=&quot;principle-copy&quot;&gt;&lt;strong&gt;Practice changes shape&lt;/strong&gt;&lt;p&gt;Move from worked example to faded support to independent transfer. Do not repeat the same multiple-choice pattern.&lt;/p&gt;&lt;/div&gt;
+      &lt;/article&gt;
+      &lt;article class=&quot;principle&quot;&gt;
+        &lt;span class=&quot;principle-index&quot;&gt;05&lt;/span&gt;
+        &lt;div class=&quot;principle-copy&quot;&gt;&lt;strong&gt;Memory is a return loop&lt;/strong&gt;&lt;p&gt;A lesson is not done when viewed. Bring important ideas back through spaced, mixed retrieval.&lt;/p&gt;&lt;/div&gt;
+      &lt;/article&gt;
+      &lt;article class=&quot;principle&quot;&gt;
+        &lt;span class=&quot;principle-index&quot;&gt;06&lt;/span&gt;
+        &lt;div class=&quot;principle-copy&quot;&gt;&lt;strong&gt;Accessibility is interaction design&lt;/strong&gt;&lt;p&gt;Every drag has a non-drag path; focus is obvious; navigation and help remain predictable.&lt;/p&gt;&lt;/div&gt;
+      &lt;/article&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section aria-labelledby=&quot;evidence-title&quot;&gt;
+    &lt;div class=&quot;section-head&quot;&gt;
+      &lt;div&gt;
+        &lt;span class=&quot;kicker text-muted&quot;&gt;02 / research translated&lt;/span&gt;
+        &lt;h2 id=&quot;evidence-title&quot;&gt;Evidence → product consequence&lt;/h2&gt;
+      &lt;/div&gt;
+      &lt;p class=&quot;text-muted&quot;&gt;The evidence does not prescribe a visual style. It constrains the learning mechanics the style must serve.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;evidence&quot; role=&quot;table&quot; aria-label=&quot;Research evidence and product implications&quot;&gt;
+      &lt;div class=&quot;evidence-row&quot; role=&quot;row&quot;&gt;&lt;strong role=&quot;cell&quot;&gt;Active learning&lt;/strong&gt;&lt;span role=&quot;cell&quot;&gt;Across 225 STEM studies, active learning improved performance and reduced failure compared with lecture-led instruction.&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;The default unit is a learner move, not a content block.&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;evidence-row&quot; role=&quot;row&quot;&gt;&lt;strong role=&quot;cell&quot;&gt;Retrieval&lt;/strong&gt;&lt;span role=&quot;cell&quot;&gt;A systematic review of 50 classroom experiments found robust benefits across settings and formats.&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;Return to concepts after delay; progress must track usable recall.&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;evidence-row&quot; role=&quot;row&quot;&gt;&lt;strong role=&quot;cell&quot;&gt;Multimedia&lt;/strong&gt;&lt;span role=&quot;cell&quot;&gt;Coherence, signaling and spatial/temporal contiguity reduce extraneous processing.&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;Put the explanation beside the changing object; ornament never competes with the idea.&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;evidence-row&quot; role=&quot;row&quot;&gt;&lt;strong role=&quot;cell&quot;&gt;Learner agency&lt;/strong&gt;&lt;span role=&quot;cell&quot;&gt;CAST UDL 3.0 emphasizes choice, authentic goals, flexible expression, graduated support and progress monitoring.&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;Offer meaningful route and response choices without abandoning orientation.&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;evidence-row&quot; role=&quot;row&quot;&gt;&lt;strong role=&quot;cell&quot;&gt;Accessible control&lt;/strong&gt;&lt;span role=&quot;cell&quot;&gt;WCAG 2.2 strengthens focus visibility, target sizing, non-drag alternatives and predictable help.&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;Keyboard and touch are first-class design inputs, not an audit phase.&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section aria-labelledby=&quot;routes-title&quot;&gt;
+    &lt;div class=&quot;section-head&quot;&gt;
+      &lt;div&gt;
+        &lt;span class=&quot;kicker text-muted&quot;&gt;03 / three bold routes&lt;/span&gt;
+        &lt;h2 id=&quot;routes-title&quot;&gt;Choose the product metaphor&lt;/h2&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;route-picker&quot; aria-label=&quot;Choose a design direction&quot;&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn&quot; data-route-button=&quot;atlas&quot; aria-pressed=&quot;true&quot;&gt;A · The Atlas&lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn&quot; data-route-button=&quot;studio&quot; aria-pressed=&quot;false&quot;&gt;B · The Studio&lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn&quot; data-route-button=&quot;observatory&quot; aria-pressed=&quot;false&quot;&gt;C · The Observatory&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;route-stage&quot; data-route-panel=&quot;atlas&quot;&gt;
+      &lt;div class=&quot;route-brief&quot;&gt;
+        &lt;div class=&quot;route-title&quot;&gt;
+          &lt;span class=&quot;route-code text-muted&quot;&gt;Route A / spatial curriculum&lt;/span&gt;
+          &lt;h2&gt;The Atlas&lt;/h2&gt;
+          &lt;p&gt;The home is a living map of ideas, not a catalogue of modules. Learners see prerequisites, open routes, unfinished business and the next meaningful expedition.&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;route-facts&quot;&gt;
+          &lt;div class=&quot;route-fact&quot;&gt;&lt;span&gt;Best at&lt;/span&gt;&lt;strong&gt;Orientation, agency, long-term coherence&lt;/strong&gt;&lt;/div&gt;
+          &lt;div class=&quot;route-fact&quot;&gt;&lt;span&gt;Feels like&lt;/span&gt;&lt;strong&gt;A field guide crossed with a metro map&lt;/strong&gt;&lt;/div&gt;
+          &lt;div class=&quot;route-fact&quot;&gt;&lt;span&gt;Characters&lt;/span&gt;&lt;strong&gt;Regional guides with distinct tools&lt;/strong&gt;&lt;/div&gt;
+          &lt;div class=&quot;route-fact&quot;&gt;&lt;span&gt;Risk&lt;/span&gt;&lt;strong&gt;The map becomes decorative or overwhelming&lt;/strong&gt;&lt;/div&gt;
+          &lt;div class=&quot;route-fact&quot;&gt;&lt;span&gt;Proof&lt;/span&gt;&lt;strong&gt;Can a learner choose the right next move in ten seconds?&lt;/strong&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card mockup&quot; aria-label=&quot;Atlas direction interface sketch&quot;&gt;
+        &lt;div class=&quot;mock-shell&quot;&gt;
+          &lt;div class=&quot;mock-topbar&quot;&gt;&lt;strong&gt;MATHLAND / VECTOR TERRITORY&lt;/strong&gt;&lt;span class=&quot;viz-badge&quot;&gt;3 ideas ready&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;mock-body atlas-body&quot;&gt;
+            &lt;aside class=&quot;atlas-rail&quot;&gt;
+              &lt;span class=&quot;micro-label text-muted&quot;&gt;Your bearing&lt;/span&gt;
+              &lt;strong&gt;Similarity Ridge&lt;/strong&gt;
+              &lt;p class=&quot;text-muted&quot;&gt;You can add vectors. Next: learn how two directions agree.&lt;/p&gt;
+              &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot;&gt;Continue trail&lt;/button&gt;
+              &lt;div&gt;
+                &lt;span class=&quot;micro-label text-muted&quot;&gt;Return loop&lt;/span&gt;
+                &lt;p&gt;2 ideas due tomorrow&lt;/p&gt;
+              &lt;/div&gt;
+            &lt;/aside&gt;
+            &lt;div class=&quot;atlas-map&quot;&gt;
+              &lt;svg class=&quot;map-svg&quot; viewBox=&quot;0 0 420 310&quot; role=&quot;img&quot; aria-label=&quot;Concept map from vector foundations to dot product and projection&quot;&gt;
+                &lt;path class=&quot;map-route active&quot; d=&quot;M42 235 C95 220 92 145 154 152 S227 78 278 92&quot; /&gt;
+                &lt;path class=&quot;map-route&quot; d=&quot;M154 152 C218 166 238 222 308 232 S366 182 390 152&quot; /&gt;
+                &lt;path class=&quot;map-route&quot; d=&quot;M278 92 C319 86 347 110 390 152&quot; /&gt;
+                &lt;circle class=&quot;map-node done&quot; cx=&quot;42&quot; cy=&quot;235&quot; r=&quot;11&quot; /&gt;
+                &lt;circle class=&quot;map-node done&quot; cx=&quot;154&quot; cy=&quot;152&quot; r=&quot;11&quot; /&gt;
+                &lt;circle class=&quot;map-node current&quot; cx=&quot;278&quot; cy=&quot;92&quot; r=&quot;14&quot; /&gt;
+                &lt;circle class=&quot;map-node&quot; cx=&quot;308&quot; cy=&quot;232&quot; r=&quot;11&quot; /&gt;
+                &lt;circle class=&quot;map-node&quot; cx=&quot;390&quot; cy=&quot;152&quot; r=&quot;11&quot; /&gt;
+                &lt;text class=&quot;map-label&quot; x=&quot;22&quot; y=&quot;265&quot;&gt;Vectors&lt;/text&gt;
+                &lt;text class=&quot;map-label&quot; x=&quot;116&quot; y=&quot;182&quot;&gt;Addition&lt;/text&gt;
+                &lt;text class=&quot;map-label&quot; x=&quot;238&quot; y=&quot;62&quot;&gt;Dot product&lt;/text&gt;
+                &lt;text class=&quot;map-label&quot; x=&quot;274&quot; y=&quot;262&quot;&gt;Projection&lt;/text&gt;
+                &lt;text class=&quot;map-label&quot; x=&quot;345&quot; y=&quot;137&quot;&gt;Similarity&lt;/text&gt;
+              &lt;/svg&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;mock-footer&quot;&gt;&lt;span class=&quot;text-muted&quot;&gt;Vera is guiding this territory&lt;/span&gt;&lt;span&gt;Map · Notebook · Review&lt;/span&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;route-stage&quot; data-route-panel=&quot;studio&quot; hidden&gt;
+      &lt;div class=&quot;route-brief&quot;&gt;
+        &lt;div class=&quot;route-title&quot;&gt;
+          &lt;span class=&quot;route-code text-muted&quot;&gt;Route B / working surface&lt;/span&gt;
+          &lt;h2&gt;The Studio&lt;/h2&gt;
+          &lt;p&gt;The app opens on today’s mathematical workbench. A prompt, a responsive object, a notebook and a coach form one continuous act of thinking.&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;route-facts&quot;&gt;
+          &lt;div class=&quot;route-fact&quot;&gt;&lt;span&gt;Best at&lt;/span&gt;&lt;strong&gt;Learning efficacy, focus, visible thinking&lt;/strong&gt;&lt;/div&gt;
+          &lt;div class=&quot;route-fact&quot;&gt;&lt;span&gt;Feels like&lt;/span&gt;&lt;strong&gt;Desmos crossed with a masterclass workbench&lt;/strong&gt;&lt;/div&gt;
+          &lt;div class=&quot;route-fact&quot;&gt;&lt;span&gt;Characters&lt;/span&gt;&lt;strong&gt;Coaches who intervene only when useful&lt;/strong&gt;&lt;/div&gt;
+          &lt;div class=&quot;route-fact&quot;&gt;&lt;span&gt;Risk&lt;/span&gt;&lt;strong&gt;Coldness or repetition without a strong narrative layer&lt;/strong&gt;&lt;/div&gt;
+          &lt;div class=&quot;route-fact&quot;&gt;&lt;span&gt;Proof&lt;/span&gt;&lt;strong&gt;Does every five minutes produce a learner action?&lt;/strong&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card mockup&quot; aria-label=&quot;Studio direction interactive sketch&quot;&gt;
+        &lt;div class=&quot;mock-shell&quot;&gt;
+          &lt;div class=&quot;mock-topbar&quot;&gt;&lt;strong&gt;STUDIO / DIRECTION AGREEMENT&lt;/strong&gt;&lt;span class=&quot;viz-badge&quot;&gt;Try → notice → explain&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;mock-body studio-body&quot;&gt;
+            &lt;div class=&quot;studio-canvas&quot;&gt;
+              &lt;svg class=&quot;studio-svg&quot; viewBox=&quot;0 0 360 300&quot; role=&quot;img&quot; aria-label=&quot;Two vectors whose angle can be changed with a slider&quot;&gt;
+                &lt;defs&gt;
+                  &lt;marker id=&quot;arrowA&quot; viewBox=&quot;0 0 10 10&quot; refX=&quot;9&quot; refY=&quot;5&quot; markerWidth=&quot;6&quot; markerHeight=&quot;6&quot; orient=&quot;auto-start-reverse&quot;&gt;&lt;path d=&quot;M 0 0 L 10 5 L 0 10 z&quot; fill=&quot;var(--viz-series-1)&quot; /&gt;&lt;/marker&gt;
+                  &lt;marker id=&quot;arrowB&quot; viewBox=&quot;0 0 10 10&quot; refX=&quot;9&quot; refY=&quot;5&quot; markerWidth=&quot;6&quot; markerHeight=&quot;6&quot; orient=&quot;auto-start-reverse&quot;&gt;&lt;path d=&quot;M 0 0 L 10 5 L 0 10 z&quot; fill=&quot;var(--viz-series-2)&quot; /&gt;&lt;/marker&gt;
+                &lt;/defs&gt;
+                &lt;path class=&quot;vector-axis&quot; d=&quot;M30 150 H335 M180 24 V276&quot; /&gt;
+                &lt;path class=&quot;vector-axis&quot; d=&quot;M60 145 V155 M100 145 V155 M140 145 V155 M220 145 V155 M260 145 V155 M300 145 V155&quot; /&gt;
+                &lt;line class=&quot;vector-u&quot; x1=&quot;180&quot; y1=&quot;150&quot; x2=&quot;300&quot; y2=&quot;90&quot; marker-end=&quot;url(#arrowA)&quot; /&gt;
+                &lt;line id=&quot;vectorV&quot; class=&quot;vector-v&quot; x1=&quot;180&quot; y1=&quot;150&quot; x2=&quot;284&quot; y2=&quot;210&quot; marker-end=&quot;url(#arrowB)&quot; /&gt;
+                &lt;text class=&quot;plot-label&quot; x=&quot;303&quot; y=&quot;82&quot;&gt;u&lt;/text&gt;
+                &lt;text id=&quot;vectorVLabel&quot; class=&quot;plot-label&quot; x=&quot;289&quot; y=&quot;223&quot;&gt;v&lt;/text&gt;
+              &lt;/svg&gt;
+            &lt;/div&gt;
+            &lt;aside class=&quot;studio-coach&quot;&gt;
+              &lt;span class=&quot;micro-label text-muted&quot;&gt;Vera asks&lt;/span&gt;
+              &lt;h3&gt;When does agreement become opposition?&lt;/h3&gt;
+              &lt;p class=&quot;text-muted&quot;&gt;Rotate vector v. Predict the sign before reading the meter.&lt;/p&gt;
+              &lt;label class=&quot;form-label range-wrap&quot; for=&quot;angleRange&quot;&gt;Angle &lt;span&gt;&lt;strong id=&quot;angleValue&quot;&gt;60°&lt;/strong&gt;&lt;/span&gt;&lt;input id=&quot;angleRange&quot; class=&quot;form-range&quot; type=&quot;range&quot; min=&quot;0&quot; max=&quot;180&quot; value=&quot;60&quot; step=&quot;5&quot;&gt;&lt;/label&gt;
+              &lt;div class=&quot;studio-result&quot; aria-live=&quot;polite&quot;&gt;&lt;span class=&quot;micro-label text-muted&quot;&gt;Dot product sign&lt;/span&gt;&lt;strong id=&quot;dotReading&quot;&gt;Positive — directions broadly agree&lt;/strong&gt;&lt;/div&gt;
+              &lt;button type=&quot;button&quot; class=&quot;btn&quot;&gt;Explain what changed&lt;/button&gt;
+            &lt;/aside&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;mock-footer&quot;&gt;&lt;span class=&quot;text-muted&quot;&gt;Support fades after the first successful explanation&lt;/span&gt;&lt;span&gt;Prompt 2 of 5&lt;/span&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;route-stage&quot; data-route-panel=&quot;observatory&quot; hidden&gt;
+      &lt;div class=&quot;route-brief&quot;&gt;
+        &lt;div class=&quot;route-title&quot;&gt;
+          &lt;span class=&quot;route-code text-muted&quot;&gt;Route C / cinematic inquiry&lt;/span&gt;
+          &lt;h2&gt;The Observatory&lt;/h2&gt;
+          &lt;p&gt;Each idea opens as a staged phenomenon: a beautiful mathematical object, a sharp question and a sequence of reveals controlled by the learner.&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;route-facts&quot;&gt;
+          &lt;div class=&quot;route-fact&quot;&gt;&lt;span&gt;Best at&lt;/span&gt;&lt;strong&gt;Wonder, brand distinction, memorable concepts&lt;/strong&gt;&lt;/div&gt;
+          &lt;div class=&quot;route-fact&quot;&gt;&lt;span&gt;Feels like&lt;/span&gt;&lt;strong&gt;A digital planetarium for abstract ideas&lt;/strong&gt;&lt;/div&gt;
+          &lt;div class=&quot;route-fact&quot;&gt;&lt;span&gt;Characters&lt;/span&gt;&lt;strong&gt;Curators of phenomena and stories&lt;/strong&gt;&lt;/div&gt;
+          &lt;div class=&quot;route-fact&quot;&gt;&lt;span&gt;Risk&lt;/span&gt;&lt;strong&gt;Spectacle outruns practice and scalability&lt;/strong&gt;&lt;/div&gt;
+          &lt;div class=&quot;route-fact&quot;&gt;&lt;span&gt;Proof&lt;/span&gt;&lt;strong&gt;Can learners transfer the idea after the reveal?&lt;/strong&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card mockup&quot; aria-label=&quot;Observatory direction interface sketch&quot;&gt;
+        &lt;div class=&quot;mock-shell&quot;&gt;
+          &lt;div class=&quot;mock-topbar&quot;&gt;&lt;strong&gt;OBSERVATORY / TWO HIKERS&lt;/strong&gt;&lt;span class=&quot;viz-badge&quot;&gt;A seven-minute phenomenon&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;mock-body observatory-body&quot;&gt;
+            &lt;div class=&quot;observatory-script&quot;&gt;
+              &lt;span class=&quot;micro-label text-muted&quot;&gt;Scene 03 / the shadow&lt;/span&gt;
+              &lt;h3&gt;One direction leaves a shadow on the other.&lt;/h3&gt;
+              &lt;p class=&quot;text-muted&quot;&gt;That signed shadow is the geometric heart of the dot product.&lt;/p&gt;
+              &lt;button id=&quot;projectionToggle&quot; type=&quot;button&quot; class=&quot;btn btn-primary&quot; aria-pressed=&quot;false&quot;&gt;Reveal projection&lt;/button&gt;
+              &lt;p id=&quot;projectionText&quot; hidden&gt;The shadow is positive because v lands ahead along u.&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;observatory-scene&quot;&gt;
+              &lt;svg class=&quot;scene-svg&quot; viewBox=&quot;0 0 360 300&quot; role=&quot;img&quot; aria-label=&quot;Geometric scene showing the projection of one vector onto another&quot;&gt;
+                &lt;defs&gt;
+                  &lt;marker id=&quot;obsArrowA&quot; viewBox=&quot;0 0 10 10&quot; refX=&quot;9&quot; refY=&quot;5&quot; markerWidth=&quot;6&quot; markerHeight=&quot;6&quot; orient=&quot;auto-start-reverse&quot;&gt;&lt;path d=&quot;M 0 0 L 10 5 L 0 10 z&quot; fill=&quot;var(--viz-series-1)&quot; /&gt;&lt;/marker&gt;
+                  &lt;marker id=&quot;obsArrowB&quot; viewBox=&quot;0 0 10 10&quot; refX=&quot;9&quot; refY=&quot;5&quot; markerWidth=&quot;6&quot; markerHeight=&quot;6&quot; orient=&quot;auto-start-reverse&quot;&gt;&lt;path d=&quot;M 0 0 L 10 5 L 0 10 z&quot; fill=&quot;var(--viz-series-2)&quot; /&gt;&lt;/marker&gt;
+                &lt;/defs&gt;
+                &lt;circle cx=&quot;180&quot; cy=&quot;150&quot; r=&quot;105&quot; fill=&quot;none&quot; stroke=&quot;var(--line-soft)&quot; stroke-width=&quot;1&quot; /&gt;
+                &lt;line x1=&quot;70&quot; y1=&quot;240&quot; x2=&quot;310&quot; y2=&quot;80&quot; class=&quot;vector-u&quot; marker-end=&quot;url(#obsArrowA)&quot; /&gt;
+                &lt;line x1=&quot;70&quot; y1=&quot;240&quot; x2=&quot;260&quot; y2=&quot;225&quot; class=&quot;vector-v&quot; marker-end=&quot;url(#obsArrowB)&quot; /&gt;
+                &lt;line id=&quot;projectionLine&quot; x1=&quot;260&quot; y1=&quot;225&quot; x2=&quot;196&quot; y2=&quot;156&quot; class=&quot;projection-line&quot; opacity=&quot;0&quot; /&gt;
+                &lt;circle id=&quot;projectionPoint&quot; cx=&quot;196&quot; cy=&quot;156&quot; r=&quot;6&quot; fill=&quot;var(--viz-series-4)&quot; opacity=&quot;0&quot; /&gt;
+                &lt;text class=&quot;plot-label&quot; x=&quot;302&quot; y=&quot;70&quot;&gt;u&lt;/text&gt;
+                &lt;text class=&quot;plot-label&quot; x=&quot;267&quot; y=&quot;239&quot;&gt;v&lt;/text&gt;
+              &lt;/svg&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;mock-footer&quot;&gt;&lt;span class=&quot;text-muted&quot;&gt;Nothing advances without learner input&lt;/span&gt;&lt;span&gt;Exit to Studio practice&lt;/span&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section aria-labelledby=&quot;tradeoffs-title&quot;&gt;
+    &lt;div class=&quot;section-head&quot;&gt;
+      &lt;div&gt;
+        &lt;span class=&quot;kicker text-muted&quot;&gt;04 / honest trade-offs&lt;/span&gt;
+        &lt;h2 id=&quot;tradeoffs-title&quot;&gt;What each route optimizes&lt;/h2&gt;
+      &lt;/div&gt;
+      &lt;p class=&quot;text-muted&quot;&gt;No fake scorecard. Each direction makes a different product bet and creates a different failure mode.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;decision-table&quot; role=&quot;table&quot; aria-label=&quot;Design direction comparison&quot;&gt;
+      &lt;div class=&quot;decision-row&quot; role=&quot;row&quot;&gt;&lt;strong role=&quot;columnheader&quot;&gt;Question&lt;/strong&gt;&lt;strong role=&quot;columnheader&quot;&gt;Atlas&lt;/strong&gt;&lt;strong role=&quot;columnheader&quot;&gt;Studio&lt;/strong&gt;&lt;strong role=&quot;columnheader&quot;&gt;Observatory&lt;/strong&gt;&lt;/div&gt;
+      &lt;div class=&quot;decision-row&quot; role=&quot;row&quot;&gt;&lt;span role=&quot;rowheader&quot;&gt;Core promise&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;See how ideas connect&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;Learn by making moves&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;See the invisible&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;decision-row&quot; role=&quot;row&quot;&gt;&lt;span role=&quot;rowheader&quot;&gt;Home surface&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;Knowledge map&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;Today’s workbench&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;Phenomenon gallery&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;decision-row&quot; role=&quot;row&quot;&gt;&lt;span role=&quot;rowheader&quot;&gt;Navigation&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;Spatial and choice-led&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;Task and return-loop led&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;Narrative sequence&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;decision-row&quot; role=&quot;row&quot;&gt;&lt;span role=&quot;rowheader&quot;&gt;Production&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;Heavy taxonomy, reusable shell&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;Reusable primitives, demanding pedagogy&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;High bespoke art and motion burden&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;decision-row&quot; role=&quot;row&quot;&gt;&lt;span role=&quot;rowheader&quot;&gt;Failure mode&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;A pretty sitemap&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;A sterile exercise tool&lt;/span&gt;&lt;span role=&quot;cell&quot;&gt;An interactive documentary&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&quot;synthesis&quot; aria-labelledby=&quot;synthesis-title&quot;&gt;
+    &lt;div class=&quot;synthesis-copy&quot;&gt;
+      &lt;span class=&quot;kicker text-muted&quot;&gt;05 / strongest synthesis&lt;/span&gt;
+      &lt;h2 id=&quot;synthesis-title&quot;&gt;My bet: Atlas outside. Studio inside. Observatory only when an idea deserves spectacle.&lt;/h2&gt;
+      &lt;p&gt;This is not a compromise between three aesthetics. It is a hierarchy of jobs: the Atlas answers “where am I?”, the Studio answers “what do I do now?”, and the Observatory answers “why is this idea worth caring about?”&lt;/p&gt;
+      &lt;p class=&quot;text-muted&quot;&gt;The characters become the continuity layer across all three: Vera does not decorate vectors; she owns the tools, language and choices of vector territory.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;stack-diagram&quot; aria-label=&quot;Recommended product stack&quot;&gt;
+      &lt;div class=&quot;stack-band&quot;&gt;&lt;strong&gt;Atlas&lt;/strong&gt;&lt;span&gt;Orientation, routes, prerequisites, return queue&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;stack-band&quot;&gt;&lt;strong&gt;Studio&lt;/strong&gt;&lt;span&gt;Default lesson loop and practice surface&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;stack-band&quot;&gt;&lt;strong&gt;Observatory&lt;/strong&gt;&lt;span&gt;Selective openings for the hardest, most visual ideas&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section aria-labelledby=&quot;audience-title&quot;&gt;
+    &lt;div class=&quot;section-head&quot;&gt;
+      &lt;div&gt;
+        &lt;span class=&quot;kicker text-muted&quot;&gt;06 / product brief locked&lt;/span&gt;
+        &lt;h2 id=&quot;audience-title&quot;&gt;An open mathematical world for ambitious adults&lt;/h2&gt;
+      &lt;/div&gt;
+      &lt;p class=&quot;text-muted&quot;&gt;They are not returning to school. They are acquiring mathematical power for a harder thing they already care about.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;audience-contract&quot;&gt;
+      &lt;div class=&quot;contract-column&quot;&gt;
+        &lt;span class=&quot;micro-label text-muted&quot;&gt;They bring&lt;/span&gt;
+        &lt;ul class=&quot;compact-list&quot;&gt;
+          &lt;li&gt;Strong motivation and a concrete destination&lt;/li&gt;
+          &lt;li&gt;Adult context from work, technology and the physical world&lt;/li&gt;
+          &lt;li&gt;Willingness to wrestle with a meaningful problem&lt;/li&gt;
+          &lt;li&gt;Low tolerance for childish tone or school-like busywork&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;contract-column&quot;&gt;
+        &lt;span class=&quot;micro-label text-muted&quot;&gt;The world owes them&lt;/span&gt;
+        &lt;ul class=&quot;compact-list&quot;&gt;
+          &lt;li&gt;Cases before disconnected syllabus coverage&lt;/li&gt;
+          &lt;li&gt;Just-in-time prerequisite routes, never remedial labels&lt;/li&gt;
+          &lt;li&gt;Real formalism once intuition has something to attach to&lt;/li&gt;
+          &lt;li&gt;Honest evidence of transfer, not points and completion theatre&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;domain-paths&quot; aria-label=&quot;Three motivating entry paths into the same mathematical world&quot;&gt;
+      &lt;article class=&quot;domain-path&quot;&gt;
+        &lt;span class=&quot;micro-label text-muted&quot;&gt;Physics &amp; engineering&lt;/span&gt;
+        &lt;h3&gt;Control motion and forces&lt;/h3&gt;
+        &lt;span class=&quot;path-sequence&quot;&gt;vectors → matrices → calculus → optimisation&lt;/span&gt;
+        &lt;p&gt;Cases: robot arms, structures, fields, trajectories and control systems.&lt;/p&gt;
+      &lt;/article&gt;
+      &lt;article class=&quot;domain-path&quot;&gt;
+        &lt;span class=&quot;micro-label text-muted&quot;&gt;Machine learning &amp; AI&lt;/span&gt;
+        &lt;h3&gt;Find structure in data&lt;/h3&gt;
+        &lt;span class=&quot;path-sequence&quot;&gt;vectors → linear algebra → probability → gradients&lt;/span&gt;
+        &lt;p&gt;Cases: embeddings, recommendations, classifiers, uncertainty and training.&lt;/p&gt;
+      &lt;/article&gt;
+      &lt;article class=&quot;domain-path&quot;&gt;
+        &lt;span class=&quot;micro-label text-muted&quot;&gt;Finance&lt;/span&gt;
+        &lt;h3&gt;Reason under uncertainty&lt;/h3&gt;
+        &lt;span class=&quot;path-sequence&quot;&gt;functions → probability → statistics → optimisation&lt;/span&gt;
+        &lt;p&gt;Cases: cashflows, portfolios, risk, inference and decision-making.&lt;/p&gt;
+      &lt;/article&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&quot;flagship&quot; aria-labelledby=&quot;flagship-title&quot;&gt;
+    &lt;div class=&quot;flagship-copy&quot;&gt;
+      &lt;span class=&quot;kicker text-muted&quot;&gt;07 / recommended first vertical slice&lt;/span&gt;
+      &lt;h2 id=&quot;flagship-title&quot;&gt;One operation. Three worlds.&lt;/h2&gt;
+      &lt;p&gt;Use the dot product to prove the architecture: force along motion in engineering, semantic similarity in AI, and weighted exposure in finance.&lt;/p&gt;
+      &lt;p class=&quot;text-muted&quot;&gt;The point is not three analogies. It is the adult revelation that one mathematical structure survives across radically different contexts.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;flagship-loop&quot; aria-label=&quot;Atlas Studio Observatory vertical slice&quot;&gt;
+      &lt;div class=&quot;loop-step&quot;&gt;&lt;strong&gt;Observatory&lt;/strong&gt;&lt;span&gt;Open with three systems producing the same mysterious scalar.&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;loop-step&quot;&gt;&lt;strong&gt;Studio&lt;/strong&gt;&lt;span&gt;Manipulate direction and magnitude; predict, calculate, explain and transfer.&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;loop-step&quot;&gt;&lt;strong&gt;Atlas&lt;/strong&gt;&lt;span&gt;Reveal projection, similarity and weighted combination as connected territory.&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;loop-step&quot;&gt;&lt;strong&gt;Detour&lt;/strong&gt;&lt;span&gt;Offer vector or algebra foundations only when the learner’s actions show a gap.&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;loop-step&quot;&gt;&lt;strong&gt;Return&lt;/strong&gt;&lt;span&gt;Retrieve the idea later through a new domain, not the original example.&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section aria-labelledby=&quot;experiments-title&quot;&gt;
+    &lt;div class=&quot;section-head&quot;&gt;
+      &lt;div&gt;
+        &lt;span class=&quot;kicker text-muted&quot;&gt;08 / decide with evidence&lt;/span&gt;
+        &lt;h2 id=&quot;experiments-title&quot;&gt;One integrated slice—not a redesign programme&lt;/h2&gt;
+      &lt;/div&gt;
+      &lt;p class=&quot;text-muted&quot;&gt;Use the existing dot-product content as raw material. Test the full architecture before rebuilding the platform.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;experiment-grid&quot;&gt;
+      &lt;article class=&quot;experiment&quot;&gt;&lt;span class=&quot;micro-label text-muted&quot;&gt;Test 01 / entry&lt;/span&gt;&lt;h3&gt;Goal before level&lt;/h3&gt;&lt;p&gt;Can an adult enter through a motivating domain case without first choosing a school-grade syllabus?&lt;/p&gt;&lt;/article&gt;
+      &lt;article class=&quot;experiment&quot;&gt;&lt;span class=&quot;micro-label text-muted&quot;&gt;Test 02 / learning&lt;/span&gt;&lt;h3&gt;Structure across contexts&lt;/h3&gt;&lt;p&gt;Can they recognise and use the dot product in a second domain after learning it in the first?&lt;/p&gt;&lt;/article&gt;
+      &lt;article class=&quot;experiment&quot;&gt;&lt;span class=&quot;micro-label text-muted&quot;&gt;Test 03 / navigation&lt;/span&gt;&lt;h3&gt;Detour without shame&lt;/h3&gt;&lt;p&gt;Can the Atlas route them through a missing prerequisite and return them smoothly to the original goal?&lt;/p&gt;&lt;/article&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section aria-labelledby=&quot;decision-title&quot;&gt;
+    &lt;div class=&quot;section-head&quot;&gt;
+      &lt;div&gt;
+        &lt;span class=&quot;kicker text-muted&quot;&gt;09 / decisions locked&lt;/span&gt;
+        &lt;h2 id=&quot;decision-title&quot;&gt;The rebuild now has a product spine&lt;/h2&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;ol class=&quot;compact-list&quot;&gt;
+      &lt;li&gt;&lt;strong&gt;Product:&lt;/strong&gt; an open mathematical world, not a linear course catalogue.&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Architecture:&lt;/strong&gt; Atlas outside, Studio inside, Observatory used selectively.&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Learner:&lt;/strong&gt; motivated adults rebuilding maths to reach physics, engineering, AI or finance.&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Pedagogy:&lt;/strong&gt; active cases, real systems, adult analogies, formal depth and transfer.&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Next decision:&lt;/strong&gt; approve “One operation, three worlds” as the first tested vertical slice.&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/section&gt;
+
+  &lt;footer class=&quot;source-list&quot; aria-label=&quot;Research sources&quot;&gt;
+    &lt;a href=&quot;https://pmc.ncbi.nlm.nih.gov/articles/PMC4060654/&quot;&gt;Freeman et al. — active learning in STEM&lt;/a&gt;
+    &lt;a href=&quot;https://eric.ed.gov/?id=EJ1319572&quot;&gt;Agarwal et al. — retrieval practice review&lt;/a&gt;
+    &lt;a href=&quot;https://www.cambridge.org/core/books/abs/cambridge-handbook-of-multimedia-learning/principles-for-reducing-extraneous-processing-in-multimedia-learning-coherence-signaling-redundancy-spatial-contiguity-and-temporal-contiguity-principles/CD5B7AE1279A9AB81F8EEBB53DBEC86E&quot;&gt;Mayer &amp; Fiorella — multimedia learning&lt;/a&gt;
+    &lt;a href=&quot;https://udlguidelines.cast.org/action-expression/&quot;&gt;CAST — UDL Guidelines 3.0&lt;/a&gt;
+    &lt;a href=&quot;https://www.w3.org/WAI/standards-guidelines/wcag/new-in-22/&quot;&gt;W3C — WCAG 2.2&lt;/a&gt;
+    &lt;a href=&quot;https://mathigon.org/about&quot;&gt;Mathigon — active, personal, story-led mathematics&lt;/a&gt;
+  &lt;/footer&gt;
+
+  &lt;script&gt;
+    (() =&gt; {
+      const root = document.getElementById(&#x27;mathland-clean-sheet&#x27;);
+      if (!root) return;
+
+      const routeButtons = Array.from(root.querySelectorAll(&#x27;[data-route-button]&#x27;));
+      const routePanels = Array.from(root.querySelectorAll(&#x27;[data-route-panel]&#x27;));
+
+      routeButtons.forEach((button) =&gt; {
+        button.addEventListener(&#x27;click&#x27;, () =&gt; {
+          const route = button.getAttribute(&#x27;data-route-button&#x27;);
+          routeButtons.forEach((candidate) =&gt; {
+            candidate.setAttribute(&#x27;aria-pressed&#x27;, String(candidate === button));
+          });
+          routePanels.forEach((panel) =&gt; {
+            panel.hidden = panel.getAttribute(&#x27;data-route-panel&#x27;) !== route;
+          });
+        });
+      });
+
+      const angleRange = root.querySelector(&#x27;#angleRange&#x27;);
+      const vectorV = root.querySelector(&#x27;#vectorV&#x27;);
+      const vectorVLabel = root.querySelector(&#x27;#vectorVLabel&#x27;);
+      const angleValue = root.querySelector(&#x27;#angleValue&#x27;);
+      const dotReading = root.querySelector(&#x27;#dotReading&#x27;);
+
+      const updateVector = () =&gt; {
+        if (!angleRange || !vectorV || !vectorVLabel || !angleValue || !dotReading) return;
+        const angle = Number(angleRange.value);
+        const radians = angle * Math.PI / 180;
+        const length = 120;
+        const x = 180 + Math.cos(radians) * length;
+        const y = 150 - Math.sin(radians) * length;
+        vectorV.setAttribute(&#x27;x2&#x27;, x.toFixed(2));
+        vectorV.setAttribute(&#x27;y2&#x27;, y.toFixed(2));
+        vectorVLabel.setAttribute(&#x27;x&#x27;, (x + 8).toFixed(2));
+        vectorVLabel.setAttribute(&#x27;y&#x27;, (y + 14).toFixed(2));
+        angleValue.textContent = `${angle}°`;
+        const value = Math.cos(radians);
+        dotReading.textContent = Math.abs(value) &lt; 0.04
+          ? &#x27;Zero — directions are perpendicular&#x27;
+          : value &gt; 0
+            ? &#x27;Positive — directions broadly agree&#x27;
+            : &#x27;Negative — directions broadly oppose&#x27;;
+      };
+
+      if (angleRange) {
+        angleRange.addEventListener(&#x27;input&#x27;, updateVector);
+        updateVector();
+      }
+
+      const projectionToggle = root.querySelector(&#x27;#projectionToggle&#x27;);
+      const projectionLine = root.querySelector(&#x27;#projectionLine&#x27;);
+      const projectionPoint = root.querySelector(&#x27;#projectionPoint&#x27;);
+      const projectionText = root.querySelector(&#x27;#projectionText&#x27;);
+
+      if (projectionToggle &amp;&amp; projectionLine &amp;&amp; projectionPoint &amp;&amp; projectionText) {
+        projectionToggle.addEventListener(&#x27;click&#x27;, () =&gt; {
+          const isShown = projectionToggle.getAttribute(&#x27;aria-pressed&#x27;) === &#x27;true&#x27;;
+          projectionToggle.setAttribute(&#x27;aria-pressed&#x27;, String(!isShown));
+          projectionToggle.textContent = isShown ? &#x27;Reveal projection&#x27; : &#x27;Hide projection&#x27;;
+          projectionLine.setAttribute(&#x27;opacity&#x27;, isShown ? &#x27;0&#x27; : &#x27;1&#x27;);
+          projectionPoint.setAttribute(&#x27;opacity&#x27;, isShown ? &#x27;0&#x27; : &#x27;1&#x27;);
+          projectionText.hidden = isShown;
+        });
+      }
+    })();
+  &lt;/script&gt;
+&lt;/main&gt;
+
+&lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set([&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+
+  const getTrigger = (target) =&gt;
+    target?.nodeType === Node.ELEMENT_NODE
+      ? target.closest(&quot;[data-tooltip]&quot;)
+      : null;
+  const containsTarget = (trigger, target) =&gt;
+    target?.nodeType != null &amp;&amp; trigger.contains(target);
+  const getContent = (trigger) =&gt;
+    trigger.getAttribute(&quot;data-tooltip&quot;)?.trim() ?? &quot;&quot;;
+  const getPlacement = (trigger) =&gt; {
+    const placement = trigger.getAttribute(&quot;data-tooltip-placement&quot;);
+    return tooltipPlacements.has(placement) ? placement : &quot;top&quot;;
+  };
+  const getTooltip = () =&gt; {
+    if (tooltip == null) {
+      tooltip = document.createElement(&quot;div&quot;);
+      tooltip.id = tooltipId;
+      tooltip.className = &quot;tooltip&quot;;
+      tooltip.setAttribute(&quot;role&quot;, &quot;tooltip&quot;);
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) =&gt; {
+    const ids = new Set(
+      (trigger.getAttribute(&quot;aria-describedby&quot;) ?? &quot;&quot;)
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute(&quot;aria-describedby&quot;);
+    } else {
+      trigger.setAttribute(&quot;aria-describedby&quot;, [...ids].join(&quot; &quot;));
+    }
+  };
+  const clearOpenTimeout = () =&gt; {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) =&gt; {
+    clearOpenTimeout();
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) =&gt; {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-width&quot;,
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-height&quot;,
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: &quot;fixed&quot;,
+    })
+      .then(({ x, y }) =&gt; {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = &quot;visible&quot;;
+      })
+      .catch(() =&gt; {
+        if (activeTrigger === trigger &amp;&amp; request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) =&gt; {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = &quot;hidden&quot;;
+    floating.style.transform = &quot;translate(0, 0)&quot;;
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () =&gt; {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) =&gt; {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() &lt; skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() =&gt; {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) =&gt; {
+    if (event.pointerType === &quot;touch&quot;) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handleLeave = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger?.matches(&quot;:focus-visible&quot;)) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) =&gt; {
+    if (event.key === &quot;Escape&quot;) {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const destroy = () =&gt; {
+    closeTooltip(false);
+    document.removeEventListener(&quot;pointerover&quot;, handlePointerOpen);
+    document.removeEventListener(&quot;pointerout&quot;, handleLeave);
+    document.removeEventListener(&quot;focusin&quot;, handleFocusIn);
+    document.removeEventListener(&quot;focusout&quot;, handleLeave);
+    document.removeEventListener(&quot;keydown&quot;, handleKeyDown);
+    document.removeEventListener(&quot;contextmenu&quot;, handleContextMenu);
+    tooltip = null;
+  };
+
+  document.addEventListener(&quot;pointerover&quot;, handlePointerOpen);
+  document.addEventListener(&quot;pointerout&quot;, handleLeave);
+  document.addEventListener(&quot;focusin&quot;, handleFocusIn);
+  document.addEventListener(&quot;focusout&quot;, handleLeave);
+  document.addEventListener(&quot;keydown&quot;, handleKeyDown);
+  document.addEventListener(&quot;contextmenu&quot;, handleContextMenu);
+  window.addEventListener(&quot;pagehide&quot;, destroy, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-lucide&quot; async src=&quot;https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const initialize = () =&gt; {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById(&quot;codex-visualization-lucide&quot;)
+    ?.addEventListener(&quot;load&quot;, initialize, { once: true });
+})();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</body>
+</html>

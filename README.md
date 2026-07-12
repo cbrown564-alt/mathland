@@ -1,44 +1,59 @@
 # Mathland
 
-Mathland is a character-driven mathematics learning platform for adults preparing for data science. It combines structured lessons, mathematical visualizations, interactive practice, audio/transcript support, and locally persisted progress.
+Mathland is being rebuilt as an **open mathematical world for motivated adults** who are relearning mathematics to reach more advanced work in physics, engineering, machine learning, AI, or finance.
 
-## Repository status
+The previous web application is not the product foundation. Its lesson content, characters, mathematical models, and interactives are source material that may be reused selectively. The shell, navigation, module-card journey, section-based lessons, and presumed Lesson v2 migration path are superseded.
 
-As of 11 July 2026, the committed repository contains:
+## Accepted product architecture
 
-- 96 JSON lessons across 10 modules;
-- 10 mathematical character guides;
-- 30 ready demos in `src/interactive/demos/demo_registry.ts`;
-- a nine-lesson Module 2 pilot of the beat-based Lesson v2 format;
-- 63 passing Jest tests across 16 suites;
-- a passing Vite production build;
-- a passing ESLint run with 96 warnings and no errors.
+- **Atlas outside:** an explorable map of mathematical territories, relationships, domain routes, prerequisite detours, and return opportunities.
+- **Studio inside:** the default learning surface for prediction, manipulation, calculation, explanation, fading support, transfer, and retrieval.
+- **Observatory selectively:** concentrated visual openings for ideas that deserve wonder or reveal an otherwise invisible phenomenon.
 
-These are implementation counts, not claims of educational or production readiness. The current goal is to validate and finish Module 2 to a defined release standard before migrating more curriculum. See the [delivery roadmap](PLAN.md).
+The canonical direction is [docs/PRODUCT_DOCTRINE.md](docs/PRODUCT_DOCTRINE.md). The visual concept board is [design/mathland-clean-sheet-directions.html](design/mathland-clean-sheet-directions.html).
 
-## Curriculum
+## Primary learner
 
-1. Mathematical prerequisites and refresher — Ollie
-2. Vectors and vector spaces — Vera
-3. Matrices and linear mappings — Max
-4. Eigenvalues and eigenvectors — Eileen
-5. Multivariable calculus — Delta
-6. Optimisation and gradient descent — Greta
-7. Probability and distributions — Pippa
-8. Statistical inference and hypothesis testing — Sigmund
-9. Bayesian inference — Bayes
-10. Integration and capstone work — Sage
+Mathland is for adults who:
 
-The source of truth is `src/content/lessons/`. Module indexes define lesson order and lesson JSON files provide the original eight-section experience. Module 2 also has a beat-authored version under `src/content/beats/` rendered at `/story/:lessonId`.
+- have an ambitious subject or practical goal;
+- bring substantial contextual knowledge;
+- prefer active learning and real cases;
+- may have uneven mathematical foundations;
+- expect intellectual depth without school-like framing.
+
+They enter through a meaningful problem. Missing foundations appear as just-in-time, respectful detours—not as a compulsory remedial syllabus.
+
+## First vertical slice
+
+The recommended first prototype is **One operation, three worlds**: the dot product through:
+
+- work done by force along displacement;
+- semantic similarity between embedding vectors;
+- portfolio return from asset weights and returns.
+
+It will test the integrated Atlas–Studio–Observatory architecture, cross-domain transfer, and a prerequisite detour before any broad rebuild. See [docs/FIRST_VERTICAL_SLICE.md](docs/FIRST_VERTICAL_SLICE.md).
+
+## Current repository
+
+The existing React application remains runnable while the new experience is prototyped in isolation. It currently contains:
+
+- 96 JSON lesson files across ten legacy modules;
+- ten mathematical character guides;
+- a substantial registry of mathematical interactives;
+- a nine-lesson beat-format experiment for legacy Module 2;
+- local browser progress persistence;
+- unit, content-integrity, and browser-smoke infrastructure.
+
+These are implementation assets, not claims of learner validation or requirements for the future experience.
 
 ## Technology
 
-- React 18, TypeScript, Vite
-- React Router
+- React 18 and TypeScript
+- Vite and React Router
 - Tailwind CSS and shadcn/ui
-- Canvas, SVG, Plotly, and Three.js-based visualizations
-- Jest and React Testing Library
-- localStorage-based progress persistence
+- Canvas, SVG, Plotly, and Three.js-based visualisations
+- Jest, React Testing Library, and Playwright
 
 ## Start locally
 
@@ -54,49 +69,45 @@ The development server defaults to `http://localhost:8080`.
 ## Quality commands
 
 ```bash
-npm run build          # production bundle
-npm run build:dev      # development-mode bundle
-npm run test           # Jest suite
-npm run test:ci        # non-watch test run with coverage
-npm run lint           # ESLint
-npm run preview        # preview the production bundle
+npm run lint
+npm run typecheck
+npm run validate:content
+npm run test
+npm run test:e2e
+npm run build
 ```
-
-CI runs lint, tests, coverage, and the production build on Node 18 and 20. Its current lint step is advisory (`|| echo`), so lint failures do not block CI. The roadmap calls for making quality gates blocking and adding explicit typecheck, content-integrity validation, and browser smoke tests.
 
 ## Repository layout
 
 ```text
 src/
-  core/                 application shell, pages, shared UI, hooks, and types
-  content/
-    lessons/            canonical JSON curriculum and module indexes
-    beats/              Module 2 Lesson v2 pilot and authoring schema
-  interactive/
-    components/         integrated mathematical interactives
-    demos/              canonical demo registry
-    examples/           isolated research prototypes
-  tier2/                reusable visual/diagram templates
-  utils/                lesson loading, characters, modules, and themes
-docs/                   living architecture, authoring, and product guidance
+  core/                 legacy application shell, pages, hooks, and shared UI
+  content/              legacy lesson content and beat-format experiment
+  interactive/          mathematical interactives and reusable models
+  tier2/                legacy enhanced-static templates
+  world/                reserved for the new Atlas–Studio–Observatory prototype
+docs/                   canonical doctrine, architecture, content, and build guidance
+docs/archive/           superseded product, release, format, and research material
+design/                 discussion-ready product direction board
 public/                 static runtime assets
 ```
 
+`src/world/` will be introduced by the first vertical-slice implementation. Until then, it is a documented target namespace rather than an existing directory.
+
 ## Documentation
 
-- [Delivery roadmap](PLAN.md) — active priorities and finish criteria
-- [Documentation index](docs/README.md) — authoritative guides and their scope
-- [Product strategy](docs/strategic_development_plan.md) — durable product decisions
-- [Lesson v2 design](docs/LESSON_V2_DESIGN.md) — beat format specification
-- [Interactive development](docs/development/INTERACTIVE_COMPONENT_DEVELOPMENT.md) — implementation and integration standards
-- [History](docs/HISTORY.md) — completed refactors and superseded plans
+Start at [docs/README.md](docs/README.md). The active set is deliberately small:
 
-## Content and interactive changes
+- [Product doctrine](docs/PRODUCT_DOCTRINE.md)
+- [Experience architecture](docs/EXPERIENCE_ARCHITECTURE.md)
+- [Content strategy](docs/CONTENT_STRATEGY.md)
+- [First vertical slice](docs/FIRST_VERTICAL_SLICE.md)
+- [Current and target technical architecture](docs/architecture/README.md)
+- [Building new experiences](docs/development/BUILDING_EXPERIENCES.md)
+- [Active rebuild plan](PLAN.md)
 
-To add or edit original lesson content, update the relevant JSON file and module index under `src/content/lessons/`. For Lesson v2 authoring, follow [the beat authoring guide](src/content/beats/README.md). New integrated interactives belong in `src/interactive/components/` and must be registered in `src/interactive/demos/demo_registry.ts`; follow the [interactive development guide](docs/development/INTERACTIVE_COMPONENT_DEVELOPMENT.md).
+Historical documentation is isolated under [docs/archive/](docs/archive/README.md) and is non-authoritative.
 
-Run lint, tests, and a production build before proposing changes. Content changes should also receive mathematical and editorial review; automated checks alone do not validate teaching quality.
+## Contribution rule
 
-## Deployment
-
-The Vite build outputs static assets to `dist/`. Historical documents referenced Lovable deployment, but no committed runbook currently establishes a supported production host, environment configuration, monitoring, or rollback procedure. Creating that runbook is part of platform hardening in the roadmap.
+Do not improve the legacy product by default. New product work must advance the accepted doctrine, be isolated from legacy shell assumptions, and prove itself through the first vertical slice before broader migration.

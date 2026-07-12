@@ -1,40 +1,46 @@
 # Mathland documentation
 
-This directory contains living product, architecture, and authoring guidance. Repository facts belong in the root [README](../README.md); active priorities belong in the root [roadmap](../PLAN.md).
+The active documentation set is intentionally small and expresses one product direction exclusively: an open mathematical world for motivated adults, organised as Atlas outside, Studio inside, and Observatory selectively.
 
-## Start here
+## Read in this order
 
-- [Delivery roadmap](../PLAN.md) — ordered milestones, gaps, exit criteria, and immediate next work
-- [Product strategy](strategic_development_plan.md) — audience, principles, strategic scope, and success measures
-- [Lesson v2 design](LESSON_V2_DESIGN.md) — formal beat model and Module 2 pilot
-- [Beat authoring guide](../src/content/beats/README.md) — how to add a Lesson v2 lesson
-- [Interactive development guide](development/INTERACTIVE_COMPONENT_DEVELOPMENT.md) — how integrated demos are designed, registered, and tested
-- [Content and visual patterns](development/content_tiers.md) — when to use interactive, visual, or narrative treatments
-- [Architecture](architecture/README.md) — current system boundaries and data flow
-- [History](HISTORY.md) — completed refactors and superseded planning context
-- [Milestone 2 learner-validation protocol](research/MILESTONE_2_PROTOCOL.md) — study design, measures, scripts, and predeclared format-decision thresholds
-- [Module 2 comprehension question bank](research/COMPREHENSION_QUESTION_BANK.md) — facilitator prompts and binary scoring keys for the comparison
-- [Module 2 assignment matrix](research/ASSIGNMENT_MATRIX.md) — balanced 18-person lesson/format schedule with minimum-sample coverage
-- [Milestone 2 session worksheet](research/SESSION_WORKSHEET.md) — repeatable per-participant observation and scoring form
-- [Milestone 2 findings and decision](research/MILESTONE_2_FINDINGS.md) — aggregate comparison, issue log, threshold audit, and decision record
+1. [Product doctrine](PRODUCT_DOCTRINE.md) — audience, promise, product laws, domain entrances, and superseded assumptions.
+2. [Experience architecture](EXPERIENCE_ARCHITECTURE.md) — responsibilities and interaction contracts for Atlas, Studio, Observatory, progress, and detours.
+3. [Content strategy](CONTENT_STRATEGY.md) — territory model, case-first authoring, domain lenses, and legacy-content salvage policy.
+4. [First vertical slice](FIRST_VERTICAL_SLICE.md) — the dot-product prototype across engineering, AI, and finance.
+5. [Active rebuild plan](../PLAN.md) — phases, gates, scope, and immediate work.
 
-## Supporting references
+## Implementation references
 
-- [Interactive design patterns](INTERACTIVE_COMPONENT_DESIGN_PATTERNS.md) — responsive layout and visualization principles; recommendations require re-audit before becoming roadmap work
-- [Tier 2 template API](development/tier2_template_system.md) — existing reusable diagram components
-- [Curriculum inventory](lessons_list.md) — concise module-level inventory; lesson files remain authoritative
-- [Research prototypes](../src/interactive/examples/README.md) — intentionally isolated experiments
+- [Current and target technical architecture](architecture/README.md)
+- [Building new experiences](development/BUILDING_EXPERIENCES.md)
+- [Legacy curriculum salvage inventory](lessons_list.md)
+- [Visual direction board](../design/mathland-clean-sheet-directions.html)
+
+## Authority
+
+When documents conflict, use this order:
+
+1. `PRODUCT_DOCTRINE.md`
+2. `EXPERIENCE_ARCHITECTURE.md`
+3. `CONTENT_STRATEGY.md`
+4. `FIRST_VERTICAL_SLICE.md`
+5. `PLAN.md`
+6. implementation references
+
+Source code and tests remain authoritative for what the current application actually does. They are not authoritative for future product direction.
 
 ## Documentation rules
 
-1. Treat committed source, tests, and configuration as the authority for implementation claims.
-2. Do not hard-code volatile counts in multiple documents. The README may show a dated snapshot; detailed status should be derived from registries and lesson files.
-3. Distinguish **implemented**, **reviewed**, **validated**, and **released**. These are separate states.
-4. Put current priorities only in `PLAN.md`; do not create competing roadmaps.
-5. Put historical completion notes in `HISTORY.md`, not in living architecture or development guides.
-6. Link to source paths rather than duplicating large schemas or lesson descriptions unless the duplication is necessary for authoring.
-7. Update documentation in the same change as behavior, content contracts, commands, or architecture.
+1. Do not create competing product strategies, roadmaps, lesson-format specifications, or design-system manifestos.
+2. Update the canonical document that owns the decision.
+3. Separate current implementation facts from target architecture.
+4. Treat old lessons, beat content, characters, and interactives as salvageable assets rather than product requirements.
+5. State assumptions, evidence, learner group, and decision consequences.
+6. Keep historical material in [archive/](archive/README.md), never in the active reading path.
+7. Repair active links in the same change as a move or rename.
+8. If a product decision changes, record it explicitly in the doctrine before implementing the exception.
 
-## Archived and removed material
+## Archive
 
-The sweep in July 2026 removed duplicate strategy and three-tier documents from `assets/`, consolidated the superseded UI plan and refactoring reports into `HISTORY.md`, and replaced the dated “production ready” test report with current, reproducible quality commands and roadmap gates.
+The [documentation archive](archive/README.md) contains the superseded Module 2 release strategy, Lesson v2 format, tier/template guidance, earlier component patterns, and unexecuted lesson-format research protocol. It is retained for provenance and must not drive active work.

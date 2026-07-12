@@ -1,124 +1,136 @@
-# Mathland delivery roadmap
+# Mathland rebuild plan
 
-This is the active execution plan for taking Mathland from a strong technical MVP to a high-quality, learner-validated release. It supersedes the July 2026 A/B/C UI implementation plan; completed work from that plan is summarized in [docs/HISTORY.md](docs/HISTORY.md).
+Status: **active**. This plan implements the clean-sheet direction accepted on 12 July 2026.
 
-## Product position
+The goal is not to ship an improved version of the current application. The goal is to prove and then build an open mathematical world for motivated adults, using the Atlas–Studio–Observatory architecture.
 
-Mathland is a React 18 and TypeScript mathematics-learning application for adults moving toward data science. The committed product currently contains:
+The previous Module 2 release roadmap is archived at [docs/archive/pre-reboot/PLAN.md](docs/archive/pre-reboot/PLAN.md).
 
-- 96 JSON lessons across 10 modules;
-- 10 character guides;
-- 30 ready interactive demos in the canonical registry;
-- a nine-lesson Module 2 pilot of the beat-based Lesson v2 format;
-- local progress persistence, character theming, responsive application chrome, and production routing;
-- 63 passing Jest tests across 16 suites and a passing production build.
+## Product gate
 
-These numbers describe repository inventory, not learner outcomes. “Complete curriculum” means the lesson files exist; it does not mean every lesson has passed editorial, mathematical, accessibility, or learner validation.
+All work must satisfy the [product doctrine](docs/PRODUCT_DOCTRINE.md). In particular:
 
-## Definition of a high-quality finish
+- adults enter through ambitious goals and credible cases;
+- learner action precedes content delivery;
+- the Atlas provides orientation and respectful prerequisite detours;
+- the Studio produces evidence through prediction, construction, explanation, transfer, and retrieval;
+- the Observatory is selective and hands off to work;
+- legacy implementation does not determine the new experience;
+- broad migration waits for learner evidence from an integrated slice.
 
-A release candidate is ready only when all of the following are true:
+## Phase 0 — Align the repository
 
-1. **Correct:** priority lessons have mathematical and editorial review, with no known high-severity content defects.
-2. **Coherent:** one lesson format is selected from evidence, and every release-scope lesson follows its authoring and interaction standards.
-3. **Usable:** core journeys work at keyboard, touch, mobile, tablet, and desktop sizes.
-4. **Accessible:** the release scope meets WCAG 2.2 AA expectations, including focus order, contrast, reduced motion, canvas alternatives, and screen-reader labels.
-5. **Reliable:** build, lint, unit/integration tests, and critical browser journeys are automated CI gates.
-6. **Performant:** agreed budgets are measured on representative devices; large visualizations do not block initial navigation.
-7. **Validated:** representative learners can complete the pilot, and decisions are based on observed comprehension and friction rather than internal preference.
-8. **Operable:** deployment, smoke testing, rollback, privacy, analytics, and issue-triage procedures are documented.
+Goal: remove competing product narratives.
 
-## Current gaps
+- [x] Accept the open mathematical world as the primary product.
+- [x] Accept Atlas outside, Studio inside, Observatory selectively.
+- [x] Define motivated adults relearning maths for advanced domains as the primary learner.
+- [x] Consolidate canonical product and experience documentation.
+- [x] Archive the Module 2 release, Lesson v2, tier/template, and format-comparison documentation.
+- [ ] Review issue trackers, branches, and future planning surfaces for superseded work.
 
-- Lesson v2 is implemented for Module 2 but has not yet been validated against the section-based lesson experience.
-- The repository has 96 ESLint warnings, mainly React hook dependencies and Fast Refresh boundaries. Hook warnings in interactive canvases deserve priority because stale closures can cause behavioral bugs.
-- Test coverage is concentrated in shared UI, registries, progress, and the story route; critical learner journeys do not yet have browser-level coverage.
-- “Ready” in the interactive registry means integrated code status, not a completed accessibility, content, responsiveness, or learner-quality audit.
-- No committed evidence establishes production analytics, account sync, formal privacy practices, or learner outcome measurement.
-- Several large bundles and visualization chunks warrant explicit performance budgets and measurement.
+Exit: active documentation presents one product direction and links historical material only as archive.
 
-## Roadmap
+## Phase 1 — Prototype one operation across three worlds
 
-### Milestone 1 — Establish the release baseline
+Goal: test the entire product architecture with the dot product before rebuilding the platform.
 
-Goal: make quality visible and prevent regressions before expanding content.
+### Deliverables
 
-- [x] Turn the 96 lint warnings into a triaged backlog; fix hook-dependency warnings in release-scope production interactives first.
-- [x] Add an explicit TypeScript typecheck command and run it in CI.
-- [x] Add browser smoke tests for home → module → lesson, story progress persistence, and an interactive.
-- [x] Define supported browsers/viewports and record baseline accessibility and performance results.
-- [x] Add automated validation for lesson IDs, module indexes, character IDs, custom interactive references, and internal documentation links.
-- [x] Decide and document the initial release scope: Module 2 plus shared navigation/progress.
+- [ ] Create an isolated `src/world/` prototype namespace and experimental route.
+- [ ] Build a small Atlas region connecting vectors, projection, similarity, work, and weighted combination.
+- [ ] Build an Observatory opening that presents engineering, AI, and finance cases producing the same operation.
+- [ ] Build a Studio vector model with keyboard, touch, numeric, and reduced-motion paths.
+- [ ] Add prediction, worked example, fading support, independent calculation, explanation, and transfer.
+- [ ] Add at least one diagnostic prerequisite detour with exact return to the blocked task.
+- [ ] Add a delayed retrieval prompt from a different domain.
+- [ ] Record descriptive local evidence states without importing legacy completion semantics.
+- [ ] Review mathematics, engineering interpretation, ML interpretation, and finance assumptions.
+- [ ] Run focused accessibility, responsive, performance, and learner QA.
 
-Exit criteria: CI blocks build, lint errors, type errors, unit/integration failures, broken content references, and critical browser-journey failures; baseline audit results are recorded.
+The detailed contract is [docs/FIRST_VERTICAL_SLICE.md](docs/FIRST_VERTICAL_SLICE.md).
 
-Milestone completed 11 July 2026. Baseline, support policy, audit gaps, budgets, warning triage, and release-scope decision are recorded in [docs/RELEASE_BASELINE.md](docs/RELEASE_BASELINE.md).
+### Learner evidence
 
-### Milestone 2 — Validate the learning experience
+Test with representative adults who have a concrete physics, engineering, AI, or finance motivation. Determine whether they can:
 
-Goal: decide whether Lesson v2 should become the standard before migrating more modules.
+- enter through a goal without choosing a school level;
+- understand the shared structure across cases;
+- calculate and interpret the dot product;
+- transfer it to an unseen context;
+- understand their Atlas location and next moves;
+- use a prerequisite detour without losing motivation;
+- resume the original goal after the detour;
+- retrieve the idea after time has passed.
 
-- [x] Write a lightweight research protocol: target learner, tasks, comprehension checks, completion signals, interview prompts, and decision thresholds.
-- [ ] Test the nine Module 2 Lesson v2 lessons with representative adult learners.
-- [ ] Compare Lesson v2 with the existing section-based flow on comprehension, completion, time-on-task, navigation confusion, and qualitative preference.
-- [ ] Log issues by severity and distinguish content, interaction, visual, performance, and format problems.
-- [ ] Make an explicit decision: adopt v2, revise and retest, or retain the current format. Record the evidence and consequences.
+Exit: a written decision to continue, revise and retest, or reject material parts of the architecture.
 
-Exit criteria: a written format decision with evidence, prioritized issues, and an approved authoring standard.
+## Phase 2 — Establish the first Atlas region
 
-Preparation completed 11 July 2026: the [learner-validation protocol](docs/research/MILESTONE_2_PROTOCOL.md), draft [comprehension question bank](docs/research/COMPREHENSION_QUESTION_BANK.md), [assignment matrix](docs/research/ASSIGNMENT_MATRIX.md), [session worksheet](docs/research/SESSION_WORKSHEET.md), and [findings/decision record](docs/research/MILESTONE_2_FINDINGS.md) define the counterbalanced comparison, measures, issue taxonomy, and predeclared thresholds. The question bank still needs review and a wording pilot. Recruitment, sessions, analysis, and the format decision remain open; the latter three require learner evidence.
+Goal: expand only the connected territory necessary to test a repeatable world model.
 
-### Milestone 3 — Finish one flagship module
+Candidate neighbouring territories:
 
-Goal: produce one complete, credible example of release quality.
+- vector components and coordinate systems;
+- magnitude, angle, and normalisation;
+- linear combinations and weighted sums;
+- projection and orthogonality;
+- matrices as systems of dot products;
+- gradients as direction and local change.
 
-- [ ] Apply the chosen format and resolve all validation findings across Module 2.
-- [ ] Conduct independent mathematical and editorial review of every Module 2 lesson.
-- [ ] Audit all Module 2 visuals and interactives for keyboard/touch use, responsive layout, reduced motion, labels, instructions, and non-canvas alternatives where needed.
-- [ ] Verify progress, resume, reset, completion, and error/empty states.
-- [ ] Optimize Module 2 route and interactive loading against the performance budget.
-- [ ] Run a second learner pass and close all release-blocking findings.
+Work should expand from observed learner needs in Phase 1, not from the order of the legacy Module 2 curriculum.
 
-Exit criteria: Module 2 satisfies the definition of finish and can serve as the pattern for subsequent modules.
+Exit: a stable territory schema, evidence model, authoring workflow, and tested path through several connected ideas.
 
-### Milestone 4 — Harden the platform
+## Phase 3 — Add domain journeys
 
-Goal: make the application safe to release and maintain.
+Goal: make the same Atlas useful from several ambitious starting points.
 
-- [ ] Complete an application-wide navigation, responsive, accessibility, and cross-browser pass.
-- [ ] Define analytics events and privacy boundaries; collect only data needed for stated learning questions.
-- [ ] Document deployment, environment configuration, smoke checks, rollback, and incident ownership.
-- [ ] Add error monitoring and a user-visible recovery path for lazy-load, lesson-load, audio, and interactive failures.
-- [ ] Remove or isolate research/gallery routes from the production learner navigation if they are not release features.
-- [ ] Resolve remaining high-impact bundle and rendering issues.
+- [ ] Define one coherent physics/engineering journey.
+- [ ] Define one coherent machine-learning/AI journey.
+- [ ] Define one coherent finance journey.
+- [ ] Ensure the journeys converge on shared territories rather than duplicating content.
+- [ ] Add domain-reviewed cases and transfer tasks.
+- [ ] Validate that learners can switch lenses without losing mathematical identity.
 
-Exit criteria: a deployable release candidate with an operational checklist and no open critical defects.
+Exit: adults can enter from different goals and recognise that they inhabit one mathematical world.
 
-### Milestone 5 — Scale deliberately
+## Phase 4 — Replace the legacy product deliberately
 
-Goal: expand only after the flagship module and authoring system are proven.
+Goal: retire old surfaces only after validated replacements exist.
 
-- [ ] Prioritize modules by learner value, prerequisite order, content readiness, and interactive reuse.
-- [ ] Migrate one module at a time using the flagship checklist.
-- [ ] Generate curriculum inventory from source data rather than maintaining duplicate lesson descriptions by hand.
-- [ ] Track review and validation status separately from file existence.
-- [ ] Reassess accounts, cloud sync, teacher tools, native apps, and new curricula only after core learning quality and retention justify them.
+- [ ] Define production shell, persistence, analytics, privacy, and account requirements from validated use.
+- [ ] Promote stable Atlas, Studio, and Observatory primitives.
+- [ ] Migrate or extract valuable legacy content territory by territory.
+- [ ] Redirect or remove replaced legacy routes.
+- [ ] Archive unused content, components, and assets.
+- [ ] Establish deployment, monitoring, rollback, and support procedures.
 
-Exit criteria: each promoted module independently meets the same release bar; roadmap scope is evidence-led.
+Exit: the production experience expresses the accepted doctrine without depending on the old learner journey.
+
+## Work explicitly out of scope now
+
+- polishing the current homepage, dashboard, navigation, or lesson shell;
+- converting all legacy lessons to the beat format or any new format;
+- designing the entire Atlas before testing one region;
+- implementing accounts, cloud sync, teacher tools, native apps, or broad gamification;
+- completing all ten character experiences;
+- treating existing module order as the product roadmap;
+- claiming mastery or educational validation from completion data.
 
 ## Immediate next work
 
-Start Milestone 1 in this order:
+1. Approve the “One operation, three worlds” slice as the implementation target.
+2. Choose the primary opening case and the fourth-context transfer problem.
+3. Review the finance case and formula language with domain expertise.
+4. Specify the minimal world-graph and evidence-state data models.
+5. Scaffold the isolated `src/world/` prototype and experimental route.
+6. Build the Studio mathematical model before the surrounding shell.
 
-1. Agree that Module 2 is the release candidate scope.
-2. Fix production React hook warnings and establish a zero-new-warning rule.
-3. Add typecheck, content-integrity, and browser smoke-test gates.
-4. Run and record baseline accessibility, responsive, and performance audits.
-5. Prepare the learner-validation protocol while engineering baseline work proceeds.
+## Decision discipline
 
-## Decision rules
-
-- Do not migrate another module to Lesson v2 before the Milestone 2 decision.
-- Do not call a lesson or interactive “finished” based only on implementation status.
-- Do not add major platform features while release-blocking learning, accessibility, or reliability findings remain.
-- Keep repository facts in [README.md](README.md), architecture and authoring guidance under `docs/`, and active priorities only in this file.
+- Prefer a tested vertical slice to a broad design system.
+- Prefer extracting mathematical logic to wrapping legacy pages.
+- Prefer observed learner difficulty to speculative prerequisite trees.
+- Prefer cross-domain transfer to completion volume.
+- Prefer revising the doctrine explicitly to allowing silent exceptions.
