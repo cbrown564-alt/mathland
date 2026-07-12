@@ -1,6 +1,8 @@
 # Mathland rebuild plan
 
-Status: **active**. This plan implements the clean-sheet direction accepted on 12 July 2026.
+Status: **integrated research build complete; learner evidence gate open**. This plan implements the clean-sheet direction accepted on 12 July 2026.
+
+The isolated research build is available at `/prototype/one-operation-three-worlds`. Repository completion and educational validation are deliberately separate: automated implementation gates pass, while representative-adult testing, delayed retrieval observation, and external domain review remain required before the prototype can replace production surfaces.
 
 The goal is not to ship an improved version of the current application. The goal is to prove and then build an open mathematical world for motivated adults, using the Atlas–Studio–Observatory architecture.
 
@@ -27,7 +29,7 @@ Goal: remove competing product narratives.
 - [x] Define motivated adults relearning maths for advanced domains as the primary learner.
 - [x] Consolidate canonical product and experience documentation.
 - [x] Archive the Module 2 release, Lesson v2, tier/template, and format-comparison documentation.
-- [ ] Review issue trackers, branches, and future planning surfaces for superseded work.
+- [x] Review local planning surfaces and branches for superseded work. The remaining `cursor/*` branches and legacy route work describe the old application; they do not define the rebuild. External issue trackers still need owner review if they contain work not represented in this repository.
 
 Exit: active documentation presents one product direction and links historical material only as archive.
 
@@ -37,16 +39,16 @@ Goal: test the entire product architecture with the dot product before rebuildin
 
 ### Deliverables
 
-- [ ] Create an isolated `src/world/` prototype namespace and experimental route.
-- [ ] Build a small Atlas region connecting vectors, projection, similarity, work, and weighted combination.
-- [ ] Build an Observatory opening that presents engineering, AI, and finance cases producing the same operation.
-- [ ] Build a Studio vector model with keyboard, touch, numeric, and reduced-motion paths.
-- [ ] Add prediction, worked example, fading support, independent calculation, explanation, and transfer.
-- [ ] Add at least one diagnostic prerequisite detour with exact return to the blocked task.
-- [ ] Add a delayed retrieval prompt from a different domain.
-- [ ] Record descriptive local evidence states without importing legacy completion semantics.
-- [ ] Review mathematics, engineering interpretation, ML interpretation, and finance assumptions.
-- [ ] Run focused accessibility, responsive, performance, and learner QA.
+- [x] Create an isolated `src/world/` prototype namespace and experimental route.
+- [x] Build a small Atlas region connecting vectors, projection, similarity, work, and weighted combination.
+- [x] Build an Observatory opening that presents engineering, AI, and finance cases producing the same operation.
+- [x] Build a Studio vector model with keyboard, touch, numeric, readable, and reduced-motion paths.
+- [x] Add prediction, worked example, fading support, independent calculation, explanation, and transfer.
+- [x] Add a signed-components diagnostic detour with exact task and focus return.
+- [x] Add a seven-day retrieval schedule and a fourth-context climate-monitoring prompt.
+- [x] Record descriptive local evidence states behind a versioned store without importing legacy completion semantics.
+- [x] Review the internal mathematical model and make the engineering, ML, finance, and climate assumptions explicit in the interface. External engineering/ML/finance review remains an evidence gate.
+- [x] Run automated mathematical, evidence, keyboard, corrupt-state, responsive, accessibility, build, and desktop/mobile browser QA. Facilitated learner QA remains an evidence gate.
 
 The detailed contract is [docs/FIRST_VERTICAL_SLICE.md](docs/FIRST_VERTICAL_SLICE.md).
 
@@ -63,7 +65,7 @@ Test with representative adults who have a concrete physics, engineering, AI, or
 - resume the original goal after the detour;
 - retrieve the idea after time has passed.
 
-Exit: a written decision to continue, revise and retest, or reject material parts of the architecture.
+Exit: a written decision to continue, revise and retest, or reject material parts of the architecture. **Not yet met:** the research build is ready for representative-adult sessions; no learner outcome is inferred from automated checks.
 
 ## Phase 2 — Establish the first Atlas region
 
@@ -80,24 +82,34 @@ Candidate neighbouring territories:
 
 Work should expand from observed learner needs in Phase 1, not from the order of the legacy Module 2 curriculum.
 
+Repository foundations now present:
+
+- [x] An eight-territory graph with explicit prerequisites, downstream connections, domain membership, and horizon status.
+- [x] Evidence and route contracts separated from the legacy lesson/progress schemas.
+- [x] A case-adapter pattern around one shared dot-product model.
+- [x] A documented world authoring workflow and strict type/test boundary.
+- [ ] Expansion into the next neighbouring Studio, selected from observed learner need rather than speculation.
+
 Exit: a stable territory schema, evidence model, authoring workflow, and tested path through several connected ideas.
 
 ## Phase 3 — Add domain journeys
 
 Goal: make the same Atlas useful from several ambitious starting points.
 
-- [ ] Define one coherent physics/engineering journey.
-- [ ] Define one coherent machine-learning/AI journey.
-- [ ] Define one coherent finance journey.
-- [ ] Ensure the journeys converge on shared territories rather than duplicating content.
-- [ ] Add domain-reviewed cases and transfer tasks.
-- [ ] Validate that learners can switch lenses without losing mathematical identity.
+- [x] Define one coherent physics/engineering journey through components, magnitude/angle, dot product, projection, orthogonality, matrices, and gradients.
+- [x] Define one coherent machine-learning/AI journey through normalisation, similarity, projection, matrices, and optimisation.
+- [x] Define one coherent finance journey through weighted sums, dot products, matrices, and optimisation.
+- [x] Ensure the journeys converge on shared territory identities rather than duplicating content.
+- [x] Add bounded engineering, AI, finance, and climate cases plus finance transfer and climate retrieval tasks.
+- [ ] Complete external domain review and validate with learners that lens switching preserves the mathematical identity.
 
 Exit: adults can enter from different goals and recognise that they inhabit one mathematical world.
 
 ## Phase 4 — Replace the legacy product deliberately
 
 Goal: retire old surfaces only after validated replacements exist.
+
+This phase is intentionally gated. The prototype route is isolated and lazy-loaded; it bypasses both the legacy shell and legacy content initialisation. Production replacement remains prohibited until the Phase 1 learner gate and external domain review pass. Promotion requirements are recorded in [docs/architecture/README.md](docs/architecture/README.md#production-promotion-gate).
 
 - [ ] Define production shell, persistence, analytics, privacy, and account requirements from validated use.
 - [ ] Promote stable Atlas, Studio, and Observatory primitives.
@@ -120,12 +132,11 @@ Exit: the production experience expresses the accepted doctrine without dependin
 
 ## Immediate next work
 
-1. Approve the “One operation, three worlds” slice as the implementation target.
-2. Choose the primary opening case and the fourth-context transfer problem.
-3. Review the finance case and formula language with domain expertise.
-4. Specify the minimal world-graph and evidence-state data models.
-5. Scaffold the isolated `src/world/` prototype and experimental route.
-6. Build the Studio mathematical model before the surrounding shell.
+1. Run five to eight moderated sessions with motivated adults across the three entry goals.
+2. Run external engineering/ML/finance review, with particular attention to the finance assumptions and normalised-similarity language.
+3. Re-contact learners after the seven-day return interval and record independent, cued, and restudy retrieval separately.
+4. Use observed blocking moves to select the first neighbouring territory Studio.
+5. Write the continue/revise/reject decision before promoting or replacing any legacy route.
 
 ## Decision discipline
 

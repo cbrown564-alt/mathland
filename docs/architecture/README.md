@@ -54,6 +54,8 @@ src/world/
 
 This is a bounded prototype namespace, not a commitment to a final package layout. Learner evidence may change it.
 
+The research build now implements this boundary. Its shared mathematical model lives in `studio/`; domain meaning and assumptions live in `cases/`; the territory graph, evidence store, and detour return contract remain independent. The prototype route is lazy-loaded, does not inherit `AppShell`, and does not wait for legacy lesson-data initialisation.
+
 ## Prototype route
 
 Expose the first slice through an explicitly experimental route such as:
@@ -137,3 +139,17 @@ New `src/world/` code should be included in strict typechecking and focused test
 ## Migration rule
 
 Build beside the legacy application, validate, and then replace deliberately. Do not refactor the old shell into the new architecture by gradual renaming.
+
+## Production promotion gate
+
+Do not redirect a production route until the written slice decision is “continue” and the replacement territory has passed the relevant learner and domain review. At that point, production design must be derived from observed use and explicitly cover:
+
+- **shell:** active goal, Atlas access, exact resume point, predictable help, and no competing global chrome;
+- **persistence:** replaceable evidence-store interface, schema migration, corrupt-state recovery, export/deletion, and cross-device policy;
+- **analytics:** consented, minimised evidence events with documented purpose and retention; no page-view-as-mastery metric;
+- **privacy and accounts:** anonymous-first prototype migration, lawful basis, age boundary, account deletion, and no sensitive free-text collection without need;
+- **content operations:** versioned territory/case data, domain sign-off, accessibility review, and rollback of a faulty case independently of the mathematical model;
+- **delivery:** preview and production environments, smoke and critical-journey gates, error/performance monitoring, rollback ownership, and a support route;
+- **legacy retirement:** territory-by-territory salvage decision, redirects, deletion window, and an archive record.
+
+Until these requirements are informed by learner evidence, an account system, cloud sync, broad analytics layer, or production shell would be premature architecture rather than Phase 4 completion.

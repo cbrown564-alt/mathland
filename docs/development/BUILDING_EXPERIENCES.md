@@ -109,3 +109,16 @@ npm run build
 ```
 
 Add focused tests for mathematical models, evidence transitions, keyboard operation, and the critical browser journey introduced by the work.
+
+## World territory authoring workflow
+
+For work under `src/world/`, keep the dependency direction explicit:
+
+1. Add or extend a pure mathematical model and test sign, scale, dimension, and undefined cases.
+2. Add the stable territory identity and graph relationships without domain nouns.
+3. Add case adapters containing units, assumptions, simplifications, and interpretation.
+4. Declare the learner action and descriptive evidence event before composing the screen.
+5. Define each diagnostic trigger, the smallest repair, and an exact return target with a focus destination.
+6. Add transfer and delayed retrieval prompts that can stand without the teaching context.
+7. Test pointer, touch, keyboard, explicit controls, readable alternatives, reduced motion, 320px layout, corrupt persistence, and reload.
+8. Record external domain review and learner observations before promoting a territory or selecting its neighbour.

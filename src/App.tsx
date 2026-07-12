@@ -18,6 +18,7 @@ const Experience = lazy(() => import("./core/pages/Experience"));
 const Tier2Gallery = lazy(() => import("./core/pages/Tier2Gallery"));
 const InteractiveGallery = lazy(() => import("./core/pages/InteractiveGallery"));
 const WorldMapPage = lazy(() => import("./core/pages/WorldMapPage"));
+const OneOperationThreeWorldsPage = lazy(() => import("./world/prototype/OneOperationThreeWorldsPage"));
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
         <AppShell>
           <Suspense fallback={<div className="p-8 text-center text-slate-500">Loading…</div>}>
             <Routes>
+              <Route path="/prototype/one-operation-three-worlds" element={<OneOperationThreeWorldsPage />} />
               <Route path="/" element={<Index />} />
               <Route path="/experience" element={<Experience />} />
               <Route path="/module/:moduleId" element={<ModulePage />} />

@@ -2,7 +2,8 @@
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
     "noUnusedLocals": false,
-    "noUnusedParameters": false
+    "noUnusedParameters": false,
+    "types": ["jest", "@testing-library/jest-dom"]
   },
   "include": [
     "src/vite-env.d.ts",
@@ -11,5 +12,7 @@
     "src/interactive/components/vera_linear_combination.tsx",
     "src/interactive/components/vera_forest_mapping.tsx",
     "src/interactive/utils/**/*.ts"
+    ,"src/world/**/*.ts"
+    ,"src/world/**/*.tsx"
   ]
 }

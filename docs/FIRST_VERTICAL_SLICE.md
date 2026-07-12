@@ -2,6 +2,8 @@
 
 Status: **recommended first prototype**.
 
+Implementation status: **integrated research build available** at `/prototype/one-operation-three-worlds`.
+
 The first vertical slice will use the dot product to test the entire Atlas–Studio–Observatory architecture with the primary adult audience.
 
 ## Product hypothesis
@@ -154,7 +156,21 @@ Observed failures should change the architecture or content contract before broa
 
 ## Immediate decisions
 
-- Choose the primary opening case for the first research build.
-- Review the finance case with appropriate domain expertise.
-- Define the smallest fourth-context transfer problem.
-- Decide the prototype route and isolated source namespace described in [architecture/README.md](architecture/README.md).
+- **Primary opening:** engineering work, because sign, units, angle, and projection are physically inspectable without pretending the three domain meanings are interchangeable.
+- **Cross-domain transfer:** a one-period two-asset weighted return with explicit fixed-weight, realised-return, no-fees, and no-advice boundaries.
+- **Delayed fourth context:** a three-sensor climate exposure index, chosen to test structural recognition without reusing the three opening stories.
+- **Prototype boundary:** `src/world/` at `/prototype/one-operation-three-worlds`, outside the legacy shell and legacy content initialisation.
+- **Retrieval interval:** seven days; the prompt can be previewed during research facilitation, but preview evidence must not be reported as delayed retention.
+
+## Research-build verification
+
+The implementation includes pure-model tests for component and geometric calculations, evidence-transition tests, corrupt-local-state recovery, detour return-state tests, component-level keyboard tests, and a complete Playwright journey through prediction, construction, detour, independent work, transfer, Atlas orientation, retrieval, and reload.
+
+Automated checks establish implementation reliability only. They do not answer the validation questions above. Before a continue decision, the research team must record:
+
+- participant goal and relevant prior experience without asking for a school level;
+- prediction, calculation, explanation, transfer, detour, return, and retrieval observations;
+- whether help was independent, cued, worked, or facilitator-supplied;
+- moments where domain language hid or revealed the stable operation;
+- accessibility/input path used and any blocked move;
+- external engineering, ML, and finance reviewer notes.
