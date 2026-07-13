@@ -18,6 +18,19 @@ export const dot = (a: readonly number[], b: readonly number[]): number => {
 export const magnitude = (vector: readonly number[]): number =>
   Math.sqrt(dot(vector, vector));
 
+export const normalise = (vector: readonly number[]): number[] | null => {
+  const length = magnitude(vector);
+  return length === 0 ? null : vector.map((value) => value / length);
+};
+
+export const projectionVector = (vector: Vector2, onto: Vector2): Vector2 | null => {
+  const denominator = dot(onto, onto);
+  if (denominator === 0) return null;
+  const scale = dot(vector, onto) / denominator;
+  const component = (value: number) => Object.is(value, -0) ? 0 : value;
+  return [component(onto[0] * scale), component(onto[1] * scale)];
+};
+
 export const clampComponent = (value: number, limit = 5): number =>
   Math.max(-limit, Math.min(limit, Number.isFinite(value) ? value : 0));
 

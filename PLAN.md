@@ -1,8 +1,8 @@
 # Mathland rebuild plan
 
-Status: **Phase 1 revision build complete; external review and learner retest gate active**. This plan implements the clean-sheet direction accepted on 12 July 2026 and incorporates the first round of vertical-slice feedback.
+Status: **Phase 2 research build complete; learner, assistive-technology, and external-review gates remain open**. This plan implements the clean-sheet direction accepted on 12 July 2026, the first learner revision, and the accepted adversarial integrity review.
 
-The isolated research build is available at `/prototype/one-operation-three-worlds`. Early reviews were mildly positive: the visual direction and active mathematical work have promise, but the slice is not yet strong or intuitive enough to justify expansion. The current decision is **revise and retest**. Automated implementation gates still pass; educational validation, delayed retrieval observation, and external domain review remain open.
+The isolated research build is available at `/prototype/one-operation-three-worlds`. The adversarial review found that the first revision fixed the investigation instrument but had not yet made “one operation across three worlds” a testable teaching claim. The accepted integrity issues and a bounded Phase 2 projection/normalisation expansion are now implemented. The learner gate is still closed: automated implementation evidence does not establish learning, delayed retrieval, assistive-technology usability, or domain validity.
 
 The goal is not to ship an improved version of the current application. The goal is to prove and then build an open mathematical world for motivated adults, using the Atlas–Studio–Observatory architecture.
 
@@ -94,6 +94,10 @@ The research record must still document participant count, goals, prior experien
 - [x] Prototype one complete field-specialist intervention in the slice, using Vera's vector lens plus purposeful illustration and optional audio with transcript and a complete non-media path.
 - [x] Add mathematical, evidence-transition, support-level, error-recovery, horizon-persistence, tour, transfer-framing, detour-return, keyboard, reduced-motion, responsive, and browser-journey tests for the revised experience.
 - [x] Run focused automated accessibility QA at 320 CSS pixels and across desktop/mobile journeys.
+- [x] Resolve the accepted adversarial integrity issues: match recorded support to the recovery ladder; require positive, zero, and negative construction; make horizon choice load real case adapters; ask what the scalar measures in each Observatory system; add live projection; make both vectors operable without false slider semantics; preserve pointer release; add geometry-to-components work and criterion-based explanation; replace the conflicting Vera metaphor with an engineering projection lens; make the tour optional at entry; explain disabled progression; remove retrieval exit traps; and prevent blank numeric fields from passing as zero.
+- [x] Add an evidence-bearing AI normalisation Studio so “three worlds” is mathematical work rather than Observatory copy plus finance transfer.
+- [x] Replace the single hard-coded worksheet with four diagnosed repair types: vector components, signed arithmetic, angle/cosine, and weighted sums/units, each with exact task and focus return.
+- [x] Make the Atlas operable for the implemented dot-product, normalisation, and projection Studios while leaving future territories honestly unavailable.
 - [ ] Complete assistive-technology review and external engineering/ML/finance review before the next learner round.
 - [ ] Retest the revised slice with representative motivated adults, then re-contact the relevant cohort after seven days for delayed retrieval.
 
@@ -128,7 +132,7 @@ Candidate neighbouring territories:
 
 Work should expand from observed learner needs in Phase 1, not from the order of the legacy Module 2 curriculum.
 
-**Gate:** no neighbouring Studio expansion begins while the Phase 1 revision cycle is active. The current feedback concerns the quality of the core experience, not a lack of territories.
+**Gate:** the learner gate remains closed. The requested Phase 2 work is a bounded research-prototype expansion chosen directly from the adversarial evidence—live projection and practised normalisation—not permission to expand the curriculum, promote production routes, or claim that Phase 1 has passed.
 
 Repository foundations now present:
 
@@ -136,9 +140,9 @@ Repository foundations now present:
 - [x] Evidence and route contracts separated from the legacy lesson/progress schemas.
 - [x] A case-adapter pattern around one shared dot-product model.
 - [x] A documented world authoring workflow and strict type/test boundary.
-- [ ] Expansion into the next neighbouring Studio, selected from observed learner need rather than speculation.
+- [x] Expand into the next neighbouring Studios selected from observed need: magnitude/normalisation and projection. Both use pure models, descriptive evidence, diagnostic return, keyboard/touch-compatible controls, readable alternatives, and browser journeys.
 
-Exit: a stable territory schema, evidence model, authoring workflow, and tested path through several connected ideas.
+Implementation exit: a stable territory schema, evidence model, authoring workflow, and automated path through dot product, normalisation, and projection. Educational exit remains contingent on the Phase 1 learner, assistive-technology, delayed-retrieval, and external-review evidence.
 
 ## Phase 3 — Add domain journeys
 
@@ -182,9 +186,9 @@ Exit: the production experience expresses the accepted doctrine without dependin
 ## Immediate next work
 
 1. Attach participant-level source records from the initial sessions so the provisional research record can distinguish widespread, cohort-specific, and facilitator-dependent observations.
-2. Complete assistive-technology and external engineering/ML/finance review.
-3. Run the revised learner round and seven-day retrieval follow-up, recording independent, cued, compared, worked, restudied, deferred, and substituted evidence separately.
-4. Write the continue/revise-again/reject decision before selecting a neighbouring territory or promoting any production route.
+2. Complete assistive-technology and external engineering/ML/finance review of the integrated Phase 1–2 research build.
+3. Run the revised learner round and seven-day retrieval follow-up, recording independent, observed, cued, compared, worked, restudied, deferred, and substituted evidence separately.
+4. Write the continue/revise-again/reject decision before any additional territory expansion or production promotion.
 
 ## Decision discipline
 

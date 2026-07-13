@@ -6,7 +6,9 @@ export const stepNames: Record<JourneyStep, string> = {
   observatory: "Notice",
   studio: "Construct",
   practice: "Calculate & explain",
+  normalisation: "Normalise",
   transfer: "Transfer",
   atlas: "Orient",
+  projection: "Project",
   retrieval: "Retrieve",
 };

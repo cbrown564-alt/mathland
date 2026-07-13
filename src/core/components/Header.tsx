@@ -6,6 +6,7 @@ import { getLessonOrderForModuleAsync } from "@/utils/lessonData";
 import { isLessonCompleted } from "@/core/hooks/useLessonProgress";
 import { modulesData } from "@/utils/modulesData";
 import { characters } from "@/utils/characterData";
+import { MathlandBrand } from "./MathlandBrand";
 
 function characterIdForName(name: string): string {
   return characters.find((c) => c.name === name || c.fullName === name)?.id ?? "ollie";
@@ -69,12 +70,7 @@ export const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 character-accent rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">M</span>
-            </div>
-            <span className="text-2xl font-bold text-slate-800">Mathland</span>
-          </Link>
+          <MathlandBrand />
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">

@@ -1,4 +1,4 @@
-import { componentExpression, dot, magnitude, readDotProduct } from "./dotProduct";
+import { componentExpression, dot, magnitude, normalise, projectionVector, readDotProduct } from "./dotProduct";
 
 describe("dot-product mathematical model", () => {
   test("calculates component and n-dimensional dot products", () => {
@@ -29,5 +29,16 @@ describe("dot-product mathematical model", () => {
     expect(reading.angleDegrees).toBeNull();
     expect(reading.projectionOfBOntoA).toBeNull();
     expect(magnitude([3, 4])).toBe(5);
+  });
+
+  test("normalises non-zero vectors and rejects a zero direction", () => {
+    expect(normalise([3, 4])).toEqual([0.6, 0.8]);
+    expect(normalise([0, 0])).toBeNull();
+  });
+
+  test("returns the live projection vector", () => {
+    expect(projectionVector([3, 2], [4, 0])).toEqual([3, 0]);
+    expect(projectionVector([-3, 2], [4, 0])).toEqual([-3, 0]);
+    expect(projectionVector([3, 2], [0, 0])).toBeNull();
   });
 });

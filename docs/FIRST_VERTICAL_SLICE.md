@@ -1,6 +1,6 @@
 # First vertical slice: one operation, three worlds
 
-Status: **Phase 1 revision implemented; learner and external-review gate open**.
+Status: **Accepted adversarial revisions implemented; learner and external-review gate remains closed**.
 
 Implementation status: **integrated research build available** at `/prototype/one-operation-three-worlds`.
 
@@ -50,7 +50,7 @@ Show three compact systems producing one number:
 - two small embedding vectors;
 - portfolio weights and returns.
 
-Ask what the number is measuring in each system and why changing direction or sign changes it. Reveal the shared component-wise operation only after the learner has predicted outcomes.
+Ask what the number is measuring in each system and why changing direction or sign changes it. Each system requires its own noticing response; one global sign question is insufficient. Reveal the shared component-wise operation only after the learner has identified all three meanings and predicted the sign consequence.
 
 ### 2. Studio — direction agreement
 
@@ -61,9 +61,9 @@ The learner manipulates two vectors and observes:
 - projection onto a chosen direction;
 - agreement between geometric and component calculations.
 
-Every draggable vector must also have keyboard and numeric controls.
+Every draggable vector must also have keyboard and numeric controls. Both vectors are operable. A two-dimensional handle must not claim one-dimensional slider semantics, and pointer capture must be released reliably.
 
-The revised instrument also requires purposeful comparison, exact input, extreme cases, reset and undo, a pinned comparison, and simultaneously readable geometric, component, symbolic, and contextual views. Routine orientation must leave the working object visible in the first viewport.
+The revised instrument also requires purposeful comparison, exact input, extreme cases, reset and undo, a pinned comparison, a live plotted projection, and simultaneously readable geometric, component, symbolic, and contextual views. The learner tests positive, zero, and negative geometry before Practice unlocks. Routine orientation must leave the working object visible in the first viewport.
 
 ### 3. Studio — formalisation with fading support
 
@@ -73,17 +73,22 @@ Sequence:
 2. a partially completed calculation;
 3. an independent calculation;
 4. a geometry-to-components translation;
-5. a components-to-context interpretation.
+5. a criterion-checked geometric explanation;
+6. a components-to-context interpretation.
 
 The formal spine includes the component definition, the geometric identity, assumptions for non-zero vectors, a derivation from the law of cosines, and the sign consequence. Calculation exposes each signed contribution. Explanation is checked against named reasoning criteria rather than text length.
 
-### 4. Cross-domain transfer
+### 4. AI normalisation
+
+Before finance transfer, the learner practises turning a non-zero vector into a unit vector and compares a raw dot product with a unit-vector dot product. The task must make magnitude sensitivity visible and require the learner to identify why cosine similarity needs normalisation.
+
+### 5. Cross-domain transfer
 
 Teach through one case, then require the learner to use the operation in a second. The case order can vary during research so the product does not confuse a particular story with the concept.
 
 Before finance, state why the domain changes, which operation remains fixed, the meanings and units of weights and realised returns, and all simplifying assumptions. Learners can defer finance without transfer evidence or a retrieval schedule.
 
-### 5. Atlas reveal
+### 6. Atlas reveal
 
 The Atlas shows the dot-product territory connecting:
 
@@ -95,7 +100,7 @@ The Atlas shows the dot-product territory connecting:
 - weighted combination;
 - later routes into matrices, optimisation, embeddings, and statistics.
 
-### 6. Diagnostic detour
+### 7. Diagnostic detour
 
 If learner actions reveal a gap, offer the smallest relevant Studio:
 
@@ -104,17 +109,17 @@ If learner actions reveal a gap, offer the smallest relevant Studio:
 - angle and cosine;
 - units and weighted sums.
 
-The original case remains visible in the route summary and resumes at the exact blocked move.
+The original case remains visible in the route summary and resumes at the exact blocked move with existing entries intact. Blank inputs never parse as zero. The diagnosed repair type is recorded honestly.
 
-### 7. Return loop
+### 8. Return loop
 
 After a delay, present a short problem from a domain the learner did not use during the main sequence. Record whether the structure is retrieved independently, with a cue, or only after restudy.
 
 Climate-model orientation occurs before the retrieval attempt. Cues are staged and recorded. If climate language blocks access, offer a mathematically equivalent quality-control context and record the substitution. Preview attempts never count as delayed retrieval.
 
-### 8. First-run and guide interventions
+### 9. First-run and guide interventions
 
-A five-to-seven-minute tour demonstrates the Studio loop, a harmless error, progressive help, evidence, and Atlas orientation. It is skippable and reopenable. Vera contributes one complete vector-lens intervention: a signed-projection diagram, optional short audio with transcript, and the same essential teaching through linked representations and formal text.
+A five-to-seven-minute tour demonstrates the Studio loop, a harmless error, progressive help, evidence, and Atlas orientation. It is optional at entry, skippable, and reopenable. Vera contributes one complete engineering vector-lens intervention: a signed-projection diagram, optional generated speech with an exact transcript, and the same essential teaching through linked representations and formal text.
 
 ## Atlas evidence
 
@@ -178,7 +183,7 @@ Observed failures should change the architecture or content contract before broa
 
 ## Research-build verification
 
-The revised implementation includes pure-model tests for component and geometric calculations; version migration and corrupt-local-state recovery; evidence and support transitions; exact detour return; horizon persistence; tour completion and reopening; vector keyboard, explicit-control, comparison, reset, and undo paths; progressive error recovery; transfer framing and deferment; retrieval orientation, cueing, preview semantics, and substitution; reduced-motion and narrow-screen behavior; accessibility scans; and desktop/mobile browser journeys.
+The revised implementation includes pure-model tests for component, normalisation, and projection calculations; version migration and corrupt-local-state recovery; evidence and support transitions; four diagnostic detour types with exact return; horizon persistence and real case adapters; optional tour entry, completion, and reopening; two-vector keyboard, numeric, pointer/touch capture-release, comparison, reset, and undo paths; progressive error recovery; Observatory noticing in all three systems; geometry-to-components and explanation criteria; transfer framing and deferment; retrieval orientation, cueing, preview semantics, substitution, and exit; reduced-motion and 320px behavior; automated accessibility scans; and desktop/mobile browser journeys.
 
 Automated checks establish implementation reliability only. They do not answer the validation questions above. Before a continue decision, the research team must record:
 

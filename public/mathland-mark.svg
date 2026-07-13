@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc" shape-rendering="geometricPrecision">
+  <title id="title">Mathland</title>
+  <desc id="desc">A cobalt open orbit around a black central node, with a smaller orange node in the opening.</desc>
+  <path d="M46.11 12.58A24 24 0 1 0 55.64 27.83" fill="none" stroke="#2046A3" stroke-linecap="round" stroke-width="4"/>
+  <circle cx="32" cy="32" r="5.5" fill="#090909"/>
+  <circle cx="50.24" cy="19.7" r="4" fill="#F56A12"/>
+</svg>

@@ -24,7 +24,13 @@ export const makeEvidence = (
 ): EvidenceEvent => ({
   id: `${now.getTime()}-${kind}-${Math.random().toString(36).slice(2, 8)}`,
   kind,
-  territoryId: kind.startsWith("detour") ? "components" : "dot-product",
+  territoryId: kind.startsWith("detour")
+    ? "components"
+    : kind === "normalised"
+      ? "magnitude-angle"
+      : kind === "projected"
+        ? "projection"
+        : "dot-product",
   at: now.toISOString(),
   detail,
   support,

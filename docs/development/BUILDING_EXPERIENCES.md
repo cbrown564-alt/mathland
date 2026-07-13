@@ -9,6 +9,8 @@ Read, in order:
 3. [Content strategy](../CONTENT_STRATEGY.md)
 4. [First vertical slice](../FIRST_VERTICAL_SLICE.md)
 
+For page composition and visual QA, also use [Hierarchy, rhythm, and pacing in Mathland experiences](HIERARCHY_RHYTHM_AND_PACING.md). It records the practical layout lessons from the dot-product vertical slice without introducing a new product direction.
+
 ## Start from a learner capability
 
 Before building a surface, write:

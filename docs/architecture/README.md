@@ -54,7 +54,7 @@ src/world/
 
 This is a bounded prototype namespace, not a commitment to a final package layout. Learner evidence may change it.
 
-The research build now implements this boundary. Its shared mathematical model lives in `studio/`; domain meaning and assumptions live in `cases/`; the territory graph, evidence store, and detour return contract remain independent. The prototype route is lazy-loaded, does not inherit `AppShell`, and does not wait for legacy lesson-data initialisation.
+The research build now implements this boundary. Its shared mathematical model lives in `studio/`; real case adapters in `cases/` supply starting vectors, labels, units, boundaries, and contextual interpretation to the shared model; the territory graph, evidence store, and four-type diagnostic return contract remain independent. The prototype route is lazy-loaded, does not inherit `AppShell`, and does not wait for legacy lesson-data initialisation. Phase 2 adds operable normalisation and projection Studios without promoting the prototype into the legacy shell.
 
 ## Prototype route
 

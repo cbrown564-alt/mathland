@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { appendEvidence, createSnapshot, loadSnapshot, makeEvidence, saveSnapshot, scheduleRetrieval } from "../evidence/evidenceStore";
-import { beginSignedComponentsDetour, resolveDetour } from "../detours/routeState";
-import { DomainId, EvidenceEvent, EvidenceKind, JourneyStep, ReturnTarget, WorldSnapshot } from "../types/world";
+import { beginDetour, resolveDetour } from "../detours/routeState";
+import { DetourId, DomainId, EvidenceEvent, EvidenceKind, JourneyStep, ReturnTarget, WorldSnapshot } from "../types/world";
 
 export interface WorldJourney {
   snapshot: WorldSnapshot;
@@ -10,7 +10,7 @@ export interface WorldJourney {
   setTourStatus: (status: WorldSnapshot["tourStatus"]) => void;
   goTo: (step: JourneyStep) => void;
   record: (kind: EvidenceKind, detail?: string, support?: EvidenceEvent["support"]) => void;
-  startDetour: (target: ReturnTarget) => void;
+  startDetour: (id: DetourId, target: ReturnTarget) => void;
   finishDetour: () => ReturnTarget | null;
   reset: () => void;
 }
@@ -49,10 +49,10 @@ export const useWorldJourney = (): WorldJourney => {
     setTourStatus: (tourStatus) => mutate((current) => ({ ...current, tourStatus })),
     goTo: (step) => mutate((current) => ({ ...current, step })),
     record,
-    startDetour: (target) => mutate((current) => ({
+    startDetour: (id, target) => mutate((current) => ({
       ...current,
-      detour: beginSignedComponentsDetour(target),
-      evidence: appendEvidence(current.evidence, makeEvidence("detour_started", target.prompt)),
+      detour: beginDetour(id, target),
+      evidence: appendEvidence(current.evidence, makeEvidence("detour_started", `${id}: ${target.prompt}`)),
     })),
     finishDetour: () => {
       if (!snapshot.detour) return null;

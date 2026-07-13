@@ -1,5 +1,21 @@
 import { DomainCase, DomainId } from "../types/world";
 
+export interface StudioCaseAdapter {
+  domain: Exclude<DomainId, "climate">;
+  title: string;
+  task: string;
+  firstLabel: string;
+  secondLabel: string;
+  scalarLabel: string;
+  units: string;
+  startA: readonly [number, number];
+  startB: readonly [number, number];
+  positiveMeaning: string;
+  zeroMeaning: string;
+  negativeMeaning: string;
+  boundary: string;
+}
+
 export const cases: Record<DomainId, DomainCase> = {
   engineering: {
     id: "engineering",
@@ -53,4 +69,52 @@ export const horizonNames: Record<Exclude<DomainId, "climate">, string> = {
   engineering: "Understand physical systems",
   ai: "Understand intelligent systems",
   finance: "Reason about portfolios",
+};
+
+export const studioCaseAdapters: Record<Exclude<DomainId, "climate">, StudioCaseAdapter> = {
+  engineering: {
+    domain: "engineering",
+    title: "Force along displacement",
+    task: "Change force and displacement to test how much force lies along the motion.",
+    firstLabel: "s",
+    secondLabel: "F",
+    scalarLabel: "F · s",
+    units: "joules",
+    startA: [4, 0],
+    startB: [3, 2],
+    positiveMeaning: "adds energy along the motion",
+    zeroMeaning: "transfers no energy along the motion",
+    negativeMeaning: "removes energy from the motion",
+    boundary: cases.engineering.assumption,
+  },
+  ai: {
+    domain: "ai",
+    title: "Direction agreement between embeddings",
+    task: "Change two unit-length meaning vectors, then test what breaks when magnitude is allowed to vary.",
+    firstLabel: "û",
+    secondLabel: "v̂",
+    scalarLabel: "û · v̂",
+    units: "similarity",
+    startA: [0.8, 0.6],
+    startB: [0.6, 0.8],
+    positiveMeaning: "points toward similar directions",
+    zeroMeaning: "has no directional similarity in this plane",
+    negativeMeaning: "points toward opposing directions",
+    boundary: cases.ai.assumption,
+  },
+  finance: {
+    domain: "finance",
+    title: "Weights against realised returns",
+    task: "Change weights and realised returns to inspect each signed contribution to the one-period total.",
+    firstLabel: "w",
+    secondLabel: "r",
+    scalarLabel: "w · r",
+    units: "return",
+    startA: [0.7, 0.3],
+    startB: [0.08, -0.02],
+    positiveMeaning: "produces a positive realised return",
+    zeroMeaning: "nets to zero realised return",
+    negativeMeaning: "produces a negative realised return",
+    boundary: cases.finance.assumption,
+  },
 };

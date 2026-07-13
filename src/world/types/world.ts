@@ -6,8 +6,10 @@ export type JourneyStep =
   | "observatory"
   | "studio"
   | "practice"
+  | "normalisation"
   | "transfer"
   | "atlas"
+  | "projection"
   | "retrieval";
 
 export type EvidenceKind =
@@ -17,6 +19,8 @@ export type EvidenceKind =
   | "supported"
   | "independent"
   | "explained"
+  | "normalised"
+  | "projected"
   | "transferred"
   | "retrieved"
   | "tour_completed"
@@ -68,6 +72,8 @@ export interface DomainCase {
   vectors: { a: number[]; b: number[] };
 }
 
+export type DetourId = "vector-components" | "signed-arithmetic" | "angle-cosine" | "weighted-sums";
+
 export interface ReturnTarget {
   step: JourneyStep;
   focusId: string;
@@ -75,7 +81,7 @@ export interface ReturnTarget {
 }
 
 export interface DetourState {
-  id: "signed-components";
+  id: DetourId;
   reason: string;
   origin: ReturnTarget;
   startedAt: string;

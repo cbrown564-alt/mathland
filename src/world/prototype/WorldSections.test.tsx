@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { PracticeSection, RetrievalSection, TourSection, TransferSection } from "./WorldSections";
+import { ObservatorySection, PracticeSection, RetrievalSection, TourSection, TransferSection, VeraIntervention } from "./WorldSections";
 
 describe("revised world learning contracts", () => {
   test("the first-run tour is skippable and completes only after all six moves", () => {
@@ -38,10 +38,42 @@ describe("revised world learning contracts", () => {
     expect(onRecord).toHaveBeenCalledWith("attempted", expect.stringContaining("8, -3, 5"), "none");
   });
 
+  test("records the recovery support level that was actually shown", () => {
+    const onRecord = jest.fn();
+    render(<PracticeSection events={[]} onRecord={onRecord} onDetour={jest.fn()} onContinue={jest.fn()} />);
+    fireEvent.change(screen.getByLabelText("First matched product"), { target: { value: "8" } });
+    fireEvent.change(screen.getByLabelText("Second matched product"), { target: { value: "-3" } });
+    fireEvent.change(screen.getByLabelText("Net dot product"), { target: { value: "5" } });
+    fireEvent.click(screen.getByRole("button", { name: "Check all three values" }));
+    fireEvent.change(screen.getByLabelText("First matched product"), { target: { value: "-8" } });
+    fireEvent.change(screen.getByLabelText("Net dot product"), { target: { value: "-11" } });
+    fireEvent.click(screen.getByRole("button", { name: "Check all three values" }));
+    expect(onRecord).toHaveBeenCalledWith("supported", expect.stringContaining("Calculation"), "observation");
+  });
+
+  test("Observatory requires noticing in all three systems before handoff", () => {
+    const onContinue = jest.fn();
+    render(<ObservatorySection predicted={false} onPredict={jest.fn()} onContinue={onContinue} />);
+    const continueButton = screen.getByRole("button", { name: /Test the claim in the Studio/ });
+    expect(continueButton).toBeDisabled();
+    fireEvent.click(screen.getByLabelText(/Energy transferred/));
+    fireEvent.click(screen.getByLabelText(/Direction similarity/));
+    fireEvent.click(screen.getByLabelText(/Weighted realised return/));
+    fireEvent.click(screen.getByRole("button", { name: "It becomes negative" }));
+    expect(continueButton).toBeEnabled();
+  });
+
+  test("Vera uses her baked ElevenLabs voice with an accessible transcript", () => {
+    const { container } = render(<VeraIntervention />);
+    expect(screen.getByText(/Vera voice · ElevenLabs/)).toBeInTheDocument();
+    expect(screen.getByText(/Read transcript/)).toBeInTheDocument();
+    expect(container.querySelector("audio source")).toHaveAttribute("src", "/audio/world/vera-projection-lens.mp3");
+  });
+
   test("finance can be deferred without recording transfer", () => {
     const onTransfer = jest.fn();
     const onDefer = jest.fn();
-    render(<TransferSection events={[]} onTransfer={onTransfer} onDefer={onDefer} onContinue={jest.fn()} />);
+    render(<TransferSection events={[]} onTransfer={onTransfer} onDefer={onDefer} onDetour={jest.fn()} onContinue={jest.fn()} />);
     fireEvent.click(screen.getByRole("button", { name: /Defer finance/ }));
     expect(onDefer).toHaveBeenCalled();
     expect(onTransfer).not.toHaveBeenCalled();

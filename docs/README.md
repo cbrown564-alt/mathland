@@ -15,6 +15,7 @@ The active documentation set is intentionally small and expresses one product di
 
 - [Current and target technical architecture](architecture/README.md)
 - [Building new experiences](development/BUILDING_EXPERIENCES.md)
+- [Hierarchy, rhythm, and pacing implementation guide](development/HIERARCHY_RHYTHM_AND_PACING.md)
 - [Legacy curriculum salvage inventory](lessons_list.md)
 - [Visual direction board](../design/mathland-clean-sheet-directions.html)
 
