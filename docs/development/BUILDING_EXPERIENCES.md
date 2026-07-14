@@ -61,7 +61,7 @@ Observatory components must reveal a phenomenon that materially benefits from st
 
 ## Reuse policy
 
-Existing code in `src/interactive/`, `src/tier2/`, and the lesson renderers may be mined for mathematical logic or visual primitives. Reuse is appropriate only when it:
+Archived code under `archive/legacy-product/src/` may be mined for mathematical logic or visual primitives. Reuse is appropriate only when it:
 
 - fits the new interaction and evidence contract;
 - is easier to make accessible than to replace;
@@ -71,17 +71,17 @@ Existing code in `src/interactive/`, `src/tier2/`, and the lesson renderers may 
 
 Prefer extracting a small model or renderer over wrapping an entire legacy page.
 
-## Prototype isolation
+## Production isolation and promotion
 
-Until the first vertical slice is validated:
+The first region is promoted. New territory work must:
 
-- place new product code under `src/world/`;
-- expose it through an explicitly experimental route such as `/prototype/one-operation-three-worlds`;
-- do not replace production routes or migrate lessons in bulk;
+- remain under `src/world/` and import only through reviewed world boundaries;
+- stay out of available production Atlas paths until its own validation gate passes;
+- avoid lesson migration in bulk;
 - keep its data model independent of the old eight-section and beat schemas;
-- use adapters when reading legacy content or interactives.
+- extract archived material into world models or adapters rather than importing the archive.
 
-The proposed namespace is documented in [../architecture/README.md](../architecture/README.md).
+The production namespace and gate are documented in [../architecture/README.md](../architecture/README.md).
 
 ## Review checklist
 
@@ -108,6 +108,7 @@ npm run typecheck
 npm run validate:content
 npm run test
 npm run build
+npm run check:production
 ```
 
 Add focused tests for mathematical models, evidence transitions, keyboard operation, and the critical browser journey introduced by the work.

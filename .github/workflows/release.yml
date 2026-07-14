@@ -1,0 +1,31 @@
+name: Release artifact
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: npm
+      - run: npm ci
+      - run: npm run quality
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - name: Build immutable container
+        run: docker build --tag mathland:${{ github.sha }} .
+      - name: Archive static release
+        uses: actions/upload-artifact@v4
+        with:
+          name: mathland-${{ github.sha }}
+          path: dist/
+          if-no-files-found: error

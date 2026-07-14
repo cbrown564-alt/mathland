@@ -22,7 +22,7 @@ Mathland helps adults acquire mathematical power for a harder thing they already
 
 Success is not page completion. A successful learner can orient themselves, make and revise a mathematical move, explain why it works, recognise the structure in another setting, recover from a prerequisite gap without shame, and retrieve the idea later.
 
-The first vertical slice—one dot product across engineering work, AI similarity, portfolio return, and later retrieval—has received mildly positive early reviews. Its visual direction is promising, but the next iteration must treat flow clarity, interaction depth, transfer framing, error recovery, onboarding, and multimodal teaching as core product work rather than polish.
+The first vertical slice—one dot product across engineering work, AI similarity, portfolio return, and later retrieval—was revised around flow clarity, interaction depth, transfer framing, error recovery, onboarding, and multimodal teaching. Its learner, accessibility, retrieval, domain, and multi-journey gates were signed off, and the bounded world became the production product on 13 July 2026. The active product question is which connected territory observed learner need justifies promoting next without weakening the validated learning loop.
 
 ## Positioning
 

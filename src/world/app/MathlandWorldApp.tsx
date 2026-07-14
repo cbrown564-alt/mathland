@@ -1,18 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { cases, horizonNames, primaryDomains, studioCaseAdapters } from "../cases/cases";
 import { deriveAtlasState } from "../evidence/evidenceStore";
-import { VectorLab } from "../studio/VectorLab";
+import { AtlasSection } from "../atlas";
+import { ObservatorySection } from "../observatory";
+import { VectorLab } from "../studio";
 import { JourneyStep } from "../types/world";
 import { useWorldJourney } from "./useWorldJourney";
-import { AtlasSection, EntrySection, ObservatorySection, PracticeSection, RetrievalSection, TourSection, TransferSection, VeraIntervention } from "./WorldSections";
+import { EntrySection, PracticeSection, RetrievalSection, TourSection, TransferSection, VeraIntervention } from "./WorldSections";
 import { DiagnosticDetour } from "./DiagnosticDetour";
 import { NormalisationSection, ProjectionStudio } from "./AdjacentStudios";
 import { stepNames } from "./journeySteps";
+import { JourneyDataDialog } from "./JourneyDataDialog";
 import "./world.css";
 
 const progressSteps: JourneyStep[] = ["observatory", "studio", "practice", "normalisation", "transfer", "atlas", "retrieval"];
 
-const OneOperationThreeWorldsPage = () => {
+const MathlandWorldApp = () => {
   const journey = useWorldJourney();
   const { snapshot } = journey;
   const [atlasReturn, setAtlasReturn] = useState<JourneyStep>(snapshot.step === "atlas" ? "studio" : snapshot.step);
@@ -20,6 +23,8 @@ const OneOperationThreeWorldsPage = () => {
   const mainRef = useRef<HTMLElement>(null);
   const detourFocusRef = useRef<string | null>(null);
   const horizonDialogRef = useRef<HTMLDialogElement>(null);
+  const dataDialogRef = useRef<HTMLDialogElement>(null);
+  const [legacyRoute, setLegacyRoute] = useState(() => new URLSearchParams(window.location.search).get("from"));
   const evidenceState = deriveAtlasState(snapshot.evidence, snapshot.retrievalDueAt);
   const predicted = snapshot.evidence.some((event) => event.kind === "predicted");
   const relationEvents = snapshot.evidence.filter((event) => event.kind === "constructed").map((event) => event.detail ?? "");
@@ -29,7 +34,7 @@ const OneOperationThreeWorldsPage = () => {
 
   useEffect(() => {
     const previousTitle = document.title;
-    document.title = "One operation, three worlds · Mathland";
+    document.title = "Mathland · One operation across three worlds";
     return () => { document.title = previousTitle; };
   }, []);
 
@@ -101,18 +106,20 @@ const OneOperationThreeWorldsPage = () => {
   return <div className="world-root">
     <a className="world-skip-link" href="#world-main">Skip to current mathematical task</a>
     <header className="world-header">
-      <a className="world-wordmark" href="/prototype/one-operation-three-worlds" aria-label="Mathland prototype home"><i aria-hidden="true">∴</i><span>MATHLAND<small>OPEN MATHEMATICAL WORLD</small></span></a>
+      <a className="world-wordmark" href="/" aria-label="Mathland home"><i aria-hidden="true">∴</i><span>MATHLAND<small>OPEN MATHEMATICAL WORLD</small></span></a>
       <button className="world-goal-chip" type="button" onClick={() => horizonDialogRef.current?.showModal()}><span>Horizon</span><strong>{horizonNames[snapshot.activeGoal]}</strong><small>Change</small></button>
-      <nav aria-label="Prototype navigation"><button type="button" onClick={openAtlas} aria-current={snapshot.step === "atlas" ? "page" : undefined}>Atlas</button><button type="button" onClick={openTour}>Help & tour</button><button type="button" className="world-evidence-chip" onClick={openAtlas}><i />{evidenceState.replace(/-/g, " ")}</button></nav>
+      <nav aria-label="Mathland navigation"><button type="button" onClick={openAtlas} aria-current={snapshot.step === "atlas" ? "page" : undefined}>Atlas</button><button type="button" onClick={openTour}>Help & tour</button><button type="button" onClick={() => dataDialogRef.current?.showModal()}>Data</button><button type="button" className="world-evidence-chip" onClick={openAtlas}><i />{evidenceState.replace(/-/g, " ")}</button></nav>
     </header>
+    {legacyRoute && <div className="world-migration-notice" role="status"><p><strong>Your old route has retired.</strong> You are now in the validated mathematical world; any saved world journey is still here.</p><button type="button" onClick={() => { setLegacyRoute(null); window.history.replaceState({}, "", "/"); }}>Dismiss</button></div>}
     {progressSteps.includes(snapshot.step) && <nav className="world-progress-shell" aria-label="Learning journey progress"><strong>{stepNames[snapshot.step]}</strong><ol>{progressSteps.slice(0, 6).map((step, index) => <li key={step} className={step === snapshot.step ? "is-current" : index < currentProgress ? "is-reached" : ""}><span aria-hidden="true" /><b>{stepNames[step]}</b></li>)}</ol></nav>}
     <main id="world-main" ref={mainRef} tabIndex={-1}>
       <div hidden={Boolean(snapshot.detour)}>{currentSection}</div>
       {snapshot.detour && <DiagnosticDetour id={snapshot.detour.id} prompt={snapshot.detour.origin.prompt} onFinish={finishDetour} />}
     </main>
-    <footer className="world-footer"><p><b>Research prototype.</b> Evidence stays in this browser and describes actions and support—not mastery.</p><button type="button" onClick={() => { if (window.confirm("Clear this prototype journey and local evidence?")) journey.reset(); }}>Reset local journey</button></footer>
+    <footer className="world-footer"><p><b>Anonymous by default.</b> Evidence stays in this browser and describes actions and support—not mastery.</p><nav aria-label="Product information"><a href="/privacy">Privacy</a><a href="/support">Support</a><button type="button" onClick={() => dataDialogRef.current?.showModal()}>Manage data</button></nav></footer>
     <dialog ref={horizonDialogRef} className="world-horizon-dialog" aria-labelledby="horizon-dialog-title"><form method="dialog"><div><p className="world-local-label">Deliberate route change</p><h2 id="horizon-dialog-title">Change your active horizon</h2><p>Your current Studio work, evidence, detour, and return point will be preserved.</p></div><div className="world-dialog-options">{primaryDomains.map((domain) => <button type="submit" key={domain} className={snapshot.activeGoal === domain ? "is-active" : ""} onClick={() => journey.chooseHorizon(domain)}><strong>{horizonNames[domain]}</strong><span>{cases[domain].formula}</span></button>)}</div><button className="world-quiet-action" type="submit">Keep current horizon</button></form></dialog>
+    <JourneyDataDialog ref={dataDialogRef} snapshot={snapshot} onRestore={journey.restore} onDelete={journey.reset} />
   </div>;
 };
 
-export default OneOperationThreeWorldsPage;
+export default MathlandWorldApp;

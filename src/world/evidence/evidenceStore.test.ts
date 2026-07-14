@@ -1,4 +1,4 @@
-import { appendEvidence, createSnapshot, deriveAtlasState, LEGACY_WORLD_STORAGE_KEY, loadSnapshot, makeEvidence, RETRIEVAL_DELAY_MS, scheduleRetrieval, WORLD_STORAGE_KEY } from "./evidenceStore";
+import { appendEvidence, createSnapshot, deriveAtlasState, LEGACY_WORLD_STORAGE_KEY, loadSnapshot, makeEvidence, parseWorldExport, PROTOTYPE_WORLD_STORAGE_KEY, removeSnapshot, RETRIEVAL_DELAY_MS, scheduleRetrieval, serialiseWorldExport, WORLD_STORAGE_KEY } from "./evidenceStore";
 
 describe("world evidence store", () => {
   const now = new Date("2026-07-12T12:00:00.000Z");
@@ -40,7 +40,24 @@ describe("world evidence store", () => {
       detour: null, retrievalDueAt: null, updatedAt: now.toISOString(),
     };
     const storage = { getItem: jest.fn((key: string) => key === LEGACY_WORLD_STORAGE_KEY ? JSON.stringify(legacy) : null) };
-    expect(loadSnapshot(storage, now)).toMatchObject({ version: 2, activeGoal: "ai", step: "practice", tourStatus: "skipped", horizonChosenAt: now.toISOString() });
+    expect(loadSnapshot(storage, now)).toMatchObject({ version: 3, activeGoal: "ai", step: "practice", tourStatus: "skipped", horizonChosenAt: now.toISOString() });
+  });
+
+  test("migrates the signed-off prototype journey into the production schema", () => {
+    const prototype = { ...createSnapshot(now), version: 2, activeGoal: "finance", step: "atlas" };
+    const storage = { getItem: jest.fn((key: string) => key === PROTOTYPE_WORLD_STORAGE_KEY ? JSON.stringify(prototype) : null) };
+    expect(loadSnapshot(storage, now)).toMatchObject({ version: 3, activeGoal: "finance", step: "atlas" });
+  });
+
+  test("exports, validates, and deletes a portable production journey", () => {
+    const snapshot = { ...createSnapshot(now), activeGoal: "ai" as const, step: "normalisation" as const };
+    expect(parseWorldExport(serialiseWorldExport(snapshot, now))).toEqual(snapshot);
+    expect(() => parseWorldExport(JSON.stringify({ format: "something-else", snapshot }))).toThrow(/supported Mathland/);
+    const storage = { removeItem: jest.fn() };
+    removeSnapshot(storage);
+    expect(storage.removeItem).toHaveBeenCalledWith(WORLD_STORAGE_KEY);
+    expect(storage.removeItem).toHaveBeenCalledWith(PROTOTYPE_WORLD_STORAGE_KEY);
+    expect(storage.removeItem).toHaveBeenCalledWith(LEGACY_WORLD_STORAGE_KEY);
   });
 
   test("keeps supported completion distinct from independent evidence", () => {

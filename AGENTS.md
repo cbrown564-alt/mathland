@@ -4,7 +4,7 @@ Guidance for agents working in this repository.
 
 ## Product mandate
 
-Mathland is being rebuilt from first principles as an **open mathematical world for motivated adults** relearning mathematics to reach physics, engineering, machine learning, AI, or finance.
+Mathland is an **open mathematical world for motivated adults** relearning mathematics to reach physics, engineering, machine learning, AI, or finance. The validated first region is now the production product.
 
 Do not assume the previous application shell, module navigation, section-based lessons, or Lesson v2 experience is good enough to improve incrementally. Those surfaces are legacy implementation. Existing content, characters, interactives, and mathematical models are raw material that must earn reuse.
 
@@ -34,25 +34,24 @@ Material under `docs/archive/` is historical and non-authoritative.
 
 ## Immediate product scope
 
-The first vertical slice is **One operation, three worlds**: the dot product through engineering work, AI similarity, and portfolio return. It must test a small Atlas region, an Observatory opening, a Studio learning loop, a diagnostic detour, cross-domain transfer, and later retrieval.
+The promoted first region is **One operation, three worlds**: the dot product through engineering work, AI similarity, and portfolio return. It includes a small Atlas region, an Observatory opening, a Studio learning loop, diagnostic detours, cross-domain transfer, and later retrieval.
 
-Do not rebuild the general shell, migrate all lessons, or expand every character before this slice is validated with the primary learner group.
+Do not restore the retired shell, migrate all lessons, or expand every character. New territories must pass their own learner, domain, accessibility, content-operation, and rollback gate.
 
 ## Current versus target code
 
-Current legacy boundaries:
+Production boundary:
 
-- `src/core/` — application shell, pages, renderers, hooks, and shared UI
-- `src/content/lessons/` — 96 section-based lesson files
-- `src/content/beats/` — frozen Module 2 beat-format experiment
-- `src/interactive/` — mathematical interactives and reusable models
-- `src/tier2/` — legacy visual templates
+- `src/world/` — production Atlas, Studio, Observatory, application, case, detour, evidence, operations, and type code
+- `/` — production world route
+- `docs/architecture/README.md` — production shell, persistence, analytics, privacy, account, content-operation, route, and delivery contracts
+- `docs/operations/PRODUCTION_RUNBOOK.md` — deployment, monitoring, rollback, and support procedures
 
-Target prototype boundary:
+Retired boundary:
 
-- `src/world/` — isolated Atlas, Studio, Observatory, case, detour, evidence, and prototype code
+- `archive/legacy-product/` — quarantined shell, lessons, beat experiment, interactives, templates, utilities, scripts, and unused runtime media
 
-New world data must not use the old lesson or progress schemas as its domain model. Extract useful logic through adapters.
+Production code must never import from the archive or use the old lesson/progress schemas as its domain model. Extract useful logic through reviewed world models and adapters.
 
 ## Development commands
 
@@ -69,6 +68,8 @@ npm run test:watch
 npm run test:coverage
 npm run test:ci
 npm run test:e2e
+npm run check:production
+npm run quality
 ```
 
 The Vite development server defaults to port 8080.
@@ -86,14 +87,14 @@ The Vite development server defaults to port 8080.
 - State domain assumptions, units, and simplifications accurately.
 - Test from 320 CSS pixels upward and support reduced motion, visible focus, touch, keyboard, and readable visual alternatives.
 
-## First-slice integration rules
+## Territory promotion rules
 
-1. Isolate new product work under `src/world/` and an explicit prototype route.
+1. Build new product work under `src/world/` behind stable Atlas, Studio, Observatory, case, evidence, and operations boundaries.
 2. Build the mathematical Studio model before surrounding shell work.
 3. Keep physics, AI, and finance meanings in case adapters around one shared dot-product model.
 4. Preserve the learner's motivating goal through prerequisite detours.
 5. Add mathematical, evidence-transition, detour-return, keyboard, and browser-journey tests.
-6. Do not replace production routes before learner validation.
+6. Do not expose a territory as production-ready before learner, domain, accessibility, content-operation, delivery, and rollback validation.
 
 ## Documentation discipline
 

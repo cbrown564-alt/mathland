@@ -7,12 +7,10 @@
   },
   "include": [
     "src/vite-env.d.ts",
-    "src/interactive/components/vera_vector_playground.tsx",
-    "src/interactive/components/vera_vector_arithmetic.tsx",
-    "src/interactive/components/vera_linear_combination.tsx",
-    "src/interactive/components/vera_forest_mapping.tsx",
-    "src/interactive/utils/**/*.ts"
-    ,"src/world/**/*.ts"
-    ,"src/world/**/*.tsx"
+    "src/App.tsx",
+    "src/main.tsx",
+    "src/setupTests.ts",
+    "src/world/**/*.ts",
+    "src/world/**/*.tsx"
   ]
 }

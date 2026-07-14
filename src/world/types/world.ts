@@ -88,7 +88,7 @@ export interface DetourState {
 }
 
 export interface WorldSnapshot {
-  version: 2;
+  version: 3;
   activeGoal: Exclude<DomainId, "climate">;
   horizonChosenAt: string | null;
   tourStatus: "not-started" | "in-progress" | "completed" | "skipped";

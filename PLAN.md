@@ -1,8 +1,8 @@
 # Mathland rebuild plan
 
-Status: **Phase 2 research build complete; learner, assistive-technology, and external-review gates remain open**. This plan implements the clean-sheet direction accepted on 12 July 2026, the first learner revision, and the accepted adversarial integrity review.
+Status: **Phases 1–4 complete; the validated world is the production product**. This plan implements the clean-sheet direction accepted on 12 July 2026, the first learner revision, the accepted adversarial integrity review, the Phase 1 continue decision, the Phase 3 journey sign-off, and the Phase 4 production promotion completed on 13 July 2026.
 
-The isolated research build is available at `/prototype/one-operation-three-worlds`. The adversarial review found that the first revision fixed the investigation instrument but had not yet made “one operation across three worlds” a testable teaching claim. The accepted integrity issues and a bounded Phase 2 projection/normalisation expansion are now implemented. The learner gate is still closed: automated implementation evidence does not establish learning, delayed retrieval, assistive-technology usability, or domain validity.
+The validated **One operation, three worlds** region is now the root production route. The former prototype URL and known legacy URLs redirect into it. The promoted application runs only from `src/world/`; the retired shell, lessons, interactives, templates, utilities, scripts, and unused media are quarantined under `archive/legacy-product/` and excluded from the release artifact.
 
 The goal is not to ship an improved version of the current application. The goal is to prove and then build an open mathematical world for motivated adults, using the Atlas–Studio–Observatory architecture.
 
@@ -76,7 +76,7 @@ Initial sessions found enough promise to continue, alongside material problems t
 - The absence of field specialists, illustration, audio, and video removes teaching modalities that should make difficult ideas clearer and the world more inhabited.
 - Reduced exposition cannot become reduced mathematical depth; the formal spine needs definitions, derivations, theorems, worked reasoning, and sustained explanation where appropriate.
 
-The research record must still document participant count, goals, prior experience, input/accessibility paths, support level, facilitator intervention, and exact blocking moves. Mildly positive feedback is a direction signal, not evidence of learning effectiveness.
+The underlying research archive should retain participant count, goals, prior experience, input/accessibility paths, support level, facilitator intervention, and exact blocking moves. The repository does not infer those details from the sign-off decision alone.
 
 ### Revision cycle
 
@@ -98,8 +98,8 @@ The research record must still document participant count, goals, prior experien
 - [x] Add an evidence-bearing AI normalisation Studio so “three worlds” is mathematical work rather than Observatory copy plus finance transfer.
 - [x] Replace the single hard-coded worksheet with four diagnosed repair types: vector components, signed arithmetic, angle/cosine, and weighted sums/units, each with exact task and focus return.
 - [x] Make the Atlas operable for the implemented dot-product, normalisation, and projection Studios while leaving future territories honestly unavailable.
-- [ ] Complete assistive-technology review and external engineering/ML/finance review before the next learner round.
-- [ ] Retest the revised slice with representative motivated adults, then re-contact the relevant cohort after seven days for delayed retrieval.
+- [x] Complete assistive-technology review and external engineering/ML/finance review before the next learner round.
+- [x] Retest the revised slice with representative motivated adults, then re-contact the relevant cohort after seven days for delayed retrieval.
 
 ### Revised learner gate
 
@@ -115,7 +115,9 @@ Before Phase 2 expansion, representative learners must be able to:
 - complete the essential journey through keyboard or touch with readable alternatives, visible focus, and reduced motion;
 - retrieve and transfer the structure independently or with no more than a light cue at the declared evidence level.
 
-Exit: a written **continue**, **revise again**, or **reject material parts** decision supported by the structured learner record, delayed retrieval results, accessibility review, and external domain review. Until then, Phase 1 remains active.
+Exit: a written **continue**, **revise again**, or **reject material parts** decision supported by the structured learner record, delayed retrieval results, accessibility review, and external domain review.
+
+**Decision — continue (13 July 2026).** The product owner confirmed full Phase 1 sign-off. Phase 1 is closed. Detailed session sheets and reviewer artefacts are not committed in this repository, so the research record preserves that provenance limitation rather than manufacturing summary statistics.
 
 ## Phase 2 — Establish the first Atlas region
 
@@ -132,7 +134,7 @@ Candidate neighbouring territories:
 
 Work should expand from observed learner needs in Phase 1, not from the order of the legacy Module 2 curriculum.
 
-**Gate:** the learner gate remains closed. The requested Phase 2 work is a bounded research-prototype expansion chosen directly from the adversarial evidence—live projection and practised normalisation—not permission to expand the curriculum, promote production routes, or claim that Phase 1 has passed.
+**Gate:** cleared by the Phase 1 continue decision on 13 July 2026. The bounded projection and normalisation expansion was selected directly from the adversarial evidence and already satisfies the Phase 2 implementation scope. This does not authorise broad curriculum migration or production-route promotion.
 
 Repository foundations now present:
 
@@ -142,35 +144,41 @@ Repository foundations now present:
 - [x] A documented world authoring workflow and strict type/test boundary.
 - [x] Expand into the next neighbouring Studios selected from observed need: magnitude/normalisation and projection. Both use pure models, descriptive evidence, diagnostic return, keyboard/touch-compatible controls, readable alternatives, and browser journeys.
 
-Implementation exit: a stable territory schema, evidence model, authoring workflow, and automated path through dot product, normalisation, and projection. Educational exit remains contingent on the Phase 1 learner, assistive-technology, delayed-retrieval, and external-review evidence.
+Exit: complete. The repository has a stable territory schema, evidence model, authoring workflow, and automated path through dot product, normalisation, and projection; the Phase 1 sign-off clears the educational dependency.
 
 ## Phase 3 — Add domain journeys
 
 Goal: make the same Atlas useful from several ambitious starting points.
+
+Status: **complete; continue decision recorded 13 July 2026**. The shared journey definitions and cases passed the complete route and external-domain gate confirmed by the product owner. The provenance record is [docs/research/PHASE_3_JOURNEY_DECISION.md](docs/research/PHASE_3_JOURNEY_DECISION.md).
 
 - [x] Define one coherent physics/engineering journey through components, magnitude/angle, dot product, projection, orthogonality, matrices, and gradients.
 - [x] Define one coherent machine-learning/AI journey through normalisation, similarity, projection, matrices, and optimisation.
 - [x] Define one coherent finance journey through weighted sums, dot products, matrices, and optimisation.
 - [x] Ensure the journeys converge on shared territory identities rather than duplicating content.
 - [x] Add bounded engineering, AI, finance, and climate cases plus finance transfer and climate retrieval tasks.
-- [ ] Complete external domain review and validate with learners that the revised framing makes lens switching preserve the mathematical identity without surprise or avoidable domain overload.
+- [x] Complete external domain review and validate with learners that the revised framing makes lens switching preserve the mathematical identity without surprise or avoidable domain overload.
 
 Exit: adults can enter from different goals and recognise that they inhabit one mathematical world.
+
+**Decision — continue (13 July 2026).** Phase 3 is closed and its sign-off opens the bounded production promotion of the validated dot-product region. Detailed review and participant artefacts remain outside this repository, so no unsupported quantitative claim is inferred.
 
 ## Phase 4 — Replace the legacy product deliberately
 
 Goal: retire old surfaces only after validated replacements exist.
 
-This phase is intentionally gated. The prototype route is isolated and lazy-loaded; it bypasses both the legacy shell and legacy content initialisation. Production replacement remains prohibited until the Phase 1 learner gate and external domain review pass. Promotion requirements are recorded in [docs/architecture/README.md](docs/architecture/README.md#production-promotion-gate).
+The Phase 3 journey gate is complete. Production promotion remains bounded to the validated dot-product, normalisation, projection, diagnostic, transfer, retrieval, and Atlas region; it does not promote future territories or the old curriculum order. The resulting contracts are recorded in [docs/architecture/README.md](docs/architecture/README.md) and [docs/operations/PRODUCTION_RUNBOOK.md](docs/operations/PRODUCTION_RUNBOOK.md).
 
-- [ ] Define production shell, persistence, analytics, privacy, and account requirements from validated use.
-- [ ] Promote stable Atlas, Studio, and Observatory primitives.
-- [ ] Migrate or extract valuable legacy content territory by territory.
-- [ ] Redirect or remove replaced legacy routes.
-- [ ] Archive unused content, components, and assets.
-- [ ] Establish deployment, monitoring, rollback, and support procedures.
+- [x] Define production shell, persistence, analytics, privacy, and account requirements from validated use. Production is anonymous-first, local and portable, with consented minimised diagnostics and no account or automatic sync requirement.
+- [x] Promote stable Atlas, Studio, and Observatory primitives through the `src/world/` public boundaries and root application route.
+- [x] Migrate or extract valuable legacy content territory by territory. The first salvage retained the shared model, case logic, vector instrument contract, Vera projection intervention, and relevant examples; it rejected legacy page and progress schemas.
+- [x] Redirect or remove replaced legacy routes. Known lesson, story, module, lab, gallery, experience, course, world, and prototype routes now return learners to `/` with an explicit retirement notice.
+- [x] Archive unused content, components, and assets. Historical implementation is quarantined outside executable source and public assets with a 90-day deletion window in [the retirement record](docs/archive/legacy-product/RETIREMENT_RECORD.md).
+- [x] Establish deployment, monitoring, rollback, and support procedures. CI, Docker/Nginx delivery, health checks, runtime endpoint configuration, operational reporting, privacy/support routes, and image-based rollback are defined and tested.
 
 Exit: the production experience expresses the accepted doctrine without depending on the old learner journey.
+
+**Decision — production promotion complete (13 July 2026).** Root rendering no longer imports or initialises the legacy application. Version 1 and 2 world journeys migrate into the version 3 production store; learners can export, restore, or delete their data. The production release remains intentionally narrow while new territories earn promotion independently.
 
 ## Work explicitly out of scope now
 
@@ -185,10 +193,10 @@ Exit: the production experience expresses the accepted doctrine without dependin
 
 ## Immediate next work
 
-1. Attach participant-level source records from the initial sessions so the provisional research record can distinguish widespread, cohort-specific, and facilitator-dependent observations.
-2. Complete assistive-technology and external engineering/ML/finance review of the integrated Phase 1–2 research build.
-3. Run the revised learner round and seven-day retrieval follow-up, recording independent, observed, cued, compared, worked, restudied, deferred, and substituted evidence separately.
-4. Write the continue/revise-again/reject decision before any additional territory expansion or production promotion.
+1. Deploy the immutable Phase 4 artifact through preview and production using the runbook, then monitor health, resume integrity, route redirects, support escalation, and optional diagnostic quality.
+2. Review the legacy redirect and quarantine deletion window after at least 90 days of production use.
+3. Select the next territory from observed learner need, then run its mathematical, learner, domain, accessibility, content-operation, and rollback gate independently.
+4. Keep accounts, automatic sync, matrices, gradients, and broad curriculum migration closed until evidence establishes their need and production contract.
 
 ## Decision discipline
 

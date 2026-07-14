@@ -1,0 +1,7 @@
+.git
+archive/legacy-product
+coverage
+dist
+node_modules
+playwright-report
+test-results

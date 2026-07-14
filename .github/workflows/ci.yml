@@ -42,6 +42,9 @@ jobs:
     - name: Build project
       run: npm run build
 
+    - name: Check production artifact
+      run: npm run check:production
+
   browser-smoke:
     runs-on: ubuntu-latest
     steps:

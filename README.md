@@ -24,36 +24,36 @@ Mathland is for adults who:
 
 They enter through a meaningful problem. Missing foundations appear as just-in-time, respectful detours—not as a compulsory remedial syllabus.
 
-## First vertical slice
+## Production world
 
-The recommended first prototype is **One operation, three worlds**: the dot product through:
+The first promoted region is **One operation, three worlds**: the dot product through:
 
 - work done by force along displacement;
 - semantic similarity between embedding vectors;
 - portfolio return from asset weights and returns.
 
-It will test the integrated Atlas–Studio–Observatory architecture, cross-domain transfer, and a prerequisite detour before any broad rebuild. See [docs/FIRST_VERTICAL_SLICE.md](docs/FIRST_VERTICAL_SLICE.md).
+It expresses the integrated Atlas–Studio–Observatory architecture, cross-domain transfer, diagnostic detours, and later retrieval. The validated world is now the root route; known legacy URLs redirect into it. See [docs/FIRST_VERTICAL_SLICE.md](docs/FIRST_VERTICAL_SLICE.md).
 
 ## Current repository
 
-The existing React application remains runnable while the new experience is prototyped in isolation. It currently contains:
+The production application lives under `src/world/` and contains:
 
-- 96 JSON lesson files across ten legacy modules;
-- ten mathematical character guides;
-- a substantial registry of mathematical interactives;
-- a nine-lesson beat-format experiment for legacy Module 2;
-- local browser progress persistence;
-- unit, content-integrity, and browser-smoke infrastructure.
+- a shared dot-product model with engineering, AI, finance, and climate case adapters;
+- Atlas, Studio, Observatory, diagnostic, transfer, and retrieval paths;
+- versioned local evidence with prototype migration, export/restore, and deletion;
+- anonymous-by-default product diagnostics and operational monitoring adapters;
+- production routes for privacy, support, retired-route redirects, and recovery;
+- unit, content-integrity, accessibility, and browser-journey infrastructure.
 
-These are implementation assets, not claims of learner validation or requirements for the future experience.
+The retired application and media are quarantined under `archive/legacy-product/`. They are historical salvage material and are excluded from production compilation, validation, Docker, and public assets.
 
 ## Technology
 
 - React 18 and TypeScript
 - Vite and React Router
-- Tailwind CSS and shadcn/ui
-- Canvas, SVG, Plotly, and Three.js-based visualisations
+- SVG mathematical instruments and semantic HTML controls
 - Jest, React Testing Library, and Playwright
+- Nginx and a multi-stage production Docker image
 
 ## Start locally
 
@@ -75,24 +75,24 @@ npm run validate:content
 npm run test
 npm run test:e2e
 npm run build
+npm run check:production
+npm run quality
 ```
 
 ## Repository layout
 
 ```text
 src/
-  core/                 legacy application shell, pages, hooks, and shared UI
-  content/              legacy lesson content and beat-format experiment
-  interactive/          mathematical interactives and reusable models
-  tier2/                legacy enhanced-static templates
-  world/                reserved for the new Atlas–Studio–Observatory prototype
+  world/                production Atlas–Studio–Observatory application
 docs/                   canonical doctrine, architecture, content, and build guidance
 docs/archive/           superseded product, release, format, and research material
+archive/legacy-product/ quarantined legacy source and runtime media
+deploy/                 production web-server configuration
 design/                 discussion-ready product direction board
 public/                 static runtime assets
 ```
 
-`src/world/` will be introduced by the first vertical-slice implementation. Until then, it is a documented target namespace rather than an existing directory.
+The production architecture and operational contract are documented in [docs/architecture/README.md](docs/architecture/README.md) and [docs/operations/PRODUCTION_RUNBOOK.md](docs/operations/PRODUCTION_RUNBOOK.md).
 
 ## Documentation
 
@@ -110,4 +110,4 @@ Historical documentation is isolated under [docs/archive/](docs/archive/README.m
 
 ## Contribution rule
 
-Do not improve the legacy product by default. New product work must advance the accepted doctrine, be isolated from legacy shell assumptions, and prove itself through the first vertical slice before broader migration.
+Do not restore or improve the retired learner journey by default. New product work must advance the accepted doctrine through stable world primitives, territory-specific evidence, and the production promotion gate.

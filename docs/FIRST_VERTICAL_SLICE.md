@@ -1,12 +1,12 @@
 # First vertical slice: one operation, three worlds
 
-Status: **Accepted adversarial revisions implemented; learner and external-review gate remains closed**.
+Status: **Validated and promoted to production after Phase 3 sign-off on 13 July 2026**.
 
-Implementation status: **integrated research build available** at `/prototype/one-operation-three-worlds`.
+Implementation status: **production world available at `/`**. The former prototype URL redirects to the root experience.
 
-The first vertical slice will use the dot product to test the entire Atlas–Studio–Observatory architecture with the primary adult audience.
+The first vertical slice uses the dot product to test the entire Atlas–Studio–Observatory architecture with the primary adult audience.
 
-The first learner review produced a revise-and-retest decision. The revision keeps the core hypothesis and replaces the underpowered, editorial, correctness-gated parts of the first build. The structured observation-to-response record is [research/PHASE_1_REVISION_RECORD.md](research/PHASE_1_REVISION_RECORD.md).
+The first learner review produced a revise-and-retest decision. The revision kept the core hypothesis and replaced the underpowered, editorial, correctness-gated parts of the first build. After the revised learner round, delayed return, assistive-technology review, and external domain review, the product owner recorded a continue decision on 13 July 2026. The structured observation-to-response and decision record is [research/PHASE_1_REVISION_RECORD.md](research/PHASE_1_REVISION_RECORD.md).
 
 ## Product hypothesis
 
@@ -123,7 +123,7 @@ A five-to-seven-minute tour demonstrates the Studio loop, a harmless error, prog
 
 ## Atlas evidence
 
-The prototype should distinguish:
+The production experience distinguishes:
 
 - encountered the dot product;
 - used it with a worked scaffold;
@@ -134,9 +134,9 @@ The prototype should distinguish:
 
 No single page view or correct multiple-choice answer establishes mastery.
 
-## Prototype scope
+## Promoted scope
 
-Build only what is necessary to test the product hypothesis:
+The first production region remains bounded to what was necessary to test and validate the product hypothesis:
 
 - one small Atlas region around the dot product;
 - one Observatory opening;
@@ -144,10 +144,10 @@ Build only what is necessary to test the product hypothesis:
 - three case wrappers around the shared structure;
 - at least one prerequisite detour;
 - one delayed transfer prompt;
-- local prototype evidence storage;
+- versioned local evidence storage with export, restore, deletion, and prior-schema migration;
 - responsive and accessible interaction paths.
 
-Do not rebuild the general homepage, migrate Module 2, add accounts, design the entire Atlas, or re-theme the legacy application.
+Do not broaden this promotion into Module 2 migration, accounts, automatic sync, the entire Atlas, or unvalidated territories.
 
 ## Validation questions
 
@@ -173,19 +173,21 @@ The slice is promising only if representative motivated adults can:
 
 Observed failures should change the architecture or content contract before broader implementation begins.
 
+**Gate decision — continue (13 July 2026).** The product owner confirmed that the revised learner, delayed-retrieval, assistive-technology, and external engineering/ML/finance reviews are fully signed off. This closes Phase 1 and permits the connected Atlas-region work described in Phase 2. The detailed source records are not committed in this repository, so no participant counts, support distributions, or reviewer quotations are inferred here.
+
 ## Immediate decisions
 
 - **Primary opening:** engineering work, because sign, units, angle, and projection are physically inspectable without pretending the three domain meanings are interchangeable.
 - **Cross-domain transfer:** a one-period two-asset weighted return with explicit fixed-weight, realised-return, no-fees, and no-advice boundaries.
 - **Delayed fourth context:** a three-sensor climate exposure index, chosen to test structural recognition without reusing the three opening stories.
-- **Prototype boundary:** `src/world/` at `/prototype/one-operation-three-worlds`, outside the legacy shell and legacy content initialisation.
+- **Production boundary:** `src/world/` at `/`, independent of the archived shell and legacy content initialisation; the prototype and retired learner routes redirect into it.
 - **Retrieval interval:** seven days; the prompt can be previewed during research facilitation, but preview evidence must not be reported as delayed retention.
 
-## Research-build verification
+## Production verification
 
 The revised implementation includes pure-model tests for component, normalisation, and projection calculations; version migration and corrupt-local-state recovery; evidence and support transitions; four diagnostic detour types with exact return; horizon persistence and real case adapters; optional tour entry, completion, and reopening; two-vector keyboard, numeric, pointer/touch capture-release, comparison, reset, and undo paths; progressive error recovery; Observatory noticing in all three systems; geometry-to-components and explanation criteria; transfer framing and deferment; retrieval orientation, cueing, preview semantics, substitution, and exit; reduced-motion and 320px behavior; automated accessibility scans; and desktop/mobile browser journeys.
 
-Automated checks establish implementation reliability only. They do not answer the validation questions above. Before a continue decision, the research team must record:
+Automated checks establish implementation reliability only. They do not answer the validation questions above. The Phase 1 continue decision has now been recorded; its underlying research archive should retain:
 
 - participant goal and relevant prior experience without asking for a school level;
 - prediction, calculation, explanation, transfer, detour, return, and retrieval observations;

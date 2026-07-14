@@ -2,7 +2,7 @@
 
 Status: **canonical content direction**.
 
-The existing curriculum is useful source material, not the structure of the future product. The rebuild must not pour the current lessons into new chrome.
+The archived curriculum is useful source material, not the structure of the production product. Future expansion must not pour the retired lessons into new chrome.
 
 ## Content unit
 
@@ -115,16 +115,16 @@ Allowed outcomes are **reuse**, **adapt**, **extract**, and **archive**. “Alre
 
 A bounded guide intervention must identify the guide's professional lens, the mathematical feature that lens reveals, and the evidence expected afterward. Illustration should clarify structure, mechanism, scale, or context. Audio may pace verbal reasoning or direct attention; video may demonstrate motion or construction. Neither autoplays. Essential claims appear in the transcript, captions, mathematical diagram, or adjacent formal explanation so the learner can take the same path without media.
 
-## Migration sequence
+## Territory promotion sequence
 
-1. Build and test the first vertical slice.
-2. Revise the territory schema from observed learner behaviour.
-3. Salvage only the source material needed for the next connected territory.
-4. Expand one coherent Atlas region at a time.
-5. Retire legacy routes as replacement regions become validated.
+1. Start from an observed learner need in the production world.
+2. Salvage only the source material needed for one connected territory.
+3. Build the model, case, evidence, detour, transfer, retrieval, and accessibility contracts under `src/world/`.
+4. Validate learner capability, domain framing, content operations, delivery, support, and rollback.
+5. Promote one coherent Atlas addition and update its salvage and retirement records.
 
 Do not convert all ten modules, all characters, or all interactive demos in advance.
 
 ## Source inventory
 
-The current module-level inventory is recorded in [lessons_list.md](lessons_list.md). It exists to support salvage work and must not be presented as the future navigation or delivery sequence.
+The historical module-level inventory and first completed salvage decision are recorded in [lessons_list.md](lessons_list.md). They support territory work and must not be presented as the future navigation or delivery sequence.

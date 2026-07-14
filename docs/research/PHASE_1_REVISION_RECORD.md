@@ -1,8 +1,20 @@
 # Phase 1 revision research record
 
-Status: **provisional consolidation of the initial learner review; source session sheets and participant metadata still required before the learner gate can close**.
+Status: **Phase 1 continue decision recorded; granular source artefacts are not committed in this repository**.
 
-This record converts the observations accepted in `PLAN.md` into explicit hypotheses, design responses, and retest measures. It does not invent counts or outcomes that are absent from the repository.
+This record converts the observations accepted in `PLAN.md` into explicit hypotheses, design responses, and retest measures. It also records the product owner's Phase 1 sign-off without inventing counts or outcomes that are absent from the repository.
+
+## Gate decision
+
+| Field | Recorded decision |
+| --- | --- |
+| Decision | Continue into the connected Atlas region |
+| Date | 13 July 2026 |
+| Authority | Product owner sign-off supplied in the project task |
+| Scope | Revised learner round, seven-day retrieval, assistive-technology review, and external engineering/ML/finance review confirmed complete |
+| Repository provenance | The decision is recorded here; participant-level session sheets, accessibility reports, retrieval results, and reviewer artefacts are not committed in this codebase |
+
+The absent granular artefacts remain a traceability limitation, not an open product gate. Any later quantitative claim must cite the underlying research archive rather than infer values from this decision record.
 
 ## Evidence provenance
 
@@ -44,4 +56,4 @@ The second review accepted the investigation-tool improvements but rejected the 
 
 The integrated research build now addresses those implementation findings: each Observatory system asks what its scalar measures; horizon choice loads real case vectors, labels, units, boundaries, and meanings; all three sign regions are required; live projection and both vector handles share keyboard, numeric, pointer, touch-capture-release, and readable paths; Practice includes geometry-to-components and explicit explanation criteria; support metadata matches observation, cue, comparison, worked, restudied, and fresh independent attempt; AI normalisation is practised; finance remains an oriented transfer; Vera's speech and transcript teach engineering projection; four repair types diagnose the blocked move; Atlas nodes for implemented Studios are operable; progression states explain their requirements; and retrieval never traps exit.
 
-This closes accepted implementation issues, not the learner gate. No participant-level retest, seven-day retrieval result, assistive-technology review, or external engineering/ML/finance sign-off is present in the repository yet.
+This closed the accepted implementation issues. The product owner subsequently signed off the learner, seven-day retrieval, assistive-technology, and external engineering/ML/finance gates on 13 July 2026. The repository contains the decision but not the participant-level or reviewer source artefacts.

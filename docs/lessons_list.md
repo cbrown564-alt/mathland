@@ -1,8 +1,8 @@
 # Legacy curriculum salvage inventory
 
-This inventory describes source material in `src/content/lessons/`. It is not the future navigation, curriculum order, product roadmap, or a claim that the lessons should be migrated.
+This inventory describes historical source material now quarantined under `archive/legacy-product/src/content/lessons/`. It is not the future navigation, curriculum order, product roadmap, or a claim that the lessons should be migrated.
 
-The authoritative current lesson order and titles remain the module `index.json` and lesson JSON files.
+The module `index.json` and lesson JSON files remain authoritative only for the archived product they describe.
 
 | Legacy module | Guide | Existing subject | Lesson files | Likely Atlas value |
 | --- | --- | --- | ---: | --- |
@@ -18,7 +18,7 @@ The authoritative current lesson order and titles remain the module `index.json`
 | 10 | Sage | Integration and capstone work | 10 | Potential multi-territory cases; extensive rewrite likely |
 | **Total** |  |  | **96** | Raw material only |
 
-Module 2 also has a nine-lesson beat-format experiment under `src/content/beats/`. That format is frozen and superseded as a product direction.
+Module 2 also has a nine-lesson beat-format experiment under `archive/legacy-product/src/content/beats/`. That format is frozen and superseded as a product direction.
 
 ## Salvage status
 
@@ -31,14 +31,19 @@ Each asset considered for new work should receive one status:
 
 Use the rubric in [CONTENT_STRATEGY.md](CONTENT_STRATEGY.md). Do not infer a status from file existence, demo-registry labels, test coverage, or previous “production ready” language.
 
-## First salvage target
+## First completed salvage decision
 
-Only dot-product-related material should be audited initially:
+The promoted dot-product region received the following territory-specific decision:
 
-- `src/content/lessons/module2/lesson-2.3.json`;
-- relevant beat-format dot-product content;
-- vector and dot-product interactives under `src/interactive/`;
-- Vera's useful vector language and visual tools;
-- component, angle, projection, similarity, work, and weighted-sum examples elsewhere in the repository.
+| Historical material | Decision | Production result |
+| --- | --- | --- |
+| Module 2 dot-product lesson and beat content | extract | Formal definitions, worked component reasoning, sign treatment, and examples rewritten into the world learning loop |
+| Vector and dot-product interactives | extract | One pure dot-product model and one accessible multi-input Studio instrument under `src/world/studio/` |
+| Vera vector language and visual tools | adapt | A bounded projection-lens intervention with illustration, optional audio, transcript, and non-media path |
+| Work, similarity, portfolio, and sensor examples | adapt | Versioned case adapters with explicit units, assumptions, and boundaries |
+| Legacy lesson/story pages and progress hooks | archive | No production dependency; descriptive world evidence replaces completion state |
+| Module, character-theme, registry, and tier-template navigation | archive | No production dependency; Atlas territory identity and case adapters replace these shells |
 
-All other module migration waits for the first vertical-slice decision.
+All other material remains `archive` pending a territory-specific learner need. Matrices, gradients, and neighbouring territories shown on the Atlas are not promoted merely because archived lessons or interactives exist.
+
+The runtime retirement, redirects, and deletion window are recorded in [archive/legacy-product/RETIREMENT_RECORD.md](archive/legacy-product/RETIREMENT_RECORD.md).

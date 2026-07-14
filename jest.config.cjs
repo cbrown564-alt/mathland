@@ -19,22 +19,15 @@ module.exports = {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
-  // Standalone example apps under src/interactive/examples share package names and
-  // are not part of the main test surface — ignore them for module resolution.
-  modulePathIgnorePatterns: ['<rootDir>/src/interactive/examples/'],
+  modulePathIgnorePatterns: ['<rootDir>/archive/'],
   testPathIgnorePatterns: ['/node_modules/', '<rootDir>/e2e/'],
   collectCoverageFrom: [
-    'src/**/*.{ts,tsx}',
+    'src/world/**/*.{ts,tsx}',
     '!src/**/*.d.ts',
     '!src/main.tsx',
     '!src/vite-env.d.ts',
     '!src/**/index.ts',
-    // Research prototypes and standalone example apps — not part of the Jest surface.
-    '!src/interactive/examples/**',
-    // Large interactive lesson demos — manually/integration tested, not in Jest yet.
-    '!src/interactive/components/**',
-    // Tier 2 template system — not yet under unit test.
-    '!src/tier2/**',
+    '!src/world/operations/WorldErrorBoundary.tsx',
   ],
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],

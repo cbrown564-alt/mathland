@@ -15,12 +15,12 @@ const completeNoticing = async (page: Page) => {
 };
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/prototype/one-operation-three-worlds");
+  await page.goto("/");
   await page.evaluate(() => localStorage.clear());
   await page.reload();
 });
 
-test("journey uses three real worlds, preserves diagnosed work, and opens the Phase 2 projection Studio", async ({ page }) => {
+test("production journey uses three real worlds, preserves diagnosed work, and opens projection", async ({ page }) => {
   await enterObservatory(page, /Understand intelligent systems/);
   await expect(page.getByRole("button", { name: /Horizon Understand intelligent systems/ })).toBeVisible();
   await completeNoticing(page);
@@ -115,7 +115,7 @@ test("journey uses three real worlds, preserves diagnosed work, and opens the Ph
   await expect(page.getByText(/Retrieval scheduled for/)).toBeVisible();
 
   await page.evaluate(() => {
-    const key = "mathland.world.dot-product.v2";
+    const key = "mathland.world.v3";
     const snapshot = JSON.parse(localStorage.getItem(key) ?? "{}");
     snapshot.retrievalDueAt = new Date(Date.now() - 1000).toISOString();
     localStorage.setItem(key, JSON.stringify(snapshot));
@@ -149,7 +149,7 @@ test("tour is optional, reopenable, and horizon changes alter the Studio case", 
   await expect(page.getByLabel("û x component")).toHaveValue("0.8");
 });
 
-test("prototype is accessible at 320px, keeps the object in view, and does not overflow horizontally", async ({ page }) => {
+test("production world is accessible at 320px, keeps the object in view, and does not overflow horizontally", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 768 });
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   const goalPanel = await page.locator(".world-goal-panel").boundingBox();

@@ -1,155 +1,119 @@
-# Current and target architecture
+# Mathland production architecture
 
-This document separates the application that exists from the product architecture being built. Do not infer future requirements from legacy code structure.
+Status: **Phase 4 production architecture**, promoted 13 July 2026 after the Phase 3 journey-validation sign-off.
 
-## Current implementation
+Mathland is a client-rendered React 18 application built with Vite. The production route now expresses the Atlas–Studio–Observatory architecture directly and has no runtime dependency on the legacy shell, lesson schemas, progress hooks, module data, character registry, or content initialisation.
 
-Mathland is a client-rendered React 18 application built with Vite. It has no committed application backend; progress is stored in browser localStorage.
+## Runtime flow
 
-### Current runtime flow
+1. `src/main.tsx` installs operational error reporting and mounts the application immediately.
+2. `src/App.tsx` exposes the production world at `/`, policy and support routes, redirects for known retired routes, and a world-native not-found view.
+3. `src/world/app/MathlandWorldApp.tsx` restores the exact local journey and composes the promoted Atlas, Observatory, and Studio primitives.
+4. The case adapter selected by the active horizon supplies the domain vectors, labels, units, meaning, and boundary around one shared dot-product model.
+5. Descriptive evidence is persisted after meaningful state changes. Page views never create evidence.
 
-1. `src/App.tsx` defines lazy-loaded routes inside the legacy `AppShell`.
-2. Section-based lessons load from `src/content/lessons/module*/` through `src/utils/lessonLoader.ts`.
-3. Beat-format lessons are registered under `src/content/beats/` and render through `/story/:lessonId`.
-4. Custom activities resolve through `src/interactive/`; `src/interactive/demos/demo_registry.ts` is the current registry.
-5. Progress hooks persist completion-oriented state locally.
+The application does not wait for legacy content, call a third-party font service, create an account, or send learner data by default.
 
-### Current source boundaries
-
-- `src/core/` — legacy shell, routes, pages, renderers, hooks, and shared UI
-- `src/content/` — legacy lesson content and the beat-format experiment
-- `src/interactive/` — mathematical interactives, integration wrappers, and prototypes
-- `src/tier2/` — legacy enhanced-static templates
-- `src/utils/` — loaders, character metadata, module metadata, and themes
-
-### Current sources of truth
-
-- lesson files: `src/content/lessons/`
-- beat experiment: `src/content/beats/index.ts`
-- character metadata: `src/utils/characterData.ts`
-- module metadata: `src/utils/modulesData.ts`
-- interactive registry: `src/interactive/demos/demo_registry.ts`
-- routes: `src/App.tsx`
-- commands and dependencies: `package.json`
-
-These sources describe the existing application only.
-
-## Target product architecture
-
-The target experience is defined in [../EXPERIENCE_ARCHITECTURE.md](../EXPERIENCE_ARCHITECTURE.md). New prototype code should be isolated under `src/world/` so legacy route and content assumptions do not become accidental constraints.
-
-Proposed initial shape:
+## Production source boundaries
 
 ```text
 src/world/
-  atlas/                 territory graph, route state, orientation views
-  studio/                learner-action engine and reusable mathematical models
-  observatory/           selective phenomenon openings
-  cases/                 domain interpretations and assumptions
-  detours/               prerequisite diagnosis and return contracts
-  evidence/              descriptive learner evidence and retrieval state
-  prototype/             first integrated vertical slice
-  types/                 territory, case, evidence, and route contracts
+  app/          production shell, journey composition, policies, and help
+  atlas/        territory graph and promoted Atlas API
+  studio/       pure mathematical models and promoted Studio instrument
+  observatory/  promoted Observatory API
+  cases/        domain interpretation, units, assumptions, and adapters
+  detours/      diagnostic repair and exact-return contracts
+  evidence/     versioned persistence and descriptive evidence
+  operations/   consented analytics and operational monitoring adapters
+  media/        teaching-media metadata
+  types/        shared world contracts
 ```
 
-This is a bounded prototype namespace, not a commitment to a final package layout. Learner evidence may change it.
+`src/world/index.ts` is the stable public boundary. Product composition may import through the `atlas`, `studio`, and `observatory` entry points; historical source must never be imported from `archive/legacy-product/`.
 
-The research build now implements this boundary. Its shared mathematical model lives in `studio/`; real case adapters in `cases/` supply starting vectors, labels, units, boundaries, and contextual interpretation to the shared model; the territory graph, evidence store, and four-type diagnostic return contract remain independent. The prototype route is lazy-loaded, does not inherit `AppShell`, and does not wait for legacy lesson-data initialisation. Phase 2 adds operable normalisation and projection Studios without promoting the prototype into the legacy shell.
+## Promoted primitive contracts
 
-## Prototype route
+### Atlas
 
-Expose the first slice through an explicitly experimental route such as:
+The Atlas owns territory identity, route relationships, evidence state, active horizon, neighbouring Studio entry, retrieval orientation, and exact return. It does not expose module completion or duplicate a territory for each domain.
 
-```text
-/prototype/one-operation-three-worlds
-```
+### Studio
 
-The route should not inherit the legacy `AppShell` unless a minimal adapter is required to run. It must not replace learner-facing production routes before validation.
+The Studio owns the pure mathematical model, pointer/keyboard/numeric state changes, readable alternative, exact calculation, comparison, reset/undo, explanation, support escalation, and evidence transition. Domain cases wrap the shared model through adapters.
 
-## Target data boundaries
+### Observatory
 
-### Territory graph
+The Observatory owns the selective three-system reveal, one committed noticing move per system, a sign prediction, and the immediate handoff to the Studio. It does not record capability by being viewed.
 
-A territory owns the stable mathematical identity and relationships. It should not duplicate itself for every domain.
+## Production shell contract
 
-Minimum concerns:
+The compact shell exposes:
 
-- concept identity and notation;
-- prerequisite and downstream relationships;
-- available cases and Studio sequences;
-- Observatory eligibility;
-- detour routes and return targets;
-- transfer and retrieval prompts.
+- the active horizon, with deliberate editing that preserves work;
+- Atlas access from every learning move;
+- predictable Help and the reopenable first-run tour;
+- descriptive evidence state;
+- local data export, restore, consent, and deletion;
+- privacy and support routes;
+- the exact saved journey step after reload, detour, or domain change.
 
-### Case
+The shell contains no legacy module navigation, dashboard, lesson rail, completion percentage, or global character chrome.
 
-A case supplies domain meaning, units, assumptions, data, and interpretation around a shared mathematical structure.
+## Persistence and cross-device policy
 
-### Evidence
+`src/world/evidence/evidenceStore.ts` owns the replaceable persistence boundary.
 
-Evidence records observable learner actions such as prediction, construction, explanation, independent use, transfer, and retrieval. It must not import legacy section-completion semantics.
+- Production schema: `WorldSnapshot` version 3 under `mathland.world.v3`.
+- Migration: valid version 2 research snapshots and version 1 snapshots migrate without losing horizon, evidence, detour, retrieval, or resume state.
+- Corruption: invalid, unknown, oversized, or unparsable state is quarantined by returning a fresh snapshot.
+- Portability: learners can download a readable, versioned JSON envelope and restore it after strict validation.
+- Deletion: the current and both prior world keys are removed before a fresh anonymous snapshot is created.
+- Cross-device: manual export/restore only. There is no implied cloud sync or cross-device consistency.
 
-### Route state
+## Analytics, privacy, and accounts
 
-Route state preserves the learner's motivating goal, current territory, detour origin, return target, and meaningful resume point.
+Mathland is anonymous-first. There is no production account requirement because validated use established that a persistent horizon, exact resume point, evidence, detours, and retrieval date are valuable, but did not establish a need for identity or cloud sync.
 
-## Reuse boundary
+Optional product diagnostics are denied by default and controlled in the Data dialog. The analytics adapter accepts only an allow-list of product transitions and short categorical properties. It excludes answers, free-text reasoning, evidence detail, page-view mastery, persistent learner identifiers, credentials, and referrers. A deployment may configure an endpoint through `/runtime-config.js`; with no endpoint, nothing is transmitted.
 
-Legacy assets may be consumed through adapters:
+Operational error monitoring is separate from product diagnostics and accepts only a bounded error name, message, and code context. Production operators must retain diagnostic and error records for no more than 30 days and must not join them to identity or learner evidence.
 
-```text
-legacy lesson or component → extraction/adapter → world model or renderer
-```
+Any future account system requires a new product decision covering anonymous use, lawful basis, age boundary, verification, data location, sync conflicts, export, deletion, incident handling, and migration. It is not a deferred implementation detail of this release.
 
-Do not let a legacy JSON schema, page component, progress hook, character theme, or registry status become the new domain model.
+## Content operations
 
-Prefer reusing:
+Territory identity, mathematical models, and domain cases are separate source layers. A case can be corrected or rolled back without changing the dot-product model. Promotion requires:
 
-- mathematically correct calculation logic;
-- tested geometry and rendering utilities;
-- accessible controls;
-- useful case data;
-- content excerpts that pass the salvage rubric.
+1. mathematical tests for sign, scale, dimension, and undefined cases;
+2. a versioned territory and case change;
+3. domain review of terms, units, assumptions, and boundaries;
+4. keyboard, touch, readable-alternative, reduced-motion, 320px, and browser-journey review;
+5. explicit evidence and detour-return contracts;
+6. a rollback decision that identifies whether the model, case, or composition changed.
 
-Avoid reusing:
+The first salvage decisions are recorded in [../lessons_list.md](../lessons_list.md). No remaining legacy territory has been promoted by file existence.
 
-- page composition and navigation assumptions;
-- completion semantics;
-- eight-section or beat sequencing as fixed architecture;
-- decorative character wrappers;
-- components whose accessibility cost exceeds replacement.
+## Routes and retirement
 
-## Persistence
+| Previous route | Production behaviour |
+| --- | --- |
+| `/` | Opens the world at the exact saved move |
+| `/prototype/one-operation-three-worlds` | Redirects to `/` with a retirement notice |
+| `/lesson/:id`, `/story/:id`, `/module/:id` | Redirect to `/` with a retirement notice |
+| `/experience`, `/course`, `/module-detail/:id`, `/world` | Redirect to `/` with a retirement notice |
+| `/lab/*`, `/tier2-gallery`, `/interactive-gallery` | Redirect to `/` with a retirement notice |
+| `/privacy`, `/support` | Production policy and recovery surfaces |
+| unknown route | World-native not-found surface that preserves the journey |
 
-The first prototype should use local storage behind a small evidence-store interface. The interface must support later replacement without rewriting Atlas or Studio logic.
+The retired implementation and media are quarantined under `archive/legacy-product/` and excluded from TypeScript, Jest, ESLint, Vite, Docker, and public runtime assets. The archive record is [../archive/legacy-product/RETIREMENT_RECORD.md](../archive/legacy-product/RETIREMENT_RECORD.md).
 
-No account, backend, cloud-sync, analytics, or identity architecture should be designed until the slice establishes which state is valuable and why.
+## Delivery and operations
 
-## Quality boundary
+The supported production artifact is the immutable static build produced by `npm run build` and checked by `npm run check:production`. The repository includes a multi-stage Docker image and an Nginx SPA configuration with health checking, cache policy, security headers, and route fallback.
 
-New `src/world/` code should be included in strict typechecking and focused tests from its first change. The prototype must cover:
+CI must pass lint, strict typechecking, world/content validation, unit coverage, production build/readiness, desktop/mobile browser journeys, and accessibility scans before promotion. Preview uses the exact release image and a separate runtime configuration. Production promotion and rollback follow [../operations/PRODUCTION_RUNBOOK.md](../operations/PRODUCTION_RUNBOOK.md).
 
-- mathematical model tests;
-- evidence transition tests;
-- detour and return-state tests;
-- keyboard interaction;
-- narrow-screen layout;
-- a critical browser journey across Observatory, Studio, Atlas, and return.
+## Future territory rule
 
-## Migration rule
-
-Build beside the legacy application, validate, and then replace deliberately. Do not refactor the old shell into the new architecture by gradual renaming.
-
-## Production promotion gate
-
-Do not redirect a production route until the written slice decision is “continue” and the replacement territory has passed the relevant learner and domain review. At that point, production design must be derived from observed use and explicitly cover:
-
-- **shell:** active goal, Atlas access, exact resume point, predictable help, and no competing global chrome;
-- **persistence:** replaceable evidence-store interface, schema migration, corrupt-state recovery, export/deletion, and cross-device policy;
-- **analytics:** consented, minimised evidence events with documented purpose and retention; no page-view-as-mastery metric;
-- **privacy and accounts:** anonymous-first prototype migration, lawful basis, age boundary, account deletion, and no sensitive free-text collection without need;
-- **content operations:** versioned territory/case data, domain sign-off, accessibility review, and rollback of a faulty case independently of the mathematical model;
-- **delivery:** preview and production environments, smoke and critical-journey gates, error/performance monitoring, rollback ownership, and a support route;
-- **legacy retirement:** territory-by-territory salvage decision, redirects, deletion window, and an archive record.
-
-Until these requirements are informed by learner evidence, an account system, cloud sync, broad analytics layer, or production shell would be premature architecture rather than Phase 4 completion.
+A new territory replaces historical material only after its own learner and domain gate passes. Then update the Atlas graph, case/version record, redirect map if needed, salvage inventory, archive manifest, and runbook smoke path together. Phase 4 does not convert the archived 96-lesson order into the Atlas roadmap.
