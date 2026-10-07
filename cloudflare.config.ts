@@ -1,9 +1,9 @@
 import { defineConfig } from "cf/config";
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   accountId: "e1909c4d4aec0a75a0a34fc15ee35482",
   worker: {
-    name: "mathland-migration-preview",
+    name: mode === "production" ? "mathland" : "mathland-migration-preview",
     compatibilityDate: "2026-10-07",
     workersDev: true,
     observability: {
@@ -12,4 +12,4 @@ export default defineConfig({
     },
     assets: { notFoundHandling: "single-page-application" },
   },
-});
+}));

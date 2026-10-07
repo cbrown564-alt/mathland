@@ -21,8 +21,10 @@
     "test:coverage": "jest --coverage",
     "test:ci": "jest --coverage --watchAll=false",
     "build:cloudflare": "vite build --config vite.cloudflare.config.ts && node scripts/prepare-cloudflare-preview.mjs",
+    "build:cloudflare:preview": "vite build --config vite.cloudflare.config.ts --mode migration-preview && node scripts/prepare-cloudflare-preview.mjs",
     "check:cloudflare": "tsc -p tsconfig.node.json --pretty false && npm run build:cloudflare && cf deploy --dry-run --prebuilt --mode production",
-    "deploy:cloudflare": "npm run check:cloudflare && cf deploy --prebuilt --mode production"
+    "deploy:cloudflare": "npm run check:cloudflare && cf deploy --prebuilt --mode production",
+    "deploy:cloudflare:preview": "npm run build:cloudflare:preview && cf deploy --prebuilt --mode migration-preview"
   },
   "dependencies": {
     "react": "^18.3.1",
