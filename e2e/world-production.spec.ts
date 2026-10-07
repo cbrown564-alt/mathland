@@ -52,8 +52,13 @@ test("production journey uses three real worlds, preserves diagnosed work, and o
   await expect(page.getByText(/Positive, zero, and negative regions tested/)).toBeVisible();
   await page.getByRole("button", { name: /Formalise and calculate/ }).click();
 
-  const promptBox = await page.locator(".world-practice-prompt").boundingBox();
-  const workBox = await page.locator(".world-practice-work").boundingBox();
+  // Sample paired regions in the same frame; the journey scrolls after transitions.
+  const [promptBox, workBox] = await page.locator(".world-practice-prompt, .world-practice-work").evaluateAll(
+    (regions) => regions.map((region) => {
+      const { x, y, width, height } = region.getBoundingClientRect();
+      return { x, y, width, height };
+    }),
+  );
   if ((page.viewportSize()?.width ?? 0) > 700 && promptBox && workBox) {
     expect(promptBox.x).toBeLessThan(workBox.x);
     expect(Math.abs(promptBox.y + promptBox.height / 2 - (workBox.y + workBox.height / 2))).toBeLessThan(2);
@@ -84,8 +89,12 @@ test("production journey uses three real worlds, preserves diagnosed work, and o
   await page.getByRole("button", { name: "Check reasoning" }).click();
   await page.getByRole("button", { name: /Practise AI normalisation/ }).click();
 
-  const normalisationModel = await page.locator(".world-normalisation-model").boundingBox();
-  const normalisationWork = await page.locator(".world-normalisation-work").boundingBox();
+  const [normalisationModel, normalisationWork] = await page.locator(".world-normalisation-model, .world-normalisation-work").evaluateAll(
+    (regions) => regions.map((region) => {
+      const { x, y, width, height } = region.getBoundingClientRect();
+      return { x, y, width, height };
+    }),
+  );
   if ((page.viewportSize()?.width ?? 0) > 960 && normalisationModel && normalisationWork) {
     expect(Math.abs(normalisationModel.y - normalisationWork.y)).toBeLessThan(2);
     expect(normalisationWork.width).toBeGreaterThan(normalisationModel.width);

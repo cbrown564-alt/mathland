@@ -11,6 +11,9 @@ node_modules
 dist
 dist-ssr
 coverage
+.cloudflare/
+playwright-report/
+test-results/
 .zcode/
 *.local
 

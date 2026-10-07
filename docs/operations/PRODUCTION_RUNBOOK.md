@@ -19,6 +19,49 @@ One person may hold several roles, but every release and rollback record names t
 
 Never rebuild between preview approval and production promotion.
 
+### Cloudflare hosting migration
+
+The approved canonical destination is `https://mathland.empty-union-f39d.workers.dev/`.
+In account `e1909c4d4aec0a75a0a34fc15ee35482`, `cloudflare.config.ts` targets
+`mathland` in `production` mode and `mathland-migration-preview` otherwise.
+Vercel and GitHub Pages remain available while cutover and journey recovery are verified.
+
+Use Node 24 (`.nvmrc`), then run `npm ci`, `npm run quality`, and
+`npm run test:e2e`. `npm run check:cloudflare` type-checks the deployment
+configuration, creates Build Output using `vite.cloudflare.config.ts`, applies
+the production headers, and runs a deployment dry run. The existing `npm run build`
+still creates `dist/` for the container/release artifact.
+
+`npm run build:cloudflare:preview` and `npm run deploy:cloudflare:preview`
+consistently select `migration-preview` for both build and upload.
+`npm run deploy:cloudflare` selects production. To exercise the deployed preview, use:
+
+```bash
+PLAYWRIGHT_BASE_URL=https://mathland-migration-preview.empty-union-f39d.workers.dev npm run test:e2e
+```
+
+Record the returned Worker Version ID and hashes of the deployed assets. The
+preview's eleven served files must match the local Cloudflare build. Security
+headers follow the Nginx policy; hashed assets use immutable caching, health and
+runtime configuration use `no-store`, and the preview uses `noindex, nofollow`.
+The default analytics and monitoring endpoints remain blank. Do not put any
+learner exports or deployment credentials into the repository or build output.
+
+The user approved the production URL on 7 October 2026. Production metadata uses
+that canonical address and absolute social-image URLs. The asset-preparation
+script reads the recorded mode, retaining noindex only for previews. Automatic
+Git deployment and production cutover remain pending verification.
+For this hosting migration, generate and verify the production artifact with
+the approved metadata and headers, then upload that same artifact with
+`cf deploy --prebuilt --mode production`; do not rebuild between its verification
+and upload. Existing container promotions retain the image-digest rule above.
+Before removing an old origin, give
+learners time to download their journey through Data and restore it on the new
+origin. The portability browser check verifies a real downloaded export in an
+empty browser context, reload recovery, and rejection of an invalid replacement.
+
+This hosting migration does not establish new learner or domain validation.
+
 ## Release procedure
 
 1. Record the source revision and intended territory/case changes.
