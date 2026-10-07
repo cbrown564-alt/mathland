@@ -112,6 +112,15 @@ The retired implementation and media are quarantined under `archive/legacy-produ
 
 The supported production artifact is the immutable static build produced by `npm run build` and checked by `npm run check:production`. The repository includes a multi-stage Docker image and an Nginx SPA configuration with health checking, cache policy, security headers, and route fallback.
 
+The separate `vite.cloudflare.config.ts` build prepares an isolated Cloudflare
+Workers Static Assets preview without changing application source, runtime
+dependencies, anonymous storage, or the existing `dist/` artifact. Vite 7 is
+required by the pinned Cloudflare beta plugin. Node 24 is the local, release,
+and container baseline; CI also checks Node 22. The Cloudflare configuration
+enables SPA navigation, Workers logs, and sampled traces. Preview deployment,
+header policy, and the remaining production cutover decisions are recorded in
+[the production runbook](../operations/PRODUCTION_RUNBOOK.md#cloudflare-migration-preview).
+
 CI must pass lint, strict typechecking, world/content validation, unit coverage, production build/readiness, desktop/mobile browser journeys, and accessibility scans before promotion. Preview uses the exact release image and a separate runtime configuration. Production promotion and rollback follow [../operations/PRODUCTION_RUNBOOK.md](../operations/PRODUCTION_RUNBOOK.md).
 
 ## Future territory rule

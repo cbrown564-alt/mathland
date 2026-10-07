@@ -19,6 +19,42 @@ One person may hold several roles, but every release and rollback record names t
 
 Never rebuild between preview approval and production promotion.
 
+### Cloudflare migration preview
+
+An isolated Workers Static Assets preview is configured by `cloudflare.config.ts`
+as `mathland-migration-preview` in account `e1909c4d4aec0a75a0a34fc15ee35482`.
+It does not replace the existing Vercel or GitHub Pages deployment.
+
+Use Node 24 (`.nvmrc`), then run `npm ci`, `npm run quality`, and
+`npm run test:e2e`. `npm run check:cloudflare` type-checks the deployment
+configuration, creates Build Output using `vite.cloudflare.config.ts`, applies
+the preview headers, and runs a deployment dry run. The existing `npm run build`
+still creates `dist/` for the container/release artifact.
+
+`npm run deploy:cloudflare` builds and uploads the isolated preview. To exercise
+the exact deployed files, use:
+
+```bash
+PLAYWRIGHT_BASE_URL=https://mathland-migration-preview.empty-union-f39d.workers.dev npm run test:e2e
+```
+
+Record the returned Worker Version ID and hashes of the deployed assets. The
+preview's eleven served files must match the local Cloudflare build. Security
+headers follow the Nginx policy; hashed assets use immutable caching, health and
+runtime configuration use `no-store`, and the preview uses `noindex, nofollow`.
+The default analytics and monitoring endpoints remain blank. Do not put any
+learner exports or deployment credentials into the repository or build output.
+
+Production promotion is pending the canonical URL, Git deployment connection,
+and release-owner approval. The current preview configuration is not the
+production indexing policy. Preserve and promote the reviewed asset artifact;
+do not silently rebuild it during cutover. Before removing an old origin, give
+learners time to download their journey through Data and restore it on the new
+origin. The portability browser check verifies a real downloaded export in an
+empty browser context, reload recovery, and rejection of an invalid replacement.
+
+This hosting migration does not establish new learner or domain validation.
+
 ## Release procedure
 
 1. Record the source revision and intended territory/case changes.
